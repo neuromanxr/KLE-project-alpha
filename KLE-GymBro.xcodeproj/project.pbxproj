@@ -1,0 +1,491 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		50AC0B0E19B52C8500E39A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0D19B52C8500E39A7E /* Foundation.framework */; };
+		50AC0B1019B52C8500E39A7E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */; };
+		50AC0B1219B52C8500E39A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B1119B52C8500E39A7E /* UIKit.framework */; };
+		50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B1619B52C8500E39A7E /* InfoPlist.strings */; };
+		50AC0B1A19B52C8500E39A7E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B1919B52C8500E39A7E /* main.m */; };
+		50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */; };
+		50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B1F19B52C8500E39A7E /* Images.xcassets */; };
+		50AC0B2719B52C8500E39A7E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B2619B52C8500E39A7E /* XCTest.framework */; };
+		50AC0B2819B52C8500E39A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0D19B52C8500E39A7E /* Foundation.framework */; };
+		50AC0B2919B52C8500E39A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B1119B52C8500E39A7E /* UIKit.framework */; };
+		50AC0B3119B52C8500E39A7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B2F19B52C8500E39A7E /* InfoPlist.strings */; };
+		50AC0B3319B52C8500E39A7E /* KLE_GymBroTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */; };
+		50AC0B3E19B52F7500E39A7E /* KLEMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B3D19B52F7500E39A7E /* KLEMainViewController.m */; };
+		50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B4019B5346E00E39A7E /* KLEMainView.m */; };
+		50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */; };
+		50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B4419B5750700E39A7E /* Porsche_logo.png */; };
+		50B6F04B19B6BF670015ED29 /* KLEMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B6F04A19B6BF670015ED29 /* KLEMainViewController.xib */; };
+		50B6F04E19B7A6620015ED29 /* KLEStatStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F04D19B7A6620015ED29 /* KLEStatStore.m */; };
+		50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F05019B7ADB00015ED29 /* KLEStat.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		50AC0B2A19B52C8500E39A7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50AC0B0919B52C8500E39A7E;
+			remoteInfo = "KLE-GymBro";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KLE-GymBro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50AC0B0D19B52C8500E39A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		50AC0B1119B52C8500E39A7E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		50AC0B1519B52C8500E39A7E /* KLE-GymBro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KLE-GymBro-Info.plist"; sourceTree = "<group>"; };
+		50AC0B1719B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		50AC0B1919B52C8500E39A7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		50AC0B1B19B52C8500E39A7E /* KLE-GymBro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KLE-GymBro-Prefix.pch"; sourceTree = "<group>"; };
+		50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KLEAppDelegate.h; sourceTree = "<group>"; };
+		50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLEAppDelegate.m; sourceTree = "<group>"; };
+		50AC0B1F19B52C8500E39A7E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		50AC0B2519B52C8500E39A7E /* KLE-GymBroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KLE-GymBroTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50AC0B2619B52C8500E39A7E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		50AC0B2E19B52C8500E39A7E /* KLE-GymBroTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KLE-GymBroTests-Info.plist"; sourceTree = "<group>"; };
+		50AC0B3019B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLE_GymBroTests.m; sourceTree = "<group>"; };
+		50AC0B3C19B52F7500E39A7E /* KLEMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEMainViewController.h; sourceTree = "<group>"; };
+		50AC0B3D19B52F7500E39A7E /* KLEMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEMainViewController.m; sourceTree = "<group>"; };
+		50AC0B3F19B5346E00E39A7E /* KLEMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEMainView.h; sourceTree = "<group>"; };
+		50AC0B4019B5346E00E39A7E /* KLEMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEMainView.m; sourceTree = "<group>"; };
+		50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		50AC0B4419B5750700E39A7E /* Porsche_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Porsche_logo.png; sourceTree = "<group>"; };
+		50B6F04A19B6BF670015ED29 /* KLEMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KLEMainViewController.xib; path = ../KLEMainViewController.xib; sourceTree = "<group>"; };
+		50B6F04C19B7A6620015ED29 /* KLEStatStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEStatStore.h; sourceTree = "<group>"; };
+		50B6F04D19B7A6620015ED29 /* KLEStatStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEStatStore.m; sourceTree = "<group>"; };
+		50B6F04F19B7ADB00015ED29 /* KLEStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEStat.h; sourceTree = "<group>"; };
+		50B6F05019B7ADB00015ED29 /* KLEStat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEStat.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		50AC0B0719B52C8500E39A7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */,
+				50AC0B1019B52C8500E39A7E /* CoreGraphics.framework in Frameworks */,
+				50AC0B1219B52C8500E39A7E /* UIKit.framework in Frameworks */,
+				50AC0B0E19B52C8500E39A7E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50AC0B2219B52C8500E39A7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50AC0B2719B52C8500E39A7E /* XCTest.framework in Frameworks */,
+				50AC0B2919B52C8500E39A7E /* UIKit.framework in Frameworks */,
+				50AC0B2819B52C8500E39A7E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		50AC0B0119B52C8500E39A7E = {
+			isa = PBXGroup;
+			children = (
+				50AC0B1319B52C8500E39A7E /* KLE-GymBro */,
+				50AC0B2C19B52C8500E39A7E /* KLE-GymBroTests */,
+				50AC0B0C19B52C8500E39A7E /* Frameworks */,
+				50AC0B0B19B52C8500E39A7E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		50AC0B0B19B52C8500E39A7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */,
+				50AC0B2519B52C8500E39A7E /* KLE-GymBroTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		50AC0B0C19B52C8500E39A7E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */,
+				50AC0B0D19B52C8500E39A7E /* Foundation.framework */,
+				50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */,
+				50AC0B1119B52C8500E39A7E /* UIKit.framework */,
+				50AC0B2619B52C8500E39A7E /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		50AC0B1319B52C8500E39A7E /* KLE-GymBro */ = {
+			isa = PBXGroup;
+			children = (
+				50B6F04F19B7ADB00015ED29 /* KLEStat.h */,
+				50B6F05019B7ADB00015ED29 /* KLEStat.m */,
+				50B6F04C19B7A6620015ED29 /* KLEStatStore.h */,
+				50B6F04D19B7A6620015ED29 /* KLEStatStore.m */,
+				50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */,
+				50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */,
+				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
+				50AC0B4019B5346E00E39A7E /* KLEMainView.m */,
+				50AC0B3C19B52F7500E39A7E /* KLEMainViewController.h */,
+				50AC0B3D19B52F7500E39A7E /* KLEMainViewController.m */,
+				50B6F04A19B6BF670015ED29 /* KLEMainViewController.xib */,
+				50AC0B4419B5750700E39A7E /* Porsche_logo.png */,
+				50AC0B1F19B52C8500E39A7E /* Images.xcassets */,
+				50AC0B1419B52C8500E39A7E /* Supporting Files */,
+			);
+			path = "KLE-GymBro";
+			sourceTree = "<group>";
+		};
+		50AC0B1419B52C8500E39A7E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				50AC0B1519B52C8500E39A7E /* KLE-GymBro-Info.plist */,
+				50AC0B1619B52C8500E39A7E /* InfoPlist.strings */,
+				50AC0B1919B52C8500E39A7E /* main.m */,
+				50AC0B1B19B52C8500E39A7E /* KLE-GymBro-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		50AC0B2C19B52C8500E39A7E /* KLE-GymBroTests */ = {
+			isa = PBXGroup;
+			children = (
+				50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */,
+				50AC0B2D19B52C8500E39A7E /* Supporting Files */,
+			);
+			path = "KLE-GymBroTests";
+			sourceTree = "<group>";
+		};
+		50AC0B2D19B52C8500E39A7E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				50AC0B2E19B52C8500E39A7E /* KLE-GymBroTests-Info.plist */,
+				50AC0B2F19B52C8500E39A7E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		50AC0B0919B52C8500E39A7E /* KLE-GymBro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBro" */;
+			buildPhases = (
+				50AC0B0619B52C8500E39A7E /* Sources */,
+				50AC0B0719B52C8500E39A7E /* Frameworks */,
+				50AC0B0819B52C8500E39A7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KLE-GymBro";
+			productName = "KLE-GymBro";
+			productReference = 50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */;
+			productType = "com.apple.product-type.application";
+		};
+		50AC0B2419B52C8500E39A7E /* KLE-GymBroTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50AC0B3919B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBroTests" */;
+			buildPhases = (
+				50AC0B2119B52C8500E39A7E /* Sources */,
+				50AC0B2219B52C8500E39A7E /* Frameworks */,
+				50AC0B2319B52C8500E39A7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50AC0B2B19B52C8500E39A7E /* PBXTargetDependency */,
+			);
+			name = "KLE-GymBroTests";
+			productName = "KLE-GymBroTests";
+			productReference = 50AC0B2519B52C8500E39A7E /* KLE-GymBroTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		50AC0B0219B52C8500E39A7E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = KLE;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Kelvin;
+				TargetAttributes = {
+					50AC0B2419B52C8500E39A7E = {
+						TestTargetID = 50AC0B0919B52C8500E39A7E;
+					};
+				};
+			};
+			buildConfigurationList = 50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "KLE-GymBro" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 50AC0B0119B52C8500E39A7E;
+			productRefGroup = 50AC0B0B19B52C8500E39A7E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				50AC0B0919B52C8500E39A7E /* KLE-GymBro */,
+				50AC0B2419B52C8500E39A7E /* KLE-GymBroTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		50AC0B0819B52C8500E39A7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
+				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
+				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
+				50B6F04B19B6BF670015ED29 /* KLEMainViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50AC0B2319B52C8500E39A7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50AC0B3119B52C8500E39A7E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		50AC0B0619B52C8500E39A7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */,
+				50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */,
+				50B6F04E19B7A6620015ED29 /* KLEStatStore.m in Sources */,
+				50AC0B1A19B52C8500E39A7E /* main.m in Sources */,
+				50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */,
+				50AC0B3E19B52F7500E39A7E /* KLEMainViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50AC0B2119B52C8500E39A7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50AC0B3319B52C8500E39A7E /* KLE_GymBroTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		50AC0B2B19B52C8500E39A7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50AC0B0919B52C8500E39A7E /* KLE-GymBro */;
+			targetProxy = 50AC0B2A19B52C8500E39A7E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		50AC0B1619B52C8500E39A7E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				50AC0B1719B52C8500E39A7E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		50AC0B2F19B52C8500E39A7E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				50AC0B3019B52C8500E39A7E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		50AC0B3419B52C8500E39A7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		50AC0B3519B52C8500E39A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		50AC0B3719B52C8500E39A7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
+				INFOPLIST_FILE = "KLE-GymBro/KLE-GymBro-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		50AC0B3819B52C8500E39A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
+				INFOPLIST_FILE = "KLE-GymBro/KLE-GymBro-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		50AC0B3A19B52C8500E39A7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KLE-GymBro.app/KLE-GymBro";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "KLE-GymBroTests/KLE-GymBroTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		50AC0B3B19B52C8500E39A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KLE-GymBro.app/KLE-GymBro";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
+				INFOPLIST_FILE = "KLE-GymBroTests/KLE-GymBroTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "KLE-GymBro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50AC0B3419B52C8500E39A7E /* Debug */,
+				50AC0B3519B52C8500E39A7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50AC0B3719B52C8500E39A7E /* Debug */,
+				50AC0B3819B52C8500E39A7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50AC0B3919B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBroTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50AC0B3A19B52C8500E39A7E /* Debug */,
+				50AC0B3B19B52C8500E39A7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 50AC0B0219B52C8500E39A7E /* Project object */;
+}
