@@ -19,13 +19,14 @@
 		50AC0B2919B52C8500E39A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B1119B52C8500E39A7E /* UIKit.framework */; };
 		50AC0B3119B52C8500E39A7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B2F19B52C8500E39A7E /* InfoPlist.strings */; };
 		50AC0B3319B52C8500E39A7E /* KLE_GymBroTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */; };
-		50AC0B3E19B52F7500E39A7E /* KLEMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B3D19B52F7500E39A7E /* KLEMainViewController.m */; };
 		50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B4019B5346E00E39A7E /* KLEMainView.m */; };
 		50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */; };
 		50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B4419B5750700E39A7E /* Porsche_logo.png */; };
-		50B6F04B19B6BF670015ED29 /* KLEMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B6F04A19B6BF670015ED29 /* KLEMainViewController.xib */; };
 		50B6F04E19B7A6620015ED29 /* KLEStatStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F04D19B7A6620015ED29 /* KLEStatStore.m */; };
 		50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B6F05019B7ADB00015ED29 /* KLEStat.m */; };
+		50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */; };
+		50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */; };
+		50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,17 +56,19 @@
 		50AC0B2E19B52C8500E39A7E /* KLE-GymBroTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KLE-GymBroTests-Info.plist"; sourceTree = "<group>"; };
 		50AC0B3019B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLE_GymBroTests.m; sourceTree = "<group>"; };
-		50AC0B3C19B52F7500E39A7E /* KLEMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEMainViewController.h; sourceTree = "<group>"; };
-		50AC0B3D19B52F7500E39A7E /* KLEMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEMainViewController.m; sourceTree = "<group>"; };
 		50AC0B3F19B5346E00E39A7E /* KLEMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEMainView.h; sourceTree = "<group>"; };
 		50AC0B4019B5346E00E39A7E /* KLEMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEMainView.m; sourceTree = "<group>"; };
 		50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		50AC0B4419B5750700E39A7E /* Porsche_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Porsche_logo.png; sourceTree = "<group>"; };
-		50B6F04A19B6BF670015ED29 /* KLEMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KLEMainViewController.xib; path = ../KLEMainViewController.xib; sourceTree = "<group>"; };
 		50B6F04C19B7A6620015ED29 /* KLEStatStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEStatStore.h; sourceTree = "<group>"; };
 		50B6F04D19B7A6620015ED29 /* KLEStatStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEStatStore.m; sourceTree = "<group>"; };
 		50B6F04F19B7ADB00015ED29 /* KLEStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEStat.h; sourceTree = "<group>"; };
 		50B6F05019B7ADB00015ED29 /* KLEStat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEStat.m; sourceTree = "<group>"; };
+		50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyViewController.h; sourceTree = "<group>"; };
+		50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEDailyViewController.m; sourceTree = "<group>"; };
+		50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyViewCell.h; sourceTree = "<group>"; };
+		50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEDailyViewCell.m; sourceTree = "<group>"; };
+		50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,9 +138,11 @@
 				50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */,
 				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
 				50AC0B4019B5346E00E39A7E /* KLEMainView.m */,
-				50AC0B3C19B52F7500E39A7E /* KLEMainViewController.h */,
-				50AC0B3D19B52F7500E39A7E /* KLEMainViewController.m */,
-				50B6F04A19B6BF670015ED29 /* KLEMainViewController.xib */,
+				50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */,
+				50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */,
+				50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */,
+				50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */,
+				50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */,
 				50AC0B4419B5750700E39A7E /* Porsche_logo.png */,
 				50AC0B1F19B52C8500E39A7E /* Images.xcassets */,
 				50AC0B1419B52C8500E39A7E /* Supporting Files */,
@@ -253,7 +258,7 @@
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
 				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
-				50B6F04B19B6BF670015ED29 /* KLEMainViewController.xib in Resources */,
+				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,10 +279,11 @@
 			files = (
 				50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */,
 				50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */,
+				50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */,
+				50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */,
 				50B6F04E19B7A6620015ED29 /* KLEStatStore.m in Sources */,
 				50AC0B1A19B52C8500E39A7E /* main.m in Sources */,
 				50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */,
-				50AC0B3E19B52F7500E39A7E /* KLEMainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
