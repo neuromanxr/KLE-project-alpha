@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
-#import "KLEMainViewController.h"
+#import "KLEDailyViewController.h"
 #import "KLEAppDelegate.h"
 
 @implementation KLEAppDelegate
@@ -16,9 +16,11 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    KLEMainViewController *mvc = [[KLEMainViewController alloc] init];
+    KLEDailyViewController *dvc = [[KLEDailyViewController alloc] init];
     
-    self.window.rootViewController = mvc;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dvc];
+    
+    self.window.rootViewController = navController;
     
     [self.window makeKeyAndVisible];
     return YES;

@@ -6,13 +6,10 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface KLEMainViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface KLEMainViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *exercise;
-@property (weak, nonatomic) IBOutlet UIPickerView *exercisePicker;
-
-@property (strong, nonatomic) NSArray *exerciseArray;
+//@property (strong, nonatomic) NSArray *exerciseArray;
 
 @end

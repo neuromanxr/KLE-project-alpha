@@ -19,35 +19,15 @@
 
 @implementation KLEMainViewController
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return 6;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return [self.exerciseArray objectAtIndex:row];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    
-}
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    
-    if (self) {
-        
-    }
-    return self;
-}
+//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    
+//    if (self) {
+//        
+//    }
+//    return self;
+//}
 
 //- (void)loadView
 //{
@@ -66,14 +46,26 @@
 //    [self.view addSubview:self.squareView];
 //}
 
-- (void)viewDidLoad
+- (instancetype)init
 {
-    [super viewDidLoad];
+    self = [super initWithStyle:UITableViewStylePlain];
     
-    self.view.backgroundColor = [UIColor grayColor];
-    
+    return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    return [self init];
+}
+
+//- (void)viewDidLoad
+//{
+//    [super viewDidLoad];
+//    
+//    self.view.backgroundColor = [UIColor whiteColor];
+
     // list of exercises
-    self.exerciseArray = [[NSArray alloc] initWithObjects:@"Bench Press", @"Deadlift", @"Squats", @"Arm Curls", @"French Press", @"Army Press", nil];
+//    self.exerciseArray = [[NSArray alloc] initWithObjects:@"Bench Press", @"Deadlift", @"Squats", @"Arm Curls", @"French Press", @"Army Press", nil];
     
     // create a sublayer
 //    CALayer *blueLayer = [CALayer layer];
@@ -90,6 +82,6 @@
 //    self.squareView.layer.masksToBounds = YES;
     // add blue layer as a subview to the square view
 //    [self.squareView.layer addSublayer:blueLayer];
-}
+//}
 
 @end
