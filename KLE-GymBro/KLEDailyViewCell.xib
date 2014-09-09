@@ -20,10 +20,18 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzO-Nh-oTY">
+                        <rect key="frame" x="254" y="7" width="46" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Button">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="day" destination="Bex-FH-jfc" id="wl2-fH-ADG"/>
+                <outlet property="dayLabel" destination="Bex-FH-jfc" id="fcV-RA-wEs"/>
+                <outlet property="exerciseButton" destination="yzO-Nh-oTY" id="9wZ-t2-U0L"/>
             </connections>
         </tableViewCell>
     </objects>
