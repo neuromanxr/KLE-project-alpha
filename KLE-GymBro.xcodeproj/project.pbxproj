@@ -27,6 +27,9 @@
 		50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */; };
 		50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */; };
 		50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */; };
+		50DD4CC719BE3CA600A3E6E5 /* KLERoutineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CC619BE3CA600A3E6E5 /* KLERoutineViewController.m */; };
+		50DD4CCA19BE3E0100A3E6E5 /* KLERoutineViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CC919BE3E0100A3E6E5 /* KLERoutineViewCell.m */; };
+		50DD4CCC19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CCB19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +72,11 @@
 		50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyViewCell.h; sourceTree = "<group>"; };
 		50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEDailyViewCell.m; sourceTree = "<group>"; };
 		50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyViewCell.xib; sourceTree = "<group>"; };
+		50DD4CC519BE3CA600A3E6E5 /* KLERoutineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutineViewController.h; sourceTree = "<group>"; };
+		50DD4CC619BE3CA600A3E6E5 /* KLERoutineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineViewController.m; sourceTree = "<group>"; };
+		50DD4CC819BE3E0100A3E6E5 /* KLERoutineViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutineViewCell.h; sourceTree = "<group>"; };
+		50DD4CC919BE3E0100A3E6E5 /* KLERoutineViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineViewCell.m; sourceTree = "<group>"; };
+		50DD4CCB19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLERoutineViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +146,11 @@
 				50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */,
 				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
 				50AC0B4019B5346E00E39A7E /* KLEMainView.m */,
+				50DD4CC519BE3CA600A3E6E5 /* KLERoutineViewController.h */,
+				50DD4CC619BE3CA600A3E6E5 /* KLERoutineViewController.m */,
+				50DD4CC819BE3E0100A3E6E5 /* KLERoutineViewCell.h */,
+				50DD4CC919BE3E0100A3E6E5 /* KLERoutineViewCell.m */,
+				50DD4CCB19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib */,
 				50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */,
 				50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */,
 				50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */,
@@ -258,6 +271,7 @@
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
 				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
+				50DD4CCC19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib in Resources */,
 				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,12 +291,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50DD4CCA19BE3E0100A3E6E5 /* KLERoutineViewCell.m in Sources */,
 				50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */,
 				50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */,
 				50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */,
 				50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */,
 				50B6F04E19B7A6620015ED29 /* KLEStatStore.m in Sources */,
 				50AC0B1A19B52C8500E39A7E /* main.m in Sources */,
+				50DD4CC719BE3CA600A3E6E5 /* KLERoutineViewController.m in Sources */,
 				50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

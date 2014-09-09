@@ -9,8 +9,9 @@
 #import "KLEDailyViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
-#import <QuartzCore/QuartzCore.h>
 #import "KLEDailyViewController.h"
+#import "KLERoutineViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation KLEDailyViewController
 
@@ -19,7 +20,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 10; i++) {
             [[KLEStatStore sharedStore] createStat];
         }
     }
@@ -32,9 +33,32 @@
     return [self init];
 }
 
+- (void)addWorkout
+{
+    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+    
+    CGRect frame = [UIScreen mainScreen].bounds;
+    UIView *view = [[UIView alloc] initWithFrame:frame];
+    view.backgroundColor = [UIColor redColor];
+    UIViewController *stats = [[UIViewController alloc] init];
+    stats.view = view;
+    
+    UITabBarController *tbc = [[UITabBarController alloc] init];
+    tbc.viewControllers = @[rvc, stats];
+    
+    [self.navigationController pushViewController:tbc animated:YES];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [[[KLEStatStore sharedStore] allStats] count];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+    
+    [self.navigationController pushViewController:rvc animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -45,8 +69,8 @@
     NSArray *statsArray = [[KLEStatStore sharedStore] allStats];
     KLEStat *stat = statsArray[indexPath.row];
     
-    cell.day.text = [stat description];
-//    cell.textLabel.text = [stat description];
+    cell.dayLabel.text = [stat description];
+    [cell.exerciseButton addTarget:self action:@selector(addWorkout) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }

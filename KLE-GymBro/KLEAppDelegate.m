@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLERoutineViewController.h"
 #import "KLEDailyViewController.h"
 #import "KLEAppDelegate.h"
 
@@ -17,6 +18,8 @@
     // Override point for customization after application launch.
     
     KLEDailyViewController *dvc = [[KLEDailyViewController alloc] init];
+    
+//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dvc];
     
