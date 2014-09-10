@@ -10,5 +10,9 @@
 
 @interface KLEDailyViewController : UITableViewController
 
+{
+    NSInteger selectedIndex;
+    NSMutableArray *textArray;
+}
 
 @end
