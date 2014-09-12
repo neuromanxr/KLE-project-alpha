@@ -41,12 +41,13 @@
 {
     CGSize maximumSize = CGSizeMake(COMMENT_LABEL_WIDTH, 10000);
     
-    CGSize labelHeighSize = [[textArray objectAtIndex:index]
-                             sizeWithFont: [UIFont fontWithName:@"Helvetica" size:14.0f]
-                        constrainedToSize:maximumSize
-                            lineBreakMode:NSLineBreakByWordWrapping];
+//    CGSize labelHeightSize = [[textArray objectAtIndex:index]
+//                             sizeWithFont: [UIFont fontWithName:@"Helvetica" size:14.0f]
+//                        constrainedToSize:maximumSize
+//                            lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize labelHeightSize = CGSizeMake(230, 100);
     
-    return labelHeighSize.height;
+    return labelHeightSize.height;
 }
 
 - (void)addWorkout
@@ -133,7 +134,7 @@
         cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, COMMENT_LABEL_MIN_HEIGHT);
     }
     cell.dayLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
-    cell.dayLabel.text = [textArray objectAtIndex:indexPath.row];
+    cell.dayLabel.text = @"Day";
     
     return cell;
 }
@@ -157,9 +158,7 @@
     
     for (int i = 0; i < 7; i++) {
         testString = @"Test comment. Test comment.";
-        for (int j = 0; j < i; j++) {
-            testString = [NSString stringWithFormat:@"%@ %@", testString, testString];
-        }
+
         [textArray addObject:testString];
     }
 
