@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLEExercises.h"
 #import "KLEExerciseListViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
@@ -24,11 +25,9 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
-        _exerciseArray = [NSMutableArray arrayWithObjects:@[
-                                                            @[@"Bench Press", @"Chest"],
-                                                            @[@"Squats", @"Legs"],
-                                                            @[@"Arm Curls", @"Arms"]
-                                                                                        ], nil];
+        
+        KLEExercises *exercises = [[KLEExercises alloc] init];
+        _exerciseArray = exercises.exerciseList;
     }
     
     return self;
@@ -59,7 +58,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad

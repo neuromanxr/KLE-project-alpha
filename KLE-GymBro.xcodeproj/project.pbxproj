@@ -149,11 +149,10 @@
 		50AC0B1319B52C8500E39A7E /* KLE-GymBro */ = {
 			isa = PBXGroup;
 			children = (
+				50DD4CD919C2AFB200A3E6E5 /* Views */,
 				50DD4CD819C2ABF600A3E6E5 /* Model */,
 				50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */,
 				50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */,
-				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
-				50AC0B4019B5346E00E39A7E /* KLEMainView.m */,
 				50DD4CCD19C22EC100A3E6E5 /* KLEExerciseListViewController.h */,
 				50DD4CCE19C22EC100A3E6E5 /* KLEExerciseListViewController.m */,
 				50DD4CD019C235FC00A3E6E5 /* KLEExerciseListViewCell.h */,
@@ -216,6 +215,15 @@
 				50B6F04D19B7A6620015ED29 /* KLEStatStore.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		50DD4CD919C2AFB200A3E6E5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
+				50AC0B4019B5346E00E39A7E /* KLEMainView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
