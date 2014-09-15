@@ -10,6 +10,7 @@
 #import "KLEStat.h"
 #import "KLEStatStore.h"
 #import "KLERoutineViewController.h"
+#import "KLEExerciseListViewController.h"
 
 @implementation KLERoutineViewController
 
@@ -44,6 +45,13 @@
     cell.exerciseLabel.text = [stat description];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLEExerciseListViewController *evc = [[KLEExerciseListViewController alloc] init];
+    
+    [self.navigationController pushViewController:evc animated:YES];
 }
 
 - (void)viewDidLoad
