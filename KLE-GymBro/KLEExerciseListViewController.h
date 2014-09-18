@@ -10,4 +10,8 @@
 
 @interface KLEExerciseListViewController : UITableViewController
 
+- (instancetype)initForNewExercise:(BOOL)isNew;
+
+@property (nonatomic, strong)KLEStat *exercise;
+
 @end

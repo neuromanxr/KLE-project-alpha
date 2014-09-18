@@ -10,8 +10,8 @@
 
 @interface KLEExercises : NSObject
 
-@property (nonatomic, strong) NSString *exerciseName;
-@property (nonatomic, strong) NSString *exerciseType;
+@property (nonatomic, retain) NSString *exerciseName;
+@property (nonatomic, retain) NSString *exerciseType;
 
 @property (nonatomic, strong) NSMutableArray *exerciseList;
 

@@ -14,7 +14,7 @@
 
 @property (nonatomic, readonly) NSArray *allStats;
 
-+ (instancetype)sharedStore;
+//+ (instancetype)sharedStore;
 
 - (KLEStat *)createStat;
 

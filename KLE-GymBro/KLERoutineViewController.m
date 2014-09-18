@@ -9,7 +9,9 @@
 #import "KLERoutineViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
+#import "KLERoutinesStore.h"
 #import "KLERoutineViewController.h"
+#import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
 
 @implementation KLERoutineViewController
@@ -19,6 +21,19 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
+        UINavigationItem *navItem = self.navigationItem;
+        // title for rvc
+        navItem.title = @"Your Routines";
+        
+        // button to add exercises
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
+        
+        // button to edit routine
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editRoutines)];
+        
+        // set the button to be the right nav button of the nav item
+        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
+        
     }
     
     return self;
@@ -31,7 +46,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[KLEStatStore sharedStore] allStats] count];
+    return [[[KLERoutinesStore sharedStore] allStatStores] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -39,19 +54,56 @@
     // create an instance of UITableViewCell, with default appearance
     KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
-    NSArray *statsArray = [[KLEStatStore sharedStore] allStats];
-    KLEStat *stat = statsArray[indexPath.row];
+    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
+    KLEStatStore *statStore = statStoreArray[indexPath.row];
     
-    cell.exerciseLabel.text = [stat description];
+    cell.exerciseLabel.text = [statStore description];
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    
+    [self.navigationController pushViewController:revc animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    KLEExerciseListViewController *evc = [[KLEExerciseListViewController alloc] init];
+    NSLog(@"Cell selected");
+}
+
+- (void)addNewRoutine
+{
+    // create a new KLEStatStore and add it to the routine store
+    KLEStatStore *newStatStore = [[KLERoutinesStore sharedStore] createStatStore];
     
-    [self.navigationController pushViewController:evc animated:YES];
+    [self.tableView reloadData];
+    
+    NSLog(@"new stat%@", newStatStore);
+    
+//    KLEExerciseListViewController *evc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
+//    exerciseListViewController.exercise = newStat;
+    
+    // completion block that will reload the table
+//    detailViewController.dismissBlock = ^{
+//        [self.tableView reloadData];
+//    };
+    
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:evc];
+//    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+//    self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+//    [self.navigationController pushViewController:evc animated:YES];
+//    [self presentViewController:navController animated:YES completion:nil];
+    NSLog(@"Add new routine");
+}
+
+- (void)editRoutines
+{
+    NSLog(@"Edit button tapped");
 }
 
 - (void)viewDidLoad
