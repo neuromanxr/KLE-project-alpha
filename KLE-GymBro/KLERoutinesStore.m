@@ -61,4 +61,24 @@
     return statStore;
 }
 
+- (void)removeStatStore:(KLEStatStore *)statStore
+{
+    [self.privateStatStore removeObjectIdenticalTo:statStore];
+}
+
+- (void)moveStatStoreAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex
+{
+    if (fromIndex == toIndex) {
+        return;
+    }
+    // get pointer to object being moved so you can re-insert it
+    KLEStatStore *statStore = self.privateStatStore[fromIndex];
+    
+    // remove routine from array
+    [self.privateStatStore removeObjectAtIndex:fromIndex];
+    
+    // insert routine in array at new location
+    [self.privateStatStore insertObject:statStore atIndex:toIndex];
+}
+
 @end

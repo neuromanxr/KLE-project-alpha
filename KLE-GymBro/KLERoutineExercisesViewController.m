@@ -6,11 +6,19 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLEExercises.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
+#import "KLERoutinesStore.h"
 #import "KLERoutineExercisesViewCell.h"
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
+
+@interface KLERoutineExercisesViewController ()
+
+@property (nonatomic, copy) NSArray *routinesArray;
+
+@end
 
 @implementation KLERoutineExercisesViewController
 
@@ -19,6 +27,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
+        
         UINavigationItem *navItem = self.navigationItem;
         // title for rvc
         navItem.title = @"Routine Exercises";
@@ -27,7 +36,10 @@
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editRoutines)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+        
+        // set bar button to toggle editing mode
+        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
         navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
@@ -88,6 +100,20 @@
     //    [self presentViewController:navController animated:YES completion:nil];
 }
 
+- (void)save:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)cancel:(id)sender
+{
+    // if the user cancelled, then remove the BNRItem from the store
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)editRoutines
 {
     NSLog(@"Edit button tapped");
@@ -103,6 +129,13 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    NSLog(@"Data from elvc %@", [KLERoutinesStore sharedStore].userSelections);
 }
 
 @end

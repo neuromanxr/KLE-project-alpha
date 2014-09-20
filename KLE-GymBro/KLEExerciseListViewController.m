@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLERoutinesStore.h"
 #import "KLEExercises.h"
 #import "KLEExerciseListViewCell.h"
 #import "KLEStat.h"
@@ -57,6 +58,8 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [KLERoutinesStore sharedStore].userSelections = [[NSArray alloc] initWithArray:[self.tableView indexPathsForSelectedRows]];
+    NSLog(@"User selections %@", [KLERoutinesStore sharedStore].userSelections);
 }
 
 - (void)cancel:(id)sender
@@ -106,7 +109,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [self.navigationController popViewControllerAnimated:YES];
+    NSLog(@"Cell selected %lu", indexPath.row);
 }
 
 - (void)viewDidLoad
@@ -119,10 +122,18 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEExerciseListViewCell"];
     
+    // allow multiple selections of cells
+    self.tableView.allowsMultipleSelection = YES;
+    
     // tell tableview about its header view
 //    UIView *header = self.headerView;
 //    [self.tableView setTableHeaderView:header];
     
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
 }
 
 @end

@@ -11,7 +11,6 @@
 @interface KLEExerciseListViewController : UITableViewController
 
 - (instancetype)initForNewExercise:(BOOL)isNew;
-
-@property (nonatomic, strong)KLEStat *exercise;
+- (instancetype)initWithStyle:(UITableViewStyle)style;
 
 @end

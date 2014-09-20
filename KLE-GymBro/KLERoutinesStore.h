@@ -14,8 +14,13 @@
 
 @property (nonatomic, readonly) NSArray *allStatStores;
 
+@property (nonatomic, strong) NSArray *userSelections;
+
 + (instancetype)sharedStore;
 
 - (KLEStatStore *)createStatStore;
+- (void)removeStatStore:(KLEStatStore *)statStore;
+- (void)moveStatStoreAtIndex:(NSUInteger)fromIndex
+                     toIndex:(NSUInteger)toIndex;
 
 @end

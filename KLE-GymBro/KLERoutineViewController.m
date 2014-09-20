@@ -29,7 +29,10 @@
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editRoutines)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+        
+        // set bar button to toggle editing mode
+        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
         navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
@@ -75,12 +78,40 @@
     NSLog(@"Cell selected");
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // if the table view is asking to commit a delete command
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
+        KLEStatStore *routine = routines[indexPath.row];
+        [[KLERoutinesStore sharedStore] removeStatStore:routine];
+        
+        // also remove that row from the table view with animation
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    [[KLERoutinesStore sharedStore] moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
+}
+
 - (void)addNewRoutine
 {
-    // create a new KLEStatStore and add it to the routine store
+    // create a new routine and add it to the routine store
     KLEStatStore *newStatStore = [[KLERoutinesStore sharedStore] createStatStore];
     
-    [self.tableView reloadData];
+    // where is this new routine in the array?
+    NSInteger lastRow = [[[KLERoutinesStore sharedStore] allStatStores] indexOfObject:newStatStore];
+    
+    // set the index path to be the last row added
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
+    
+    // insert this new row into the table
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    
+//    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+//    [self.navigationController pushViewController:revc animated:YES];
     
     NSLog(@"new stat%@", newStatStore);
     
@@ -98,7 +129,6 @@
 //    self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 //    [self.navigationController pushViewController:evc animated:YES];
 //    [self presentViewController:navController animated:YES completion:nil];
-    NSLog(@"Add new routine");
 }
 
 - (void)editRoutines
@@ -116,6 +146,11 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
     
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
 }
 
 @end
