@@ -58,8 +58,22 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    [KLERoutinesStore sharedStore].userSelections = [[NSArray alloc] initWithArray:[self.tableView indexPathsForSelectedRows]];
-    NSLog(@"User selections %@", [KLERoutinesStore sharedStore].userSelections);
+    
+    // store the user selections for this stat store
+    self.statStore.userSelections = [[NSArray alloc] initWithArray:[self.tableView indexPathsForSelectedRows]];
+    NSLog(@"store user selections %@", self.statStore.userSelections);
+    
+    if ([self.statStore.userSelections count] > 0) {
+        for (int i = 0; i < [self.statStore.userSelections count]; i++) {
+            [self.statStore createStat];
+            
+        }
+        NSLog(@"Stats %@", [self.statStore allStats]);
+    }
+    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
+    KLEStat *stat = [statStoreArray firstObject];
+    stat.exercise = _exerciseArray[0][0][0];
+    NSLog(@"exercise %@", stat.exercise);
 }
 
 - (void)cancel:(id)sender

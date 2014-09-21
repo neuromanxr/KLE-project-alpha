@@ -14,6 +14,10 @@
 
 @property (nonatomic, readonly) NSArray *allStats;
 
+@property (nonatomic, strong) NSArray *userSelections;
+
+@property (nonatomic, retain) NSString *routineName;
+
 //+ (instancetype)sharedStore;
 
 - (KLEStat *)createStat;

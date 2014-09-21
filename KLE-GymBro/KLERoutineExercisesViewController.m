@@ -56,7 +56,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    NSLog(@"stat store count %lu", [[self.statStore allStats] count]);
+    return [[self.statStore allStats] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,10 +65,9 @@
     // create an instance of UITableViewCell, with default appearance
     KLERoutineExercisesViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineExercisesViewCell" forIndexPath:indexPath];
     
-//    NSArray *statsArray = [[KLEStatStore sharedStore] allStats];
-//    KLEStat *stat = statsArray[indexPath.row];
+    NSLog(@"revc %@", self.statStore.allStats);
     
-    cell.exerciseNameLabel.text = @"exercise";
+    cell.exerciseNameLabel.text = [[self.statStore allStats][indexPath.row] description];
     
     return cell;
 }
@@ -81,11 +81,17 @@
 
 - (void)addNewExercise
 {
+    // get the count from user selection array
+    // use a for loop to cycle through the count and create KLEStats from the selected KLEStatStore
+    
     // create a new BNRItem and add it to the store
     //    KLEStat *newStat = [[KLEStatStore sharedStore] createStat];
     
-    KLEExerciseListViewController *evc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
-    //    exerciseListViewController.exercise = newStat;
+    KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
+    
+    // pass the selected statStore to exercise list view controller
+    elvc.statStore = self.statStore;
+    NSLog(@"elvc statstore %@", elvc.statStore);
     
     // completion block that will reload the table
     //    detailViewController.dismissBlock = ^{
@@ -96,7 +102,7 @@
     //    navController.modalPresentationStyle = UIModalPresentationFormSheet;
     
     //    self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self.navigationController pushViewController:evc animated:YES];
+    [self.navigationController pushViewController:elvc animated:YES];
     //    [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -135,7 +141,7 @@
 {
     [super viewWillAppear:YES];
     
-    NSLog(@"Data from elvc %@", [KLERoutinesStore sharedStore].userSelections);
+    NSLog(@"Data from elvc %@", self.statStore.userSelections);
 }
 
 @end

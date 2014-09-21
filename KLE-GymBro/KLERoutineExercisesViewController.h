@@ -10,4 +10,7 @@
 
 @interface KLERoutineExercisesViewController : UITableViewController
 
+// stores the selected stat stores created by routines store in routine view controller
+@property (nonatomic, strong) KLEStatStore *statStore;
+
 @end

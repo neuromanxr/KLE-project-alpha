@@ -68,7 +68,13 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
+    KLEStatStore *selectedStatStore = statStores[indexPath.row];
+    
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    
+    // pass selected statStore from routine view controller to routine exercise view controller
+    revc.statStore = selectedStatStore;
     
     [self.navigationController pushViewController:revc animated:YES];
 }

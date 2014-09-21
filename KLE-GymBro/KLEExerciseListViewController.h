@@ -13,4 +13,7 @@
 - (instancetype)initForNewExercise:(BOOL)isNew;
 - (instancetype)initWithStyle:(UITableViewStyle)style;
 
+// stat store from revc will be passed to here
+@property (nonatomic, strong) KLEStatStore *statStore;
+
 @end
