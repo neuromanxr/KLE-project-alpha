@@ -67,7 +67,11 @@
     
     NSLog(@"revc %@", self.statStore.allStats);
     
-    cell.exerciseNameLabel.text = [[self.statStore allStats][indexPath.row] description];
+    // access the stat store using the selected index path row
+    // then assign the exercise name property to the cell label
+    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
+    KLEStat *stat = statStoreArray[indexPath.row];
+    cell.exerciseNameLabel.text = stat.exercise;
     
     return cell;
 }
@@ -81,12 +85,6 @@
 
 - (void)addNewExercise
 {
-    // get the count from user selection array
-    // use a for loop to cycle through the count and create KLEStats from the selected KLEStatStore
-    
-    // create a new BNRItem and add it to the store
-    //    KLEStat *newStat = [[KLEStatStore sharedStore] createStat];
-    
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
     
     // pass the selected statStore to exercise list view controller

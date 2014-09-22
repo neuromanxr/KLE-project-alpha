@@ -57,23 +57,35 @@
 - (void)save:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     
-    // store the user selections for this stat store
-    self.statStore.userSelections = [[NSArray alloc] initWithArray:[self.tableView indexPathsForSelectedRows]];
+    // store the exercise selection for this routine, there's only one selection always
+    // might implement multiple selections in future
+    self.statStore.userSelections = [[NSArray alloc] initWithObjects:[self.tableView indexPathForSelectedRow], nil];
     NSLog(@"store user selections %@", self.statStore.userSelections);
     
-    if ([self.statStore.userSelections count] > 0) {
-        for (int i = 0; i < [self.statStore.userSelections count]; i++) {
-            [self.statStore createStat];
-            
-        }
-        NSLog(@"Stats %@", [self.statStore allStats]);
-    }
+    // create the exercise in the routine
+    [self.statStore createStat];
+    
+    // selected row is the exercise selected from the exercise array
+    NSIndexPath *selectedRow = [self.statStore.userSelections lastObject];
+    NSLog(@"user selections %lu", selectedRow.row);
+    NSLog(@"Stats %@", [self.statStore allStats]);
+    
+    // access the routine store
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-    KLEStat *stat = [statStoreArray firstObject];
-    stat.exercise = _exerciseArray[0][0][0];
+    
+    // it is the last exercise because revc adds the exercise to the end of the array
+    KLEStat *stat = [statStoreArray lastObject];
+    
+    // assign the label name from the selected row in exercise array
+    stat.exercise = _exerciseArray[0][selectedRow.row][0];
     NSLog(@"exercise %@", stat.exercise);
+    
+    // completion block that will reload the table
+    //    detailViewController.dismissBlock = ^{
+    //        [self.tableView reloadData];
+    //    };
+    
 }
 
 - (void)cancel:(id)sender
@@ -135,9 +147,6 @@
     
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEExerciseListViewCell"];
-    
-    // allow multiple selections of cells
-    self.tableView.allowsMultipleSelection = YES;
     
     // tell tableview about its header view
 //    UIView *header = self.headerView;
