@@ -11,4 +11,6 @@
 @interface KLERoutineExercisesViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *exerciseNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *setsLabel;
+
 @end

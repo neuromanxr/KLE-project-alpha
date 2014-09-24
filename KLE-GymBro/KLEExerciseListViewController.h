@@ -16,4 +16,6 @@
 // stat store from revc will be passed to here
 @property (nonatomic, strong) KLEStatStore *statStore;
 
+@property (nonatomic, strong) KLEStat *stat;
+
 @end

@@ -16,7 +16,16 @@
 @interface KLEExerciseListViewController ()
 
 @property (nonatomic, copy) NSMutableArray *exerciseArray;
-@property (strong, nonatomic) IBOutlet UIView *headerView;
+@property (nonatomic, strong) IBOutlet UIView *headerView;
+
+// KLEHeaderView labels
+@property (weak, nonatomic) IBOutlet UILabel *selectedExerciseLabel;
+@property (weak, nonatomic) IBOutlet UILabel *setsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *repsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *weightLabel;
+@property (weak, nonatomic) IBOutlet UITextField *setsField;
+@property (weak, nonatomic) IBOutlet UITextField *repsField;
+@property (weak, nonatomic) IBOutlet UITextField *weightField;
 
 @end
 
@@ -49,6 +58,9 @@
             
             UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
             self.navigationItem.leftBarButtonItem = cancelItem;
+        } else {
+            UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveChanges:)];
+            self.navigationItem.rightBarButtonItem = saveItem;
         }
     }
     return self;
@@ -56,8 +68,7 @@
 
 - (void)save:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    // CHANGE THIS, DONT USE ARRAY
     // store the exercise selection for this routine, there's only one selection always
     // might implement multiple selections in future
     self.statStore.userSelections = [[NSArray alloc] initWithObjects:[self.tableView indexPathForSelectedRow], nil];
@@ -81,11 +92,25 @@
     stat.exercise = _exerciseArray[0][selectedRow.row][0];
     NSLog(@"exercise %@", stat.exercise);
     
-    // completion block that will reload the table
-    //    detailViewController.dismissBlock = ^{
-    //        [self.tableView reloadData];
-    //    };
+    stat.sets = [self.setsField.text intValue];
+    NSLog(@"stat sets %d", stat.sets);
+    NSLog(@"text field %@", self.setsField.text);
     
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+- (void)saveChanges:(id)sender
+{
+    // store the exercise selection for this routine, there's only one selection always
+    // might implement multiple selections in future
+//    self.statStore.userSelections = [[NSArray alloc] initWithObjects:[self.tableView indexPathForSelectedRow], nil];
+    
+    // selected row is the exercise selected from the exercise array
+    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
+    
+    NSLog(@"stat saveChanges %@", self.stat);
+    NSLog(@"user saveChanges %lu", selectedRow.row);
 }
 
 - (void)cancel:(id)sender
@@ -101,10 +126,18 @@
     if (!_headerView) {
         // load headerView.xib
         // lazy instantiation, saves memory
-        [[NSBundle mainBundle] loadNibNamed:@"HeaderView"
+        [[NSBundle mainBundle] loadNibNamed:@"KLEHeaderView"
                                       owner:self
                                     options:nil];
-        _headerView.backgroundColor = [UIColor redColor];
+        _headerView.backgroundColor = [UIColor grayColor];
+        
+        if (self.stat) {
+            self.selectedExerciseLabel.text = self.stat.exercise;
+//            self.setsField.text = @"22";
+            NSLog(@"if stat %@", self.stat);
+        } else {
+            self.selectedExerciseLabel.text = @"Exercise Name";
+        }
     }
     
     return _headerView;
@@ -135,7 +168,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Cell selected %lu", indexPath.row);
+    self.selectedExerciseLabel.text = _exerciseArray[0][indexPath.row][0];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    self.setsField.text = @"22";
 }
 
 - (void)viewDidLoad

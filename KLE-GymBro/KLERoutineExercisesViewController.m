@@ -72,15 +72,20 @@
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     KLEStat *stat = statStoreArray[indexPath.row];
     cell.exerciseNameLabel.text = stat.exercise;
+    cell.setsLabel.text = [NSString stringWithFormat:@"%d", stat.sets];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    KLEExerciseListViewController *evc = [[KLEExerciseListViewController alloc] init];
+    KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
     
-    [self.navigationController pushViewController:evc animated:YES];
+    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
+    KLEStat *stat = statStoreArray[indexPath.row];
+    elvc.stat = stat;
+    
+    [self.navigationController pushViewController:elvc animated:YES];
 }
 
 - (void)addNewExercise
@@ -91,16 +96,12 @@
     elvc.statStore = self.statStore;
     NSLog(@"elvc statstore %@", elvc.statStore);
     
-    // completion block that will reload the table
-    //    detailViewController.dismissBlock = ^{
-    //        [self.tableView reloadData];
-    //    };
+    [self.navigationController pushViewController:elvc animated:YES];
     
     //    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:evc];
     //    navController.modalPresentationStyle = UIModalPresentationFormSheet;
     
     //    self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self.navigationController pushViewController:elvc animated:YES];
     //    [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -138,6 +139,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+    [self.tableView reloadData];
     
     NSLog(@"Data from elvc %@", self.statStore.userSelections);
 }
