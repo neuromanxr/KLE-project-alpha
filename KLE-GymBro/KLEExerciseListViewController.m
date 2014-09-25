@@ -13,7 +13,7 @@
 #import "KLEStatStore.h"
 #import "KLEExerciseListViewController.h"
 
-@interface KLEExerciseListViewController ()
+@interface KLEExerciseListViewController () <UITextFieldDelegate>
 
 @property (nonatomic, copy) NSMutableArray *exerciseArray;
 @property (nonatomic, strong) IBOutlet UIView *headerView;
@@ -68,17 +68,16 @@
 
 - (void)save:(id)sender
 {
-    // CHANGE THIS, DONT USE ARRAY
     // store the exercise selection for this routine, there's only one selection always
     // might implement multiple selections in future
-    self.statStore.userSelections = [[NSArray alloc] initWithObjects:[self.tableView indexPathForSelectedRow], nil];
+    self.statStore.userSelections = [self.tableView indexPathForSelectedRow];
     NSLog(@"store user selections %@", self.statStore.userSelections);
     
     // create the exercise in the routine
     [self.statStore createStat];
     
     // selected row is the exercise selected from the exercise array
-    NSIndexPath *selectedRow = [self.statStore.userSelections lastObject];
+    NSIndexPath *selectedRow = self.statStore.userSelections;
     NSLog(@"user selections %lu", selectedRow.row);
     NSLog(@"Stats %@", [self.statStore allStats]);
     
@@ -92,6 +91,7 @@
     stat.exercise = _exerciseArray[0][selectedRow.row][0];
     NSLog(@"exercise %@", stat.exercise);
     
+    // assign the value in the text field to the store
     stat.sets = [self.setsField.text intValue];
     NSLog(@"stat sets %d", stat.sets);
     NSLog(@"text field %@", self.setsField.text);
@@ -102,15 +102,19 @@
 
 - (void)saveChanges:(id)sender
 {
-    // store the exercise selection for this routine, there's only one selection always
-    // might implement multiple selections in future
-//    self.statStore.userSelections = [[NSArray alloc] initWithObjects:[self.tableView indexPathForSelectedRow], nil];
-    
     // selected row is the exercise selected from the exercise array
     NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
     
-    NSLog(@"stat saveChanges %@", self.stat);
+    // pointer to the currently selected exercise
+    KLEStat *stat = self.stat;
+    stat.exercise = _exerciseArray[0][selectedRow.row][0];
+    stat.sets = [self.setsField.text intValue];
+    
+    NSLog(@"sets saveChanges %d", stat.sets);
+    NSLog(@"stat saveChanges %@", stat);
     NSLog(@"user saveChanges %lu", selectedRow.row);
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)cancel:(id)sender
@@ -133,10 +137,13 @@
         
         if (self.stat) {
             self.selectedExerciseLabel.text = self.stat.exercise;
-//            self.setsField.text = @"22";
+            self.setsField.text = [NSString stringWithFormat:@"%d", self.stat.sets];
+            self.repsField.text = [NSString stringWithFormat:@"%d", self.stat.reps];
+            self.weightField.text = [NSString stringWithFormat:@"%f", self.stat.weight];
             NSLog(@"if stat %@", self.stat);
         } else {
             self.selectedExerciseLabel.text = @"Exercise Name";
+            self.setsField.text = [NSString stringWithFormat:@"%d", 0];
         }
     }
     
@@ -171,11 +178,30 @@
     self.selectedExerciseLabel.text = _exerciseArray[0][indexPath.row][0];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     
-    self.setsField.text = @"22";
+    // just select the first cell for now
+    NSIndexPath *firstSelection = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView selectRowAtIndexPath:firstSelection animated:YES scrollPosition:UITableViewScrollPositionTop];
+    
+    // set the text field delegates
+    self.setsField.delegate = self;
+    self.repsField.delegate = self;
+    self.weightField.delegate = self;
+    
+    // change keyboard to number pad
+    self.setsField.keyboardType = UIKeyboardTypeNumberPad;
+    self.repsField.keyboardType = UIKeyboardTypeNumberPad;
+    self.weightField.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 - (void)viewDidLoad

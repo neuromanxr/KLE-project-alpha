@@ -14,7 +14,7 @@
 
 @property (nonatomic, readonly) NSArray *allStats;
 
-@property (nonatomic, strong) NSArray *userSelections;
+@property (nonatomic) NSIndexPath *userSelections;
 
 @property (nonatomic, retain) NSString *routineName;
 
