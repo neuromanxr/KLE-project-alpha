@@ -23,7 +23,6 @@
                                                        @[squats.exerciseName, squats.exerciseType],
                                                        @[armCurls.exerciseName, armCurls.exerciseType]
                                                        ], nil];
-    NSLog(@"%@", _exerciseList);
     
     return _exerciseList;
 }

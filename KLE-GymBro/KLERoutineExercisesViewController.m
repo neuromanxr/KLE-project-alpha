@@ -14,7 +14,7 @@
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
 
-@interface KLERoutineExercisesViewController ()
+@interface KLERoutineExercisesViewController () <ELVCDelegate>
 
 @property (nonatomic, copy) NSArray *routinesArray;
 
@@ -56,7 +56,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"stat store count %lu", [[self.statStore allStats] count]);
     return [[self.statStore allStats] count];
 }
 
@@ -64,8 +63,6 @@
 {
     // create an instance of UITableViewCell, with default appearance
     KLERoutineExercisesViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineExercisesViewCell" forIndexPath:indexPath];
-    
-    NSLog(@"revc %@", self.statStore.allStats);
     
     // access the stat store using the selected index path row
     // then assign the exercise name property to the cell label
@@ -84,6 +81,9 @@
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     KLEStat *stat = statStoreArray[indexPath.row];
     elvc.stat = stat;
+    elvc.selection = self.statStore.userSelections;
+    
+    elvc.delegate = self;
     
     [self.navigationController pushViewController:elvc animated:YES];
 }
@@ -94,7 +94,6 @@
     
     // pass the selected statStore to exercise list view controller
     elvc.statStore = self.statStore;
-    NSLog(@"elvc statstore %@", elvc.statStore);
     
     [self.navigationController pushViewController:elvc animated:YES];
     
@@ -124,6 +123,13 @@
     NSLog(@"Edit button tapped");
 }
 
+- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
+{
+    NSLog(@"REVC delegate ELVCselection %lu", selection.row);
+    self.statStore.userSelections = selection;
+    NSLog(@"REVC delegate selection %lu", self.statStore.userSelections.row);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -142,7 +148,7 @@
     
     [self.tableView reloadData];
     
-    NSLog(@"Data from elvc %@", self.statStore.userSelections);
+    NSLog(@"REVC viewWillAppear selection %lu", self.statStore.userSelections.row);
 }
 
 @end

@@ -68,18 +68,19 @@
 
 - (void)save:(id)sender
 {
-    // store the exercise selection for this routine, there's only one selection always
-    // might implement multiple selections in future
-    self.statStore.userSelections = [self.tableView indexPathForSelectedRow];
-    NSLog(@"store user selections %@", self.statStore.userSelections);
-    
     // create the exercise in the routine
     [self.statStore createStat];
     
+    // store the exercise selection for this routine, there's only one selection always
+    // might implement multiple selections in future
+    self.statStore.userSelections = [self.tableView indexPathForSelectedRow];
+//    self.selection = [self.tableView indexPathForSelectedRow];
+//    NSLog(@"store user selections %lu", self.selection.row);
+    
     // selected row is the exercise selected from the exercise array
     NSIndexPath *selectedRow = self.statStore.userSelections;
-    NSLog(@"user selections %lu", selectedRow.row);
-    NSLog(@"Stats %@", [self.statStore allStats]);
+//    NSIndexPath *selectedRow = self.selection;
+    NSLog(@"ELVC SAVE user selection %lu", selectedRow.row);
     
     // access the routine store
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
@@ -89,12 +90,11 @@
     
     // assign the label name from the selected row in exercise array
     stat.exercise = _exerciseArray[0][selectedRow.row][0];
-    NSLog(@"exercise %@", stat.exercise);
     
     // assign the value in the text field to the store
     stat.sets = [self.setsField.text intValue];
-    NSLog(@"stat sets %d", stat.sets);
-    NSLog(@"text field %@", self.setsField.text);
+    stat.reps = [self.repsField.text intValue];
+    stat.weight = [self.weightField.text floatValue];
     
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -105,14 +105,18 @@
     // selected row is the exercise selected from the exercise array
     NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
     
+    self.selection = selectedRow;
+//    self.statStore.userSelections = self.selection;
+    
     // pointer to the currently selected exercise
     KLEStat *stat = self.stat;
     stat.exercise = _exerciseArray[0][selectedRow.row][0];
     stat.sets = [self.setsField.text intValue];
+    stat.reps = [self.repsField.text intValue];
+    stat.weight = [self.weightField.text floatValue];
     
-    NSLog(@"sets saveChanges %d", stat.sets);
-    NSLog(@"stat saveChanges %@", stat);
-    NSLog(@"user saveChanges %lu", selectedRow.row);
+    NSLog(@"ELVC saveChanges ELVCselection %lu", self.selection.row);
+    [self.delegate selectionFromELVC:self thisSelection:self.selection];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -140,10 +144,12 @@
             self.setsField.text = [NSString stringWithFormat:@"%d", self.stat.sets];
             self.repsField.text = [NSString stringWithFormat:@"%d", self.stat.reps];
             self.weightField.text = [NSString stringWithFormat:@"%f", self.stat.weight];
-            NSLog(@"if stat %@", self.stat);
+
         } else {
             self.selectedExerciseLabel.text = @"Exercise Name";
             self.setsField.text = [NSString stringWithFormat:@"%d", 0];
+            self.repsField.text = [NSString stringWithFormat:@"%d", 0];
+            self.weightField.text = [NSString stringWithFormat:@"%f", 0.0];
         }
     }
     
@@ -189,9 +195,13 @@
 {
     [super viewWillAppear:YES];
     
+    NSLog(@"ELVC View will appear");
     // just select the first cell for now
-    NSIndexPath *firstSelection = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView selectRowAtIndexPath:firstSelection animated:YES scrollPosition:UITableViewScrollPositionTop];
+//    NSIndexPath *firstSelection = [NSIndexPath indexPathForRow:0 inSection:0];
+//    self.statStore.userSelections = self.selection;
+    [self.tableView selectRowAtIndexPath:self.selection animated:YES scrollPosition:UITableViewScrollPositionTop];
+    NSLog(@"ELVC viewWillAppear selection %lu", self.statStore.userSelections.row);
+    NSLog(@"ELVC viewWillAppear ELVCselection %lu", self.selection.row);
     
     // set the text field delegates
     self.setsField.delegate = self;
@@ -202,6 +212,7 @@
     self.setsField.keyboardType = UIKeyboardTypeNumberPad;
     self.repsField.keyboardType = UIKeyboardTypeNumberPad;
     self.weightField.keyboardType = UIKeyboardTypeNumberPad;
+    
 }
 
 - (void)viewDidLoad
@@ -223,6 +234,9 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
+    
+    NSLog(@"ELVC viewWillDisappear selection %lu", self.statStore.userSelections.row);
+    
 }
 
 @end
