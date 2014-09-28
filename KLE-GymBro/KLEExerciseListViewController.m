@@ -71,20 +71,18 @@
     // create the exercise in the routine
     [self.statStore createStat];
     
-//    self.statStore.userSelections = [self.tableView indexPathForSelectedRow];
-    
-    // selected row is the exercise selected from the exercise array
-//    NSIndexPath *selectedRow = self.statStore.userSelections;
-
-//    NSLog(@"ELVC SAVE user selection %lu", selectedRow.row);
-    
     // access the routine store
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     
     // it is the last exercise because revc adds the exercise to the end of the array
     KLEStat *stat = [statStoreArray lastObject];
     
+    // store the table selection in the stat object
     stat.userSelections = [self.tableView indexPathForSelectedRow];
+    
+    // store the exercise selection for this routine, there's only one selection always
+    // might implement multiple selections in future
+    // selected row is the exercise selected from the table selection
     NSIndexPath *selectedRow = stat.userSelections;
     
     // assign the label name from the selected row in exercise array
@@ -95,10 +93,6 @@
     stat.reps = [self.repsField.text intValue];
     stat.weight = [self.weightField.text floatValue];
     
-    // store the exercise selection for this routine, there's only one selection always
-    // might implement multiple selections in future
-//    stat.userSelections = [self.tableView indexPathForSelectedRow];
-    
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -108,9 +102,6 @@
     // selected row is the exercise selected from the exercise array
     NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
     
-//    self.selection = selectedRow;
-//    self.statStore.userSelections = self.selection;
-    
     // pointer to the currently selected exercise
     KLEStat *stat = self.stat;
     stat.exercise = _exerciseArray[0][selectedRow.row][0];
@@ -118,18 +109,14 @@
     stat.reps = [self.repsField.text intValue];
     stat.weight = [self.weightField.text floatValue];
     
+    // store the new exercise selection
     stat.userSelections = selectedRow;
-    
-//    NSLog(@"ELVC saveChanges ELVCselection %lu", self.selection.row);
-//    [self.delegate selectionFromELVC:self thisSelection:self.selection];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)cancel:(id)sender
 {
-    // if the user cancelled, then remove the BNRItem from the store
-    
     [self.navigationController popViewControllerAnimated:YES];
 //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -201,14 +188,11 @@
     [super viewWillAppear:YES];
     
     KLEStat *stat = self.stat;
+    
+    // pre-select the selected exercise from revc
     [self.tableView selectRowAtIndexPath:stat.userSelections animated:YES scrollPosition:UITableViewScrollPositionTop];
-    NSLog(@"ELVC View will appear");
-    // just select the first cell for now
-//    NSIndexPath *firstSelection = [NSIndexPath indexPathForRow:0 inSection:0];
-//    self.statStore.userSelections = self.selection;
-//    [self.tableView selectRowAtIndexPath:self.selection animated:YES scrollPosition:UITableViewScrollPositionTop];
-//    NSLog(@"ELVC viewWillAppear selection %lu", self.statStore.userSelections.row);
-//    NSLog(@"ELVC viewWillAppear ELVCselection %lu", self.selection.row);
+    
+    NSLog(@"ELVC viewWillAppear ELVCselection %lu", stat.userSelections.row);
     
     // set the text field delegates
     self.setsField.delegate = self;
@@ -241,8 +225,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    
-//    NSLog(@"ELVC viewWillDisappear selection %lu", self.statStore.userSelections.row);
     
 }
 

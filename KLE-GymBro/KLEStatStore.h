@@ -16,10 +16,6 @@
 
 @property (nonatomic, retain) NSString *routineName;
 
-@property (nonatomic, retain) NSIndexPath *userSelections;
-
-//+ (instancetype)sharedStore;
-
 - (KLEStat *)createStat;
 - (void)removeStat:(KLEStat *)stat;
 - (void)moveStatAtIndex:(NSUInteger)fromIndex

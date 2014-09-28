@@ -18,17 +18,6 @@
 
 @implementation KLEStatStore
 
-//+ (instancetype)sharedStore
-//{
-//    static KLEStatStore *sharedStore = nil;
-//    
-//    // do I need to create a sharedStore?
-//    if (!sharedStore) {
-//        sharedStore = [[self alloc] initPrivate];
-//    }
-//    return sharedStore;
-//}
-
 - (instancetype)init
 {
     return [self initPrivate];

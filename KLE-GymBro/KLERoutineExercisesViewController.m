@@ -76,13 +76,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"FIRST RUN statStore userSelection %lu", self.statStore.userSelections.row);
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
     
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     KLEStat *stat = statStoreArray[indexPath.row];
+    
+    // pass the selected exercise object to elvc
     elvc.stat = stat;
-    elvc.selection = self.statStore.userSelections;
     
     elvc.delegate = self;
     
@@ -147,8 +147,7 @@
 - (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
 {
     NSLog(@"REVC delegate ELVCselection %lu", selection.row);
-//    self.statStore.userSelections = selection;
-//    NSLog(@"REVC delegate selection %lu", self.statStore.userSelections.row);
+
 }
 
 - (void)viewDidLoad
@@ -168,8 +167,6 @@
     [super viewWillAppear:YES];
     
     [self.tableView reloadData];
-    
-//    NSLog(@"REVC viewWillAppear selection %lu", self.statStore.userSelections.row);
 }
 
 @end

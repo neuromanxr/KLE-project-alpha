@@ -27,8 +27,6 @@
 
 @property (nonatomic, strong) KLEStat *stat;
 
-@property (nonatomic, retain) NSIndexPath *selection;
-
 @property (nonatomic, weak) id<ELVCDelegate> delegate;
 
 @end
