@@ -14,8 +14,6 @@
 
 @property (nonatomic, readonly) NSArray *allStatStores;
 
-@property (nonatomic, strong) NSArray *userSelections;
-
 + (instancetype)sharedStore;
 
 - (KLEStatStore *)createStatStore;

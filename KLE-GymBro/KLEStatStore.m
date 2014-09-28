@@ -59,4 +59,25 @@
     return stat;
 }
 
+- (void)removeStat:(KLEStat *)stat
+{
+    [self.privateStats removeObjectIdenticalTo:stat];
+}
+
+- (void)moveStatAtIndex:(NSUInteger)fromIndex
+                toIndex:(NSUInteger)toIndex
+{
+    if (fromIndex == toIndex) {
+        return;
+    }
+    // get pointer to object being moved so you can re-insert it
+    KLEStat *stat = self.privateStats[fromIndex];
+    
+    // remove routine from array
+    [self.privateStats removeObjectAtIndex:fromIndex];
+    
+    // insert routine in array at new location
+    [self.privateStats insertObject:stat atIndex:toIndex];
+}
+
 @end

@@ -71,22 +71,21 @@
     // create the exercise in the routine
     [self.statStore createStat];
     
-    // store the exercise selection for this routine, there's only one selection always
-    // might implement multiple selections in future
-    self.statStore.userSelections = [self.tableView indexPathForSelectedRow];
-//    self.selection = [self.tableView indexPathForSelectedRow];
-//    NSLog(@"store user selections %lu", self.selection.row);
+//    self.statStore.userSelections = [self.tableView indexPathForSelectedRow];
     
     // selected row is the exercise selected from the exercise array
-    NSIndexPath *selectedRow = self.statStore.userSelections;
-//    NSIndexPath *selectedRow = self.selection;
-    NSLog(@"ELVC SAVE user selection %lu", selectedRow.row);
+//    NSIndexPath *selectedRow = self.statStore.userSelections;
+
+//    NSLog(@"ELVC SAVE user selection %lu", selectedRow.row);
     
     // access the routine store
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     
     // it is the last exercise because revc adds the exercise to the end of the array
     KLEStat *stat = [statStoreArray lastObject];
+    
+    stat.userSelections = [self.tableView indexPathForSelectedRow];
+    NSIndexPath *selectedRow = stat.userSelections;
     
     // assign the label name from the selected row in exercise array
     stat.exercise = _exerciseArray[0][selectedRow.row][0];
@@ -95,6 +94,10 @@
     stat.sets = [self.setsField.text intValue];
     stat.reps = [self.repsField.text intValue];
     stat.weight = [self.weightField.text floatValue];
+    
+    // store the exercise selection for this routine, there's only one selection always
+    // might implement multiple selections in future
+//    stat.userSelections = [self.tableView indexPathForSelectedRow];
     
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -105,7 +108,7 @@
     // selected row is the exercise selected from the exercise array
     NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
     
-    self.selection = selectedRow;
+//    self.selection = selectedRow;
 //    self.statStore.userSelections = self.selection;
     
     // pointer to the currently selected exercise
@@ -115,8 +118,10 @@
     stat.reps = [self.repsField.text intValue];
     stat.weight = [self.weightField.text floatValue];
     
-    NSLog(@"ELVC saveChanges ELVCselection %lu", self.selection.row);
-    [self.delegate selectionFromELVC:self thisSelection:self.selection];
+    stat.userSelections = selectedRow;
+    
+//    NSLog(@"ELVC saveChanges ELVCselection %lu", self.selection.row);
+//    [self.delegate selectionFromELVC:self thisSelection:self.selection];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -195,13 +200,15 @@
 {
     [super viewWillAppear:YES];
     
+    KLEStat *stat = self.stat;
+    [self.tableView selectRowAtIndexPath:stat.userSelections animated:YES scrollPosition:UITableViewScrollPositionTop];
     NSLog(@"ELVC View will appear");
     // just select the first cell for now
 //    NSIndexPath *firstSelection = [NSIndexPath indexPathForRow:0 inSection:0];
 //    self.statStore.userSelections = self.selection;
-    [self.tableView selectRowAtIndexPath:self.selection animated:YES scrollPosition:UITableViewScrollPositionTop];
-    NSLog(@"ELVC viewWillAppear selection %lu", self.statStore.userSelections.row);
-    NSLog(@"ELVC viewWillAppear ELVCselection %lu", self.selection.row);
+//    [self.tableView selectRowAtIndexPath:self.selection animated:YES scrollPosition:UITableViewScrollPositionTop];
+//    NSLog(@"ELVC viewWillAppear selection %lu", self.statStore.userSelections.row);
+//    NSLog(@"ELVC viewWillAppear ELVCselection %lu", self.selection.row);
     
     // set the text field delegates
     self.setsField.delegate = self;
@@ -235,7 +242,7 @@
 {
     [super viewWillDisappear:YES];
     
-    NSLog(@"ELVC viewWillDisappear selection %lu", self.statStore.userSelections.row);
+//    NSLog(@"ELVC viewWillDisappear selection %lu", self.statStore.userSelections.row);
     
 }
 

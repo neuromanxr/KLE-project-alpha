@@ -19,6 +19,8 @@
 @property (nonatomic) int reps;
 @property (nonatomic) float weight;
 
+@property (nonatomic, copy) NSIndexPath *userSelections;
+
 - (instancetype)initWithExercise:(NSString *)exerciseName
                     numberOfSets:(int)setsNumber
                     numberOfReps:(int)repsNumber

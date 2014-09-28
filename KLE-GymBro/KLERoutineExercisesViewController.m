@@ -76,6 +76,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    NSLog(@"FIRST RUN statStore userSelection %lu", self.statStore.userSelections.row);
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
     
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
@@ -104,6 +105,26 @@
     //    [self presentViewController:navController animated:YES completion:nil];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // if the table view is asking to commit a delete command
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        KLEStatStore *statStore = self.statStore;
+        NSLog(@"revc statStore array %@", statStore);
+        NSArray *routineExercises = [statStore allStats];
+        KLEStat *exercise = routineExercises[indexPath.row];
+        [statStore removeStat:exercise];
+        
+        // also remove that row from the table view with animation
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    [self.statStore moveStatAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
+}
+
 - (void)save:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -126,8 +147,8 @@
 - (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
 {
     NSLog(@"REVC delegate ELVCselection %lu", selection.row);
-    self.statStore.userSelections = selection;
-    NSLog(@"REVC delegate selection %lu", self.statStore.userSelections.row);
+//    self.statStore.userSelections = selection;
+//    NSLog(@"REVC delegate selection %lu", self.statStore.userSelections.row);
 }
 
 - (void)viewDidLoad
@@ -148,7 +169,7 @@
     
     [self.tableView reloadData];
     
-    NSLog(@"REVC viewWillAppear selection %lu", self.statStore.userSelections.row);
+//    NSLog(@"REVC viewWillAppear selection %lu", self.statStore.userSelections.row);
 }
 
 @end

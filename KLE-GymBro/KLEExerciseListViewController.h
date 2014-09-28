@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @class KLEExerciseListViewController;
+
+// declare delegate to pass data from elvc to revc
 @protocol ELVCDelegate <NSObject>
 
 - (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection;
@@ -22,9 +24,11 @@
 
 // stat store from revc will be passed to here
 @property (nonatomic, strong) KLEStatStore *statStore;
-@property (nonatomic, strong) NSIndexPath *selection;
-@property (nonatomic, weak) id<ELVCDelegate> delegate;
 
 @property (nonatomic, strong) KLEStat *stat;
+
+@property (nonatomic, retain) NSIndexPath *selection;
+
+@property (nonatomic, weak) id<ELVCDelegate> delegate;
 
 @end
