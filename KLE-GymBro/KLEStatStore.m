@@ -18,22 +18,9 @@
 
 @implementation KLEStatStore
 
-+ (instancetype)sharedStore
-{
-    static KLEStatStore *sharedStore = nil;
-    
-    // do I need to create a sharedStore?
-    if (!sharedStore) {
-        sharedStore = [[self alloc] initPrivate];
-    }
-    return sharedStore;
-}
-
-// if you try to call [[KLEStatStore alloc] init], throw an error
 - (instancetype)init
 {
-    @throw [NSException exceptionWithName:@"Singleton" reason:@"Use +[KLEStatStore sharedStore]" userInfo:nil];
-    return nil;
+    return [self initPrivate];
 }
 
 // this is the secret initializer
@@ -59,6 +46,27 @@
     [self.privateStats addObject:stat];
     
     return stat;
+}
+
+- (void)removeStat:(KLEStat *)stat
+{
+    [self.privateStats removeObjectIdenticalTo:stat];
+}
+
+- (void)moveStatAtIndex:(NSUInteger)fromIndex
+                toIndex:(NSUInteger)toIndex
+{
+    if (fromIndex == toIndex) {
+        return;
+    }
+    // get pointer to object being moved so you can re-insert it
+    KLEStat *stat = self.privateStats[fromIndex];
+    
+    // remove routine from array
+    [self.privateStats removeObjectAtIndex:fromIndex];
+    
+    // insert routine in array at new location
+    [self.privateStats insertObject:stat atIndex:toIndex];
 }
 
 @end

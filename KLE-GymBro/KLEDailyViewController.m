@@ -24,9 +24,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
-        for (int i = 0; i < 7; i++) {
-            [[KLEStatStore sharedStore] createStat];
-        }
+
     }
     
     return self;
@@ -54,16 +52,16 @@
 {
     KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
     
-    CGRect frame = [UIScreen mainScreen].bounds;
-    UIView *view = [[UIView alloc] initWithFrame:frame];
-    view.backgroundColor = [UIColor redColor];
-    UIViewController *stats = [[UIViewController alloc] init];
-    stats.view = view;
+//    CGRect frame = [UIScreen mainScreen].bounds;
+//    UIView *view = [[UIView alloc] initWithFrame:frame];
+//    view.backgroundColor = [UIColor redColor];
+//    UIViewController *stats = [[UIViewController alloc] init];
+//    stats.view = view;
     
-    UITabBarController *tbc = [[UITabBarController alloc] init];
-    tbc.viewControllers = @[rvc, stats];
+//    UITabBarController *tbc = [[UITabBarController alloc] init];
+//    tbc.viewControllers = @[rvc, stats];
     
-    [self.navigationController pushViewController:tbc animated:YES];
+    [self.navigationController pushViewController:rvc animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -79,7 +77,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[KLEStatStore sharedStore] allStats] count];
+    return 7;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

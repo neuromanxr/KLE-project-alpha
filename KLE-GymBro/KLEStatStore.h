@@ -14,8 +14,11 @@
 
 @property (nonatomic, readonly) NSArray *allStats;
 
-+ (instancetype)sharedStore;
+@property (nonatomic, retain) NSString *routineName;
 
 - (KLEStat *)createStat;
+- (void)removeStat:(KLEStat *)stat;
+- (void)moveStatAtIndex:(NSUInteger)fromIndex
+                     toIndex:(NSUInteger)toIndex;
 
 @end
