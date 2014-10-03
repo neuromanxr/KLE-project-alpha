@@ -17,6 +17,16 @@
 #define COMMENT_LABEL_MIN_HEIGHT 65
 #define COMMENT_LABEL_PADDING 10
 
+@interface KLEDailyViewController ()
+
+// daily view header
+@property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
+@property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
+@property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
+@property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
+
+@end
+
 @implementation KLEDailyViewController
 
 - (instancetype)init
@@ -37,7 +47,7 @@
 
 -(CGFloat)getLabelHeightForIndex:(NSInteger)index
 {
-    CGSize maximumSize = CGSizeMake(COMMENT_LABEL_WIDTH, 10000);
+//    CGSize maximumSize = CGSizeMake(COMMENT_LABEL_WIDTH, 10000);
     
 //    CGSize labelHeightSize = [[textArray objectAtIndex:index]
 //                             sizeWithFont: [UIFont fontWithName:@"Helvetica" size:14.0f]
@@ -77,7 +87,48 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 2;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    NSLog(@"number of sections %lu", [daysArray count]);
+    return [daysArray count];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    // load dailyHeaderView.xib
+    [[NSBundle mainBundle] loadNibNamed:@"KLEDailyHeaderView"
+                                  owner:self
+                                options:nil];
+    _dailyHeaderView.backgroundColor = [UIColor grayColor];
+    self.headerDayLabel.text = daysArray[section];
+    
+    return _dailyHeaderView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 90.0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    // load dailyFooterView.xib
+    [[NSBundle mainBundle] loadNibNamed:@"KLEDailyFooterView"
+                                  owner:self
+                                options:nil];
+    _dailyFooterView.backgroundColor = [UIColor lightGrayColor];
+    
+    [self.footerAddButton addTarget:self action:@selector(addWorkout) forControlEvents:UIControlEventTouchUpInside];
+    
+    return _dailyFooterView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 60.0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,6 +188,11 @@
     return cell;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -159,6 +215,8 @@
 
         [textArray addObject:testString];
     }
+    
+    daysArray = [[NSArray alloc] initWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
 
 }
 

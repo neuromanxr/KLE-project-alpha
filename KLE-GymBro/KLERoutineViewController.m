@@ -61,6 +61,11 @@
     KLEStatStore *statStore = statStoreArray[indexPath.row];
     
     cell.exerciseLabel.text = [statStore description];
+    statStore.routineName = cell.routineNameField.text;
+    if (![cell.routineNameField hasText]) {
+        NSLog(@"name field is empty");
+        cell.routineNameField.text = statStore.routineName;
+    }
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     return cell;
@@ -106,6 +111,9 @@
 {
     // create a new routine and add it to the routine store
     KLEStatStore *newStatStore = [[KLERoutinesStore sharedStore] createStatStore];
+    
+    // give the routine a name
+    newStatStore.routineName = newStatStore.routineName;
     
     // where is this new routine in the array?
     NSInteger lastRow = [[[KLERoutinesStore sharedStore] allStatStores] indexOfObject:newStatStore];

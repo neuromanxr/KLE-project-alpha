@@ -39,6 +39,8 @@
 		50DD4CE119C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CE019C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m */; };
 		50DD4CE319C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CE219C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib */; };
 		50DD4CE619C9464200A3E6E5 /* KLERoutinesStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CE519C9464200A3E6E5 /* KLERoutinesStore.m */; };
+		50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */; };
+		50DD4CED19DE29F600A3E6E5 /* KLEDailyFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +103,8 @@
 		50DD4CE219C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLERoutineExercisesViewCell.xib; sourceTree = "<group>"; };
 		50DD4CE419C9464200A3E6E5 /* KLERoutinesStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutinesStore.h; sourceTree = "<group>"; };
 		50DD4CE519C9464200A3E6E5 /* KLERoutinesStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutinesStore.m; sourceTree = "<group>"; };
+		50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyHeaderView.xib; sourceTree = "<group>"; };
+		50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyFooterView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +245,8 @@
 			isa = PBXGroup;
 			children = (
 				50DD4CDA19C6AF6400A3E6E5 /* KLEHeaderView.xib */,
+				50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */,
+				50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */,
 				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
 				50AC0B4019B5346E00E39A7E /* KLEMainView.m */,
 			);
@@ -325,10 +331,12 @@
 			files = (
 				50DD4CE319C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib in Resources */,
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
+				50DD4CED19DE29F600A3E6E5 /* KLEDailyFooterView.xib in Resources */,
 				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
 				50DD4CCC19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib in Resources */,
+				50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */,
 				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
 				50DD4CDB19C6AF6400A3E6E5 /* KLEHeaderView.xib in Resources */,
 			);

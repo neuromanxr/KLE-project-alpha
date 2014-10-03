@@ -70,6 +70,8 @@
     KLEStat *stat = statStoreArray[indexPath.row];
     cell.exerciseNameLabel.text = stat.exercise;
     cell.setsLabel.text = [NSString stringWithFormat:@"%d", stat.sets];
+    cell.repsLabel.text = [NSString stringWithFormat:@"%d", stat.reps];
+    cell.weightLabel.text = [NSString stringWithFormat:@"%f", stat.weight];
     
     return cell;
 }
@@ -84,6 +86,8 @@
     // pass the selected exercise object to elvc
     elvc.stat = stat;
     
+    // delegate
+    // not used
     elvc.delegate = self;
     
     [self.navigationController pushViewController:elvc animated:YES];

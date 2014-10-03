@@ -13,6 +13,7 @@
 {
     NSInteger selectedIndex;
     NSMutableArray *textArray;
+    NSArray *daysArray;
 }
 
 @end
