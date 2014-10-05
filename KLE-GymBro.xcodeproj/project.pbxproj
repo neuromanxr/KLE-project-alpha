@@ -41,6 +41,7 @@
 		50DD4CE619C9464200A3E6E5 /* KLERoutinesStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CE519C9464200A3E6E5 /* KLERoutinesStore.m */; };
 		50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */; };
 		50DD4CED19DE29F600A3E6E5 /* KLEDailyFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */; };
+		50DD4CF019DF8CD700A3E6E5 /* KLEDailyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,8 @@
 		50DD4CE519C9464200A3E6E5 /* KLERoutinesStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutinesStore.m; sourceTree = "<group>"; };
 		50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyHeaderView.xib; sourceTree = "<group>"; };
 		50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyFooterView.xib; sourceTree = "<group>"; };
+		50DD4CEE19DF8CD700A3E6E5 /* KLEDailyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyStore.h; sourceTree = "<group>"; };
+		50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEDailyStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +240,8 @@
 				50B6F04D19B7A6620015ED29 /* KLEStatStore.m */,
 				50DD4CE419C9464200A3E6E5 /* KLERoutinesStore.h */,
 				50DD4CE519C9464200A3E6E5 /* KLERoutinesStore.m */,
+				50DD4CEE19DF8CD700A3E6E5 /* KLEDailyStore.h */,
+				50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -363,6 +368,7 @@
 				50DD4CCF19C22EC100A3E6E5 /* KLEExerciseListViewController.m in Sources */,
 				50DD4CD719C2ABEA00A3E6E5 /* KLEExercises.m in Sources */,
 				50DD4CE619C9464200A3E6E5 /* KLERoutinesStore.m in Sources */,
+				50DD4CF019DF8CD700A3E6E5 /* KLEDailyStore.m in Sources */,
 				50DD4CD219C235FC00A3E6E5 /* KLEExerciseListViewCell.m in Sources */,
 				50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */,
 				50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */,

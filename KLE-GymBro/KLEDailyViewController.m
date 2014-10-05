@@ -74,6 +74,13 @@
     [self.navigationController pushViewController:rvc animated:YES];
 }
 
+- (void)addWorkout:(id)sender
+{
+    // get a pointer to the button passed from sender
+    UIButton *btn = (UIButton *)sender;
+    NSLog(@"Add button tapped in section %lu", btn.tag);
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // if this is the selected index we need to return the height of the cell
@@ -121,7 +128,10 @@
                                 options:nil];
     _dailyFooterView.backgroundColor = [UIColor lightGrayColor];
     
-    [self.footerAddButton addTarget:self action:@selector(addWorkout) forControlEvents:UIControlEventTouchUpInside];
+    // set the add button tag to be the section number
+    self.footerAddButton.tag = section;
+    
+    [self.footerAddButton addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
     
     return _dailyFooterView;
 }
