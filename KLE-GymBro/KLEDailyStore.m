@@ -49,13 +49,13 @@
         NSMutableArray *fridayRoutines = [[NSMutableArray alloc] init];
         NSMutableArray *saturdayRoutines = [[NSMutableArray alloc] init];
         
-        _privateDictionaryStatStore = @{@"Sunday" : sundayRoutines,
-                                        @"Monday" : mondayRoutines,
-                                        @"Tuesday" :tuesdayRoutines,
-                                        @"Wednesday" : wednesdayRoutines,
-                                        @"Thursday" : thursdayRoutines,
-                                        @"Friday" : fridayRoutines,
-                                        @"Saturday" : saturdayRoutines};
+        _privateDictionaryStatStore = @{@"0" : sundayRoutines,
+                                        @"1" : mondayRoutines,
+                                        @"2" :tuesdayRoutines,
+                                        @"3" : wednesdayRoutines,
+                                        @"4" : thursdayRoutines,
+                                        @"5" : fridayRoutines,
+                                        @"6" : saturdayRoutines};
     }
     
     return self;

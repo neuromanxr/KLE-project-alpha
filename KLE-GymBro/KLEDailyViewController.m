@@ -9,6 +9,7 @@
 #import "KLEDailyViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
+#import "KLEDailyStore.h"
 #import "KLEDailyViewController.h"
 #import "KLERoutineViewController.h"
 #import <QuartzCore/QuartzCore.h>
@@ -78,7 +79,21 @@
 {
     // get a pointer to the button passed from sender
     UIButton *btn = (UIButton *)sender;
-    NSLog(@"Add button tapped in section %lu", btn.tag);
+    
+    // convert the button tag to a string to use as key for dictionary
+    // there's probably a better way
+    NSString *dayKey = [NSString stringWithFormat:@"%ld", (long)btn.tag];
+    NSLog(@"Add button tapped in section %@", dayKey);
+    
+    // access the dictionary of day routines
+    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
+    
+    // access the routines for that day
+    NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:dayKey];
+    
+    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+    
+    [self.navigationController pushViewController:rvc animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

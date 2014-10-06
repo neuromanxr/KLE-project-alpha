@@ -14,6 +14,10 @@
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
 
+@interface KLERoutineViewController ()
+
+@end
+
 @implementation KLERoutineViewController
 
 - (instancetype)init
@@ -150,6 +154,11 @@
     NSLog(@"Edit button tapped");
 }
 
+- (void)saveSelections
+{
+    NSLog(@"Save button tapped");
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -160,11 +169,17 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
     
+    // add a toolbar with a save button for routines selection
+    UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];
+    [self.navigationController setToolbarHidden:NO animated:YES];
+    self.toolbarItems = [[NSArray alloc] initWithObjects:select, nil];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
+    
 }
 
 @end

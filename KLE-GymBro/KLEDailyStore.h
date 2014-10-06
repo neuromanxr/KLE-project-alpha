@@ -12,7 +12,7 @@
 
 @interface KLEDailyStore : NSObject
 
-@property (nonatomic, readonly) NSArray *allStatStores;
+@property (nonatomic, readonly) NSDictionary *allStatStores;
 
 + (instancetype)sharedStore;
 
