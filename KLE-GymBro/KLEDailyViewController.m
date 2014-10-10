@@ -91,7 +91,12 @@
     // access the routines for that day
     NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:dayKey];
     
+    NSLog(@"day routines %@", dayRoutines);
+    
     KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+    
+    // pass the day selected
+    rvc.dayTag = dayKey;
     
     [self.navigationController pushViewController:rvc animated:YES];
 }
@@ -109,7 +114,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    // access the dictionary of day routines to get the count
+    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
+    NSString *key = [NSString stringWithFormat:@"%lu", section];
+    NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:key];
+    
+    return [dayRoutines count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -194,11 +204,11 @@
     // create an instance of UITableViewCell, with default appearance
     KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
     
-//    NSArray *statsArray = [[KLEStatStore sharedStore] allStats];
-//    KLEStat *stat = statsArray[indexPath.row];
-    
-//    cell.dayLabel.text = [stat description];
-    [cell.exerciseButton addTarget:self action:@selector(addWorkout) forControlEvents:UIControlEventTouchUpInside];
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+    NSMutableArray *dayRoutines = [dailyRoutines objectForKey:key];
+    NSLog(@"cell day routines %@", dayRoutines);
     
     if (selectedIndex == indexPath.row) {
         CGFloat labelHeight = [self getLabelHeightForIndex:indexPath.row];
@@ -216,6 +226,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
@@ -231,15 +243,15 @@
     ////
     selectedIndex = -1;
     
-    textArray = [[NSMutableArray alloc] init];
-    
-    NSString *testString;
-    
-    for (int i = 0; i < 7; i++) {
-        testString = @"Test comment. Test comment.";
-
-        [textArray addObject:testString];
-    }
+//    textArray = [[NSMutableArray alloc] init];
+//    
+//    NSString *testString;
+//    
+//    for (int i = 0; i < 7; i++) {
+//        testString = @"Test comment. Test comment.";
+//
+//        [textArray addObject:testString];
+//    }
     
     daysArray = [[NSArray alloc] initWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
 

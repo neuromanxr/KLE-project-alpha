@@ -68,7 +68,6 @@
 
 - (void)addStatStoreToDay:(KLEStatStore *)routine atKey:(NSString *)key
 {
-    
     NSMutableArray *dayStatStore = [self.privateDictionaryStatStore objectForKey:key];
     [dayStatStore addObject:routine];
     NSLog(@"add to day array %@", dayStatStore);

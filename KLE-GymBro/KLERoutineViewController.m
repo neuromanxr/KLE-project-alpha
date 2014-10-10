@@ -9,6 +9,7 @@
 #import "KLERoutineViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
+#import "KLEDailyStore.h"
 #import "KLERoutinesStore.h"
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
@@ -157,6 +158,34 @@
 - (void)saveSelections
 {
     NSLog(@"Save button tapped");
+    
+    // access the routines in routine store
+    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];
+    
+    NSLog(@"routines array %@", routinesArray);
+    // access the daily store
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    
+    // access the all the routines in daily store
+    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    
+    NSLog(@"daily store %@", dailyStore);
+    NSLog(@"daily Routines %@", dailyRoutines);
+    
+    // save the user selections
+    NSArray *selections = [self.tableView indexPathsForSelectedRows];
+    
+    NSLog(@"selected rows in routine store %@", selections);
+    
+    for (NSIndexPath *index in selections) {
+        NSLog(@"Index %lu", index.row);
+        // add the selected routines to the daily store by day
+        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
+    }
+    
+    NSLog(@"daily store after %@", dailyRoutines);
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad
@@ -168,6 +197,8 @@
     
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
+    
+    self.tableView.allowsMultipleSelection = YES;
     
     // add a toolbar with a save button for routines selection
     UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];

@@ -16,7 +16,7 @@
 
 + (instancetype)sharedStore;
 
-- (void)addStatStoreToDay:(KLEStatStore *)routine
+- (void)addStatStoreToDay:(KLEStatStore *)routines
                     atKey:(NSString *)key;
 - (void)removeStatStoreFromDay:(KLEStatStore *)routine
                          atKey:(NSString *)key;
