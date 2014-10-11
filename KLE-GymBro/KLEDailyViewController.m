@@ -26,6 +26,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
 
+// action rows
+@property (nonatomic) NSIndexPath *actionRowPath;
+
 @end
 
 @implementation KLEDailyViewController
@@ -35,7 +38,17 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
-
+        UINavigationItem *navItem = self.navigationItem;
+        navItem.title = @"Daily";
+        
+        // button to edit routine
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+        
+        // set bar button to toggle editing mode
+        editButton = self.editButtonItem;
+        
+        // set the button to be the right nav button of the nav item
+        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:editButton, nil];
     }
     
     return self;
@@ -119,7 +132,7 @@
     NSString *key = [NSString stringWithFormat:@"%lu", section];
     NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:key];
     
-    return [dayRoutines count];
+    return [dayRoutines count] + (self.actionRowPath != nil);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -210,17 +223,48 @@
     NSMutableArray *dayRoutines = [dailyRoutines objectForKey:key];
     NSLog(@"cell day routines %@", dayRoutines);
     
-    if (selectedIndex == indexPath.row) {
-        CGFloat labelHeight = [self getLabelHeightForIndex:indexPath.row];
-        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, labelHeight);
-    } else {
-        // otherwise return the minimum height
-        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, COMMENT_LABEL_MIN_HEIGHT);
+    if ([self.actionRowPath isEqual:indexPath]) {
+        // action row
+        KLEDailyViewCell *ghostCell = (KLEDailyViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
+//        [ghostCell setActio]
     }
+    
+//    if (selectedIndex == indexPath.row) {
+//        CGFloat labelHeight = [self getLabelHeightForIndex:indexPath.row];
+//        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, labelHeight);
+//    } else {
+//        // otherwise return the minimum height
+//        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, COMMENT_LABEL_MIN_HEIGHT);
+//    }
+    
     cell.dayLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
     cell.dayLabel.text = @"Day";
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // if the table view is asking to commit a delete command
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+        NSMutableArray *routines = [dailyRoutines objectForKey:key];
+        
+        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atKey:key];
+        
+        // also remove that row from the table view with animation
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+{
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    NSString *key = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
+    
+    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row atKey:key];
 }
 
 - (void)viewWillAppear:(BOOL)animated

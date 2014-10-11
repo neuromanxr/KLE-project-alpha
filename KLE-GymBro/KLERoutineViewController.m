@@ -166,7 +166,7 @@
     // access the daily store
     KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
     
-    // access the all the routines in daily store
+    // access all the routines in daily store
     NSDictionary *dailyRoutines = [dailyStore allStatStores];
     
     NSLog(@"daily store %@", dailyStore);
