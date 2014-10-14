@@ -10,8 +10,10 @@
 #import "KLEStat.h"
 #import "KLEStatStore.h"
 #import "KLEDailyStore.h"
+#import "KLERoutinesStore.h"
 #import "KLEDailyViewController.h"
 #import "KLERoutineViewController.h"
+#import "KLERoutineExercisesViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define COMMENT_LABEL_WIDTH 230
@@ -217,6 +219,8 @@
     // create an instance of UITableViewCell, with default appearance
     KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
     
+    cell.accessoryType = UITableViewCellAccessoryDetailButton;
+    
     KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
     NSDictionary *dailyRoutines = [dailyStore allStatStores];
     NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
@@ -243,6 +247,36 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
+//
+//    KLEStatStore *selectedStatStore = [statStores objectAtIndex:indexPath.row];
+//
+//    NSLog(@"selected stat store %@", selectedStatStore);
+//    
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+    NSMutableArray *routines = [dailyRoutines objectForKey:key];
+    
+    KLEStatStore *selectedStatStoreInDaily = [routines objectAtIndex:indexPath.row];
+    
+    NSUInteger indexAtRoutinesStore = [statStores indexOfObjectIdenticalTo:selectedStatStoreInDaily];
+    
+    KLEStatStore *statStoreInRoutineStore = statStores[indexAtRoutinesStore];
+    
+    NSLog(@"access routines %@", routines);
+    NSLog(@"index at routines store %@", statStoreInRoutineStore);
+    
+    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    
+    // pass selected statStore from routine view controller to routine exercise view controller
+    revc.statStore = statStoreInRoutineStore;
+    
+    [self.navigationController pushViewController:revc animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // if the table view is asking to commit a delete command
@@ -263,6 +297,7 @@
 {
     KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
     NSString *key = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
+    NSLog(@"moving row %@", key);
     
     [dailyStore moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row atKey:key];
 }
@@ -284,7 +319,7 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEDailyViewCell"];
     
-    ////
+    // no cell is expanded
     selectedIndex = -1;
     
 //    textArray = [[NSMutableArray alloc] init];

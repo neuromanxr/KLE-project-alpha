@@ -98,9 +98,10 @@
 {
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
-        KLEStatStore *routine = routines[indexPath.row];
-        [[KLERoutinesStore sharedStore] removeStatStore:routine];
+        [[KLERoutinesStore sharedStore] removeStatStore:[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row]];
+//        NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
+//        KLEStatStore *routine = routines[indexPath.row];
+//        [[KLERoutinesStore sharedStore] removeStatStore:routine];
         
         // also remove that row from the table view with animation
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -157,6 +158,9 @@
 
 - (void)saveSelections
 {
+    // don't save the arrays to daily store, instead save the index of the routine in the routine store
+    // change daily store to save index
+    
     NSLog(@"Save button tapped");
     
     // access the routines in routine store
@@ -173,15 +177,17 @@
     NSLog(@"daily Routines %@", dailyRoutines);
     
     // save the user selections
-    NSArray *selections = [self.tableView indexPathsForSelectedRows];
+//    NSArray *selections = [self.tableView indexPathsForSelectedRows];
+    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
     
-    NSLog(@"selected rows in routine store %@", selections);
+//    NSLog(@"selected rows in routine store %@", selections);
     
-    for (NSIndexPath *index in selections) {
-        NSLog(@"Index %lu", index.row);
-        // add the selected routines to the daily store by day
-        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
-    }
+//    for (NSIndexPath *index in selections) {
+//        NSLog(@"Index %lu", index.row);
+//        // add the selected routines to the daily store by day
+//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
+//    }
+    [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
     
     NSLog(@"daily store after %@", dailyRoutines);
     
@@ -198,7 +204,7 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
     
-    self.tableView.allowsMultipleSelection = YES;
+    self.tableView.allowsMultipleSelection = NO;
     
     // add a toolbar with a save button for routines selection
     UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];

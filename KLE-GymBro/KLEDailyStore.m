@@ -68,16 +68,13 @@
 
 - (void)addStatStoreToDay:(KLEStatStore *)routine atKey:(NSString *)key
 {
-    NSMutableArray *dayStatStore = [self.privateDictionaryStatStore objectForKey:key];
-    [dayStatStore addObject:routine];
-    NSLog(@"add to day array %@", dayStatStore);
+    [[self.privateDictionaryStatStore objectForKey:key] addObject:routine];
+
 }
 
 - (void)removeStatStoreFromDay:(KLEStatStore *)routine atKey:(NSString *)key
 {
-    NSMutableArray *dayStatStore = [self.privateDictionaryStatStore objectForKey:key];
-    [dayStatStore removeObjectIdenticalTo:routine];
-    NSLog(@"remove from day array %@", dayStatStore);
+    [[self.privateDictionaryStatStore objectForKey:key] removeObjectIdenticalTo:routine];
 }
 
 - (void)moveStatStoreAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex atKey:(NSString *)key
@@ -85,17 +82,15 @@
     if (fromIndex == toIndex) {
         return;
     }
-    // get pointer to the array at the passed in key
-    NSMutableArray *dayStatStore = [self.privateDictionaryStatStore objectForKey:key];
     
     // get pointer to object being moved so you can re-insert it
-    KLEStatStore *statStore = dayStatStore[fromIndex];
+    KLEStatStore *statStore = [[self.privateDictionaryStatStore objectForKey:key] objectAtIndex:fromIndex];
     
     // remove routine from array
-    [dayStatStore removeObjectAtIndex:fromIndex];
+    [[self.privateDictionaryStatStore objectForKey:key] removeObjectAtIndex:fromIndex];
     
     // insert routine in array at new location
-    [dayStatStore insertObject:statStore atIndex:toIndex];
+    [[self.privateDictionaryStatStore objectForKey:key] insertObject:statStore atIndex:toIndex];
 }
 
 @end
