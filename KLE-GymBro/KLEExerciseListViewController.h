@@ -10,6 +10,7 @@
 
 @class KLEExerciseListViewController;
 
+// not being used
 // declare delegate to pass data from elvc to revc
 @protocol ELVCDelegate <NSObject>
 

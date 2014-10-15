@@ -10,4 +10,6 @@
 
 @interface KLERoutineViewController : UITableViewController
 
+@property (nonatomic, retain) NSString *dayTag;
+
 @end

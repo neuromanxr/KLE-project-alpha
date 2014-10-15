@@ -9,10 +9,15 @@
 #import "KLERoutineViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
+#import "KLEDailyStore.h"
 #import "KLERoutinesStore.h"
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
+
+@interface KLERoutineViewController ()
+
+@end
 
 @implementation KLERoutineViewController
 
@@ -61,6 +66,11 @@
     KLEStatStore *statStore = statStoreArray[indexPath.row];
     
     cell.exerciseLabel.text = [statStore description];
+    statStore.routineName = cell.routineNameField.text;
+    if (![cell.routineNameField hasText]) {
+        NSLog(@"name field is empty");
+        cell.routineNameField.text = statStore.routineName;
+    }
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     return cell;
@@ -88,9 +98,10 @@
 {
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
-        KLEStatStore *routine = routines[indexPath.row];
-        [[KLERoutinesStore sharedStore] removeStatStore:routine];
+        [[KLERoutinesStore sharedStore] removeStatStore:[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row]];
+//        NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
+//        KLEStatStore *routine = routines[indexPath.row];
+//        [[KLERoutinesStore sharedStore] removeStatStore:routine];
         
         // also remove that row from the table view with animation
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -106,6 +117,9 @@
 {
     // create a new routine and add it to the routine store
     KLEStatStore *newStatStore = [[KLERoutinesStore sharedStore] createStatStore];
+    
+    // give the routine a name
+    newStatStore.routineName = newStatStore.routineName;
     
     // where is this new routine in the array?
     NSInteger lastRow = [[[KLERoutinesStore sharedStore] allStatStores] indexOfObject:newStatStore];
@@ -142,6 +156,44 @@
     NSLog(@"Edit button tapped");
 }
 
+- (void)saveSelections
+{
+    // don't save the arrays to daily store, instead save the index of the routine in the routine store
+    // change daily store to save index
+    
+    NSLog(@"Save button tapped");
+    
+    // access the routines in routine store
+    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];
+    
+    NSLog(@"routines array %@", routinesArray);
+    // access the daily store
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    
+    // access all the routines in daily store
+    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    
+    NSLog(@"daily store %@", dailyStore);
+    NSLog(@"daily Routines %@", dailyRoutines);
+    
+    // save the user selections
+//    NSArray *selections = [self.tableView indexPathsForSelectedRows];
+    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
+    
+//    NSLog(@"selected rows in routine store %@", selections);
+    
+//    for (NSIndexPath *index in selections) {
+//        NSLog(@"Index %lu", index.row);
+//        // add the selected routines to the daily store by day
+//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
+//    }
+    [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+    
+    NSLog(@"daily store after %@", dailyRoutines);
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -152,11 +204,19 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
     
+    self.tableView.allowsMultipleSelection = NO;
+    
+    // add a toolbar with a save button for routines selection
+    UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];
+    [self.navigationController setToolbarHidden:NO animated:YES];
+    self.toolbarItems = [[NSArray alloc] initWithObjects:select, nil];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
+    
 }
 
 @end
