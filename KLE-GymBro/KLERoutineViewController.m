@@ -187,7 +187,18 @@
 //        // add the selected routines to the daily store by day
 //        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
 //    }
-    [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+    if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
+        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+    } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
+        NSLog(@"theres one or more routine");
+        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
+            NSLog(@"this is a duplicate");
+        } else {
+            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+        }
+    }
+    
+    NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
     
     NSLog(@"daily store after %@", dailyRoutines);
     

@@ -249,21 +249,25 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
+    // access the routine store
     NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
-//
-//    KLEStatStore *selectedStatStore = [statStores objectAtIndex:indexPath.row];
-//
-//    NSLog(@"selected stat store %@", selectedStatStore);
-//    
-    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    
+    // access the daily routine dictionary
+    NSDictionary *dailyRoutines = [[KLEDailyStore sharedStore] allStatStores];
+    
+    // key from the table view section which represents the day
     NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+    
+    // access the routines for the selected day
     NSMutableArray *routines = [dailyRoutines objectForKey:key];
     
+    // get the selected routine in the daily view
     KLEStatStore *selectedStatStoreInDaily = [routines objectAtIndex:indexPath.row];
     
+    // get the index in routines store by matching the routine from daily dictionary to the routine store
     NSUInteger indexAtRoutinesStore = [statStores indexOfObjectIdenticalTo:selectedStatStoreInDaily];
     
+    // 
     KLEStatStore *statStoreInRoutineStore = statStores[indexAtRoutinesStore];
     
     NSLog(@"access routines %@", routines);
