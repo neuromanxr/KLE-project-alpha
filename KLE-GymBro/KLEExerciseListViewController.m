@@ -53,6 +53,7 @@
         _exerciseArray = exercises.exerciseList;
         
         if (isNew) {
+            
             UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
             self.navigationItem.rightBarButtonItem = doneItem;
             
@@ -130,6 +131,16 @@
                                       owner:self
                                     options:nil];
         _headerView.backgroundColor = [UIColor grayColor];
+        
+        // set the text field delegates
+        self.setsField.delegate = self;
+        self.repsField.delegate = self;
+        self.weightField.delegate = self;
+        
+        // change keyboard to number pad
+        self.setsField.keyboardType = UIKeyboardTypeNumberPad;
+        self.repsField.keyboardType = UIKeyboardTypeNumberPad;
+        self.weightField.keyboardType = UIKeyboardTypeNumberPad;
         
         if (self.stat) {
             self.selectedExerciseLabel.text = self.stat.exercise;
@@ -226,6 +237,8 @@
 {
     [super viewWillDisappear:YES];
     
+    // clear first responder
+    [self.view endEditing:YES];
 }
 
 @end

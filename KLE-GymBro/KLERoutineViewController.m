@@ -15,7 +15,10 @@
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
 
-@interface KLERoutineViewController ()
+@interface KLERoutineViewController () <UITextFieldDelegate>
+
+@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
+@property (nonatomic, strong) KLEStatStore *statStore;
 
 @end
 
@@ -60,20 +63,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
-    KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
+//    KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
+    self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
     NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-    KLEStatStore *statStore = statStoreArray[indexPath.row];
+    self.statStore = statStoreArray[indexPath.row];
     
-    cell.exerciseLabel.text = [statStore description];
-    statStore.routineName = cell.routineNameField.text;
-    if (![cell.routineNameField hasText]) {
+    self.routineViewCell.exerciseLabel.text = [self.statStore description];
+    
+    self.routineViewCell.routineNameField.delegate = self;
+
+    if (![self.routineViewCell.routineNameField hasText]) {
         NSLog(@"name field is empty");
-        cell.routineNameField.text = statStore.routineName;
+        self.routineViewCell.routineNameField.text = self.statStore.routineName;
     }
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
-    return cell;
+    return self.routineViewCell;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -189,20 +195,49 @@
 //    }
     if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
         [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+        [self.navigationController popViewControllerAnimated:YES];
     } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
         NSLog(@"theres one or more routine");
         if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
             NSLog(@"this is a duplicate");
+            UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            
+            [duplicateAlert show];
+            
         } else {
             [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
     
     NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
     
     NSLog(@"daily store after %@", dailyRoutines);
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    NSLog(@"Text field begin editing %@", textField);
     
-    [self.navigationController popViewControllerAnimated:YES];
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    if (textField == self.routineViewCell.routineNameField) {
+        NSLog(@"text field is routine name field");
+        return NO;
+    }
+    return YES;
+}
+
+// hide the keyboard when done with input
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"textfield %@", textField);
+    [textField resignFirstResponder];
+    
+    return YES;
 }
 
 - (void)viewDidLoad
@@ -224,10 +259,22 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    self.routineViewCell.routineNameField.delegate = self;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
     
+    KLEStatStore *selectedStatStore = self.statStore;
+    selectedStatStore.routineName = self.routineViewCell.routineNameField.text;
+    
+    // clear first responder
+    [self.view endEditing:YES];
 }
 
 @end
