@@ -112,31 +112,37 @@
     
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        // remove the selected routine from the routine store
+        KLEStatStore *routine = routines[indexPath.row];
+        [[KLERoutinesStore sharedStore] removeStatStore:routine];
+        
+        // also remove that row from the table view with animation
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        // alert the user about deletion
+        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [deleteAlert show];
+        
         // check to see if the routine being deleted is in the daily routines
         // if so, delete the routine in daily view too with a warning message
-        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routines objectAtIndex:indexPath.row]]) {
-            NSLog(@"This routine is in your daily");
-            
-            // get the index of the routine in daily view
-            NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:self.dayTag] indexOfObjectIdenticalTo:[routines objectAtIndex:indexPath.row]];
-            
-            // get the routine in daily view
-            KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:self.dayTag] objectAtIndex:indexOfDailyRoutine];
-            
-            // alert the user about deletion
-            UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            
-            [deleteAlert show];
-            
-            // remove the routine in daily view
-            [dailyStore removeStatStoreFromDay:routineInDaily atKey:self.dayTag];
-            
-            // remove the selected routine from the routine store
-            KLEStatStore *routine = routines[indexPath.row];
-            [[KLERoutinesStore sharedStore] removeStatStore:routine];
-            
-            // also remove that row from the table view with animation
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        // check each day also, routine can be in different days
+        for (NSString *key in dailyRoutines) {
+            if ([[dailyRoutines objectForKey:key] containsObject:routine]) {
+                NSLog(@"This routine is in your daily");
+                
+                NSLog(@"Day tag in delete %@", key);
+                
+                // get the index of the routine in daily view
+                NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:key] indexOfObjectIdenticalTo:routine];
+                
+                // get the routine in daily view
+                KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:key] objectAtIndex:indexOfDailyRoutine];
+                
+                // remove the routine in daily view
+                [dailyStore removeStatStoreFromDay:routineInDaily atKey:key];
+            }
         }
     }
 }
