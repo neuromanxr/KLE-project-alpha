@@ -13,7 +13,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Day" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="199" translatesAutoresizingMaskIntoConstraints="NO" id="Bex-FH-jfc">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Routine Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="199" translatesAutoresizingMaskIntoConstraints="NO" id="Bex-FH-jfc">
                         <rect key="frame" x="20" y="11" width="199" height="46"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -30,8 +30,8 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="dayLabel" destination="Bex-FH-jfc" id="fcV-RA-wEs"/>
                 <outlet property="exerciseButton" destination="yzO-Nh-oTY" id="9wZ-t2-U0L"/>
+                <outlet property="routineNameLabel" destination="Bex-FH-jfc" id="mJV-wa-QzU"/>
             </connections>
         </tableViewCell>
     </objects>

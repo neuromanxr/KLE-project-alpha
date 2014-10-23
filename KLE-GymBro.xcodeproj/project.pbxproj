@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5057D62019F781B900CF99C0 /* KLEActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D61F19F781B900CF99C0 /* KLEActionCell.m */; };
+		5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5057D62119F781CF00CF99C0 /* KLEActionCell.xib */; };
+		5057D62519F8CB5500CF99C0 /* NSIndexPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */; };
 		50AC0B0E19B52C8500E39A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0D19B52C8500E39A7E /* Foundation.framework */; };
 		50AC0B1019B52C8500E39A7E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */; };
 		50AC0B1219B52C8500E39A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B1119B52C8500E39A7E /* UIKit.framework */; };
@@ -55,6 +58,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5057D61E19F781B900CF99C0 /* KLEActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEActionCell.h; sourceTree = "<group>"; };
+		5057D61F19F781B900CF99C0 /* KLEActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEActionCell.m; sourceTree = "<group>"; };
+		5057D62119F781CF00CF99C0 /* KLEActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEActionCell.xib; sourceTree = "<group>"; };
+		5057D62319F8CB5500CF99C0 /* NSIndexPathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSIndexPathUtilities.h; sourceTree = "<group>"; };
+		5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSIndexPathUtilities.m; sourceTree = "<group>"; };
 		50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KLE-GymBro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AC0B0D19B52C8500E39A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -193,6 +201,11 @@
 				50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */,
 				50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */,
 				50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */,
+				5057D61E19F781B900CF99C0 /* KLEActionCell.h */,
+				5057D61F19F781B900CF99C0 /* KLEActionCell.m */,
+				5057D62119F781CF00CF99C0 /* KLEActionCell.xib */,
+				5057D62319F8CB5500CF99C0 /* NSIndexPathUtilities.h */,
+				5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */,
 				50AC0B4419B5750700E39A7E /* Porsche_logo.png */,
 				50AC0B1F19B52C8500E39A7E /* Images.xcassets */,
 				50AC0B1419B52C8500E39A7E /* Supporting Files */,
@@ -338,6 +351,7 @@
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
 				50DD4CED19DE29F600A3E6E5 /* KLEDailyFooterView.xib in Resources */,
 				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
+				5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
 				50DD4CCC19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib in Resources */,
@@ -364,10 +378,12 @@
 			files = (
 				50DD4CCA19BE3E0100A3E6E5 /* KLERoutineViewCell.m in Sources */,
 				50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */,
+				5057D62019F781B900CF99C0 /* KLEActionCell.m in Sources */,
 				50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */,
 				50DD4CCF19C22EC100A3E6E5 /* KLEExerciseListViewController.m in Sources */,
 				50DD4CD719C2ABEA00A3E6E5 /* KLEExercises.m in Sources */,
 				50DD4CE619C9464200A3E6E5 /* KLERoutinesStore.m in Sources */,
+				5057D62519F8CB5500CF99C0 /* NSIndexPathUtilities.m in Sources */,
 				50DD4CF019DF8CD700A3E6E5 /* KLEDailyStore.m in Sources */,
 				50DD4CD219C235FC00A3E6E5 /* KLEExerciseListViewCell.m in Sources */,
 				50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */,
