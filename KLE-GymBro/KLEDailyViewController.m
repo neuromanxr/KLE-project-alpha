@@ -130,9 +130,19 @@
     NSString *key = [NSString stringWithFormat:@"%lu", section];
     NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
     
-    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
-    
-    return [dayRoutines count] + (self.actionRowPath != nil);
+//    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
+//    NSInteger count = 0;
+//    if (section == 0) {
+//        count = (self.actionRowPath != nil);
+//    }
+    NSInteger count = 0;
+    if ([dayRoutines count] >= 1) {
+        count = (self.actionRowPath != nil);
+        NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
+        return [dayRoutines count] + count;
+    }
+    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
+    return [dayRoutines count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -206,25 +216,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // is the selected cell expanded? Then minimize it
-//    if (selectedIndex == indexPath.row) {
-//        selectedIndex = -1;
-//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//        
-//        return;
-//    }
-//    
-//    // is there a cell already expanded? Then make sure it is reloaded to minimize it back
-//    if (selectedIndex >= 0) {
-//        NSIndexPath *previousPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-//        selectedIndex = indexPath.row;
-//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationFade];
-//    }
-//    
-//    // set the selected index to the new selection and reload it to expand
-//    selectedIndex = indexPath.row;
-//    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    
     NSArray *pathsToAdd;
     NSArray *pathsToDelete;
     
@@ -243,7 +234,7 @@
     } else {
         // new action cell
         pathsToAdd = @[indexPath.next];
-        NSLog(@"pathsToAdd %lu", [[pathsToAdd objectAtIndex:0] row]);
+        NSLog(@"pathsToAdd row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
         self.actionRowPath = indexPath.next;
         NSLog(@"actionRowPath %lu", self.actionRowPath.row);
     }
@@ -257,7 +248,7 @@
     }
     NSLog(@"paths to add count %lu", pathsToAdd.count);
     if (pathsToAdd.count) {
-        NSLog(@"paths to add");
+        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
         [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationNone];
     }
     [self.tableView endUpdates];
@@ -269,16 +260,6 @@
 //    KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
 //    
 //    cell.accessoryType = UITableViewCellAccessoryDetailButton;
-    
-    // access the daily store routines
-    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
-    NSArray *dayRoutines = [dailyRoutines objectForKey:key];
-    
-    // to access the properties of the routine, routine name, etc
-    KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:indexPath.row];
-    NSLog(@"cell day routines %@", dayRoutines);
     
     if ([self.actionRowPath isEqual:indexPath]) {
         // action row
@@ -293,6 +274,19 @@
         if (_actionRowPath && (_actionRowPath.row < indexPath.row)) {
             adjustedRow--;
         }
+        
+        // access the daily store routines
+        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+        
+        // routineInDaily returns the routine using indexPath.row. when new row inserted from
+        // action row, it is trying to access a index that isn't there
+        
+        // to access the properties of the routine, routine name, etc
+        KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:adjustedRow];
+        NSLog(@"cell day routines %@", dayRoutines);
         
         cell.accessoryType = UITableViewCellAccessoryDetailButton;
         cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
