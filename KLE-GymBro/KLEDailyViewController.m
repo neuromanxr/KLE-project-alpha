@@ -131,18 +131,17 @@
     NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
     
 //    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
-//    NSInteger count = 0;
-//    if (section == 0) {
-//        count = (self.actionRowPath != nil);
-//    }
-    NSInteger count = 0;
-    if ([dayRoutines count] >= 1) {
-        count = (self.actionRowPath != nil);
-        NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
-        return [dayRoutines count] + count;
+
+    NSLog(@"Action row before %lu", self.actionRowPath.section);
+    
+    if (self.actionRowPath.section == section) {
+        NSLog(@"Action row section equals section");
+        return [dayRoutines count] + (self.actionRowPath != nil);
+    } else {
+        return [dayRoutines count];
     }
-    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
-    return [dayRoutines count];
+//    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
+//    return [dayRoutines count] + (self.actionRowPath != nil);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
