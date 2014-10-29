@@ -29,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
+@property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows
 @property (nonatomic) NSIndexPath *actionRowPath;
@@ -46,13 +47,15 @@
         navItem.title = @"Daily";
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+//        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+        self.editButton = self.editButtonItem;
         
         // set bar button to toggle editing mode
-        editButton = self.editButtonItem;
+//        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:editButton, nil];
+        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:self.editButton, nil];
     }
     
     return self;
@@ -133,7 +136,7 @@
 //    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
 
     NSLog(@"Action row before %lu", self.actionRowPath.section);
-    
+    // have to account for the extra action row plus the routines in each section
     if (self.actionRowPath.section == section) {
         NSLog(@"Action row section equals section");
         return [dayRoutines count] + (self.actionRowPath != nil);
@@ -223,6 +226,9 @@
         pathsToDelete = @[self.actionRowPath];
         self.actionRowPath = nil;
         [self deselect];
+        
+        // only turn on editing when action row is hidden
+        self.editButton.enabled = YES;
     } else if (self.actionRowPath) {
         // move action cell
         pathsToDelete = @[self.actionRowPath];
@@ -235,6 +241,9 @@
         pathsToAdd = @[indexPath.next];
         NSLog(@"pathsToAdd row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
         self.actionRowPath = indexPath.next;
+        
+        // disable edit button when action row appears
+        self.editButton.enabled = NO;
         NSLog(@"actionRowPath %lu", self.actionRowPath.row);
     }
     
@@ -340,6 +349,18 @@
     revc.statStore = routineInRoutineStore;
     
     [self.navigationController pushViewController:revc animated:YES];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // disable swipe to delete when action row is present
+    if (self.tableView.editing) {
+        return UITableViewCellEditingStyleDelete;
+    } else if (self.actionRowPath == nil) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    
+    return UITableViewCellEditingStyleNone;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
