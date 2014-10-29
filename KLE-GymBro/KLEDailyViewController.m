@@ -47,12 +47,10 @@
         navItem.title = @"Daily";
         
         // button to edit routine
-//        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
-        self.editButton = self.editButtonItem;
         
         // set bar button to toggle editing mode
-//        editButton = self.editButtonItem;
+        self.editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
         navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:self.editButton, nil];
@@ -135,10 +133,10 @@
     
 //    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
 
-    NSLog(@"Action row before %lu", self.actionRowPath.section);
+//    NSLog(@"Action row before %lu", self.actionRowPath.section);
     // have to account for the extra action row plus the routines in each section
     if (self.actionRowPath.section == section) {
-        NSLog(@"Action row section equals section");
+//        NSLog(@"Action row section equals section");
         return [dayRoutines count] + (self.actionRowPath != nil);
     } else {
         return [dayRoutines count];
@@ -265,10 +263,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
-//    KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
-//    
-//    cell.accessoryType = UITableViewCellAccessoryDetailButton;
-    
     if ([self.actionRowPath isEqual:indexPath]) {
         // action row
         KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
@@ -382,10 +376,12 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSString *key = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
-    NSLog(@"moving row %@", key);
+    NSString *fromKey = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
+    NSString *toKey = [NSString stringWithFormat:@"%lu", destinationIndexPath.section];
     
-    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row atKey:key];
+    NSLog(@"moving row in section %@ to section %@", fromKey, toKey);
+    
+    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row atKey:fromKey toKey:toKey];
 }
 
 - (void)viewWillAppear:(BOOL)animated

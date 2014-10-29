@@ -22,6 +22,6 @@
                          atKey:(NSString *)key;
 - (void)moveStatStoreAtIndex:(NSUInteger)fromIndex
                      toIndex:(NSUInteger)toIndex
-                       atKey:(NSString *)key;
+                       atKey:(NSString *)fromKey toKey:(NSString *)toKey;
 
 @end
