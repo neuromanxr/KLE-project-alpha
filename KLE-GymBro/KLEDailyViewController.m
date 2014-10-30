@@ -283,6 +283,7 @@
         NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
         NSArray *dayRoutines = [dailyRoutines objectForKey:key];
         
+        // fixed
         // routineInDaily returns the routine using indexPath.row. when new row inserted from
         // action row, it is trying to access a index that isn't there
         
@@ -366,7 +367,8 @@
         NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
         NSMutableArray *routines = [dailyRoutines objectForKey:key];
         
-        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atKey:key];
+//        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atKey:key];
+        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atIndex:indexPath.row atKey:key];
         
         // also remove that row from the table view with animation
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -381,7 +383,7 @@
     
     NSLog(@"moving row in section %@ to section %@", fromKey, toKey);
     
-    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row atKey:fromKey toKey:toKey];
+    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row atKey:fromKey toIndex:destinationIndexPath.row toKey:toKey];
 }
 
 - (void)viewWillAppear:(BOOL)animated

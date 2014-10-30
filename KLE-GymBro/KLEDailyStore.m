@@ -72,12 +72,13 @@
 
 }
 
-- (void)removeStatStoreFromDay:(KLEStatStore *)routine atKey:(NSString *)key
+- (void)removeStatStoreFromDay:(KLEStatStore *)routine atIndex:(NSUInteger)index atKey:(NSString *)key
 {
-    [[self.privateDictionaryStatStore objectForKey:key] removeObjectIdenticalTo:routine];
+//    [[self.privateDictionaryStatStore objectForKey:key] removeObjectIdenticalTo:routine];
+    [[self.privateDictionaryStatStore objectForKey:key] removeObjectAtIndex:index];
 }
 
-- (void)moveStatStoreAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex atKey:(NSString *)fromKey toKey:(NSString *)toKey
+- (void)moveStatStoreAtIndex:(NSUInteger)fromIndex atKey:(NSString *)fromKey toIndex:(NSUInteger)toIndex toKey:(NSString *)toKey
 {
     if ((fromIndex == toIndex) && (fromKey == toKey)) {
         return;

@@ -129,19 +129,22 @@
         // if so, delete the routine in daily view too with a warning message
         // check each day also, routine can be in different days
         for (NSString *key in dailyRoutines) {
+            
             if ([[dailyRoutines objectForKey:key] containsObject:routine]) {
-                NSLog(@"This routine is in your daily");
                 
-                NSLog(@"Day tag in delete %@", key);
+                NSMutableArray *routinesInDay = [dailyRoutines objectForKey:key];
+                [routinesInDay removeObjectIdenticalTo:routine];
+                
+                NSLog(@"This routine is in your daily. Day tag in delete %@", key);
                 
                 // get the index of the routine in daily view
-                NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:key] indexOfObjectIdenticalTo:routine];
+//                NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:key] indexOfObjectIdenticalTo:routine];
                 
                 // get the routine in daily view
-                KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:key] objectAtIndex:indexOfDailyRoutine];
+//                KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:key] objectAtIndex:indexOfDailyRoutine];
                 
                 // remove the routine in daily view
-                [dailyStore removeStatStoreFromDay:routineInDaily atKey:key];
+//                [dailyStore removeStatStoreFromDay:routineInDaily atIndex:indexOfDailyRoutine atKey:key];
             }
         }
     }
@@ -230,9 +233,13 @@
 //        // add the selected routines to the daily store by day
 //        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
 //    }
+    
+    // if there are no routines in daily then just add it to daily
     if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
         [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
         [self.navigationController popViewControllerAnimated:YES];
+    // if there's one or more routine, check if there's a duplicate and show alert if there is
+    // otherwise add the routine to daily
     } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
         NSLog(@"theres one or more routine");
         if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
@@ -240,7 +247,8 @@
             UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             
             [duplicateAlert show];
-            
+            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
             [self.navigationController popViewControllerAnimated:YES];
