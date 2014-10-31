@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "NSIndexPathUtilities.h"
+#import "KLEActionCell.h"
 #import "KLEDailyViewCell.h"
 #import "KLEStat.h"
 #import "KLEStatStore.h"
@@ -27,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
+@property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows
 @property (nonatomic) NSIndexPath *actionRowPath;
@@ -44,13 +47,13 @@
         navItem.title = @"Daily";
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
         // set bar button to toggle editing mode
-        editButton = self.editButtonItem;
+        self.editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:editButton, nil];
+        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:self.editButton, nil];
     }
     
     return self;
@@ -63,12 +66,6 @@
 
 -(CGFloat)getLabelHeightForIndex:(NSInteger)index
 {
-//    CGSize maximumSize = CGSizeMake(COMMENT_LABEL_WIDTH, 10000);
-    
-//    CGSize labelHeightSize = [[textArray objectAtIndex:index]
-//                             sizeWithFont: [UIFont fontWithName:@"Helvetica" size:14.0f]
-//                        constrainedToSize:maximumSize
-//                            lineBreakMode:NSLineBreakByWordWrapping];
     CGSize labelHeightSize = CGSizeMake(230, 100);
     
     return labelHeightSize.height;
@@ -132,9 +129,20 @@
     // access the dictionary of day routines to get the count
     NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
     NSString *key = [NSString stringWithFormat:@"%lu", section];
-    NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:key];
+    NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
     
-    return [dayRoutines count] + (self.actionRowPath != nil);
+//    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
+
+//    NSLog(@"Action row before %lu", self.actionRowPath.section);
+    // have to account for the extra action row plus the routines in each section
+    if (self.actionRowPath.section == section) {
+//        NSLog(@"Action row section equals section");
+        return [dayRoutines count] + (self.actionRowPath != nil);
+    } else {
+        return [dayRoutines count];
+    }
+//    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
+//    return [dayRoutines count] + (self.actionRowPath != nil);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -184,53 +192,110 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // we only don't want to allow selection on any cells which cannot be expanded
-    if ([self getLabelHeightForIndex:indexPath.row] > COMMENT_LABEL_MIN_HEIGHT) {
-        return indexPath;
-    } else {
+//    if ([self getLabelHeightForIndex:indexPath.row] > COMMENT_LABEL_MIN_HEIGHT) {
+//        return indexPath;
+//    } else {
+//        return nil;
+//    }
+    if ([indexPath isEqual:self.actionRowPath]) {
         return nil;
     }
+    return indexPath;
+}
+
+- (void)deselect
+{
+    NSArray *paths = [self.tableView indexPathsForSelectedRows];
+    if (!paths.count) {
+        return;
+    }
+    
+    NSIndexPath *path = paths[0];
+    [self.tableView deselectRowAtIndexPath:path animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // is the selected cell expanded? Then minimize it
-    if (selectedIndex == indexPath.row) {
-        selectedIndex = -1;
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    NSArray *pathsToAdd;
+    NSArray *pathsToDelete;
+    
+    if ([self.actionRowPath.previous isEqual:indexPath]) {
+        // hide action cell
+        pathsToDelete = @[self.actionRowPath];
+        self.actionRowPath = nil;
+        [self deselect];
         
-        return;
+        // only turn on editing when action row is hidden
+        self.editButton.enabled = YES;
+    } else if (self.actionRowPath) {
+        // move action cell
+        pathsToDelete = @[self.actionRowPath];
+        BOOL before = [indexPath before:self.actionRowPath];
+        NSIndexPath *newPath = before ? indexPath.next : indexPath;
+        pathsToAdd = @[newPath];
+        self.actionRowPath = newPath;
+    } else {
+        // new action cell
+        pathsToAdd = @[indexPath.next];
+        NSLog(@"pathsToAdd row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
+        self.actionRowPath = indexPath.next;
+        
+        // disable edit button when action row appears
+        self.editButton.enabled = NO;
+        NSLog(@"actionRowPath %lu", self.actionRowPath.row);
     }
     
-    // is there a cell already expanded? Then make sure it is reloaded to minimize it back
-    if (selectedIndex >= 0) {
-        NSIndexPath *previousPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-        selectedIndex = indexPath.row;
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:previousPath] withRowAnimation:UITableViewRowAnimationFade];
+    // animate the deletions and insertions
+    [self.tableView beginUpdates];
+    NSLog(@"paths to delete count %lu", pathsToDelete.count);
+    if (pathsToDelete.count) {
+        NSLog(@"paths to delete");
+        [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationNone];
     }
-    
-    // set the selected index to the new selection and reload it to expand
-    selectedIndex = indexPath.row;
-    [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    
+    NSLog(@"paths to add count %lu", pathsToAdd.count);
+    if (pathsToAdd.count) {
+        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
+        [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationNone];
+    }
+    [self.tableView endUpdates];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
-    KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
-    
-    cell.accessoryType = UITableViewCellAccessoryDetailButton;
-    
-    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
-    NSMutableArray *dayRoutines = [dailyRoutines objectForKey:key];
-    NSLog(@"cell day routines %@", dayRoutines);
-    
     if ([self.actionRowPath isEqual:indexPath]) {
         // action row
-        KLEDailyViewCell *ghostCell = (KLEDailyViewCell *)[self.tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
-//        [ghostCell setActio]
+        KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
+        
+        return actionCell;
+    } else {
+        // normal cell
+        KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
+        
+        NSInteger adjustedRow = indexPath.row;
+        if (_actionRowPath && (_actionRowPath.row < indexPath.row)) {
+            adjustedRow--;
+        }
+        
+        // access the daily store routines
+        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+        
+        // fixed
+        // routineInDaily returns the routine using indexPath.row. when new row inserted from
+        // action row, it is trying to access a index that isn't there
+        
+        // to access the properties of the routine, routine name, etc
+        KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:adjustedRow];
+        NSLog(@"cell day routines %@", dayRoutines);
+        
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
+        cell.routineNameLabel.text = routineInDaily.routineName;
+        
+        return cell;
     }
     
 //    if (selectedIndex == indexPath.row) {
@@ -241,40 +306,56 @@
 //        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, COMMENT_LABEL_MIN_HEIGHT);
 //    }
     
-    cell.dayLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
-    cell.dayLabel.text = @"Day";
+//    cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
+//    cell.routineNameLabel.text = routineInDaily.routineName;
     
-    return cell;
+//    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
+    // access the routine store
     NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
-//
-//    KLEStatStore *selectedStatStore = [statStores objectAtIndex:indexPath.row];
-//
-//    NSLog(@"selected stat store %@", selectedStatStore);
-//    
-    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
-    NSMutableArray *routines = [dailyRoutines objectForKey:key];
     
+    // access the daily routine dictionary
+    NSDictionary *dailyRoutines = [[KLEDailyStore sharedStore] allStatStores];
+    
+    // key from the table view section which represents the day
+    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+    
+    // access the routines for the selected day
+    NSArray *routines = [dailyRoutines objectForKey:key];
+    
+    // get the selected routine in the daily view
     KLEStatStore *selectedStatStoreInDaily = [routines objectAtIndex:indexPath.row];
     
+    // get the index in routines store by matching the routine from daily dictionary to the routine store
     NSUInteger indexAtRoutinesStore = [statStores indexOfObjectIdenticalTo:selectedStatStoreInDaily];
     
-    KLEStatStore *statStoreInRoutineStore = statStores[indexAtRoutinesStore];
+    // routine in routine store
+    KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
     
     NSLog(@"access routines %@", routines);
-    NSLog(@"index at routines store %@", statStoreInRoutineStore);
+    NSLog(@"index at routines store %@", routineInRoutineStore);
     
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
     
     // pass selected statStore from routine view controller to routine exercise view controller
-    revc.statStore = statStoreInRoutineStore;
+    revc.statStore = routineInRoutineStore;
     
     [self.navigationController pushViewController:revc animated:YES];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // disable swipe to delete when action row is present
+    if (self.tableView.editing) {
+        return UITableViewCellEditingStyleDelete;
+    } else if (self.actionRowPath == nil) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    
+    return UITableViewCellEditingStyleNone;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -286,7 +367,8 @@
         NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
         NSMutableArray *routines = [dailyRoutines objectForKey:key];
         
-        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atKey:key];
+//        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atKey:key];
+        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atIndex:indexPath.row atKey:key];
         
         // also remove that row from the table view with animation
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -296,10 +378,12 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSString *key = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
-    NSLog(@"moving row %@", key);
+    NSString *fromKey = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
+    NSString *toKey = [NSString stringWithFormat:@"%lu", destinationIndexPath.section];
     
-    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row atKey:key];
+    NSLog(@"moving row in section %@ to section %@", fromKey, toKey);
+    
+    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row atKey:fromKey toIndex:destinationIndexPath.row toKey:toKey];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -316,21 +400,15 @@
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
     
+    UINib *actionNib = [UINib nibWithNibName:@"KLEActionCell" bundle:nil];
+    
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEDailyViewCell"];
     
+    [self.tableView registerNib:actionNib forCellReuseIdentifier:@"KLEActionCell"];
+    
     // no cell is expanded
     selectedIndex = -1;
-    
-//    textArray = [[NSMutableArray alloc] init];
-//    
-//    NSString *testString;
-//    
-//    for (int i = 0; i < 7; i++) {
-//        testString = @"Test comment. Test comment.";
-//
-//        [textArray addObject:testString];
-//    }
     
     daysArray = [[NSArray alloc] initWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
 

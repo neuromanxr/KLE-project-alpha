@@ -19,9 +19,11 @@
 - (void)addStatStoreToDay:(KLEStatStore *)routine
                     atKey:(NSString *)key;
 - (void)removeStatStoreFromDay:(KLEStatStore *)routine
+                       atIndex:(NSUInteger)index
                          atKey:(NSString *)key;
 - (void)moveStatStoreAtIndex:(NSUInteger)fromIndex
+                       atKey:(NSString *)fromKey
                      toIndex:(NSUInteger)toIndex
-                       atKey:(NSString *)key;
+                        toKey:(NSString *)toKey;
 
 @end

@@ -72,25 +72,29 @@
 
 }
 
-- (void)removeStatStoreFromDay:(KLEStatStore *)routine atKey:(NSString *)key
+- (void)removeStatStoreFromDay:(KLEStatStore *)routine atIndex:(NSUInteger)index atKey:(NSString *)key
 {
-    [[self.privateDictionaryStatStore objectForKey:key] removeObjectIdenticalTo:routine];
+//    [[self.privateDictionaryStatStore objectForKey:key] removeObjectIdenticalTo:routine];
+    [[self.privateDictionaryStatStore objectForKey:key] removeObjectAtIndex:index];
 }
 
-- (void)moveStatStoreAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex atKey:(NSString *)key
+- (void)moveStatStoreAtIndex:(NSUInteger)fromIndex atKey:(NSString *)fromKey toIndex:(NSUInteger)toIndex toKey:(NSString *)toKey
 {
-    if (fromIndex == toIndex) {
+    if ((fromIndex == toIndex) && (fromKey == toKey)) {
         return;
     }
     
     // get pointer to object being moved so you can re-insert it
-    KLEStatStore *statStore = [[self.privateDictionaryStatStore objectForKey:key] objectAtIndex:fromIndex];
+    KLEStatStore *statStore = [[self.privateDictionaryStatStore objectForKey:fromKey] objectAtIndex:fromIndex];
+    NSLog(@"routine in data %@", statStore);
     
     // remove routine from array
-    [[self.privateDictionaryStatStore objectForKey:key] removeObjectAtIndex:fromIndex];
+    [[self.privateDictionaryStatStore objectForKey:fromKey] removeObjectAtIndex:fromIndex];
+    NSLog(@"removing routine from key %@ in index %lu", fromKey, fromIndex);
     
     // insert routine in array at new location
-    [[self.privateDictionaryStatStore objectForKey:key] insertObject:statStore atIndex:toIndex];
+    [[self.privateDictionaryStatStore objectForKey:toKey] insertObject:statStore atIndex:toIndex];
+    NSLog(@"inserting routine to key %@ in index %lu with routine %@", toKey, toIndex, statStore);
 }
 
 @end

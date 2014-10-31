@@ -15,7 +15,10 @@
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
 
-@interface KLERoutineViewController ()
+@interface KLERoutineViewController () <UITextFieldDelegate>
+
+@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
+@property (nonatomic, strong) KLEStatStore *statStore;
 
 @end
 
@@ -60,20 +63,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
-    KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
+    self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
     NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-    KLEStatStore *statStore = statStoreArray[indexPath.row];
+    self.statStore = statStoreArray[indexPath.row];
     
-    cell.exerciseLabel.text = [statStore description];
-    statStore.routineName = cell.routineNameField.text;
-    if (![cell.routineNameField hasText]) {
-        NSLog(@"name field is empty");
-        cell.routineNameField.text = statStore.routineName;
-    }
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    self.routineViewCell.exerciseLabel.text = [self.statStore description];
     
-    return cell;
+    self.routineViewCell.routineNameField.tag = indexPath.row;
+    self.routineViewCell.routineNameField.delegate = self;
+    
+    NSLog(@"routine name field tag %lu", self.routineViewCell.routineNameField.tag);
+
+    self.routineViewCell.routineNameField.text = self.statStore.routineName;
+    
+    self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    
+    return self.routineViewCell;
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -91,26 +97,65 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Cell selected");
+    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
+    KLEStatStore *routine = statStoreArray[indexPath.row];
+    
+    NSLog(@"Cell selected %@", routine);
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    
+    NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
+    
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[KLERoutinesStore sharedStore] removeStatStore:[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row]];
-//        NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
-//        KLEStatStore *routine = routines[indexPath.row];
-//        [[KLERoutinesStore sharedStore] removeStatStore:routine];
+        
+        // remove the selected routine from the routine store
+        KLEStatStore *routine = routines[indexPath.row];
+        [[KLERoutinesStore sharedStore] removeStatStore:routine];
         
         // also remove that row from the table view with animation
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        // alert the user about deletion
+        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [deleteAlert show];
+        
+        // check to see if the routine being deleted is in the daily routines
+        // if so, delete the routine in daily view too with a warning message
+        // check each day also, routine can be in different days
+        for (NSString *key in dailyRoutines) {
+            
+            if ([[dailyRoutines objectForKey:key] containsObject:routine]) {
+                
+                NSMutableArray *routinesInDay = [dailyRoutines objectForKey:key];
+                [routinesInDay removeObjectIdenticalTo:routine];
+                
+                NSLog(@"This routine is in your daily. Day tag in delete %@", key);
+                
+                // get the index of the routine in daily view
+//                NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:key] indexOfObjectIdenticalTo:routine];
+                
+                // get the routine in daily view
+//                KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:key] objectAtIndex:indexOfDailyRoutine];
+                
+                // remove the routine in daily view
+//                [dailyStore removeStatStoreFromDay:routineInDaily atIndex:indexOfDailyRoutine atKey:key];
+            }
+        }
     }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     [[KLERoutinesStore sharedStore] moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
+    
+    // reload the table to update the tag numbers after re-ordering
+    [self.tableView reloadData];
 }
 
 - (void)addNewRoutine
@@ -118,14 +163,15 @@
     // create a new routine and add it to the routine store
     KLEStatStore *newStatStore = [[KLERoutinesStore sharedStore] createStatStore];
     
-    // give the routine a name
-    newStatStore.routineName = newStatStore.routineName;
-    
     // where is this new routine in the array?
     NSInteger lastRow = [[[KLERoutinesStore sharedStore] allStatStores] indexOfObject:newStatStore];
     
     // set the index path to be the last row added
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
+    
+    // give the routine a name
+    newStatStore.routineName = [NSString stringWithFormat:@"Routine %lu", indexPath.row + 1];
+    NSLog(@"Routine name %@", newStatStore.routineName);
     
     // insert this new row into the table
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
@@ -187,11 +233,65 @@
 //        // add the selected routines to the daily store by day
 //        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
 //    }
-    [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+    
+    // if there are no routines in daily then just add it to daily
+    if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
+        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+        [self.navigationController popViewControllerAnimated:YES];
+    // if there's one or more routine, check if there's a duplicate and show alert if there is
+    // otherwise add the routine to daily
+    } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
+        NSLog(@"theres one or more routine");
+        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
+            NSLog(@"this is a duplicate");
+            UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            
+            [duplicateAlert show];
+            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+    
+    NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
     
     NSLog(@"daily store after %@", dailyRoutines);
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    NSLog(@"Text field begin editing %@", textField);
     
-    [self.navigationController popViewControllerAnimated:YES];
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    NSLog(@"textfield ended");
+    NSLog(@"textfield ended statstore %@", self.statStore);
+    
+    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
+    
+    // the textfield that is done editing should match with the routine in the routine store
+    // using the textfield tags
+    self.statStore = statStoreArray[textField.tag];
+    NSLog(@"statstore by tag %@", self.statStore);
+    
+    // assign the routine name with the text in the text field
+    self.statStore.routineName = textField.text;
+    
+    return YES;
+}
+
+// hide the keyboard when done with input
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"textfield return %@", textField);
+    [textField resignFirstResponder];
+    
+    return YES;
 }
 
 - (void)viewDidLoad
@@ -213,10 +313,18 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
     
+    // clear first responder
+    [self.view endEditing:YES];
 }
 
 @end
