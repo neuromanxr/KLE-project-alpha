@@ -14,6 +14,8 @@
     NSInteger selectedIndex;
 //    NSMutableArray *textArray;
     NSArray *daysArray;
+    
+    NSInteger indexInActionRowPaths;
 }
 
 @end
