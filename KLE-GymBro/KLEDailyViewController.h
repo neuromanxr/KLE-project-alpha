@@ -16,6 +16,7 @@
     NSArray *daysArray;
     
     NSInteger indexInActionRowPaths;
+    NSUInteger rowCountBySection;
 }
 
 @end

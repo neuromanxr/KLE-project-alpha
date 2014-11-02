@@ -134,26 +134,44 @@
     
     NSUInteger actionRowsCount = 0;
 //    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
-    if (self.actionRowPaths != nil) {
-        actionRowsCount = [self.actionRowPaths count];
-    }
 //    NSLog(@"Action row before %lu", self.actionRowPath.section);
     // have to account for the extra action row plus the routines in each section
-    if (self.actionRowPath.section == section) {
-//        NSLog(@"Action row section equals section");
-        NSLog(@"actionrow array count %lu", [dayRoutines count] + actionRowsCount);
-//        return [dayRoutines count] + (self.actionRowPath != nil);
-        return [dayRoutines count] + actionRowsCount;
+//    NSLog(@"ActionRowPath section %lu and indexPath section %lu", self.actionRowPath.section, section);
+    NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
+    NSIndexPath *actionRow;
+    rowCountBySection = 0;
+    if (self.actionRowPaths != nil) {
+        actionRowsCount = [self.actionRowPaths count];
+        while (actionRow = [enumerator nextObject]) {
+            NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
+            if (actionRow.section == section) {
+                rowCountBySection = [dayRoutines count] + actionRowsCount;
+            } else {
+                rowCountBySection = [dayRoutines count];
+            }
+        }
     } else {
-        return [dayRoutines count];
+        rowCountBySection = [dayRoutines count];
     }
+    
+    NSLog(@"Section %lu", section);
+    NSLog(@"Row count %lu", rowCountBySection);
+    return rowCountBySection;
+
+//    if (self.actionRowPath.section == section) {
+//        NSLog(@"actionrow array count %lu", [dayRoutines count] + actionRowsCount);
+////        return [dayRoutines count] + (self.actionRowPath != nil);
+//        return [dayRoutines count] + actionRowsCount;
+//    } else {
+//        return [dayRoutines count];
+//    }
 //    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
 //    return [dayRoutines count] + (self.actionRowPath != nil);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog(@"number of sections %lu", [daysArray count]);
+//    NSLog(@"number of sections %lu", [daysArray count]);
     return [daysArray count];
 }
 
@@ -225,16 +243,27 @@
     NSArray *pathsToAdd;
     NSArray *pathsToDelete;
     
-    if ([self.actionRowPath.previous isEqual:indexPath]) {
+    NSIndexPath *actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
+    NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
+    if ([actionRowPathPrevious.previous isEqual:indexPath]) {
+//    if ([self.actionRowPath.previous isEqual:indexPath]) {
         // hide action cell
-        pathsToDelete = @[self.actionRowPath];
-        self.actionRowPath = nil;
+        pathsToDelete = self.actionRowPaths;
+        self.actionRowPaths = nil;
         [self deselect];
+        self.editButton.enabled = YES;
+        
+//        pathsToDelete = @[self.actionRowPath];
+//        self.actionRowPath = nil;
+//        [self deselect];
         
         // only turn on editing when action row is hidden
-        self.editButton.enabled = YES;
-    } else if (self.actionRowPath) {
+//        self.editButton.enabled = YES;
+    } else if (self.actionRowPaths) {
         // move action cell
+//        pathsToDelete = self.actionRowPaths;
+//        BOOL before = [indexPath before:<#(NSIndexPath *)#>]
+        
         pathsToDelete = @[self.actionRowPath];
         BOOL before = [indexPath before:self.actionRowPath];
         NSIndexPath *newPath = before ? indexPath.next : indexPath;
@@ -250,6 +279,7 @@
         KLEStatStore *routines = [dayRoutines objectAtIndex:indexPath.row];
         NSArray *exercises = [routines allStats];
         NSMutableArray *indexPathsForExercises = [[NSMutableArray alloc] init];
+        
         NSUInteger index = 0;
         NSUInteger startIndexAtOne = indexPath.next.row;
         NSLog(@"startIndexAtOne %lu", startIndexAtOne);
@@ -261,8 +291,7 @@
                 [indexPathsForExercises addObject:exerciseIndexPath];
                 startIndexAtOne++;
 //                NSLog(@"Index path for exercise %@", [indexPathsForExercises objectAtIndex:index]);
-                NSLog(@"Index row %lu", [[indexPathsForExercises objectAtIndex:index] row]);
-                NSLog(@"Index section %lu", [[indexPathsForExercises objectAtIndex:index] section]);
+                NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
                 index++;
                 
                 // need to add code to update pathsToAdd array when adding another exercise to already expanded cell so the new exercise will show in expanded cell
@@ -277,7 +306,7 @@
         pathsToAdd = [NSArray arrayWithArray:indexPathsForExercises];
         
 //        NSLog(@"pathsToAdd row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
-        self.actionRowPath = indexPath.next;
+//        self.actionRowPath = indexPath.next;
         
         // test
         self.actionRowPaths = [NSArray arrayWithArray:indexPathsForExercises];
@@ -350,7 +379,7 @@
         // to access the properties of the routine, routine name, etc
         NSLog(@"day routines at adjusted row %@", [dayRoutines objectAtIndex:adjustedRow]);
         KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:adjustedRow];
-        NSLog(@"cell day routines %@", dayRoutines);
+        NSLog(@"cell day routines array %@", dayRoutines);
         
         cell.accessoryType = UITableViewCellAccessoryDetailButton;
         cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
@@ -384,7 +413,6 @@
     // routine in routine store
     KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
     
-    NSLog(@"access routines %@", routines);
     NSLog(@"index at routines store %@", routineInRoutineStore);
     
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
