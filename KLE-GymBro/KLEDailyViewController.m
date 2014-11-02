@@ -137,6 +137,7 @@
 //    NSLog(@"Action row before %lu", self.actionRowPath.section);
     // have to account for the extra action row plus the routines in each section
 //    NSLog(@"ActionRowPath section %lu and indexPath section %lu", self.actionRowPath.section, section);
+    
     NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
     NSIndexPath *actionRow;
     rowCountBySection = 0;
@@ -259,16 +260,70 @@
         
         // only turn on editing when action row is hidden
 //        self.editButton.enabled = YES;
+    // case: when an action row is already expanded and you click a different action row
     } else if (self.actionRowPaths) {
         // move action cell
-//        pathsToDelete = self.actionRowPaths;
-//        BOOL before = [indexPath before:<#(NSIndexPath *)#>]
+        NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
+        pathsToDelete = self.actionRowPaths;
+        NSIndexPath *newActionRowPath;
+        NSMutableArray *newActionRows = [[NSMutableArray alloc] init];
+//        for (NSIndexPath *actionRowPath in self.actionRowPaths) {
+        NSIndexPath *actionRowPath = [self.actionRowPaths lastObject];
+        BOOL before = [indexPath before:actionRowPath];
+        if (before) {
+            newActionRowPath = indexPath.next;
+            NSLog(@"NEWactionRowPath row %lu section %lu", newActionRowPath.row, newActionRowPath.section);
+        } else {
+            // the row selected is after the action row plus the expanded rows
+            // when action row that is selected below the already expanded action row, 
+            // have to account for the expanded rows above, so subtract the count of actionRowPaths
+            newActionRowPath = indexPath;
+            KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+            NSDictionary *dailyRoutines = [dailyStore allStatStores];
+            NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+            NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+            
+            // have to account for section
+            if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
+                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
+                actionRowPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
+                newActionRowPath = [NSIndexPath indexPathForRow:(indexPath.next.row - [self.actionRowPaths count]) inSection:indexPath.section];
+            } else {
+                actionRowPath = indexPath;
+                newActionRowPath = indexPath;
+            }
+//            NSUInteger routineIndex = indexPath.row - [self.actionRowPaths count];
+            NSUInteger routineIndex = actionRowPath.row;
+            KLEStatStore *routines = [dayRoutines objectAtIndex:routineIndex];
+            NSArray *exercises = [routines allStats];
+            NSMutableArray *indexPathsForExercises = [[NSMutableArray alloc] init];
+            
+            NSUInteger index = 0;
+//            NSUInteger startIndexAtOne = newActionRowPath.next.row - [self.actionRowPaths count];
+            NSUInteger startIndexAtOne = newActionRowPath.row;
+            NSLog(@"startIndexAtOne %lu", startIndexAtOne);
+            if (exercises != nil) {
+                for (KLEStat *exercise in exercises) {
+                    // index path has to start after the normal cell
+                    NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
+                    NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndexAtOne inSection:indexPath.section];
+                    [indexPathsForExercises addObject:exerciseIndexPath];
+                    startIndexAtOne++;
+                    NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
+                    index++;
+                }
+            }
+            pathsToAdd = indexPathsForExercises;
+            self.actionRowPaths = indexPathsForExercises;
+            NSLog(@"NEWactionRowPath row %lu section %lu", newActionRowPath.row, newActionRowPath.section);
+        }
+//        }
         
-        pathsToDelete = @[self.actionRowPath];
-        BOOL before = [indexPath before:self.actionRowPath];
-        NSIndexPath *newPath = before ? indexPath.next : indexPath;
-        pathsToAdd = @[newPath];
-        self.actionRowPath = newPath;
+//        pathsToDelete = @[self.actionRowPath];
+//        BOOL before = [indexPath before:self.actionRowPath];
+//        NSIndexPath *newPath = before ? indexPath.next : indexPath;
+//        pathsToAdd = @[newPath];
+//        self.actionRowPath = newPath;
     } else {
         // test
         KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
@@ -285,7 +340,7 @@
         NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         if (exercises != nil) {
             for (KLEStat *exercise in exercises) {
-                // index path has to start from 1
+                // index path has to start after the normal cell
                 NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
                 NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndexAtOne inSection:indexPath.section];
                 [indexPathsForExercises addObject:exerciseIndexPath];
