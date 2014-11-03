@@ -135,7 +135,6 @@
     NSUInteger actionRowsCount = 0;
 
     // have to account for the extra action row plus the routines in each section
-//    NSLog(@"ActionRowPath section %lu and indexPath section %lu", self.actionRowPath.section, section);
     NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
     NSIndexPath *actionRow;
     rowCountBySection = 0;
@@ -151,7 +150,6 @@
             }
         }
     } else {
-        // something wrong here
         rowCountBySection = [dayRoutines count];
         NSLog(@"rowCountBySection ELSE %lu", rowCountBySection);
     }
@@ -234,8 +232,8 @@
     if ([self.actionRowPaths count]) {
         actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
     }
-//    NSIndexPath *actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
     NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
+    
     if ([actionRowPathPrevious.previous isEqual:indexPath]) {
         // hide action cell
         pathsToDelete = self.actionRowPaths;
@@ -380,7 +378,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
-    if (self.actionRowPaths != nil) {
+    if ([self.actionRowPaths count]) {
+        // is the indexPath being shown in actionRowPaths? if so set the indexInActionRowPaths to be the action row that matches indexPath
         if ([self.actionRowPaths containsObject:indexPath]) {
             indexInActionRowPaths = [self.actionRowPaths indexOfObject:indexPath];
         } else {
@@ -394,7 +393,6 @@
     if ((indexInActionRowPaths >= 0) && [self.actionRowPaths[indexInActionRowPaths] isEqual:indexPath]) {
         NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[indexInActionRowPaths] row], indexPath.row);
 
-//    if ([self.actionRowPath isEqual:indexPath]) {
         // action row
         KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
 
@@ -404,11 +402,10 @@
         KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
         
         // when action row already present and the view is loaded again
-        NSInteger adjustedRow = indexPath.row;
-        NSLog(@"adjusted row %lu", adjustedRow);
-        if (_actionRowPath && (_actionRowPath.row < indexPath.row)) {
-            NSLog(@"action row %lu and indexpath row %lu", _actionRowPath.row, indexPath.row);
-            adjustedRow--;
+        // adjust the row index accessed by day routines when cell comes into view, account for the action row paths count to make sure the day routines is accessed with the correct index
+        NSUInteger adjustedRow = indexPath.row;
+        if ([self.actionRowPaths count] && [[self.actionRowPaths lastObject] row] < indexPath.row) {
+            adjustedRow -= [self.actionRowPaths count];
             NSLog(@"adjusted row decrement %lu", adjustedRow);
         }
         
