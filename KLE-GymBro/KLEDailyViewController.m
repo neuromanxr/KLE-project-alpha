@@ -133,15 +133,14 @@
     NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
     
     NSUInteger actionRowsCount = 0;
-//    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
-//    NSLog(@"Action row before %lu", self.actionRowPath.section);
+
     // have to account for the extra action row plus the routines in each section
 //    NSLog(@"ActionRowPath section %lu and indexPath section %lu", self.actionRowPath.section, section);
-    
     NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
     NSIndexPath *actionRow;
     rowCountBySection = 0;
-    if (self.actionRowPaths != nil) {
+    NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
+    if ([self.actionRowPaths count]) {
         actionRowsCount = [self.actionRowPaths count];
         while (actionRow = [enumerator nextObject]) {
             NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
@@ -152,22 +151,14 @@
             }
         }
     } else {
+        // something wrong here
         rowCountBySection = [dayRoutines count];
+        NSLog(@"rowCountBySection ELSE %lu", rowCountBySection);
     }
     
     NSLog(@"Section %lu", section);
     NSLog(@"Row count %lu", rowCountBySection);
     return rowCountBySection;
-
-//    if (self.actionRowPath.section == section) {
-//        NSLog(@"actionrow array count %lu", [dayRoutines count] + actionRowsCount);
-////        return [dayRoutines count] + (self.actionRowPath != nil);
-//        return [dayRoutines count] + actionRowsCount;
-//    } else {
-//        return [dayRoutines count];
-//    }
-//    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
-//    return [dayRoutines count] + (self.actionRowPath != nil);
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -216,13 +207,8 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // we only don't want to allow selection on any cells which cannot be expanded
-//    if ([self getLabelHeightForIndex:indexPath.row] > COMMENT_LABEL_MIN_HEIGHT) {
-//        return indexPath;
-//    } else {
-//        return nil;
-//    }
-    if ([indexPath isEqual:self.actionRowPath]) {
+    // we only don't want to allow selection on any expanded cells
+    if ([self.actionRowPaths containsObject:indexPath]) {
         return nil;
     }
     return indexPath;
@@ -244,24 +230,21 @@
     NSArray *pathsToAdd;
     NSArray *pathsToDelete;
     
-    NSIndexPath *actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
+    NSIndexPath *actionRowPathPrevious;
+    if ([self.actionRowPaths count]) {
+        actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
+    }
+//    NSIndexPath *actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
     NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
     if ([actionRowPathPrevious.previous isEqual:indexPath]) {
-//    if ([self.actionRowPath.previous isEqual:indexPath]) {
         // hide action cell
         pathsToDelete = self.actionRowPaths;
         self.actionRowPaths = nil;
         [self deselect];
         self.editButton.enabled = YES;
         
-//        pathsToDelete = @[self.actionRowPath];
-//        self.actionRowPath = nil;
-//        [self deselect];
-        // only turn on editing when action row is hidden
-//        self.editButton.enabled = YES;
-        
     // case: when an action row is already expanded and you click a different action row
-    } else if (self.actionRowPaths) {
+    } else if ([self.actionRowPaths count]) {
         // move action cell
         NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
         pathsToDelete = self.actionRowPaths;
@@ -320,7 +303,7 @@
         NSArray *exercises = [routines allStats];
         
         NSUInteger index = 0;
-        if (exercises != nil) {
+        if ([exercises count]) {
             for (KLEStat *exercise in exercises) {
                 // index path has to start after the normal cell
                 NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
@@ -330,16 +313,13 @@
                 NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
                 index++;
             }
+        } else {
+            NSLog(@"There's no exercises in this routine");
+            self.editButton.enabled = YES;
         }
         pathsToAdd = indexPathsForExercises;
         self.actionRowPaths = indexPathsForExercises;
-        indexPathsForExercises = nil;
         
-//        pathsToDelete = @[self.actionRowPath];
-//        BOOL before = [indexPath before:self.actionRowPath];
-//        NSIndexPath *newPath = before ? indexPath.next : indexPath;
-//        pathsToAdd = @[newPath];
-//        self.actionRowPath = newPath;
     } else {
         // case: action row tapped
         KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
@@ -354,36 +334,31 @@
         NSUInteger index = 0;
         NSUInteger startIndexAtOne = indexPath.next.row;
         NSLog(@"startIndexAtOne %lu", startIndexAtOne);
-        if (exercises != nil) {
+        
+        // disable edit button when action row appears
+        self.editButton.enabled = NO;
+        
+        if ([exercises count]) {
             for (KLEStat *exercise in exercises) {
                 // index path has to start after the normal cell
                 NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
                 NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndexAtOne inSection:indexPath.section];
                 [indexPathsForExercises addObject:exerciseIndexPath];
                 startIndexAtOne++;
-//                NSLog(@"Index path for exercise %@", [indexPathsForExercises objectAtIndex:index]);
                 NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
                 index++;
                 
                 // need to add code to update pathsToAdd array when adding another exercise to already expanded cell so the new exercise will show in expanded cell
             }
+        } else {
+            [indexPathsForExercises removeAllObjects];
+            NSLog(@"There's no exercises in this routine");
+            self.editButton.enabled = YES;
         }
-        // test
+
+        pathsToAdd = indexPathsForExercises;
+        self.actionRowPaths = indexPathsForExercises;
         
-        // new action cell
-//        pathsToAdd = @[indexPath.next];
-        
-        // test
-        pathsToAdd = [NSArray arrayWithArray:indexPathsForExercises];
-        
-//        NSLog(@"pathsToAdd row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
-//        self.actionRowPath = indexPath.next;
-        
-        // test
-        self.actionRowPaths = [NSArray arrayWithArray:indexPathsForExercises];
-        
-        // disable edit button when action row appears
-        self.editButton.enabled = NO;
         NSLog(@"actionRowPath %lu", self.actionRowPath.row);
     }
     
