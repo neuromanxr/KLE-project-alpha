@@ -34,6 +34,7 @@
 // action rows
 @property (nonatomic) NSIndexPath *actionRowPath;
 @property (nonatomic, strong) NSArray *actionRowPaths;
+@property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
 @end
 
@@ -225,6 +226,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"didSelectRowAtIndexPath row %lu and section %lu", indexPath.row, indexPath.section);
+    
     NSArray *pathsToAdd;
     NSArray *pathsToDelete;
     
@@ -262,12 +265,15 @@
         NSUInteger startIndexAtOne = newActionRowPath.row;
         NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
+        // case: when the selected indexPath is before the action rows
         if (before) {
-            // have to account for sections
+            self.didSelectRowAtIndexPath = indexPath;
+            // case: when the selected indexPath is in the same section
             if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
                 NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath.next;
+            // case: when the selected indexPath is not in the same section
             } else {
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath;
@@ -277,19 +283,23 @@
             startIndexAtOne = newActionRowPath.row;
             NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
+        // case: when the selected indexPath is after the action rows
         } else {
-            // case: the row selected is after the action row plus the expanded rows
+            // this indexPath is for exercises in the action rows
+            NSIndexPath *adjustedIndexPath;
+            // the row selected is after the action row plus the expanded rows
             // when action row that is selected below the already expanded action row, the daily routine index has to be the routine that was selected (where the routine is in daily store) and the action row start index has to be the index after the routine index
             // have to account for the expanded rows above, so subtract the count of actionRowPaths
-            // have to account for sections
-            // can simplify
             if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
                 NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
                 actionRowPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
                 newActionRowPath = [NSIndexPath indexPathForRow:(indexPath.next.row - [self.actionRowPaths count]) inSection:indexPath.section];
+                adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
+                self.didSelectRowAtIndexPath = adjustedIndexPath;
             } else {
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath;
+                adjustedIndexPath = indexPath;
             }
             
             routineIndex = actionRowPath.row;
@@ -319,6 +329,7 @@
         self.actionRowPaths = indexPathsForExercises;
         
     } else {
+        self.didSelectRowAtIndexPath = indexPath;
         // case: action row tapped
         KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
         NSDictionary *dailyRoutines = [dailyStore allStatStores];
@@ -377,7 +388,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // create an instance of UITableViewCell, with default appearance
+    // case: test if there are actionRowPaths and match the indexPath with the actionRowPath and set the indexInActionRowPaths. actionRowPath starts after the normal cell
     if ([self.actionRowPaths count]) {
         // is the indexPath being shown in actionRowPaths? if so set the indexInActionRowPaths to be the action row that matches indexPath
         if ([self.actionRowPaths containsObject:indexPath]) {
@@ -390,11 +401,35 @@
     } else {
         indexInActionRowPaths = -1;
     }
+    // case: action rows will be displayed for the indexPaths that equal to the indexPaths in actionRowPaths
     if ((indexInActionRowPaths >= 0) && [self.actionRowPaths[indexInActionRowPaths] isEqual:indexPath]) {
         NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[indexInActionRowPaths] row], indexPath.row);
+        NSLog(@"indexInActionRowPaths in action %lu", indexInActionRowPaths);
 
         // action row
         KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
+        
+        NSArray *routinesInRoutinesStore = [[KLERoutinesStore sharedStore] allStatStores];
+        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+        
+        NSUInteger startIndexForExercises = indexInActionRowPaths;
+        
+        // get the routine in the daily view from the selected index
+        KLEStatStore *routines = [dayRoutines objectAtIndex:self.didSelectRowAtIndexPath.row];
+        // find the row of the routine that matches the routine in daily
+        NSUInteger indexOfRoutineInRoutinesStore;
+
+        if ([routinesInRoutinesStore containsObject:routines]) {
+            indexOfRoutineInRoutinesStore = [routinesInRoutinesStore indexOfObjectIdenticalTo:routines];
+            routines = [routinesInRoutinesStore objectAtIndex:indexOfRoutineInRoutinesStore];
+        }
+        
+        NSArray *exercises = [routines allStats];
+        
+        actionCell.exerciseNameLabel.text = [[exercises objectAtIndex:startIndexForExercises] exercise];
 
         return actionCell;
     } else {
@@ -468,10 +503,10 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // disable swipe to delete when action row is present
+    // disable swipe to delete when action rows are present
     if (self.tableView.editing) {
         return UITableViewCellEditingStyleDelete;
-    } else if (self.actionRowPath == nil) {
+    } else if (![self.actionRowPaths count]) {
         return UITableViewCellEditingStyleDelete;
     }
     
@@ -480,6 +515,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // can implement deletion of exercises from expanded cells
+    // might be better to lock editing and deletion from user
+    
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
