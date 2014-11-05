@@ -300,6 +300,7 @@
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath;
                 adjustedIndexPath = indexPath;
+                self.didSelectRowAtIndexPath = indexPath;
             }
             
             routineIndex = actionRowPath.row;

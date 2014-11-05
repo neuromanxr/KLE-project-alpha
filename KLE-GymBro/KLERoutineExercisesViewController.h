@@ -13,4 +13,6 @@
 // stores the selected stat stores created by routines store in routine view controller
 @property (nonatomic, strong) KLEStatStore *statStore;
 
+@property (nonatomic, copy) void (^dismissBlock)(void);
+
 @end
