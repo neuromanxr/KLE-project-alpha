@@ -46,6 +46,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
+        
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"Exercises List";
         
@@ -94,8 +95,8 @@
     stat.reps = [self.repsField.text intValue];
     stat.weight = [self.weightField.text floatValue];
     
-    [self.navigationController popViewControllerAnimated:YES];
-    
+//    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:self.dismissBlock];
 }
 
 - (void)saveChanges:(id)sender

@@ -30,4 +30,6 @@
 
 @property (nonatomic, weak) id<ELVCDelegate> delegate;
 
+@property (nonatomic, copy) void (^dismissBlock)(void);
+
 @end

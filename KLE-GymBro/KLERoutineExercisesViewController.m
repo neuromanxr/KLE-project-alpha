@@ -5,6 +5,7 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLEDailyViewController.h"
 
 #import "KLEExercises.h"
 #import "KLEStat.h"
@@ -105,13 +106,20 @@
     // pass the selected statStore to exercise list view controller
     elvc.statStore = self.statStore;
     
-    [self.navigationController pushViewController:elvc animated:YES];
+    // completion block that will reload the table
+    elvc.dismissBlock = ^{
+        NSLog(@"parent VC %@", [self.navigationController.viewControllers objectAtIndex:0]);
+        KLEDailyViewController *dvc = [self.navigationController.viewControllers objectAtIndex:0];
+        NSLog(@"current Action Row Paths %lu", [dvc.currentActionRowPaths count]);
+        if ([dvc.currentActionRowPaths count]) {
+            [dvc createActionRowPathsFromRoutineIndex:dvc.newRoutineIndex startIndex:dvc.newStartIndex atIndexPath:dvc.currentIndexPath];
+        }
+    };
     
-    //    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:evc];
-    //    navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    //    self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    //    [self presentViewController:navController animated:YES completion:nil];
+//    [self.navigationController pushViewController:elvc animated:YES];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:elvc];
+    nav.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -136,8 +144,8 @@
 
 - (void)save:(id)sender
 {
-//    [self.navigationController popViewControllerAnimated:YES];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self.presentingViewController dismissViewControllerAnimated:YES completion:self.dismissBlock];
 }
 
 - (void)cancel:(id)sender
