@@ -10,6 +10,7 @@
 		5057D62019F781B900CF99C0 /* KLEActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D61F19F781B900CF99C0 /* KLEActionCell.m */; };
 		5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5057D62119F781CF00CF99C0 /* KLEActionCell.xib */; };
 		5057D62519F8CB5500CF99C0 /* NSIndexPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */; };
+		5057D6281A0CB4B800CF99C0 /* GymBro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6261A0CB4B800CF99C0 /* GymBro.xcdatamodeld */; };
 		50AC0B0E19B52C8500E39A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0D19B52C8500E39A7E /* Foundation.framework */; };
 		50AC0B1019B52C8500E39A7E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */; };
 		50AC0B1219B52C8500E39A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B1119B52C8500E39A7E /* UIKit.framework */; };
@@ -63,6 +64,7 @@
 		5057D62119F781CF00CF99C0 /* KLEActionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEActionCell.xib; sourceTree = "<group>"; };
 		5057D62319F8CB5500CF99C0 /* NSIndexPathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSIndexPathUtilities.h; sourceTree = "<group>"; };
 		5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSIndexPathUtilities.m; sourceTree = "<group>"; };
+		5057D6271A0CB4B800CF99C0 /* GymBro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GymBro.xcdatamodel; sourceTree = "<group>"; };
 		50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KLE-GymBro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AC0B0D19B52C8500E39A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -255,6 +257,7 @@
 				50DD4CE519C9464200A3E6E5 /* KLERoutinesStore.m */,
 				50DD4CEE19DF8CD700A3E6E5 /* KLEDailyStore.h */,
 				50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */,
+				5057D6261A0CB4B800CF99C0 /* GymBro.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */,
 				50DD4CCF19C22EC100A3E6E5 /* KLEExerciseListViewController.m in Sources */,
 				50DD4CD719C2ABEA00A3E6E5 /* KLEExercises.m in Sources */,
+				5057D6281A0CB4B800CF99C0 /* GymBro.xcdatamodeld in Sources */,
 				50DD4CE619C9464200A3E6E5 /* KLERoutinesStore.m in Sources */,
 				5057D62519F8CB5500CF99C0 /* NSIndexPathUtilities.m in Sources */,
 				50DD4CF019DF8CD700A3E6E5 /* KLEDailyStore.m in Sources */,
@@ -602,6 +606,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5057D6261A0CB4B800CF99C0 /* GymBro.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5057D6271A0CB4B800CF99C0 /* GymBro.xcdatamodel */,
+			);
+			currentVersion = 5057D6271A0CB4B800CF99C0 /* GymBro.xcdatamodel */;
+			path = GymBro.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 50AC0B0219B52C8500E39A7E /* Project object */;
 }
