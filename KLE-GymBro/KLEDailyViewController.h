@@ -10,10 +10,8 @@
 
 @interface KLEDailyViewController : UITableViewController
 
-@property NSUInteger newRoutineIndex;
-@property NSUInteger newStartIndex;
-@property (nonatomic, strong) NSIndexPath *currentIndexPath;
-@property (nonatomic, strong) NSArray *currentActionRowPaths;
+//@property NSUInteger newRoutineIndex;
+//@property NSUInteger newStartIndex;
 
 - (NSArray *)createActionRowPathsFromRoutineIndex:(NSUInteger)routineIndex startIndex:(NSUInteger)startIndex atIndexPath:(NSIndexPath *)indexPath;
 

@@ -175,26 +175,6 @@
     
     // insert this new row into the table
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-    
-//    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
-//    [self.navigationController pushViewController:revc animated:YES];
-    
-    NSLog(@"new stat%@", newStatStore);
-    
-//    KLEExerciseListViewController *evc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
-//    exerciseListViewController.exercise = newStat;
-    
-    // completion block that will reload the table
-//    detailViewController.dismissBlock = ^{
-//        [self.tableView reloadData];
-//    };
-    
-//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:evc];
-//    navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-//    self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-//    [self.navigationController pushViewController:evc animated:YES];
-//    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)editRoutines

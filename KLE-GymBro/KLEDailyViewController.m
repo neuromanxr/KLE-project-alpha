@@ -19,7 +19,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define COMMENT_LABEL_WIDTH 230
-#define COMMENT_LABEL_MIN_HEIGHT 65
+#define COMMENT_LABEL_MIN_HEIGHT 95
 #define COMMENT_LABEL_PADDING 10
 
 @interface KLEDailyViewController ()
@@ -35,6 +35,8 @@
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
 @property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
+
+@property (strong, nonatomic) IBOutlet UIButton *manageRoutines;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
 @property (strong, nonatomic) UIBarButtonItem *editButton;
@@ -80,10 +82,10 @@
     return labelHeightSize.height;
 }
 
-- (void)addWorkout
-{
-    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-    
+//- (void)addWorkout
+//{
+//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+
 //    CGRect frame = [UIScreen mainScreen].bounds;
 //    UIView *view = [[UIView alloc] initWithFrame:frame];
 //    view.backgroundColor = [UIColor redColor];
@@ -93,8 +95,8 @@
 //    UITabBarController *tbc = [[UITabBarController alloc] init];
 //    tbc.viewControllers = @[rvc, stats];
     
-    [self.navigationController pushViewController:rvc animated:YES];
-}
+//    [self.navigationController pushViewController:rvc animated:YES];
+//}
 
 - (void)addWorkout:(id)sender
 {
@@ -240,13 +242,29 @@
                                 options:nil];
     _dailyHeaderView.backgroundColor = [UIColor grayColor];
     self.headerDayLabel.text = daysArray[section];
+    self.manageRoutines.tag = section;
+    [self.manageRoutines addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
     
     return _dailyHeaderView;
 }
 
+//- (void)showFooterView:(id)sender
+//{
+//    // get a pointer to the button passed from sender
+//    UIButton *btn = (UIButton *)sender;
+//
+//    NSLog(@"Add button tapped in section %lu", btn.tag);
+//    
+//    CGRect newRect = CGRectMake(0, _dailyFooterView.frame.origin.y, self.view.bounds.size.width, 30.0);
+//    [UIView animateKeyframesWithDuration:2.0 delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+//        _dailyFooterView.frame = newRect;
+//        NSLog(@"daily footer view %@", _dailyFooterView);
+//    } completion:nil];
+//}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 90.0;
+    return 30.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -267,7 +285,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 60.0;
+    return 0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -398,10 +416,10 @@
         self.actionRowPaths = indexPathsForExercises;
         
         // test
-        self.currentActionRowPaths = self.actionRowPaths;
-        self.newRoutineIndex = routineIndex;
-        self.newStartIndex = startIndexAtOne;
-        self.currentIndexPath = indexPath;
+//        self.currentActionRowPaths = self.actionRowPaths;
+//        self.newRoutineIndex = routineIndex;
+//        self.newStartIndex = startIndexAtOne;
+//        self.currentIndexPath = indexPath;
         
     } else {
         // case: action row tapped
@@ -648,6 +666,27 @@
     
     daysArray = [[NSArray alloc] initWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
 
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    
+    if ([self.tableView indexPathForSelectedRow]) {
+        NSArray *pathsToDelete = self.actionRowPaths;
+        self.actionRowPaths = nil;
+        [self deselect];
+        
+        // animate the deletions and insertions
+        [self.tableView beginUpdates];
+        NSLog(@"paths to delete count %lu", pathsToDelete.count);
+        if (pathsToDelete.count) {
+            [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationFade];
+        }
+        [self.tableView endUpdates];
+        
+        self.editButton.enabled = YES;
+    }
 }
 
 @end

@@ -107,14 +107,14 @@
     elvc.statStore = self.statStore;
     
     // completion block that will reload the table
-    elvc.dismissBlock = ^{
-        NSLog(@"parent VC %@", [self.navigationController.viewControllers objectAtIndex:0]);
-        KLEDailyViewController *dvc = [self.navigationController.viewControllers objectAtIndex:0];
-        NSLog(@"current Action Row Paths %lu", [dvc.currentActionRowPaths count]);
-        if ([dvc.currentActionRowPaths count]) {
-            [dvc createActionRowPathsFromRoutineIndex:dvc.newRoutineIndex startIndex:dvc.newStartIndex atIndexPath:dvc.currentIndexPath];
-        }
-    };
+//    elvc.dismissBlock = ^{
+//        NSLog(@"parent VC %@", [self.navigationController.viewControllers objectAtIndex:0]);
+//        KLEDailyViewController *dvc = [self.navigationController.viewControllers objectAtIndex:0];
+//        NSLog(@"current Action Row Paths %lu", [dvc.currentActionRowPaths count]);
+//        if ([dvc.currentActionRowPaths count]) {
+//            [dvc createActionRowPathsFromRoutineIndex:dvc.newRoutineIndex startIndex:dvc.newStartIndex atIndexPath:dvc.currentIndexPath];
+//        }
+//    };
     
 //    [self.navigationController pushViewController:elvc animated:YES];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:elvc];

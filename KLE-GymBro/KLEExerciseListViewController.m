@@ -119,8 +119,8 @@
 
 - (void)cancel:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
-//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
