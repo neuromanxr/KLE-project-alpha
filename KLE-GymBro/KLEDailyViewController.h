@@ -10,10 +10,9 @@
 
 @interface KLEDailyViewController : UITableViewController
 
-{
-    NSInteger selectedIndex;
-//    NSMutableArray *textArray;
-    NSArray *daysArray;
-}
+//@property NSUInteger newRoutineIndex;
+//@property NSUInteger newStartIndex;
+
+- (NSArray *)createActionRowPathsFromRoutineIndex:(NSUInteger)routineIndex startIndex:(NSUInteger)startIndex atIndexPath:(NSIndexPath *)indexPath;
 
 @end

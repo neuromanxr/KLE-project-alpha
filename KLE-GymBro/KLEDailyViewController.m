@@ -19,20 +19,31 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define COMMENT_LABEL_WIDTH 230
-#define COMMENT_LABEL_MIN_HEIGHT 65
+#define COMMENT_LABEL_MIN_HEIGHT 95
 #define COMMENT_LABEL_PADDING 10
 
 @interface KLEDailyViewController ()
 
+{
+    NSArray *daysArray;
+    
+    NSInteger selectedIndex;
+    NSInteger indexInActionRowPaths;
+    NSUInteger rowCountBySection;
+}
+
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
 @property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
+
+@property (strong, nonatomic) IBOutlet UIButton *manageRoutines;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
 @property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows
-@property (nonatomic) NSIndexPath *actionRowPath;
+@property (nonatomic, strong) NSArray *actionRowPaths;
+@property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
 @end
 
@@ -71,10 +82,10 @@
     return labelHeightSize.height;
 }
 
-- (void)addWorkout
-{
-    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-    
+//- (void)addWorkout
+//{
+//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+
 //    CGRect frame = [UIScreen mainScreen].bounds;
 //    UIView *view = [[UIView alloc] initWithFrame:frame];
 //    view.backgroundColor = [UIColor redColor];
@@ -84,8 +95,8 @@
 //    UITabBarController *tbc = [[UITabBarController alloc] init];
 //    tbc.viewControllers = @[rvc, stats];
     
-    [self.navigationController pushViewController:rvc animated:YES];
-}
+//    [self.navigationController pushViewController:rvc animated:YES];
+//}
 
 - (void)addWorkout:(id)sender
 {
@@ -113,6 +124,65 @@
     [self.navigationController pushViewController:rvc animated:YES];
 }
 
+- (NSArray *)createActionRowPathsFromRoutineIndex:(NSUInteger)routineIndex startIndex:(NSUInteger)startIndex atIndexPath:(NSIndexPath *)indexPath
+{
+    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+    NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+    
+    NSMutableArray *indexPathsForExercises = [[NSMutableArray alloc] init];
+    
+    KLEStatStore *routines = [dayRoutines objectAtIndex:routineIndex];
+    NSArray *exercises = [routines allStats];
+    
+    NSUInteger index = 0;
+    if ([exercises count]) {
+        for (KLEStat *exercise in exercises) {
+            // index path has to start after the normal cell
+            NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
+            NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndex inSection:indexPath.section];
+            [indexPathsForExercises addObject:exerciseIndexPath];
+            startIndex++;
+            NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
+            index++;
+        }
+    } else {
+        NSLog(@"There's no exercises in this routine");
+        self.editButton.enabled = YES;
+    }
+    // animate the deletions and insertions
+//    [self.tableView beginUpdates];
+//    NSLog(@"paths to delete count %lu", self.actionRowPaths.count);
+//    if (self.actionRowPaths.count) {
+//        [self.tableView deleteRowsAtIndexPaths:self.actionRowPaths withRowAnimation:UITableViewRowAnimationNone];
+//    }
+//    NSLog(@"paths to add count %lu", indexPathsForExercises.count);
+//    if (indexPathsForExercises.count) {
+//        [self.tableView insertRowsAtIndexPaths:indexPathsForExercises withRowAnimation:UITableViewRowAnimationNone];
+//    }
+//    [self.tableView endUpdates];
+    
+    return indexPathsForExercises;
+}
+
+- (void)updateTableActionRowPathsToDelete:(NSArray *)pathsToDelete pathsToAdd:(NSArray *)pathsToAdd
+{
+    // animate the deletions and insertions
+    [self.tableView beginUpdates];
+    NSLog(@"paths to delete count %lu", pathsToDelete.count);
+    if (pathsToDelete.count) {
+        NSLog(@"paths to delete");
+        [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationNone];
+    }
+    NSLog(@"paths to add count %lu", pathsToAdd.count);
+    if (pathsToAdd.count) {
+        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
+        [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationNone];
+    }
+    [self.tableView endUpdates];
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // if this is the selected index we need to return the height of the cell
@@ -131,23 +201,36 @@
     NSString *key = [NSString stringWithFormat:@"%lu", section];
     NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
     
-//    NSLog(@"Action row %lu", [dayRoutines count] + (self.actionRowPath != nil));
+    NSUInteger actionRowsCount = 0;
 
-//    NSLog(@"Action row before %lu", self.actionRowPath.section);
     // have to account for the extra action row plus the routines in each section
-    if (self.actionRowPath.section == section) {
-//        NSLog(@"Action row section equals section");
-        return [dayRoutines count] + (self.actionRowPath != nil);
+    NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
+    NSIndexPath *actionRow;
+    rowCountBySection = 0;
+    NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
+    if ([self.actionRowPaths count]) {
+        actionRowsCount = [self.actionRowPaths count];
+        while (actionRow = [enumerator nextObject]) {
+            NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
+            if (actionRow.section == section) {
+                rowCountBySection = [dayRoutines count] + actionRowsCount;
+            } else {
+                rowCountBySection = [dayRoutines count];
+            }
+        }
     } else {
-        return [dayRoutines count];
+        rowCountBySection = [dayRoutines count];
+        NSLog(@"rowCountBySection ELSE %lu", rowCountBySection);
     }
-//    NSLog(@"Action row count %lu in section %lu", [dayRoutines count] + count, section);
-//    return [dayRoutines count] + (self.actionRowPath != nil);
+    
+    NSLog(@"Section %lu", section);
+    NSLog(@"Row count %lu", rowCountBySection);
+    return rowCountBySection;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog(@"number of sections %lu", [daysArray count]);
+//    NSLog(@"number of sections %lu", [daysArray count]);
     return [daysArray count];
 }
 
@@ -159,13 +242,29 @@
                                 options:nil];
     _dailyHeaderView.backgroundColor = [UIColor grayColor];
     self.headerDayLabel.text = daysArray[section];
+    self.manageRoutines.tag = section;
+    [self.manageRoutines addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
     
     return _dailyHeaderView;
 }
 
+//- (void)showFooterView:(id)sender
+//{
+//    // get a pointer to the button passed from sender
+//    UIButton *btn = (UIButton *)sender;
+//
+//    NSLog(@"Add button tapped in section %lu", btn.tag);
+//    
+//    CGRect newRect = CGRectMake(0, _dailyFooterView.frame.origin.y, self.view.bounds.size.width, 30.0);
+//    [UIView animateKeyframesWithDuration:2.0 delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
+//        _dailyFooterView.frame = newRect;
+//        NSLog(@"daily footer view %@", _dailyFooterView);
+//    } completion:nil];
+//}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 90.0;
+    return 30.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -186,18 +285,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 60.0;
+    return 0;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // we only don't want to allow selection on any cells which cannot be expanded
-//    if ([self getLabelHeightForIndex:indexPath.row] > COMMENT_LABEL_MIN_HEIGHT) {
-//        return indexPath;
-//    } else {
-//        return nil;
-//    }
-    if ([indexPath isEqual:self.actionRowPath]) {
+    // we only don't want to allow selection on any expanded cells
+    if ([self.actionRowPaths containsObject:indexPath]) {
         return nil;
     }
     return indexPath;
@@ -216,65 +310,232 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"didSelectRowAtIndexPath row %lu and section %lu", indexPath.row, indexPath.section);
+    
     NSArray *pathsToAdd;
     NSArray *pathsToDelete;
     
-    if ([self.actionRowPath.previous isEqual:indexPath]) {
+    NSIndexPath *actionRowPathPrevious;
+    if ([self.actionRowPaths count]) {
+        actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
+    }
+    NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
+    
+    if ([actionRowPathPrevious.previous isEqual:indexPath]) {
         // hide action cell
-        pathsToDelete = @[self.actionRowPath];
-        self.actionRowPath = nil;
+        pathsToDelete = self.actionRowPaths;
+        self.actionRowPaths = nil;
         [self deselect];
-        
-        // only turn on editing when action row is hidden
         self.editButton.enabled = YES;
-    } else if (self.actionRowPath) {
+        
+    // case: when an action row is already expanded and you click a different action row
+    } else if ([self.actionRowPaths count]) {
         // move action cell
-        pathsToDelete = @[self.actionRowPath];
-        BOOL before = [indexPath before:self.actionRowPath];
-        NSIndexPath *newPath = before ? indexPath.next : indexPath;
-        pathsToAdd = @[newPath];
-        self.actionRowPath = newPath;
+        NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
+        pathsToDelete = self.actionRowPaths;
+        
+        NSIndexPath *newActionRowPath;
+        NSIndexPath *actionRowPath = [self.actionRowPaths lastObject];
+        BOOL before = [indexPath before:actionRowPath];
+        
+//        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+//        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+//        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+//        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+        
+//        NSMutableArray *indexPathsForExercises = [[NSMutableArray alloc] init];
+        
+        NSUInteger routineIndex = actionRowPath.row;
+        NSUInteger startIndexAtOne = newActionRowPath.row;
+        NSLog(@"startIndexAtOne %lu", startIndexAtOne);
+        
+        // case: when the selected indexPath is before the action rows
+        if (before) {
+            self.didSelectRowAtIndexPath = indexPath;
+            // case: when the selected indexPath is in the same section
+            if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
+                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
+                actionRowPath = indexPath;
+                newActionRowPath = indexPath.next;
+            // case: when the selected indexPath is not in the same section
+            } else {
+                actionRowPath = indexPath;
+                newActionRowPath = indexPath;
+            }
+            
+            routineIndex = actionRowPath.row;
+            startIndexAtOne = newActionRowPath.row;
+            NSLog(@"startIndexAtOne %lu", startIndexAtOne);
+        
+        // case: when the selected indexPath is after the action rows
+        } else {
+            // this indexPath is for exercises in the action rows
+            NSIndexPath *adjustedIndexPath;
+            // the row selected is after the action row plus the expanded rows
+            // when action row that is selected below the already expanded action row, the daily routine index has to be the routine that was selected (where the routine is in daily store) and the action row start index has to be the index after the routine index
+            // have to account for the expanded rows above, so subtract the count of actionRowPaths
+            if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
+                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
+                actionRowPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
+                newActionRowPath = [NSIndexPath indexPathForRow:(indexPath.next.row - [self.actionRowPaths count]) inSection:indexPath.section];
+                adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
+                self.didSelectRowAtIndexPath = adjustedIndexPath;
+            } else {
+                actionRowPath = indexPath;
+                newActionRowPath = indexPath;
+                adjustedIndexPath = indexPath;
+                self.didSelectRowAtIndexPath = indexPath;
+            }
+            
+            routineIndex = actionRowPath.row;
+            startIndexAtOne = newActionRowPath.row;
+        }
+        // write a method to make actionRowPaths from exercises, pass in parameter startIndex, return array
+        // write block to update actionRowPaths when new exercise added to routine
+//        KLEStatStore *routines = [dayRoutines objectAtIndex:routineIndex];
+//        NSArray *exercises = [routines allStats];
+        
+        NSArray *indexPathsForExercises = [self createActionRowPathsFromRoutineIndex:routineIndex startIndex:startIndexAtOne atIndexPath:indexPath];
+        
+//        NSUInteger index = 0;
+//        if ([exercises count]) {
+//            for (KLEStat *exercise in exercises) {
+//                // index path has to start after the normal cell
+//                NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
+//                NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndexAtOne inSection:indexPath.section];
+//                [indexPathsForExercises addObject:exerciseIndexPath];
+//                startIndexAtOne++;
+//                NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
+//                index++;
+//            }
+//        } else {
+//            NSLog(@"There's no exercises in this routine");
+//            self.editButton.enabled = YES;
+//        }
+        pathsToAdd = indexPathsForExercises;
+        self.actionRowPaths = indexPathsForExercises;
+        
+        // test
+//        self.currentActionRowPaths = self.actionRowPaths;
+//        self.newRoutineIndex = routineIndex;
+//        self.newStartIndex = startIndexAtOne;
+//        self.currentIndexPath = indexPath;
+        
     } else {
-        // new action cell
-        pathsToAdd = @[indexPath.next];
-        NSLog(@"pathsToAdd row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
-        self.actionRowPath = indexPath.next;
+        // case: action row tapped
+        self.didSelectRowAtIndexPath = indexPath;
+//        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+//        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+//        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+//        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+//        
+//        KLEStatStore *routines = [dayRoutines objectAtIndex:indexPath.row];
+//        NSArray *exercises = [routines allStats];
+//        NSMutableArray *indexPathsForExercises = [[NSMutableArray alloc] init];
+//        
+//        NSUInteger index = 0;
+        NSUInteger startIndexAtOne = indexPath.next.row;
+        NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
         // disable edit button when action row appears
         self.editButton.enabled = NO;
-        NSLog(@"actionRowPath %lu", self.actionRowPath.row);
+        
+        NSArray *indexPathsForExercises = [self createActionRowPathsFromRoutineIndex:indexPath.row startIndex:startIndexAtOne atIndexPath:indexPath];
+        
+//        if ([exercises count]) {
+//            for (KLEStat *exercise in exercises) {
+//                // index path has to start after the normal cell
+//                NSLog(@"exercises in routine %@ in section %lu", exercise.exercise, indexPath.section);
+//                NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndexAtOne inSection:indexPath.section];
+//                [indexPathsForExercises addObject:exerciseIndexPath];
+//                startIndexAtOne++;
+//                NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
+//                index++;
+//                
+//                // need to add code to update pathsToAdd array when adding another exercise to already expanded cell so the new exercise will show in expanded cell
+//            }
+//        } else {
+//            [indexPathsForExercises removeAllObjects];
+//            NSLog(@"There's no exercises in this routine");
+//            self.editButton.enabled = YES;
+//        }
+
+        pathsToAdd = indexPathsForExercises;
+        self.actionRowPaths = indexPathsForExercises;
     }
     
+    [self updateTableActionRowPathsToDelete:pathsToDelete pathsToAdd:pathsToAdd];
     // animate the deletions and insertions
-    [self.tableView beginUpdates];
-    NSLog(@"paths to delete count %lu", pathsToDelete.count);
-    if (pathsToDelete.count) {
-        NSLog(@"paths to delete");
-        [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationNone];
-    }
-    NSLog(@"paths to add count %lu", pathsToAdd.count);
-    if (pathsToAdd.count) {
-        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
-        [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationNone];
-    }
-    [self.tableView endUpdates];
+//    [self.tableView beginUpdates];
+//    NSLog(@"paths to delete count %lu", pathsToDelete.count);
+//    if (pathsToDelete.count) {
+//        NSLog(@"paths to delete");
+//        [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationNone];
+//    }
+//    NSLog(@"paths to add count %lu", pathsToAdd.count);
+//    if (pathsToAdd.count) {
+//        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
+//        [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationNone];
+//    }
+//    [self.tableView endUpdates];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // create an instance of UITableViewCell, with default appearance
-    if ([self.actionRowPath isEqual:indexPath]) {
+    // case: test if there are actionRowPaths and match the indexPath with the actionRowPath and set the indexInActionRowPaths. actionRowPath starts after the normal cell
+    if ([self.actionRowPaths count]) {
+        // is the indexPath being shown in actionRowPaths? if so set the indexInActionRowPaths to be the action row that matches indexPath
+        if ([self.actionRowPaths containsObject:indexPath]) {
+            indexInActionRowPaths = [self.actionRowPaths indexOfObject:indexPath];
+        } else {
+            indexInActionRowPaths = -1;
+        }
+        
+        NSLog(@"indexInActionRowPaths %ld", (long)indexInActionRowPaths);
+    } else {
+        indexInActionRowPaths = -1;
+    }
+    // case: action rows will be displayed for the indexPaths that equal to the indexPaths in actionRowPaths
+    if ((indexInActionRowPaths >= 0) && [self.actionRowPaths[indexInActionRowPaths] isEqual:indexPath]) {
+        NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[indexInActionRowPaths] row], indexPath.row);
+        NSLog(@"indexInActionRowPaths in action %lu", indexInActionRowPaths);
+
         // action row
         KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
         
+        NSArray *routinesInRoutinesStore = [[KLERoutinesStore sharedStore] allStatStores];
+        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+        
+        NSUInteger startIndexForExercises = indexInActionRowPaths;
+        
+        // get the routine in the daily view from the selected index
+        KLEStatStore *routines = [dayRoutines objectAtIndex:self.didSelectRowAtIndexPath.row];
+        // find the row of the routine that matches the routine in daily
+        NSUInteger indexOfRoutineInRoutinesStore;
+
+        if ([routinesInRoutinesStore containsObject:routines]) {
+            indexOfRoutineInRoutinesStore = [routinesInRoutinesStore indexOfObjectIdenticalTo:routines];
+            routines = [routinesInRoutinesStore objectAtIndex:indexOfRoutineInRoutinesStore];
+        }
+        
+        NSArray *exercises = [routines allStats];
+        
+        actionCell.exerciseNameLabel.text = [[exercises objectAtIndex:startIndexForExercises] exercise];
+
         return actionCell;
     } else {
         // normal cell
         KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
         
-        NSInteger adjustedRow = indexPath.row;
-        if (_actionRowPath && (_actionRowPath.row < indexPath.row)) {
-            adjustedRow--;
+        // when action row already present and the view is loaded again
+        // adjust the row index accessed by day routines when cell comes into view, account for the action row paths count to make sure the day routines is accessed with the correct index
+        NSUInteger adjustedRow = indexPath.row;
+        if ([self.actionRowPaths count] && [[self.actionRowPaths lastObject] row] < indexPath.row) {
+            adjustedRow -= [self.actionRowPaths count];
+            NSLog(@"adjusted row decrement %lu", adjustedRow);
         }
         
         // access the daily store routines
@@ -288,8 +549,9 @@
         // action row, it is trying to access a index that isn't there
         
         // to access the properties of the routine, routine name, etc
+        NSLog(@"day routines at adjusted row %@", [dayRoutines objectAtIndex:adjustedRow]);
         KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:adjustedRow];
-        NSLog(@"cell day routines %@", dayRoutines);
+        NSLog(@"cell day routines array %@", dayRoutines);
         
         cell.accessoryType = UITableViewCellAccessoryDetailButton;
         cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
@@ -297,19 +559,7 @@
         
         return cell;
     }
-    
-//    if (selectedIndex == indexPath.row) {
-//        CGFloat labelHeight = [self getLabelHeightForIndex:indexPath.row];
-//        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, labelHeight);
-//    } else {
-//        // otherwise return the minimum height
-//        cell.dayLabel.frame = CGRectMake(cell.dayLabel.frame.origin.x, cell.dayLabel.frame.origin.y, cell.dayLabel.frame.size.width, COMMENT_LABEL_MIN_HEIGHT);
-//    }
-    
-//    cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
-//    cell.routineNameLabel.text = routineInDaily.routineName;
-    
-//    return cell;
+
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -335,7 +585,6 @@
     // routine in routine store
     KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
     
-    NSLog(@"access routines %@", routines);
     NSLog(@"index at routines store %@", routineInRoutineStore);
     
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
@@ -348,10 +597,10 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // disable swipe to delete when action row is present
+    // disable swipe to delete when action rows are present
     if (self.tableView.editing) {
         return UITableViewCellEditingStyleDelete;
-    } else if (self.actionRowPath == nil) {
+    } else if (![self.actionRowPaths count]) {
         return UITableViewCellEditingStyleDelete;
     }
     
@@ -360,6 +609,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // can implement deletion of exercises from expanded cells
+    // might be better to lock editing and deletion from user
+    
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
@@ -410,8 +662,31 @@
     // no cell is expanded
     selectedIndex = -1;
     
+    indexInActionRowPaths = -1;
+    
     daysArray = [[NSArray alloc] initWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
 
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    
+    if ([self.tableView indexPathForSelectedRow]) {
+        NSArray *pathsToDelete = self.actionRowPaths;
+        self.actionRowPaths = nil;
+        [self deselect];
+        
+        // animate the deletions and insertions
+        [self.tableView beginUpdates];
+        NSLog(@"paths to delete count %lu", pathsToDelete.count);
+        if (pathsToDelete.count) {
+            [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationFade];
+        }
+        [self.tableView endUpdates];
+        
+        self.editButton.enabled = YES;
+    }
 }
 
 @end
