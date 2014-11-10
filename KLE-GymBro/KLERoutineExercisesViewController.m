@@ -67,11 +67,6 @@
     
     // access the stat store using the selected index path row
     // then assign the exercise name property to the cell label
-//    cell.exerciseNameLabel.text = [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] exercise];
-//    cell.setsLabel.text = [NSString stringWithFormat:@"%d", [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] sets]];
-//    cell.repsLabel.text = [NSString stringWithFormat:@"%d", [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] reps]];
-//    cell.weightLabel.text = [NSString stringWithFormat:@"%.2f", [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] weight]];
-    
     NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     KLEStat *stat = statStoreArray[indexPath.row];
     cell.exerciseNameLabel.text = stat.exercise;

@@ -5,6 +5,8 @@
 //  Created by Kelvin Lee on 9/11/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLEAppDelegate.h"
+#import "KLEExercise.h"
 
 #import "KLERoutinesStore.h"
 #import "KLEExercises.h"
@@ -15,7 +17,7 @@
 
 @interface KLEExerciseListViewController () <UITextFieldDelegate>
 
-@property (nonatomic, copy) NSMutableArray *exerciseArray;
+@property (nonatomic, copy) NSArray *exerciseArray;
 @property (nonatomic, strong) IBOutlet UIView *headerView;
 
 // KLEHeaderView labels
@@ -50,8 +52,19 @@
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"Exercises List";
         
-        KLEExercises *exercises = [[KLEExercises alloc] init];
-        _exerciseArray = exercises.exerciseList;
+        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
+        
+        NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+        
+        NSLog(@"fetched Objects %@", fetchedObjects);
+        
+        _exerciseArray = [NSArray arrayWithArray:fetchedObjects];
+        NSLog(@"exerciseArray %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
+        
+//        KLEExercises *exercises = [[KLEExercises alloc] init];
+//        _exerciseArray = exercises.exerciseList;
         
         if (isNew) {
             
@@ -88,7 +101,7 @@
     NSIndexPath *selectedRow = stat.userSelections;
     
     // assign the label name from the selected row in exercise array
-    stat.exercise = _exerciseArray[0][selectedRow.row][0];
+    stat.exercise = [_exerciseArray[selectedRow.row] name];
     
     // assign the value in the text field to the store
     stat.sets = [self.setsField.text intValue];
@@ -106,7 +119,7 @@
     
     // pointer to the currently selected exercise
     KLEStat *stat = self.stat;
-    stat.exercise = _exerciseArray[0][selectedRow.row][0];
+    stat.exercise = [_exerciseArray[selectedRow.row] name];
     stat.sets = [self.setsField.text intValue];
     stat.reps = [self.repsField.text intValue];
     stat.weight = [self.weightField.text floatValue];
@@ -167,7 +180,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_exerciseArray[0] count];
+    return [_exerciseArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -176,16 +189,16 @@
     KLEExerciseListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEExerciseListViewCell" forIndexPath:indexPath];
     
     // loop through the exercise names in the second column
-    cell.exerciseLabel.text = _exerciseArray[0][indexPath.row][0];
+    cell.exerciseLabel.text = [[_exerciseArray objectAtIndex:indexPath.row] name];
     // muscle group name is the third column
-    cell.muscleGroupLabel.text = _exerciseArray[0][indexPath.row][1];
+//    cell.muscleGroupLabel.text = _exerciseArray[0][indexPath.row][1];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedExerciseLabel.text = _exerciseArray[0][indexPath.row][0];
+    self.selectedExerciseLabel.text = [_exerciseArray[indexPath.row] name];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

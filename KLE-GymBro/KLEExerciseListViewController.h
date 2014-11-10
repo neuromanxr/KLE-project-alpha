@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "CoreDataHelper.h"
 #import <Foundation/Foundation.h>
 
 @class KLEExerciseListViewController;
@@ -31,5 +32,7 @@
 @property (nonatomic, weak) id<ELVCDelegate> delegate;
 
 @property (nonatomic, copy) void (^dismissBlock)(void);
+
+@property (nonatomic, strong, readonly) CoreDataHelper *coreDataHelper;
 
 @end
