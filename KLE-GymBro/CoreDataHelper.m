@@ -250,11 +250,15 @@ NSString *storeFilename = @"GymBro.sqlite";
             CoreDataImporter *importer = [[CoreDataImporter alloc] initWithUniqueAttributes:[self selectedUniqueAttributes]];
             
             // STEP 3a: Insert a unique 'KLEExercise' object
-            NSManagedObject *KLEExercise = [importer insertBasicObjectInTargetEntity:@"KLEExercise" targetEntityAttribute:@"name" sourceXMLAttribute:@"name" attributeDict:attributeDict context:_importContext];
+            NSManagedObject *KLEExercise = [importer insertBasicObjectInTargetEntity:@"KLEExercise" targetEntityAttribute:@"exercisename" sourceXMLAttribute:@"exercisename" attributeDict:attributeDict context:_importContext];
             
             // STEP 3b: Insert a unique
             
             // STEP 4: Manually add extra attribute values
+            // attributes for entity is in attributeDict
+            if ([attributeDict valueForKey:@"musclename"]) {
+                [KLEExercise setValue:[attributeDict valueForKey:@"musclename"] forKey:@"musclename"];
+            }
             
             // STEP 5: Create relationships
             
@@ -278,7 +282,8 @@ NSString *storeFilename = @"GymBro.sqlite";
     NSMutableArray *attributes = [NSMutableArray new];
     
     // select an attribute in each entity for uniqueness
-    [entities addObject:@"KLEExercise"]; [attributes addObject:@"name"];
+    [entities addObject:@"KLEExercise"]; [attributes addObject:@"exercisename"];
+//    [entities addObject:@"KLEExercise"]; [attributes addObject:@"muscle"];
     
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:attributes forKeys:entities];
     

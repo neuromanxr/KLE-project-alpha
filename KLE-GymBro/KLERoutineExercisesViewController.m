@@ -5,6 +5,7 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLEAppDelegate.h"
 #import "KLEDailyViewController.h"
 
 #import "KLEExercises.h"
@@ -22,6 +23,19 @@
 @end
 
 @implementation KLERoutineExercisesViewController
+#define debug 1
+
+- (void)configureFetch
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
+    self.frc.delegate = self;
+}
 
 - (instancetype)init
 {

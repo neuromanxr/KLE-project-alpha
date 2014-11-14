@@ -7,6 +7,7 @@
 //
 #import "KLEAppDelegate.h"
 #import "KLEExercise.h"
+#import "KLEExerciseGoal.h"
 
 #import "KLERoutinesStore.h"
 #import "KLEExercises.h"
@@ -58,7 +59,9 @@
         
         NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
         
-        NSLog(@"fetched Objects %@", fetchedObjects);
+        for (KLEExercise *exer in fetchedObjects) {
+            NSLog(@"exercise %@ of muscle %@", exer.exercisename, exer.musclename);
+        }
         
         _exerciseArray = [NSArray arrayWithArray:fetchedObjects];
         NSLog(@"exerciseArray %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
@@ -84,29 +87,50 @@
 - (void)save:(id)sender
 {
     // create the exercise in the routine
-    [self.statStore createStat];
+//    [self.statStore createStat];
     
     // access the routine store
-    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
+//    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
     
     // it is the last exercise because revc adds the exercise to the end of the array
-    KLEStat *stat = [statStoreArray lastObject];
+//    KLEStat *stat = [statStoreArray lastObject];
     
     // store the table selection in the stat object
-    stat.userSelections = [self.tableView indexPathForSelectedRow];
+//    stat.userSelections = [self.tableView indexPathForSelectedRow];
     
     // store the exercise selection for this routine, there's only one selection always
     // might implement multiple selections in future
     // selected row is the exercise selected from the table selection
-    NSIndexPath *selectedRow = stat.userSelections;
+//    NSIndexPath *selectedRow = stat.userSelections;
     
     // assign the label name from the selected row in exercise array
-    stat.exercise = [_exerciseArray[selectedRow.row] name];
+//    stat.exercise = [_exerciseArray[selectedRow.row] name];
     
     // assign the value in the text field to the store
-    stat.sets = [self.setsField.text intValue];
-    stat.reps = [self.repsField.text intValue];
-    stat.weight = [self.weightField.text floatValue];
+//    stat.sets = [self.setsField.text intValue];
+//    stat.reps = [self.repsField.text intValue];
+//    stat.weight = [self.weightField.text floatValue];
+    
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    
+    // get the selected exercise
+    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
+    KLEExercise *selectedExercise = [_exerciseArray objectAtIndex:selectedRow.row];
+    NSLog(@"selected exercise %@ type %@", selectedExercise.exercisename, selectedExercise.musclename);
+    
+    // insert exercise goal object and set its attributes
+    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:cdh.context];
+    [exerciseGoal addExerciseObject:selectedExercise];
+    exerciseGoal.sets = @([self.setsField.text integerValue]);
+    exerciseGoal.reps = @([self.repsField.text integerValue]);
+    exerciseGoal.weight = @([self.weightField.text floatValue]);
+    NSLog(@"exercise goal object %@", exerciseGoal.exercise);
+    
+    [cdh saveContext];
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
+    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+    NSLog(@"exercise goals %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
     
 //    [self.navigationController popViewControllerAnimated:YES];
     [self.navigationController dismissViewControllerAnimated:YES completion:self.dismissBlock];
@@ -189,7 +213,7 @@
     KLEExerciseListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEExerciseListViewCell" forIndexPath:indexPath];
     
     // loop through the exercise names in the second column
-    cell.exerciseLabel.text = [[_exerciseArray objectAtIndex:indexPath.row] name];
+    cell.exerciseLabel.text = [[_exerciseArray objectAtIndex:indexPath.row] exercisename];
     // muscle group name is the third column
 //    cell.muscleGroupLabel.text = _exerciseArray[0][indexPath.row][1];
     
@@ -198,7 +222,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedExerciseLabel.text = [_exerciseArray[indexPath.row] name];
+    self.selectedExerciseLabel.text = [_exerciseArray[indexPath.row] exercisename];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

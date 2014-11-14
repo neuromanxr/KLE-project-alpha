@@ -10,7 +10,6 @@
 
 @interface KLERoutineViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *exerciseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *weightLabel;
 @property (weak, nonatomic) IBOutlet UILabel *setsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *repsLabel;

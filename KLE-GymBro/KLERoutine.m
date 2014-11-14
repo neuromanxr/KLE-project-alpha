@@ -1,19 +1,22 @@
 //
-//  KLEExercise.m
+//  KLERoutine.m
 //  KLE-GymBro
 //
 //  Created by Kelvin Lee on 11/11/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
-#import "KLEExercise.h"
+#import "KLERoutine.h"
 #import "KLEExerciseGoal.h"
+#import "KLERoutines.h"
 
 
-@implementation KLEExercise
+@implementation KLERoutine
 
-@dynamic exercisename;
-@dynamic musclename;
+@dynamic routinename;
+@dynamic exercisecount;
+@dynamic day;
 @dynamic exercisegoal;
+@dynamic routines;
 
 @end

@@ -12,12 +12,17 @@
 		5057D62519F8CB5500CF99C0 /* NSIndexPathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */; };
 		5057D62A1A0D95B000CF99C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5057D6291A0D95B000CF99C0 /* CoreData.framework */; };
 		5057D62E1A0D96CC00CF99C0 /* CoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D62D1A0D96CC00CF99C0 /* CoreDataHelper.m */; };
-		5057D6311A0DABBF00CF99C0 /* KLEExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6301A0DABBF00CF99C0 /* KLEExercise.m */; };
-		5057D6351A0DEB8B00CF99C0 /* KLESta.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6341A0DEB8B00CF99C0 /* KLESta.m */; };
-		5057D6391A0DF0C400CF99C0 /* KLEStatStor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6381A0DF0C400CF99C0 /* KLEStatStor.m */; };
 		5057D6B71A0DF6D400CF99C0 /* GymBro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6B41A0DF6D400CF99C0 /* GymBro.xcdatamodeld */; };
 		5057D6B91A0F5AAA00CF99C0 /* exercises.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5057D6B81A0F5AAA00CF99C0 /* exercises.xml */; };
 		5057D6BC1A0F603100CF99C0 /* CoreDataImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6BB1A0F603100CF99C0 /* CoreDataImporter.m */; };
+		5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6BE1A10989F00CF99C0 /* CoreDataTableViewController.m */; };
+		5057D6E31A12DCDC00CF99C0 /* KLEExerciseGoal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6E21A12DCDC00CF99C0 /* KLEExerciseGoal.m */; };
+		5057D6E61A12DCDD00CF99C0 /* KLERoutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6E51A12DCDD00CF99C0 /* KLERoutine.m */; };
+		5057D6E91A12DCDD00CF99C0 /* KLERoutineCompleted.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6E81A12DCDD00CF99C0 /* KLERoutineCompleted.m */; };
+		5057D6EC1A12DCDD00CF99C0 /* KLEExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6EB1A12DCDD00CF99C0 /* KLEExercise.m */; };
+		5057D6EF1A12DCDD00CF99C0 /* KLEExerciseCompleted.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6EE1A12DCDD00CF99C0 /* KLEExerciseCompleted.m */; };
+		5057D6F21A12DCDD00CF99C0 /* KLERoutines.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6F11A12DCDD00CF99C0 /* KLERoutines.m */; };
+		5057D6F51A12DCDD00CF99C0 /* KLERoutinesCompleted.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6F41A12DCDD00CF99C0 /* KLERoutinesCompleted.m */; };
 		50AC0B0E19B52C8500E39A7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0D19B52C8500E39A7E /* Foundation.framework */; };
 		50AC0B1019B52C8500E39A7E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */; };
 		50AC0B1219B52C8500E39A7E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B1119B52C8500E39A7E /* UIKit.framework */; };
@@ -74,17 +79,27 @@
 		5057D6291A0D95B000CF99C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5057D62C1A0D96CC00CF99C0 /* CoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataHelper.h; path = "KLE-GymBro/CoreDataHelper.h"; sourceTree = "<group>"; };
 		5057D62D1A0D96CC00CF99C0 /* CoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataHelper.m; path = "KLE-GymBro/CoreDataHelper.m"; sourceTree = "<group>"; };
-		5057D62F1A0DABBF00CF99C0 /* KLEExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExercise.h; sourceTree = "<group>"; };
-		5057D6301A0DABBF00CF99C0 /* KLEExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExercise.m; sourceTree = "<group>"; };
-		5057D6331A0DEB8B00CF99C0 /* KLESta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLESta.h; sourceTree = "<group>"; };
-		5057D6341A0DEB8B00CF99C0 /* KLESta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLESta.m; sourceTree = "<group>"; };
-		5057D6371A0DF0C400CF99C0 /* KLEStatStor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEStatStor.h; sourceTree = "<group>"; };
-		5057D6381A0DF0C400CF99C0 /* KLEStatStor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEStatStor.m; sourceTree = "<group>"; };
 		5057D6B51A0DF6D400CF99C0 /* GymBro 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "GymBro 2.xcdatamodel"; sourceTree = "<group>"; };
 		5057D6B61A0DF6D400CF99C0 /* GymBro.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GymBro.xcdatamodel; sourceTree = "<group>"; };
 		5057D6B81A0F5AAA00CF99C0 /* exercises.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = exercises.xml; sourceTree = "<group>"; };
 		5057D6BA1A0F603100CF99C0 /* CoreDataImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataImporter.h; sourceTree = "<group>"; };
 		5057D6BB1A0F603100CF99C0 /* CoreDataImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataImporter.m; sourceTree = "<group>"; };
+		5057D6BD1A10989F00CF99C0 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		5057D6BE1A10989F00CF99C0 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		5057D6E11A12DCDC00CF99C0 /* KLEExerciseGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExerciseGoal.h; sourceTree = "<group>"; };
+		5057D6E21A12DCDC00CF99C0 /* KLEExerciseGoal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExerciseGoal.m; sourceTree = "<group>"; };
+		5057D6E41A12DCDD00CF99C0 /* KLERoutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutine.h; sourceTree = "<group>"; };
+		5057D6E51A12DCDD00CF99C0 /* KLERoutine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutine.m; sourceTree = "<group>"; };
+		5057D6E71A12DCDD00CF99C0 /* KLERoutineCompleted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutineCompleted.h; sourceTree = "<group>"; };
+		5057D6E81A12DCDD00CF99C0 /* KLERoutineCompleted.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineCompleted.m; sourceTree = "<group>"; };
+		5057D6EA1A12DCDD00CF99C0 /* KLEExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExercise.h; sourceTree = "<group>"; };
+		5057D6EB1A12DCDD00CF99C0 /* KLEExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExercise.m; sourceTree = "<group>"; };
+		5057D6ED1A12DCDD00CF99C0 /* KLEExerciseCompleted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExerciseCompleted.h; sourceTree = "<group>"; };
+		5057D6EE1A12DCDD00CF99C0 /* KLEExerciseCompleted.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExerciseCompleted.m; sourceTree = "<group>"; };
+		5057D6F01A12DCDD00CF99C0 /* KLERoutines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutines.h; sourceTree = "<group>"; };
+		5057D6F11A12DCDD00CF99C0 /* KLERoutines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutines.m; sourceTree = "<group>"; };
+		5057D6F31A12DCDD00CF99C0 /* KLERoutinesCompleted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutinesCompleted.h; sourceTree = "<group>"; };
+		5057D6F41A12DCDD00CF99C0 /* KLERoutinesCompleted.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutinesCompleted.m; sourceTree = "<group>"; };
 		50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KLE-GymBro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AC0B0D19B52C8500E39A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -175,6 +190,8 @@
 				5057D62D1A0D96CC00CF99C0 /* CoreDataHelper.m */,
 				5057D6BA1A0F603100CF99C0 /* CoreDataImporter.h */,
 				5057D6BB1A0F603100CF99C0 /* CoreDataImporter.m */,
+				5057D6BD1A10989F00CF99C0 /* CoreDataTableViewController.h */,
+				5057D6BE1A10989F00CF99C0 /* CoreDataTableViewController.m */,
 			);
 			name = "Generic Core Data Classes";
 			path = ..;
@@ -283,12 +300,6 @@
 			isa = PBXGroup;
 			children = (
 				5057D6B81A0F5AAA00CF99C0 /* exercises.xml */,
-				5057D6331A0DEB8B00CF99C0 /* KLESta.h */,
-				5057D6341A0DEB8B00CF99C0 /* KLESta.m */,
-				5057D6371A0DF0C400CF99C0 /* KLEStatStor.h */,
-				5057D6381A0DF0C400CF99C0 /* KLEStatStor.m */,
-				5057D62F1A0DABBF00CF99C0 /* KLEExercise.h */,
-				5057D6301A0DABBF00CF99C0 /* KLEExercise.m */,
 				50DD4CD519C2ABEA00A3E6E5 /* KLEExercises.h */,
 				50DD4CD619C2ABEA00A3E6E5 /* KLEExercises.m */,
 				50B6F04F19B7ADB00015ED29 /* KLEStat.h */,
@@ -300,6 +311,20 @@
 				50DD4CEE19DF8CD700A3E6E5 /* KLEDailyStore.h */,
 				50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */,
 				5057D6B41A0DF6D400CF99C0 /* GymBro.xcdatamodeld */,
+				5057D6F31A12DCDD00CF99C0 /* KLERoutinesCompleted.h */,
+				5057D6F41A12DCDD00CF99C0 /* KLERoutinesCompleted.m */,
+				5057D6F01A12DCDD00CF99C0 /* KLERoutines.h */,
+				5057D6F11A12DCDD00CF99C0 /* KLERoutines.m */,
+				5057D6ED1A12DCDD00CF99C0 /* KLEExerciseCompleted.h */,
+				5057D6EE1A12DCDD00CF99C0 /* KLEExerciseCompleted.m */,
+				5057D6EA1A12DCDD00CF99C0 /* KLEExercise.h */,
+				5057D6EB1A12DCDD00CF99C0 /* KLEExercise.m */,
+				5057D6E71A12DCDD00CF99C0 /* KLERoutineCompleted.h */,
+				5057D6E81A12DCDD00CF99C0 /* KLERoutineCompleted.m */,
+				5057D6E41A12DCDD00CF99C0 /* KLERoutine.h */,
+				5057D6E51A12DCDD00CF99C0 /* KLERoutine.m */,
+				5057D6E11A12DCDC00CF99C0 /* KLEExerciseGoal.h */,
+				5057D6E21A12DCDC00CF99C0 /* KLEExerciseGoal.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -422,22 +447,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5057D6EF1A12DCDD00CF99C0 /* KLEExerciseCompleted.m in Sources */,
 				50DD4CCA19BE3E0100A3E6E5 /* KLERoutineViewCell.m in Sources */,
+				5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */,
 				50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */,
 				5057D6BC1A0F603100CF99C0 /* CoreDataImporter.m in Sources */,
 				5057D62019F781B900CF99C0 /* KLEActionCell.m in Sources */,
-				5057D6311A0DABBF00CF99C0 /* KLEExercise.m in Sources */,
 				50AC0B4119B5346E00E39A7E /* KLEMainView.m in Sources */,
-				5057D6391A0DF0C400CF99C0 /* KLEStatStor.m in Sources */,
 				50DD4CCF19C22EC100A3E6E5 /* KLEExerciseListViewController.m in Sources */,
 				50DD4CD719C2ABEA00A3E6E5 /* KLEExercises.m in Sources */,
+				5057D6F51A12DCDD00CF99C0 /* KLERoutinesCompleted.m in Sources */,
+				5057D6F21A12DCDD00CF99C0 /* KLERoutines.m in Sources */,
 				50DD4CE619C9464200A3E6E5 /* KLERoutinesStore.m in Sources */,
-				5057D6351A0DEB8B00CF99C0 /* KLESta.m in Sources */,
 				5057D62519F8CB5500CF99C0 /* NSIndexPathUtilities.m in Sources */,
 				50DD4CF019DF8CD700A3E6E5 /* KLEDailyStore.m in Sources */,
 				50DD4CD219C235FC00A3E6E5 /* KLEExerciseListViewCell.m in Sources */,
 				50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */,
 				50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */,
+				5057D6E91A12DCDD00CF99C0 /* KLERoutineCompleted.m in Sources */,
+				5057D6E61A12DCDD00CF99C0 /* KLERoutine.m in Sources */,
 				50DD4CE119C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m in Sources */,
 				50B6F04E19B7A6620015ED29 /* KLEStatStore.m in Sources */,
 				5057D6B71A0DF6D400CF99C0 /* GymBro.xcdatamodeld in Sources */,
@@ -446,6 +474,8 @@
 				50DD4CDE19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m in Sources */,
 				5057D62E1A0D96CC00CF99C0 /* CoreDataHelper.m in Sources */,
 				50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */,
+				5057D6EC1A12DCDD00CF99C0 /* KLEExercise.m in Sources */,
+				5057D6E31A12DCDC00CF99C0 /* KLEExerciseGoal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

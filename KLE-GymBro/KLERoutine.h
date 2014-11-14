@@ -1,5 +1,5 @@
 //
-//  KLEExercise.h
+//  KLERoutine.h
 //  KLE-GymBro
 //
 //  Created by Kelvin Lee on 11/11/14.
@@ -8,17 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "KLERoutines.h"
 
-@class KLEExerciseGoal;
+@class KLEExerciseGoal, KLERoutines;
 
-@interface KLEExercise : NSManagedObject
+@interface KLERoutine : KLERoutines
 
-@property (nonatomic, retain) NSString * exercisename;
-@property (nonatomic, retain) NSString * musclename;
+@property (nonatomic, retain) NSString * routinename;
+@property (nonatomic, retain) NSNumber * exercisecount;
+@property (nonatomic, retain) NSString * day;
 @property (nonatomic, retain) NSSet *exercisegoal;
+@property (nonatomic, retain) KLERoutines *routines;
 @end
 
-@interface KLEExercise (CoreDataGeneratedAccessors)
+@interface KLERoutine (CoreDataGeneratedAccessors)
 
 - (void)addExercisegoalObject:(KLEExerciseGoal *)value;
 - (void)removeExercisegoalObject:(KLEExerciseGoal *)value;
