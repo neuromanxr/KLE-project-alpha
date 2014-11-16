@@ -2,7 +2,7 @@
 //  KLEExercise.m
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/11/14.
+//  Created by Kelvin Lee on 11/16/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 

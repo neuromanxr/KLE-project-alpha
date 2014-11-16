@@ -2,7 +2,7 @@
 //  KLEExercise.h
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/11/14.
+//  Created by Kelvin Lee on 11/16/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
@@ -15,14 +15,6 @@
 
 @property (nonatomic, retain) NSString * exercisename;
 @property (nonatomic, retain) NSString * musclename;
-@property (nonatomic, retain) NSSet *exercisegoal;
-@end
-
-@interface KLEExercise (CoreDataGeneratedAccessors)
-
-- (void)addExercisegoalObject:(KLEExerciseGoal *)value;
-- (void)removeExercisegoalObject:(KLEExerciseGoal *)value;
-- (void)addExercisegoal:(NSSet *)values;
-- (void)removeExercisegoal:(NSSet *)values;
+@property (nonatomic, retain) KLEExerciseGoal *exercisegoal;
 
 @end

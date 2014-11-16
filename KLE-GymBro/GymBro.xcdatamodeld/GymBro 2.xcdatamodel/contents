@@ -3,24 +3,24 @@
     <entity name="KLEExercise" representedClassName="KLEExercise" syncable="YES">
         <attribute name="exercisename" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="musclename" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="exercisegoal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseGoal" inverseName="exercise" inverseEntity="KLEExerciseGoal" syncable="YES"/>
+        <relationship name="exercisegoal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLEExerciseGoal" inverseName="exercise" inverseEntity="KLEExerciseGoal" syncable="YES"/>
     </entity>
     <entity name="KLEExerciseCompleted" representedClassName="KLEExerciseCompleted" parentEntity="KLEExerciseGoal" syncable="YES">
-        <relationship name="routinecompleted" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLERoutineCompleted" inverseName="exercisecompleted" inverseEntity="KLERoutineCompleted" syncable="YES"/>
+        <relationship name="routinecompleted" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLERoutineCompleted" inverseName="exercisecompleted" inverseEntity="KLERoutineCompleted" syncable="YES"/>
     </entity>
     <entity name="KLEExerciseGoal" representedClassName="KLEExerciseGoal" syncable="YES">
         <attribute name="hasWeight" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="reps" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="sets" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="weight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="exercise" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExercise" inverseName="exercisegoal" inverseEntity="KLEExercise" syncable="YES"/>
-        <relationship name="routine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLERoutine" inverseName="exercisegoal" inverseEntity="KLERoutine" syncable="YES"/>
+        <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLEExercise" inverseName="exercisegoal" inverseEntity="KLEExercise" syncable="YES"/>
+        <relationship name="routine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLERoutine" inverseName="exercisegoal" inverseEntity="KLERoutine" syncable="YES"/>
     </entity>
     <entity name="KLERoutine" representedClassName="KLERoutine" parentEntity="KLERoutines" syncable="YES">
         <attribute name="day" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="exercisecount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="routinename" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="exercisegoal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseGoal" inverseName="routine" inverseEntity="KLEExerciseGoal" syncable="YES"/>
+        <relationship name="exercisegoal" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="KLEExerciseGoal" inverseName="routine" inverseEntity="KLEExerciseGoal" syncable="YES"/>
         <relationship name="routines" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLERoutines" inverseName="routine" inverseEntity="KLERoutines" syncable="YES"/>
     </entity>
     <entity name="KLERoutineCompleted" representedClassName="KLERoutineCompleted" parentEntity="KLERoutinesCompleted" syncable="YES">
@@ -38,10 +38,10 @@
     </entity>
     <fetchRequest name="Test" entity="KLEExercise" predicateString="exerciseName CONTAINS &quot;e&quot;"/>
     <elements>
-        <element name="KLEExercise" positionX="63" positionY="29" width="128" height="88"/>
-        <element name="KLERoutine" positionX="63" positionY="-180" width="128" height="88"/>
+        <element name="KLEExercise" positionX="90" positionY="29" width="128" height="88"/>
+        <element name="KLERoutine" positionX="63" positionY="-180" width="128" height="118"/>
         <element name="KLEExerciseGoal" positionX="270" positionY="-70" width="128" height="133"/>
-        <element name="KLERoutines" positionX="63" positionY="-289" width="128" height="73"/>
+        <element name="KLERoutines" positionX="106" positionY="-288" width="128" height="73"/>
         <element name="KLEExerciseCompleted" positionX="448" positionY="-4" width="128" height="58"/>
         <element name="KLERoutinesCompleted" positionX="367" positionY="-270" width="128" height="88"/>
         <element name="KLERoutineCompleted" positionX="430" positionY="-121" width="128" height="73"/>

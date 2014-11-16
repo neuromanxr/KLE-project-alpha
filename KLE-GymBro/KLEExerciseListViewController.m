@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 #import "KLEAppDelegate.h"
+#import "CoreDataHelper.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
+#import "KLERoutine.h"
 
 #import "KLERoutinesStore.h"
 #import "KLEExercises.h"
@@ -33,7 +35,20 @@
 @end
 
 @implementation KLEExerciseListViewController
+#define debug 1
 
+#pragma mark - DATA
+- (void)configureFetch
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:YES], nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercisename" cacheName:nil];
+    self.frc.delegate = self;
+}
 - (instancetype)init
 {
     return [self initWithStyle:UITableViewStylePlain];
@@ -53,18 +68,16 @@
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"Exercises List";
         
-        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-        
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
-        
-        NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
-        
-        for (KLEExercise *exer in fetchedObjects) {
-            NSLog(@"exercise %@ of muscle %@", exer.exercisename, exer.musclename);
-        }
-        
-        _exerciseArray = [NSArray arrayWithArray:fetchedObjects];
-        NSLog(@"exerciseArray %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
+//        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
+//        NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+//        
+//        for (KLEExercise *exer in fetchedObjects) {
+//            NSLog(@"exercise %@ of muscle %@", exer.exercisename, exer.musclename);
+//        }
+//        
+//        _exerciseArray = [NSArray arrayWithArray:fetchedObjects];
+//        NSLog(@"exerciseArray %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
         
 //        KLEExercises *exercises = [[KLEExercises alloc] init];
 //        _exerciseArray = exercises.exerciseList;
@@ -112,25 +125,38 @@
 //    stat.weight = [self.weightField.text floatValue];
     
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:cdh.context];
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
+    exerciseGoal.exercise = selectedExercise;
+    
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
+    [selectedRoutine addExerciseGoal:exerciseGoal];
+//    [selectedRoutine addExercisegoalObject:exerciseGoal];
+//    exerciseGoal.routinename = [newRoutine description];
+    
+//    NSLog(@"new routine %@", newRoutine.routinename);
+    
+//    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     
     // get the selected exercise
-    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
-    KLEExercise *selectedExercise = [_exerciseArray objectAtIndex:selectedRow.row];
+//    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
+//    KLEExercise *selectedExercise = [_exerciseArray objectAtIndex:selectedRow.row];
     NSLog(@"selected exercise %@ type %@", selectedExercise.exercisename, selectedExercise.musclename);
     
     // insert exercise goal object and set its attributes
-    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:cdh.context];
-    [exerciseGoal addExerciseObject:selectedExercise];
-    exerciseGoal.sets = @([self.setsField.text integerValue]);
-    exerciseGoal.reps = @([self.repsField.text integerValue]);
-    exerciseGoal.weight = @([self.weightField.text floatValue]);
-    NSLog(@"exercise goal object %@", exerciseGoal.exercise);
+//    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:cdh.context];
+//    [exerciseGoal addExerciseObject:selectedExercise];
+//    exerciseGoal.sets = @([self.setsField.text integerValue]);
+//    exerciseGoal.reps = @([self.repsField.text integerValue]);
+//    exerciseGoal.weight = @([self.weightField.text floatValue]);
+//    NSLog(@"exercise goal object %@", exerciseGoal.exercise);
     
     [cdh saveContext];
     
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
-    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
-    NSLog(@"exercise goals %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
+//    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+//    NSLog(@"exercise goals %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
     
 //    [self.navigationController popViewControllerAnimated:YES];
     [self.navigationController dismissViewControllerAnimated:YES completion:self.dismissBlock];
@@ -160,60 +186,62 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (!_headerView) {
-        // load headerView.xib
-        // lazy instantiation, saves memory
-        [[NSBundle mainBundle] loadNibNamed:@"KLEHeaderView"
-                                      owner:self
-                                    options:nil];
-        _headerView.backgroundColor = [UIColor grayColor];
-        
-        // set the text field delegates
-        self.setsField.delegate = self;
-        self.repsField.delegate = self;
-        self.weightField.delegate = self;
-        
-        // change keyboard to number pad
-        self.setsField.keyboardType = UIKeyboardTypeNumberPad;
-        self.repsField.keyboardType = UIKeyboardTypeNumberPad;
-        self.weightField.keyboardType = UIKeyboardTypeNumberPad;
-        
-        if (self.stat) {
-            self.selectedExerciseLabel.text = self.stat.exercise;
-            self.setsField.text = [NSString stringWithFormat:@"%d", self.stat.sets];
-            self.repsField.text = [NSString stringWithFormat:@"%d", self.stat.reps];
-            self.weightField.text = [NSString stringWithFormat:@"%f", self.stat.weight];
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    if (!_headerView) {
+//        // load headerView.xib
+//        // lazy instantiation, saves memory
+//        [[NSBundle mainBundle] loadNibNamed:@"KLEHeaderView"
+//                                      owner:self
+//                                    options:nil];
+//        _headerView.backgroundColor = [UIColor grayColor];
+//        
+//        // set the text field delegates
+//        self.setsField.delegate = self;
+//        self.repsField.delegate = self;
+//        self.weightField.delegate = self;
+//        
+//        // change keyboard to number pad
+//        self.setsField.keyboardType = UIKeyboardTypeNumberPad;
+//        self.repsField.keyboardType = UIKeyboardTypeNumberPad;
+//        self.weightField.keyboardType = UIKeyboardTypeNumberPad;
+//        
+//        if (self.stat) {
+//            self.selectedExerciseLabel.text = self.stat.exercise;
+//            self.setsField.text = [NSString stringWithFormat:@"%d", self.stat.sets];
+//            self.repsField.text = [NSString stringWithFormat:@"%d", self.stat.reps];
+//            self.weightField.text = [NSString stringWithFormat:@"%f", self.stat.weight];
+//
+//        } else {
+//            self.selectedExerciseLabel.text = @"Exercise Name";
+//            self.setsField.text = [NSString stringWithFormat:@"%d", 0];
+//            self.repsField.text = [NSString stringWithFormat:@"%d", 0];
+//            self.weightField.text = [NSString stringWithFormat:@"%f", 0.0];
+//        }
+//    }
+//    
+//    return _headerView;
+//}
 
-        } else {
-            self.selectedExerciseLabel.text = @"Exercise Name";
-            self.setsField.text = [NSString stringWithFormat:@"%d", 0];
-            self.repsField.text = [NSString stringWithFormat:@"%d", 0];
-            self.weightField.text = [NSString stringWithFormat:@"%f", 0.0];
-        }
-    }
-    
-    return _headerView;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 120.0;
+//}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 120.0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [_exerciseArray count];
-}
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return [_exerciseArray count];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
     KLEExerciseListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEExerciseListViewCell" forIndexPath:indexPath];
     
+    KLEExercise *exercise = [self.frc objectAtIndexPath:indexPath];
+    cell.exerciseLabel.text = exercise.exercisename;
     // loop through the exercise names in the second column
-    cell.exerciseLabel.text = [[_exerciseArray objectAtIndex:indexPath.row] exercisename];
+//    cell.exerciseLabel.text = [[_exerciseArray objectAtIndex:indexPath.row] exercisename];
     // muscle group name is the third column
 //    cell.muscleGroupLabel.text = _exerciseArray[0][indexPath.row][1];
     
@@ -222,7 +250,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedExerciseLabel.text = [_exerciseArray[indexPath.row] exercisename];
+    NSLog(@"Did select row %@", [self.frc objectAtIndexPath:indexPath]);
+//    self.selectedExerciseLabel.text = [_exerciseArray[indexPath.row] exercisename];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -236,12 +265,12 @@
 {
     [super viewWillAppear:YES];
     
-    KLEStat *stat = self.stat;
+//    KLEStat *stat = self.stat;
     
     // pre-select the selected exercise from revc
-    [self.tableView selectRowAtIndexPath:stat.userSelections animated:YES scrollPosition:UITableViewScrollPositionTop];
+//    [self.tableView selectRowAtIndexPath:stat.userSelections animated:YES scrollPosition:UITableViewScrollPositionTop];
     
-    NSLog(@"ELVC viewWillAppear ELVCselection %lu", stat.userSelections.row);
+//    NSLog(@"ELVC viewWillAppear ELVCselection %lu", stat.userSelections.row);
     
     // set the text field delegates
     self.setsField.delegate = self;
@@ -258,6 +287,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEExerciseListViewCell" bundle:nil];

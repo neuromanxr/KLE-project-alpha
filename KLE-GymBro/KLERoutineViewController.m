@@ -135,6 +135,7 @@
     
     // test
     revc.selectedRoutineID = [[self.frc objectAtIndexPath:indexPath] objectID];
+    revc.frc = self.frc;
     
     KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
     NSLog(@"selected routine ID %@", selectedRoutine.routinename);
