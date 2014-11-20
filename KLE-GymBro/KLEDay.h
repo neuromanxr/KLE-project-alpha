@@ -1,5 +1,5 @@
 //
-//  KLERoutines.h
+//  KLEDay.h
 //  KLE-GymBro
 //
 //  Created by Kelvin Lee on 11/19/14.
@@ -11,14 +11,14 @@
 
 @class KLERoutine;
 
-@interface KLERoutines : NSManagedObject
+@interface KLEDay : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * routinescount;
 @property (nonatomic, retain) NSNumber * daynumber;
+@property (nonatomic, retain) NSNumber * routinescount;
 @property (nonatomic, retain) NSSet *routine;
 @end
 
-@interface KLERoutines (CoreDataGeneratedAccessors)
+@interface KLEDay (CoreDataGeneratedAccessors)
 
 - (void)addRoutineObject:(KLERoutine *)value;
 - (void)removeRoutineObject:(KLERoutine *)value;

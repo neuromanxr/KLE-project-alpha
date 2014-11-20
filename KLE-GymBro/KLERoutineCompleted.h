@@ -2,20 +2,19 @@
 //  KLERoutineCompleted.h
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/16/14.
+//  Created by Kelvin Lee on 11/19/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "KLERoutinesCompleted.h"
 
-@class KLEExerciseCompleted, KLERoutinesCompleted;
+@class KLEExerciseCompleted;
 
-@interface KLERoutineCompleted : KLERoutinesCompleted
+@interface KLERoutineCompleted : NSManagedObject
 
+@property (nonatomic, retain) NSString * routinenamecompleted;
 @property (nonatomic, retain) NSSet *exercisecompleted;
-@property (nonatomic, retain) KLERoutinesCompleted *routinescompleted;
 @end
 
 @interface KLERoutineCompleted (CoreDataGeneratedAccessors)

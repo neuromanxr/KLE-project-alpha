@@ -2,7 +2,7 @@
 //  KLEExerciseGoal.h
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/16/14.
+//  Created by Kelvin Lee on 11/19/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
@@ -13,10 +13,10 @@
 
 @interface KLEExerciseGoal : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * sets;
+@property (nonatomic, retain) NSNumber * hasweight;
 @property (nonatomic, retain) NSNumber * reps;
+@property (nonatomic, retain) NSNumber * sets;
 @property (nonatomic, retain) NSNumber * weight;
-@property (nonatomic, retain) NSNumber * hasWeight;
 @property (nonatomic, retain) KLEExercise *exercise;
 @property (nonatomic, retain) KLERoutine *routine;
 

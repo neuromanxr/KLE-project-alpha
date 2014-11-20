@@ -6,11 +6,14 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLERoutines.h"
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
 @interface KLERoutineViewController : CoreDataTableViewController
 
-@property (nonatomic, retain) NSString *dayTag;
+@property (nonatomic) NSUInteger dayTag;
+@property (nonatomic, strong) NSManagedObjectID *routinesID;
+@property (nonatomic, strong) NSManagedObjectID *dayID;
 
 @end

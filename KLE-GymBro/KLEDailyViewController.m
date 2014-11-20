@@ -5,6 +5,10 @@
 //  Created by Kelvin Lee on 9/6/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLEDay.h"
+#import "KLERoutines.h"
+#import "KLERoutine.h"
+#import "KLEAppDelegate.h"
 
 #import "NSIndexPathUtilities.h"
 #import "KLEActionCell.h"
@@ -45,9 +49,33 @@
 @property (nonatomic, strong) NSArray *actionRowPaths;
 @property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
+@property (nonatomic, strong) NSArray *routineObjects;
+@property (nonatomic, strong) NSManagedObjectID *dayID;
+@property (nonatomic, strong) NSManagedObjectID *routinesID;
+
 @end
 
 @implementation KLEDailyViewController
+
+#define debug 1
+
+#pragma mark - DATA
+- (void)performFetch
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
+//    KLERoutines *routines = (KLERoutines *)[cdh.context executeFetchRequest:request error:nil];
+//    KLERoutines *routines = (KLERoutines *)[cdh.context existingObjectWithID:self.routinesID error:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"day != ''"];
+    [request setPredicate:predicate];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+    self.routineObjects = [cdh.context executeFetchRequest:request error:nil];
+    
+    NSLog(@"routine objects %@", self.routineObjects);
+}
 
 - (instancetype)init
 {
@@ -105,21 +133,64 @@
     
     // convert the button tag to a string to use as key for dictionary
     // there's probably a better way
-    NSString *dayKey = [NSString stringWithFormat:@"%ld", (long)btn.tag];
-    NSLog(@"Add button tapped in section %@", dayKey);
+//    NSString *dayKey = [NSString stringWithFormat:@"%ld", (long)btn.tag];
+    NSNumber *dayNumber = @(btn.tag);
+    NSLog(@"Add button tapped in section %@", dayNumber);
+    
+//    NSString *dayInRoutines;
+//    switch (dayNumber) {
+//        case 0:
+//            dayInRoutines = @"Sunday";
+//            break;
+//        case 1:
+//            dayInRoutines = @"Monday";
+//            break;
+//        case 2:
+//            dayInRoutines = @"Tuesday";
+//            break;
+//        case 3:
+//            dayInRoutines = @"Wednesday";
+//            break;
+//        case 4:
+//            dayInRoutines = @"Thursday";
+//            break;
+//        case 5:
+//            dayInRoutines = @"Friday";
+//            break;
+//        case 6:
+//            dayInRoutines = @"Saturday";
+//            break;
+//        
+//        default:
+//            NSLog(@"Error");
+//            break;
+//    }
+    
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEDay"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"daynumber == %@", dayNumber];
+    [request setPredicate:predicate];
+    NSArray *fetchResult = [cdh.context executeFetchRequest:request error:nil];
+    KLEDay *selectedDay = [fetchResult firstObject];
+    self.dayID = [selectedDay objectID];
+    NSLog(@"##Selected Day %@", selectedDay);
     
     // access the dictionary of day routines
-    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
+//    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
     
     // access the routines for that day
-    NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:dayKey];
+//    NSMutableArray *dayRoutines = [dailyWorkouts objectForKey:dayKey];
     
-    NSLog(@"day routines %@", dayRoutines);
+//    NSLog(@"day routines %@", dayRoutines);
+    
     
     KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
     
     // pass the day selected
-    rvc.dayTag = dayKey;
+//    rvc.dayTag = daynumber;
+    rvc.routinesID = self.routinesID;
+    rvc.dayID = self.dayID;
+    NSLog(@"routines ID %@", self.routinesID);
     
     [self.navigationController pushViewController:rvc animated:YES];
 }
@@ -183,38 +254,51 @@
     }
 }
 
+#pragma mark - DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // access the dictionary of day routines to get the count
-    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
-    NSString *key = [NSString stringWithFormat:@"%lu", section];
-    NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEDay"];
+//    KLERoutines *routines = (KLERoutines *)[cdh.context existingObjectWithID:self.routinesID error:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"daynumber == %@", @(section)];
+    [request setPredicate:predicate];
+//    NSUInteger routinesCount = [cdh.context countForFetchRequest:request error:nil];
+    NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
+    KLEDay *dayRoutines = [requestObjects firstObject];
+    NSUInteger routinesCount = [dayRoutines.routine count];
+    NSLog(@"###routines count %lu", routinesCount);
     
-    NSUInteger actionRowsCount = 0;
-
-    // have to account for the extra action row plus the routines in each section
-    NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
-    NSIndexPath *actionRow;
-    rowCountBySection = 0;
-    NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
-    if ([self.actionRowPaths count]) {
-        actionRowsCount = [self.actionRowPaths count];
-        while (actionRow = [enumerator nextObject]) {
-            NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
-            if (actionRow.section == section) {
-                rowCountBySection = [dayRoutines count] + actionRowsCount;
-            } else {
-                rowCountBySection = [dayRoutines count];
-            }
-        }
-    } else {
-        rowCountBySection = [dayRoutines count];
-        NSLog(@"rowCountBySection ELSE %lu", rowCountBySection);
-    }
-    
-    NSLog(@"Section %lu", section);
-    NSLog(@"Row count %lu", rowCountBySection);
-    return rowCountBySection;
+    return routinesCount;
+//    // access the dictionary of day routines to get the count
+//    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
+//    NSString *key = [NSString stringWithFormat:@"%lu", section];
+//    NSArray *dayRoutines = [dailyWorkouts objectForKey:key];
+//    
+//    NSUInteger actionRowsCount = 0;
+//
+//    // have to account for the extra action row plus the routines in each section
+//    NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
+//    NSIndexPath *actionRow;
+//    rowCountBySection = 0;
+//    NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
+//    if ([self.actionRowPaths count]) {
+//        actionRowsCount = [self.actionRowPaths count];
+//        while (actionRow = [enumerator nextObject]) {
+//            NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
+//            if (actionRow.section == section) {
+//                rowCountBySection = [dayRoutines count] + actionRowsCount;
+//            } else {
+//                rowCountBySection = [dayRoutines count];
+//            }
+//        }
+//    } else {
+//        rowCountBySection = [dayRoutines count];
+//        NSLog(@"rowCountBySection ELSE %lu", rowCountBySection);
+//    }
+//    
+//    NSLog(@"Section %lu", section);
+//    NSLog(@"Row count %lu", rowCountBySection);
+//    return rowCountBySection;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -235,6 +319,23 @@
     [self.manageRoutines addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
     
     return _dailyHeaderView;
+}
+
+// override CoreDataTableViewController methods
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return nil;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title
+               atIndex:(NSInteger)index
+{
+    return 0;
 }
 
 //- (void)showFooterView:(id)sender
@@ -451,30 +552,44 @@
         
         // when action row already present and the view is loaded again
         // adjust the row index accessed by day routines when cell comes into view, account for the action row paths count to make sure the day routines is accessed with the correct index
-        NSUInteger adjustedRow = indexPath.row;
-        if ([self.actionRowPaths count] && [[self.actionRowPaths lastObject] row] < indexPath.row) {
-            adjustedRow -= [self.actionRowPaths count];
-            NSLog(@"adjusted row decrement %lu", adjustedRow);
-        }
+//        NSUInteger adjustedRow = indexPath.row;
+//        if ([self.actionRowPaths count] && [[self.actionRowPaths lastObject] row] < indexPath.row) {
+//            adjustedRow -= [self.actionRowPaths count];
+//            NSLog(@"adjusted row decrement %lu", adjustedRow);
+//        }
+//        
+//        // access the daily store routines
+//        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+//        NSDictionary *dailyRoutines = [dailyStore allStatStores];
+//        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+//        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+//        
+//        // fixed
+//        // routineInDaily returns the routine using indexPath.row. when new row inserted from
+//        // action row, it is trying to access a index that isn't there
+//        
+//        // to access the properties of the routine, routine name, etc
+//        NSLog(@"day routines at adjusted row %@", [dayRoutines objectAtIndex:adjustedRow]);
+//        KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:adjustedRow];
+//        NSLog(@"cell day routines array %@", dayRoutines);
+//        
+//        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+//        cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
+//        cell.routineNameLabel.text = routineInDaily.routineName;
         
-        // access the daily store routines
-        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-        NSDictionary *dailyRoutines = [dailyStore allStatStores];
-        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
-        NSArray *dayRoutines = [dailyRoutines objectForKey:key];
+//        KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
+//        cell.routineNameLabel.text = routine.routinename
         
-        // fixed
-        // routineInDaily returns the routine using indexPath.row. when new row inserted from
-        // action row, it is trying to access a index that isn't there
-        
-        // to access the properties of the routine, routine name, etc
-        NSLog(@"day routines at adjusted row %@", [dayRoutines objectAtIndex:adjustedRow]);
-        KLEStatStore *routineInDaily = [dayRoutines objectAtIndex:adjustedRow];
-        NSLog(@"cell day routines array %@", dayRoutines);
-        
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
-        cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
-        cell.routineNameLabel.text = routineInDaily.routineName;
+        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEDay"];
+        //    KLERoutines *routines = (KLERoutines *)[cdh.context existingObjectWithID:self.routinesID error:nil];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"daynumber == %@", @(indexPath.section)];
+        [request setPredicate:predicate];
+        //    NSUInteger routinesCount = [cdh.context countForFetchRequest:request error:nil];
+        NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
+        KLEDay *dayRoutines = [requestObjects firstObject];
+        NSArray *routineObjects = [NSArray arrayWithArray:[dayRoutines.routine allObjects]];
+        NSLog(@"###cell for row count %@", routineObjects);
         
         return cell;
     }
@@ -557,9 +672,64 @@
     [dailyStore moveStatStoreAtIndex:sourceIndexPath.row atKey:fromKey toIndex:destinationIndexPath.row toKey:toKey];
 }
 
+- (void)makeDays
+{
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    // thread safe method
+    if (!daysArray) {
+        static dispatch_once_t day;
+        dispatch_once(&day, ^{
+            daysArray = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
+            CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+            for (NSUInteger day = 0; day < [daysArray count]; day++) {
+                KLEDay *dayInstance = [NSEntityDescription insertNewObjectForEntityForName:@"KLEDay" inManagedObjectContext:cdh.context];
+                dayInstance.daynumber = @(day);
+                
+                NSLog(@"Day %@", dayInstance.daynumber);
+            }
+            
+            // make KLERoutine instance
+            KLERoutines *routines = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutines" inManagedObjectContext:cdh.context];
+            self.routinesID = [routines objectID];
+            NSLog(@"routines ID %@", self.routinesID);
+            
+        });
+    }
+}
+
+//- (void)createDailyRoutines
+//{
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
+//    // thread safe method
+//    if (!self.routinesID) {
+//        static dispatch_once_t day;
+//        dispatch_once(&day, ^{
+//            CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//            KLERoutines *routines = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutines" inManagedObjectContext:cdh.context];
+//            self.routinesID = [routines objectID];
+//            
+//            NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
+//            KLERoutines *routines = (KLERoutines *)[cdh.context existingObjectWithID:self.routinesID error:nil];
+//            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
+//            [request setPredicate:predicate];
+//            NSUInteger routinesCount = [cdh.context countForFetchRequest:request error:nil];
+//            NSLog(@"###routines count %lu", routinesCount);
+//        });
+//    }
+//}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+//    [self createDailyRoutines];
+    if (self.dayID != nil && self.routinesID != nil) {
+        [self performFetch];
+    }
     
     [self.tableView reloadData];
 }
@@ -567,6 +737,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    
+    [self makeDays];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
@@ -582,8 +756,6 @@
     selectedIndex = -1;
     
     indexInActionRowPaths = -1;
-    
-    daysArray = [[NSArray alloc] initWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
 
 }
 

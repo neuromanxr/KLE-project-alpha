@@ -2,7 +2,7 @@
 //  KLEExerciseGoal.m
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/16/14.
+//  Created by Kelvin Lee on 11/19/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
@@ -13,10 +13,10 @@
 
 @implementation KLEExerciseGoal
 
-@dynamic sets;
+@dynamic hasweight;
 @dynamic reps;
+@dynamic sets;
 @dynamic weight;
-@dynamic hasWeight;
 @dynamic exercise;
 @dynamic routine;
 

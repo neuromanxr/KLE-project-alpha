@@ -68,20 +68,6 @@
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"Exercises List";
         
-//        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-//        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
-//        NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
-//        
-//        for (KLEExercise *exer in fetchedObjects) {
-//            NSLog(@"exercise %@ of muscle %@", exer.exercisename, exer.musclename);
-//        }
-//        
-//        _exerciseArray = [NSArray arrayWithArray:fetchedObjects];
-//        NSLog(@"exerciseArray %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
-        
-//        KLEExercises *exercises = [[KLEExercises alloc] init];
-//        _exerciseArray = exercises.exerciseList;
-        
         if (isNew) {
             
             UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
@@ -99,45 +85,17 @@
 
 - (void)save:(id)sender
 {
-    // create the exercise in the routine
-//    [self.statStore createStat];
-    
-    // access the routine store
-//    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-    
-    // it is the last exercise because revc adds the exercise to the end of the array
-//    KLEStat *stat = [statStoreArray lastObject];
-    
-    // store the table selection in the stat object
-//    stat.userSelections = [self.tableView indexPathForSelectedRow];
-    
-    // store the exercise selection for this routine, there's only one selection always
-    // might implement multiple selections in future
-    // selected row is the exercise selected from the table selection
-//    NSIndexPath *selectedRow = stat.userSelections;
-    
-    // assign the label name from the selected row in exercise array
-//    stat.exercise = [_exerciseArray[selectedRow.row] name];
-    
-    // assign the value in the text field to the store
-//    stat.sets = [self.setsField.text intValue];
-//    stat.reps = [self.repsField.text intValue];
-//    stat.weight = [self.weightField.text floatValue];
-    
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:cdh.context];
+    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
+//    [exerciseGoal addExerciseObject:selectedExercise];
     exerciseGoal.exercise = selectedExercise;
     
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
-    [selectedRoutine addExerciseGoal:exerciseGoal];
-//    [selectedRoutine addExercisegoalObject:exerciseGoal];
+    [selectedRoutine addExercisegoalObject:exerciseGoal];
+    NSLog(@"selected routine exercise goal objects %@", selectedRoutine.exercisegoal);
 //    exerciseGoal.routinename = [newRoutine description];
-    
-//    NSLog(@"new routine %@", newRoutine.routinename);
-    
-//    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     
     // get the selected exercise
 //    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
@@ -152,14 +110,14 @@
 //    exerciseGoal.weight = @([self.weightField.text floatValue]);
 //    NSLog(@"exercise goal object %@", exerciseGoal.exercise);
     
-    [cdh saveContext];
+//    [cdh saveContext];
     
 //    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
 //    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
 //    NSLog(@"exercise goals %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
     
 //    [self.navigationController popViewControllerAnimated:YES];
-    [self.navigationController dismissViewControllerAnimated:YES completion:self.dismissBlock];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)saveChanges:(id)sender

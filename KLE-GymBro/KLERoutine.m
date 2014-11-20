@@ -2,29 +2,25 @@
 //  KLERoutine.m
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/16/14.
+//  Created by Kelvin Lee on 11/19/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
 #import "KLERoutine.h"
+#import "KLEDay.h"
 #import "KLEExerciseGoal.h"
 #import "KLERoutines.h"
 
 
 @implementation KLERoutine
 
-@dynamic routinename;
+@dynamic dayname;
 @dynamic exercisecount;
-@dynamic day;
+@dynamic routinename;
+@dynamic daynumber;
+@dynamic inworkout;
 @dynamic exercisegoal;
 @dynamic routines;
-
-- (void)addExerciseGoal:(KLEExerciseGoal *)exerciseGoal
-{
-    if ([self.exercisegoal containsObject:exerciseGoal]) {
-        return;
-    }
-    [[self mutableOrderedSetValueForKey:@"exercisegoal"] addObject:exerciseGoal];
-}
+@dynamic day;
 
 @end

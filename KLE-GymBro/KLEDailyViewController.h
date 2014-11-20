@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
 @interface KLEDailyViewController : UITableViewController

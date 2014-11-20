@@ -7,6 +7,7 @@
 //
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
+#import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
 #import "KLEDailyViewController.h"
 
@@ -38,6 +39,7 @@
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
     NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY routine == %@", selectedRoutine];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routine == %@", selectedRoutine];
     [request setPredicate:predicate];
     NSLog(@"configure fetch Objects %@", fetchedObjects);
@@ -90,9 +92,10 @@
     // create an instance of UITableViewCell, with default appearance
     KLERoutineExercisesViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineExercisesViewCell" forIndexPath:indexPath];
     
-    KLEExerciseGoal *exercise = [self.frc objectAtIndexPath:indexPath];
-    NSLog(@"cell for row frc %@", exercise);
-    cell.exerciseNameLabel.text = [NSString stringWithFormat:@"%@", exercise.exercise];
+    KLEExerciseGoal *exerciseGoal = [self.frc objectAtIndexPath:indexPath];
+    KLEExercise *exercise = exerciseGoal.exercise;
+//    NSLog(@"cell for row frc %@", exercise);
+    cell.exerciseNameLabel.text = exercise.exercisename;
     
     // access the stat store using the selected index path row
     // then assign the exercise name property to the cell label
@@ -110,11 +113,10 @@
 {
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
     
-    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-    KLEStat *stat = statStoreArray[indexPath.row];
     
+    KLEExerciseGoal *exerciseObject = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
+    NSLog(@"exercise %@", exerciseObject);
     // pass the selected exercise object to elvc
-    elvc.stat = stat;
     
     // delegate
     // not used

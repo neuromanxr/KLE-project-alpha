@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLEDay.h"
 #import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
@@ -39,8 +40,12 @@
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
     request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
+//    [request setPredicate:predicate];
     self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
     self.frc.delegate = self;
+    NSLog(@"routines ID %@", self.routinesID);
 }
 
 - (instancetype)init
@@ -233,11 +238,11 @@
 //    NSLog(@"Routine name %@", newStatStore.routineName);
     
     // test
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:cdh.context];
-    newRoutine.routinename = [newRoutine description];
+    KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
+    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
+    newRoutine.routines = routines;
     
-    [cdh saveContext];
+    newRoutine.routinename = [newRoutine description];
 
     NSLog(@"new routine %@", newRoutine.routinename);
     
@@ -255,27 +260,44 @@
 
 - (void)saveSelections
 {
+    // get the index path of selected routine
+    NSIndexPath *selectedRoutine = [self.tableView indexPathForSelectedRow];
+    // get the routine object from fetched results controller
+    KLERoutine *routine = (KLERoutine *)[self.frc objectAtIndexPath:selectedRoutine];
+    KLEDay *dayInstance = (KLEDay *)[self.frc.managedObjectContext existingObjectWithID:self.dayID error:nil];
+    
+    routine.day = dayInstance;
+    routine.exercisecount = @([routine.exercisegoal count]);
+    
+    // daily routines entity passed from daily view controller
+    [dayInstance addRoutineObject:routine];
+    NSLog(@"routine %@ day %@", routine, routine.day);
+    
     // don't save the arrays to daily store, instead save the index of the routine in the routine store
     // change daily store to save index
     
     NSLog(@"Save button tapped");
     
-    // access the routines in routine store
-    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];
+//    [cdh saveContext];
     
-    NSLog(@"routines array %@", routinesArray);
-    // access the daily store
-    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+    [self.navigationController popViewControllerAnimated:YES];
     
-    // access all the routines in daily store
-    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-    
-    NSLog(@"daily store %@", dailyStore);
-    NSLog(@"daily Routines %@", dailyRoutines);
+//    // access the routines in routine store
+//    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];
+//    
+//    NSLog(@"routines array %@", routinesArray);
+//    // access the daily store
+//    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
+//    
+//    // access all the routines in daily store
+//    NSDictionary *dailyRoutines = [dailyStore allStatStores];
+//    
+//    NSLog(@"daily store %@", dailyStore);
+//    NSLog(@"daily Routines %@", dailyRoutines);
     
     // save the user selections
 //    NSArray *selections = [self.tableView indexPathsForSelectedRows];
-    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
+//    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
     
 //    NSLog(@"selected rows in routine store %@", selections);
     
@@ -285,30 +307,30 @@
 //        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
 //    }
     
-    // if there are no routines in daily then just add it to daily
-    if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
-        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-        [self.navigationController popViewControllerAnimated:YES];
-    // if there's one or more routine, check if there's a duplicate and show alert if there is
-    // otherwise add the routine to daily
-    } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
-        NSLog(@"theres one or more routine");
-        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
-            NSLog(@"this is a duplicate");
-            UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-            
-            [duplicateAlert show];
-            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }
-    
-    NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
-    
-    NSLog(@"daily store after %@", dailyRoutines);
+//    // if there are no routines in daily then just add it to daily
+//    if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
+//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+//        [self.navigationController popViewControllerAnimated:YES];
+//    // if there's one or more routine, check if there's a duplicate and show alert if there is
+//    // otherwise add the routine to daily
+//    } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
+//        NSLog(@"theres one or more routine");
+//        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
+//            NSLog(@"this is a duplicate");
+//            UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//            
+//            [duplicateAlert show];
+//            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+//            [self.navigationController popViewControllerAnimated:YES];
+//        } else {
+//            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }
+//    }
+//    
+//    NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
+//    
+//    NSLog(@"daily store after %@", dailyRoutines);
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField

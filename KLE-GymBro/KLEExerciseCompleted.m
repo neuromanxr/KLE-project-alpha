@@ -2,7 +2,7 @@
 //  KLEExerciseCompleted.m
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/16/14.
+//  Created by Kelvin Lee on 11/19/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 
 @implementation KLEExerciseCompleted
 
+@dynamic exercisenamecompleted;
 @dynamic routinecompleted;
 
 @end
