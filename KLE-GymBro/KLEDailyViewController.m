@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 #import "KLEDay.h"
-#import "KLERoutines.h"
 #import "KLERoutine.h"
 #import "KLEAppDelegate.h"
 
@@ -51,7 +50,6 @@
 
 @property (nonatomic, strong) NSArray *routineObjects;
 @property (nonatomic, strong) NSManagedObjectID *dayID;
-@property (nonatomic, strong) NSManagedObjectID *routinesID;
 
 @end
 
@@ -69,7 +67,8 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
 //    KLERoutines *routines = (KLERoutines *)[cdh.context executeFetchRequest:request error:nil];
 //    KLERoutines *routines = (KLERoutines *)[cdh.context existingObjectWithID:self.routinesID error:nil];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"day != ''"];
+    KLEDay *dayInstance = (KLEDay *)[cdh.context existingObjectWithID:self.dayID error:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"day == %@", dayInstance];
     [request setPredicate:predicate];
     request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
     self.routineObjects = [cdh.context executeFetchRequest:request error:nil];
@@ -167,13 +166,17 @@
 //    }
     
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEDay"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"daynumber == %@", dayNumber];
-    [request setPredicate:predicate];
-    NSArray *fetchResult = [cdh.context executeFetchRequest:request error:nil];
-    KLEDay *selectedDay = [fetchResult firstObject];
-    self.dayID = [selectedDay objectID];
-    NSLog(@"##Selected Day %@", selectedDay);
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEDay"];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"daynumber == %@", dayNumber];
+//    [request setPredicate:predicate];
+//    NSArray *fetchResult = [cdh.context executeFetchRequest:request error:nil];
+//    KLEDay *selectedDay = [fetchResult firstObject];
+//    self.dayID = [selectedDay objectID];
+//    NSLog(@"##Selected Day %@", selectedDay);
+    KLEDay *selectedDay = (KLEDay *)[cdh.context existingObjectWithID:self.dayID error:nil];
+    NSLog(@"KLEDay selected day %@", selectedDay);
+    selectedDay.daynumber = dayNumber;
+    NSLog(@"selected Day number %@", selectedDay.daynumber);
     
     // access the dictionary of day routines
 //    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
@@ -188,9 +191,8 @@
     
     // pass the day selected
 //    rvc.dayTag = daynumber;
-    rvc.routinesID = self.routinesID;
     rvc.dayID = self.dayID;
-    NSLog(@"routines ID %@", self.routinesID);
+    NSLog(@"day ID %@", self.dayID);
     
     [self.navigationController pushViewController:rvc animated:YES];
 }
@@ -256,19 +258,20 @@
 
 #pragma mark - DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+{   // simplify. remove KLEDay entity, add daynumber property to KLERoutine
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEDay"];
-//    KLERoutines *routines = (KLERoutines *)[cdh.context existingObjectWithID:self.routinesID error:nil];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"daynumber == %@", @(section)];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
+    KLEDay *dayInstance = (KLEDay *)[cdh.context existingObjectWithID:self.dayID error:nil];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY routine.daynumber == %@", @(section)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"day == %@ AND daynumber == %@", dayInstance, @(section)];
     [request setPredicate:predicate];
-//    NSUInteger routinesCount = [cdh.context countForFetchRequest:request error:nil];
-    NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
-    KLEDay *dayRoutines = [requestObjects firstObject];
-    NSUInteger routinesCount = [dayRoutines.routine count];
+    NSUInteger routinesCount = [cdh.context countForFetchRequest:request error:nil];
+//    NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
+//    KLEDay *dayRoutines = [requestObjects firstObject];
+//    NSUInteger routinesCount = [dayRoutines.routine count];
     NSLog(@"###routines count %lu", routinesCount);
     
-    return routinesCount;
+    return 0;
 //    // access the dictionary of day routines to get the count
 //    NSDictionary *dailyWorkouts = [[KLEDailyStore sharedStore] allStatStores];
 //    NSString *key = [NSString stringWithFormat:@"%lu", section];
@@ -683,17 +686,17 @@
         dispatch_once(&day, ^{
             daysArray = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
             CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-            for (NSUInteger day = 0; day < [daysArray count]; day++) {
-                KLEDay *dayInstance = [NSEntityDescription insertNewObjectForEntityForName:@"KLEDay" inManagedObjectContext:cdh.context];
-                dayInstance.daynumber = @(day);
-                
-                NSLog(@"Day %@", dayInstance.daynumber);
-            }
+//            for (NSUInteger day = 0; day < [daysArray count]; day++) {
+//                KLEDay *dayInstance = [NSEntityDescription insertNewObjectForEntityForName:@"KLEDay" inManagedObjectContext:cdh.context];
+//                dayInstance.daynumber = @(day);
+//                
+//                NSLog(@"Day %@", dayInstance.daynumber);
+//            }
             
             // make KLERoutine instance
-            KLERoutines *routines = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutines" inManagedObjectContext:cdh.context];
-            self.routinesID = [routines objectID];
-            NSLog(@"routines ID %@", self.routinesID);
+            KLEDay *dayInstance = [NSEntityDescription insertNewObjectForEntityForName:@"KLEDay" inManagedObjectContext:cdh.context];
+            self.dayID = [dayInstance objectID];
+            NSLog(@"day ID %@", self.dayID);
             
         });
     }
@@ -727,7 +730,7 @@
     [super viewWillAppear:YES];
     
 //    [self createDailyRoutines];
-    if (self.dayID != nil && self.routinesID != nil) {
+    if (self.dayID != nil) {
         [self performFetch];
     }
     

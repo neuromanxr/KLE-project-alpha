@@ -10,7 +10,6 @@
 #import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
-#import "KLERoutines.h"
 
 #import "KLERoutineViewCell.h"
 #import "KLEStat.h"
@@ -40,12 +39,13 @@
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
     request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
-    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
+//    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
+//    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
 //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
 //    [request setPredicate:predicate];
     self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
     self.frc.delegate = self;
-    NSLog(@"routines ID %@", self.routinesID);
+//    NSLog(@"routines %@", routines);
 }
 
 - (instancetype)init
@@ -239,8 +239,8 @@
     
     // test
     KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
-    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
-    newRoutine.routines = routines;
+//    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
+//    newRoutine.routines = routines;
     
     newRoutine.routinename = [newRoutine description];
 
@@ -265,8 +265,9 @@
     // get the routine object from fetched results controller
     KLERoutine *routine = (KLERoutine *)[self.frc objectAtIndexPath:selectedRoutine];
     KLEDay *dayInstance = (KLEDay *)[self.frc.managedObjectContext existingObjectWithID:self.dayID error:nil];
-    
+    NSLog(@"day instance %@", dayInstance);
     routine.day = dayInstance;
+    routine.daynumber = dayInstance.daynumber;
     routine.exercisecount = @([routine.exercisegoal count]);
     
     // daily routines entity passed from daily view controller

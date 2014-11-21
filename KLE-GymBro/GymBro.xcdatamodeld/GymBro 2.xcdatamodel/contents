@@ -30,25 +30,17 @@
         <attribute name="routinename" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLEDay" inverseName="routine" inverseEntity="KLEDay" syncable="YES"/>
         <relationship name="exercisegoal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseGoal" inverseName="routine" inverseEntity="KLEExerciseGoal" syncable="YES"/>
-        <relationship name="routines" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLERoutines" inverseName="routine" inverseEntity="KLERoutines" syncable="YES"/>
     </entity>
     <entity name="KLERoutineCompleted" representedClassName="KLERoutineCompleted" syncable="YES">
         <attribute name="routinenamecompleted" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="exercisecompleted" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseCompleted" inverseName="routinecompleted" inverseEntity="KLEExerciseCompleted" syncable="YES"/>
     </entity>
-    <entity name="KLERoutines" representedClassName="KLERoutines" syncable="YES">
-        <attribute name="daynumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="routinescount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="routine" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLERoutine" inverseName="routines" inverseEntity="KLERoutine" syncable="YES"/>
-    </entity>
-    <fetchRequest name="Test" entity="KLERoutines" predicateString="exerciseName CONTAINS &quot;e&quot;"/>
     <elements>
-        <element name="KLEExercise" positionX="36" positionY="63" width="128" height="88"/>
-        <element name="KLEExerciseGoal" positionX="232" positionY="-70" width="128" height="133"/>
-        <element name="KLERoutine" positionX="-117" positionY="-189" width="128" height="163"/>
-        <element name="KLERoutineCompleted" positionX="378" positionY="-234" width="128" height="73"/>
-        <element name="KLERoutines" positionX="90" positionY="-333" width="128" height="88"/>
+        <element name="KLEExercise" positionX="306" positionY="29" width="128" height="88"/>
+        <element name="KLEExerciseGoal" positionX="108" positionY="-70" width="128" height="133"/>
+        <element name="KLERoutine" positionX="-117" positionY="-189" width="128" height="148"/>
+        <element name="KLERoutineCompleted" positionX="385" positionY="-190" width="128" height="73"/>
         <element name="KLEExerciseCompleted" positionX="198" positionY="-172" width="128" height="73"/>
-        <element name="KLEDay" positionX="234" positionY="-304" width="128" height="88"/>
+        <element name="KLEDay" positionX="70" positionY="-297" width="128" height="88"/>
     </elements>
 </model>

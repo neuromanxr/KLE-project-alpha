@@ -85,7 +85,6 @@
 
 - (void)save:(id)sender
 {
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
