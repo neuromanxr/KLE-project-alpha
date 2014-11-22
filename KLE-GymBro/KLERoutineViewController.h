@@ -13,6 +13,6 @@
 
 @property (nonatomic) NSUInteger dayTag;
 
-@property (nonatomic, strong) NSManagedObjectID *dayID;
+@property (nonatomic, strong) NSNumber *dayNumber;
 
 @end

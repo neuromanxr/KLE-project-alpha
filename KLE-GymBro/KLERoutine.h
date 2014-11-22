@@ -2,14 +2,14 @@
 //  KLERoutine.h
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/21/14.
+//  Created by Kelvin Lee on 11/22/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class KLEDay, KLEExerciseGoal;
+@class KLEExerciseGoal;
 
 @interface KLERoutine : NSManagedObject
 
@@ -19,7 +19,6 @@
 @property (nonatomic, retain) NSNumber * daynumber;
 @property (nonatomic, retain) NSNumber * inworkout;
 @property (nonatomic, retain) NSSet *exercisegoal;
-@property (nonatomic, retain) KLEDay *day;
 @end
 
 @interface KLERoutine (CoreDataGeneratedAccessors)

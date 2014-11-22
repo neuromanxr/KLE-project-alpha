@@ -16,27 +16,6 @@
 
 #define debug 1
 
-- (KLEDay *)day
-{
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
-    CoreDataHelper *cdh = [self cdh];
-    // thread safe method
-    if (!_dayInstance) {
-        static dispatch_once_t day;
-        dispatch_once(&day, ^{
-            
-            // make KLERoutine instance
-            _dayInstance = [NSEntityDescription insertNewObjectForEntityForName:@"KLEDay" inManagedObjectContext:cdh.context];
-            
-            [cdh saveContext];
-        });
-    } else
-    NSLog(@"### Day instance %@", _dayInstance);
-    return _dayInstance;
-}
-
 - (void)demo
 {
     if (debug == 1) {
@@ -149,7 +128,7 @@
     }
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self cdh];
-    [self day];
+    [self demo];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

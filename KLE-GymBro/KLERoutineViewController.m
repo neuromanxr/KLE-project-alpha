@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
-#import "KLEDay.h"
 #import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
@@ -78,11 +77,6 @@
 {
     return [self init];
 }
-
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    return [[[KLERoutinesStore sharedStore] allStatStores] count];
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -224,33 +218,15 @@
 
 - (void)addNewRoutine
 {
-//    // create a new routine and add it to the routine store
-//    KLEStatStore *newStatStore = [[KLERoutinesStore sharedStore] createStatStore];
-//    
-//    // where is this new routine in the array?
-//    NSInteger lastRow = [[[KLERoutinesStore sharedStore] allStatStores] indexOfObject:newStatStore];
-//    
-//    // set the index path to be the last row added
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRow inSection:0];
-//    
-//    // give the routine a name
+    // give the routine a name
 //    newStatStore.routineName = [NSString stringWithFormat:@"Routine %lu", indexPath.row + 1];
 //    NSLog(@"Routine name %@", newStatStore.routineName);
     
-    // test
     KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
-//    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
-//    newRoutine.routines = routines;
     
     newRoutine.routinename = [newRoutine description];
 
     NSLog(@"new routine %@", newRoutine.routinename);
-    
-//    NSLog(@"unique routine %@", newRoutine);
-    
-    
-    // insert this new row into the table
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 - (void)editRoutines
@@ -264,18 +240,12 @@
     NSIndexPath *selectedRoutine = [self.tableView indexPathForSelectedRow];
     // get the routine object from fetched results controller
     KLERoutine *routine = (KLERoutine *)[self.frc objectAtIndexPath:selectedRoutine];
-    KLEDay *dayInstance = (KLEDay *)[self.frc.managedObjectContext existingObjectWithID:self.dayID error:nil];
-    NSLog(@"day instance %@", dayInstance);
-    routine.day = dayInstance;
-    routine.daynumber = dayInstance.daynumber;
+
+    routine.daynumber = self.dayNumber;
+    routine.inworkout = [NSNumber numberWithBool:YES];
     routine.exercisecount = @([routine.exercisegoal count]);
     
-    // daily routines entity passed from daily view controller
-    [dayInstance addRoutineObject:routine];
-    NSLog(@"routine %@ day %@", routine, routine.day);
-    
-    // don't save the arrays to daily store, instead save the index of the routine in the routine store
-    // change daily store to save index
+    NSLog(@"routine inworkout %@ day %@", routine.inworkout, routine.daynumber);
     
     NSLog(@"Save button tapped");
     
