@@ -279,8 +279,6 @@
     
     NSLog(@"Save button tapped");
     
-//    [cdh saveContext];
-    
     [self.navigationController popViewControllerAnimated:YES];
     
 //    // access the routines in routine store
