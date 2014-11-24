@@ -91,7 +91,8 @@
 //    [exerciseGoal addExerciseObject:selectedExercise];
     exerciseGoal.exercise = selectedExercise;
     
-    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
     [selectedRoutine addExercisegoalObject:exerciseGoal];
     NSLog(@"selected routine exercise goal objects %@", selectedRoutine.exercisegoal);
 //    exerciseGoal.routinename = [newRoutine description];

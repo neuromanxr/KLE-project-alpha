@@ -134,7 +134,7 @@
     
     // test
     revc.selectedRoutineID = [[self.frc objectAtIndexPath:indexPath] objectID];
-    revc.frc = self.frc;
+//    revc.frc = self.frc;
     
     KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
     NSLog(@"selected routine ID %@", selectedRoutine.routinename);
@@ -179,9 +179,9 @@
 //        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         // alert the user about deletion
-//        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
-//        [deleteAlert show];
+        [deleteAlert show];
         
         // check to see if the routine being deleted is in the daily routines
         // if so, delete the routine in daily view too with a warning message

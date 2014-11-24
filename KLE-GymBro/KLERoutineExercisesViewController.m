@@ -33,8 +33,10 @@
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
+    NSLog(@"object id from daily view %@", self.selectedRoutineID);
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
+    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
+//    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context objectWithID:self.selectedRoutineID];
     NSLog(@"configure fetch selected routine %@", selectedRoutine);
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
@@ -131,8 +133,8 @@
     
     elvc.selectedRoutineID = self.selectedRoutineID;
     // pass the selected statStore to exercise list view controller
-    elvc.statStore = self.statStore;
-    elvc.frc = self.frc;
+//    elvc.statStore = self.statStore;
+//    elvc.frc = self.frc;
     
     // completion block that will reload the table
 //    elvc.dismissBlock = ^{

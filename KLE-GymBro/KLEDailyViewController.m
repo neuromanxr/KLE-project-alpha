@@ -478,32 +478,38 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     // access the routine store
-    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
+//    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
     
     // access the daily routine dictionary
-    NSDictionary *dailyRoutines = [[KLEDailyStore sharedStore] allStatStores];
+//    NSDictionary *dailyRoutines = [[KLEDailyStore sharedStore] allStatStores];
     
     // key from the table view section which represents the day
-    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
+//    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
     
     // access the routines for the selected day
-    NSArray *routines = [dailyRoutines objectForKey:key];
+//    NSArray *routines = [dailyRoutines objectForKey:key];
     
     // get the selected routine in the daily view
-    KLEStatStore *selectedStatStoreInDaily = [routines objectAtIndex:indexPath.row];
+//    KLEStatStore *selectedStatStoreInDaily = [routines objectAtIndex:indexPath.row];
     
     // get the index in routines store by matching the routine from daily dictionary to the routine store
-    NSUInteger indexAtRoutinesStore = [statStores indexOfObjectIdenticalTo:selectedStatStoreInDaily];
+//    NSUInteger indexAtRoutinesStore = [statStores indexOfObjectIdenticalTo:selectedStatStoreInDaily];
     
     // routine in routine store
-    KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
+//    KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
     
-    NSLog(@"index at routines store %@", routineInRoutineStore);
+//    NSLog(@"index at routines store %@", routineInRoutineStore);
+    
+    NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
+    KLERoutine *selectedRoutine = [routineObjects objectAtIndex:indexPath.row];
+    NSLog(@"selected routine %@", selectedRoutine);
+    NSManagedObjectID *selectedRoutineID = selectedRoutine.objectID;
     
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
     
     // pass selected statStore from routine view controller to routine exercise view controller
-    revc.statStore = routineInRoutineStore;
+    revc.selectedRoutineID = selectedRoutineID;
+    NSLog(@"selected routine ID %@", revc.selectedRoutineID);
     
     [self.navigationController pushViewController:revc animated:YES];
 }
@@ -522,21 +528,15 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // can implement deletion of exercises from expanded cells
-    // might be better to lock editing and deletion from user
-    
-    // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-        NSDictionary *dailyRoutines = [dailyStore allStatStores];
-        NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
-        NSMutableArray *routines = [dailyRoutines objectForKey:key];
-        
-//        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atKey:key];
-        [dailyStore removeStatStoreFromDay:[routines objectAtIndex:indexPath.row] atIndex:indexPath.row atKey:key];
-        
-        // also remove that row from the table view with animation
+        NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
+        KLERoutine *deleteTarget = [routineObjects objectAtIndex:indexPath.row];
+        deleteTarget.inworkout = [NSNumber numberWithBool:NO];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        [cdh.context refreshObject:deleteTarget mergeChanges:YES];
+        
     }
 }
 
