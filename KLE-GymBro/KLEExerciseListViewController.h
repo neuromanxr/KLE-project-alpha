@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "CoreDataTableViewController.h"
 #import <Foundation/Foundation.h>
 
 @class KLEExerciseListViewController;
@@ -18,11 +19,12 @@
 
 @end
 
-@interface KLEExerciseListViewController : UITableViewController
+@interface KLEExerciseListViewController : CoreDataTableViewController
 
 - (instancetype)initForNewExercise:(BOOL)isNew;
 - (instancetype)initWithStyle:(UITableViewStyle)style;
 
+@property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
 // stat store from revc will be passed to here
 @property (nonatomic, strong) KLEStatStore *statStore;
 
@@ -31,5 +33,7 @@
 @property (nonatomic, weak) id<ELVCDelegate> delegate;
 
 @property (nonatomic, copy) void (^dismissBlock)(void);
+
+@property (nonatomic, strong, readonly) CoreDataHelper *coreDataHelper;
 
 @end

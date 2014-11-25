@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<exercises xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<exercise exercisename="Squat" musclename="legs"/>
+        <exercise exercisename="Leg Press" musclename="legs"/>
+        <exercise exercisename="Lunge" musclename="legs"/>
+        <exercise exercisename="Deadlift" musclename="back"/>
+        <exercise exercisename="Leg Extension" musclename="legs"/>
+</exercises>

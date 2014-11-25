@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+// User picked exercise. User picks goal sets, reps and weight
+
 @class KLEExercises;
 
 @interface KLEStat : NSObject
 
 @property (nonatomic, strong) KLEExercises *exerciseObject;
-@property (nonatomic, retain) NSString *exercise;
+@property (nonatomic, retain) NSString *exercise; // should be using KLEExercise Object
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic) int sets;
 @property (nonatomic) int reps;

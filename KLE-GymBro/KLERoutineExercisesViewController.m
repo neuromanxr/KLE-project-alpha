@@ -5,6 +5,10 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLEAppDelegate.h"
+#import "KLERoutine.h"
+#import "KLEExercise.h"
+#import "KLEExerciseGoal.h"
 #import "KLEDailyViewController.h"
 
 #import "KLEExercises.h"
@@ -22,6 +26,30 @@
 @end
 
 @implementation KLERoutineExercisesViewController
+#define debug 1
+
+- (void)configureFetch
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    NSLog(@"object id from daily view %@", self.selectedRoutineID);
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
+//    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context objectWithID:self.selectedRoutineID];
+    NSLog(@"configure fetch selected routine %@", selectedRoutine);
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
+    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY routine == %@", selectedRoutine];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routine == %@", selectedRoutine];
+    [request setPredicate:predicate];
+    NSLog(@"configure fetch Objects %@", fetchedObjects);
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercise.exercisename" ascending:YES], nil];
+//    NSLog(@"request object %@", request);
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.exercisename" cacheName:nil];
+    self.frc.delegate = self;
+}
 
 - (instancetype)init
 {
@@ -55,29 +83,30 @@
     return [self init];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [[self.statStore allStats] count];
-}
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    
+//    return [[self.statStore allStats] count];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
     KLERoutineExercisesViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineExercisesViewCell" forIndexPath:indexPath];
     
+    KLEExerciseGoal *exerciseGoal = [self.frc objectAtIndexPath:indexPath];
+    KLEExercise *exercise = exerciseGoal.exercise;
+//    NSLog(@"cell for row frc %@", exercise);
+    cell.exerciseNameLabel.text = exercise.exercisename;
+    
     // access the stat store using the selected index path row
     // then assign the exercise name property to the cell label
-//    cell.exerciseNameLabel.text = [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] exercise];
-//    cell.setsLabel.text = [NSString stringWithFormat:@"%d", [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] sets]];
-//    cell.repsLabel.text = [NSString stringWithFormat:@"%d", [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] reps]];
-//    cell.weightLabel.text = [NSString stringWithFormat:@"%.2f", [[[[KLERoutinesStore sharedStore] allStatStores] objectAtIndex:indexPath.row] weight]];
-    
-    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-    KLEStat *stat = statStoreArray[indexPath.row];
-    cell.exerciseNameLabel.text = stat.exercise;
-    cell.setsLabel.text = [NSString stringWithFormat:@"%d", stat.sets];
-    cell.repsLabel.text = [NSString stringWithFormat:@"%d", stat.reps];
-    cell.weightLabel.text = [NSString stringWithFormat:@"%f", stat.weight];
+//    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
+//    KLEStat *stat = statStoreArray[indexPath.row];
+//    cell.exerciseNameLabel.text = stat.exercise;
+//    cell.setsLabel.text = [NSString stringWithFormat:@"%d", stat.sets];
+//    cell.repsLabel.text = [NSString stringWithFormat:@"%d", stat.reps];
+//    cell.weightLabel.text = [NSString stringWithFormat:@"%f", stat.weight];
     
     return cell;
 }
@@ -86,11 +115,10 @@
 {
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
     
-    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-    KLEStat *stat = statStoreArray[indexPath.row];
     
+    KLEExerciseGoal *exerciseObject = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
+    NSLog(@"exercise %@", exerciseObject);
     // pass the selected exercise object to elvc
-    elvc.stat = stat;
     
     // delegate
     // not used
@@ -103,8 +131,10 @@
 {
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
     
+    elvc.selectedRoutineID = self.selectedRoutineID;
     // pass the selected statStore to exercise list view controller
-    elvc.statStore = self.statStore;
+//    elvc.statStore = self.statStore;
+//    elvc.frc = self.frc;
     
     // completion block that will reload the table
 //    elvc.dismissBlock = ^{
@@ -170,6 +200,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+    NSLog(@"frc managedObjectContext %@", self.frc);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLERoutineExercisesViewCell" bundle:nil];

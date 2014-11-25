@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="KLEExercise" representedClassName="KLEExercise" syncable="YES">
+        <attribute name="exercisename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="musclename" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="exercisegoal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseGoal" inverseName="exercise" inverseEntity="KLEExerciseGoal" syncable="YES"/>
+    </entity>
+    <entity name="KLEExerciseCompleted" representedClassName="KLEExerciseCompleted" syncable="YES">
+        <attribute name="exercisenamecompleted" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="routinecompleted" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLERoutineCompleted" inverseName="exercisecompleted" inverseEntity="KLERoutineCompleted" syncable="YES"/>
+    </entity>
+    <entity name="KLEExerciseGoal" representedClassName="KLEExerciseGoal" syncable="YES">
+        <attribute name="hasweight" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="reps" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sets" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="weight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="exercise" maxCount="1" deletionRule="Nullify" destinationEntity="KLEExercise" inverseName="exercisegoal" inverseEntity="KLEExercise" syncable="YES"/>
+        <relationship name="routine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLERoutine" inverseName="exercisegoal" inverseEntity="KLERoutine" syncable="YES"/>
+    </entity>
+    <entity name="KLERoutine" representedClassName="KLERoutine" syncable="YES">
+        <attribute name="dayname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="daynumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="exercisecount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="inworkout" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="routinename" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="exercisegoal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseGoal" inverseName="routine" inverseEntity="KLEExerciseGoal" syncable="YES"/>
+    </entity>
+    <entity name="KLERoutineCompleted" representedClassName="KLERoutineCompleted" syncable="YES">
+        <attribute name="routinenamecompleted" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="exercisecompleted" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="KLEExerciseCompleted" inverseName="routinecompleted" inverseEntity="KLEExerciseCompleted" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="KLEExercise" positionX="306" positionY="29" width="128" height="88"/>
+        <element name="KLEExerciseGoal" positionX="108" positionY="-70" width="128" height="133"/>
+        <element name="KLERoutine" positionX="-117" positionY="-189" width="128" height="133"/>
+        <element name="KLERoutineCompleted" positionX="54" positionY="-217" width="128" height="73"/>
+        <element name="KLEExerciseCompleted" positionX="268" positionY="-163" width="128" height="73"/>
+    </elements>
+</model>
