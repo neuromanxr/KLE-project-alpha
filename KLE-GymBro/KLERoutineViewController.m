@@ -86,23 +86,10 @@
     // create an instance of UITableViewCell, with default appearance
     self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
-//    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-//    self.statStore = statStoreArray[indexPath.row];
-//    
-//    self.routineViewCell.exerciseLabel.text = [self.statStore description];
-//    
-//    self.routineViewCell.routineNameField.tag = indexPath.row;
-//    self.routineViewCell.routineNameField.delegate = self;
-//    
-//    NSLog(@"routine name field tag %lu", self.routineViewCell.routineNameField.tag);
-//
-//    self.routineViewCell.routineNameField.text = self.statStore.routineName;
-//    
-//    self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
     KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
-    self.routineViewCell.routineNameField.tag = indexPath.row;
-    self.routineViewCell.routineNameField.text = routine.routinename;
+//    self.routineViewCell.routineNameField.delegate = self;
+//    self.routineViewCell.routineNameField.tag = indexPath.row;
+    self.routineViewCell.nameLabel.text = routine.routinename;
     self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 //    NSLog(@"routine %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
     
@@ -124,20 +111,12 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-//    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
-//    KLEStatStore *selectedStatStore = statStores[indexPath.row];
-    
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
     
-    // pass selected statStore from routine view controller to routine exercise view controller
-//    revc.statStore = selectedStatStore;
-    
-    // test
-    revc.selectedRoutineID = [[self.frc objectAtIndexPath:indexPath] objectID];
-//    revc.frc = self.frc;
-    
+    // pass selected routine ID from routine view controller to routine exercise view controller
     KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
     NSLog(@"selected routine ID %@", selectedRoutine.routinename);
+    revc.selectedRoutineID = selectedRoutine.objectID;
     
     [self.navigationController pushViewController:revc animated:YES];
 }
@@ -224,7 +203,7 @@
     
     KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
     
-    newRoutine.routinename = [newRoutine description];
+    newRoutine.routinename = @"New Routine";
 
     NSLog(@"new routine %@", newRoutine.routinename);
 }
@@ -304,25 +283,21 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    NSLog(@"Text field begin editing %@", textField);
+    NSLog(@"Text field begin editing tag %lu", textField.tag);
     
     return YES;
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    NSLog(@"textfield ended");
-    NSLog(@"textfield ended statstore %@", self.statStore);
-    
-    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-    
     // the textfield that is done editing should match with the routine in the routine store
     // using the textfield tags
-    self.statStore = statStoreArray[textField.tag];
-    NSLog(@"statstore by tag %@", self.statStore);
+    NSLog(@"endediting textfield tag %lu", textField.tag);
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:textField.tag inSection:0];
+    KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
     
     // assign the routine name with the text in the text field
-    self.statStore.routineName = textField.text;
+    routine.routinename = textField.text;
     
     return YES;
 }

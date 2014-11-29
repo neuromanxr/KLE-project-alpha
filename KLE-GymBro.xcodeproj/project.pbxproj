@@ -48,7 +48,6 @@
 		50DD4CD219C235FC00A3E6E5 /* KLEExerciseListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CD119C235FC00A3E6E5 /* KLEExerciseListViewCell.m */; };
 		50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CD319C2374500A3E6E5 /* KLEExerciseListViewCell.xib */; };
 		50DD4CD719C2ABEA00A3E6E5 /* KLEExercises.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CD619C2ABEA00A3E6E5 /* KLEExercises.m */; };
-		50DD4CDB19C6AF6400A3E6E5 /* KLEHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CDA19C6AF6400A3E6E5 /* KLEHeaderView.xib */; };
 		50DD4CDE19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CDD19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m */; };
 		50DD4CE119C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CE019C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m */; };
 		50DD4CE319C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CE219C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib */; };
@@ -56,6 +55,10 @@
 		50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */; };
 		50DD4CED19DE29F600A3E6E5 /* KLEDailyFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */; };
 		50DD4CF019DF8CD700A3E6E5 /* KLEDailyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */; };
+		50EBE33E1A296D6B00D33448 /* KLEHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EBE33C1A25BB8000D33448 /* KLEHeaderView.swift */; };
+		50EBE3411A2974F200D33448 /* KLEHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EBE3401A2974F200D33448 /* KLEHeaderView.xib */; };
+		50EBE3431A2984CD00D33448 /* KLECustomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EBE3421A2984CD00D33448 /* KLECustomHeaderView.swift */; };
+		50EBE3451A29851C00D33448 /* KLECustomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EBE3441A29851C00D33448 /* KLECustomHeaderView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,9 +138,8 @@
 		50DD4CD319C2374500A3E6E5 /* KLEExerciseListViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEExerciseListViewCell.xib; sourceTree = "<group>"; };
 		50DD4CD519C2ABEA00A3E6E5 /* KLEExercises.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExercises.h; sourceTree = "<group>"; };
 		50DD4CD619C2ABEA00A3E6E5 /* KLEExercises.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExercises.m; sourceTree = "<group>"; };
-		50DD4CDA19C6AF6400A3E6E5 /* KLEHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEHeaderView.xib; sourceTree = "<group>"; };
 		50DD4CDC19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutineExercisesViewController.h; sourceTree = "<group>"; };
-		50DD4CDD19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineExercisesViewController.m; sourceTree = "<group>"; };
+		50DD4CDD19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineExercisesViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		50DD4CDF19C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutineExercisesViewCell.h; sourceTree = "<group>"; };
 		50DD4CE019C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineExercisesViewCell.m; sourceTree = "<group>"; };
 		50DD4CE219C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLERoutineExercisesViewCell.xib; sourceTree = "<group>"; };
@@ -147,6 +149,11 @@
 		50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEDailyFooterView.xib; sourceTree = "<group>"; };
 		50DD4CEE19DF8CD700A3E6E5 /* KLEDailyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyStore.h; sourceTree = "<group>"; };
 		50DD4CEF19DF8CD700A3E6E5 /* KLEDailyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEDailyStore.m; sourceTree = "<group>"; };
+		50EBE33B1A25BB8000D33448 /* KLE-GymBro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KLE-GymBro-Bridging-Header.h"; sourceTree = "<group>"; };
+		50EBE33C1A25BB8000D33448 /* KLEHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KLEHeaderView.swift; sourceTree = "<group>"; };
+		50EBE3401A2974F200D33448 /* KLEHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEHeaderView.xib; sourceTree = "<group>"; };
+		50EBE3421A2984CD00D33448 /* KLECustomHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KLECustomHeaderView.swift; sourceTree = "<group>"; };
+		50EBE3441A29851C00D33448 /* KLECustomHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLECustomHeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +233,7 @@
 		50AC0B1319B52C8500E39A7E /* KLE-GymBro */ = {
 			isa = PBXGroup;
 			children = (
+				50EBE33B1A25BB8000D33448 /* KLE-GymBro-Bridging-Header.h */,
 				5057D62B1A0D963300CF99C0 /* Generic Core Data Classes */,
 				50DD4CD919C2AFB200A3E6E5 /* Views */,
 				50DD4CD819C2ABF600A3E6E5 /* Model */,
@@ -322,7 +330,10 @@
 		50DD4CD919C2AFB200A3E6E5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				50DD4CDA19C6AF6400A3E6E5 /* KLEHeaderView.xib */,
+				50EBE3421A2984CD00D33448 /* KLECustomHeaderView.swift */,
+				50EBE3441A29851C00D33448 /* KLECustomHeaderView.xib */,
+				50EBE33C1A25BB8000D33448 /* KLEHeaderView.swift */,
+				50EBE3401A2974F200D33448 /* KLEHeaderView.xib */,
 				50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */,
 				50DD4CEC19DE29F600A3E6E5 /* KLEDailyFooterView.xib */,
 				50AC0B3F19B5346E00E39A7E /* KLEMainView.h */,
@@ -413,12 +424,13 @@
 				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
 				5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
+				50EBE3451A29851C00D33448 /* KLECustomHeaderView.xib in Resources */,
+				50EBE3411A2974F200D33448 /* KLEHeaderView.xib in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
 				5057D6B91A0F5AAA00CF99C0 /* exercises.xml in Resources */,
 				50DD4CCC19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib in Resources */,
 				50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */,
 				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
-				50DD4CDB19C6AF6400A3E6E5 /* KLEHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +451,7 @@
 			files = (
 				50DD4CCA19BE3E0100A3E6E5 /* KLERoutineViewCell.m in Sources */,
 				5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */,
+				50EBE33E1A296D6B00D33448 /* KLEHeaderView.swift in Sources */,
 				50B6F05119B7ADB00015ED29 /* KLEStat.m in Sources */,
 				50AE63501A205D2D00D845E8 /* KLEExerciseGoal.m in Sources */,
 				5057D6BC1A0F603100CF99C0 /* CoreDataImporter.m in Sources */,
@@ -462,6 +475,7 @@
 				50DD4CC719BE3CA600A3E6E5 /* KLERoutineViewController.m in Sources */,
 				50AE634D1A205D2D00D845E8 /* KLEExerciseCompleted.m in Sources */,
 				50DD4CDE19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m in Sources */,
+				50EBE3431A2984CD00D33448 /* KLECustomHeaderView.swift in Sources */,
 				5057D62E1A0D96CC00CF99C0 /* CoreDataHelper.m in Sources */,
 				50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */,
 			);
@@ -523,6 +537,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -537,7 +552,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -561,6 +576,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -569,7 +585,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -580,10 +596,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
 				INFOPLIST_FILE = "KLE-GymBro/KLE-GymBro-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "KLE-GymBro/KLE-GymBro-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -593,10 +613,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
 				INFOPLIST_FILE = "KLE-GymBro/KLE-GymBro-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "KLE-GymBro/KLE-GymBro-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

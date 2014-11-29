@@ -5,6 +5,8 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLE_GymBro-Swift.h"
+
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
 #import "KLEExercise.h"
@@ -22,6 +24,13 @@
 @interface KLERoutineExercisesViewController () <ELVCDelegate>
 
 @property (nonatomic, copy) NSArray *routinesArray;
+
+@property (nonatomic, strong) KLECustomHeaderView *headerView;
+
+//@property (nonatomic, strong) IBOutlet UIView *headerView;
+//@property (strong, nonatomic) IBOutlet UITextField *nameTextField;
+//@property (strong, nonatomic) IBOutlet UILabel *exerciseCountLabel;
+//@property (strong, nonatomic) IBOutlet UILabel *totalWeightLabel;
 
 @end
 
@@ -83,12 +92,6 @@
     return [self init];
 }
 
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    
-//    return [[self.statStore allStats] count];
-//}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
@@ -120,11 +123,18 @@
     NSLog(@"exercise %@", exerciseObject);
     // pass the selected exercise object to elvc
     
-    // delegate
-    // not used
+    // delegate not used
     elvc.delegate = self;
     
     [self.navigationController pushViewController:elvc animated:YES];
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    return nil;
 }
 
 - (void)addNewExercise
@@ -197,6 +207,32 @@
 
 }
 
+- (UIView *)tableViewForHeader
+{
+    _headerView = [KLECustomHeaderView new];
+//    KLEHeaderView *headerView = [KLEHeaderView new];
+    
+//    if (!_headerView) {
+//        [[NSBundle mainBundle] loadNibNamed:@"KLEHeaderView"
+//                                      owner:self
+//                                    options:nil];
+//        _headerView.backgroundColor = [UIColor orangeColor];
+//        _headerView.nameTextField.placeholder = @"Routine name";
+//        _headerView.exerciseCountLabel.text = @"";
+//    }
+    return _headerView;
+}
+
+- (void)showTableViewForHeader
+{
+    
+}
+
+- (void)hideTableViewForHeader
+{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -212,13 +248,19 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
     
+    self.tableView.tableHeaderView = [self tableViewForHeader];
+    
+//    [self.tableView setTableHeaderView:[self tableViewForHeader]];
+    
+    NSLog(@"Header View %@", self.headerView);
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 @end
