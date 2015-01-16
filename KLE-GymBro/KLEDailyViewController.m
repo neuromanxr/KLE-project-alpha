@@ -5,6 +5,7 @@
 //  Created by Kelvin Lee on 9/6/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+#import "KLEContainerViewController.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
 #import "KLERoutine.h"
@@ -26,7 +27,7 @@
 #define COMMENT_LABEL_MIN_HEIGHT 95
 #define COMMENT_LABEL_PADDING 10
 
-@interface KLEDailyViewController ()
+@interface KLEDailyViewController () <UISplitViewControllerDelegate>
 
 {
     NSArray *daysArray;
@@ -35,6 +36,8 @@
     NSInteger indexInActionRowPaths;
     NSUInteger rowCountBySection;
 }
+
+@property (nonatomic, strong) KLEContainerViewController *containerViewController;
 
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
@@ -116,13 +119,47 @@
     NSNumber *dayNumber = @(btn.tag);
     NSLog(@"Add button tapped in section %@", dayNumber);
     
-    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
     
     // pass the day number to routine view controller to keep track of which day section to add the routine
-    rvc.dayNumber = dayNumber;
-    NSLog(@"### Day number %@", dayNumber);
+//    rvc.dayNumber = dayNumber;
+//    NSLog(@"### Day number %@", dayNumber);
     
-    [self.navigationController pushViewController:rvc animated:YES];
+//    UISplitViewController *svc = [self splitviewController:dayNumber];
+//    svc.delegate = self;
+//    svc.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
+    
+    KLEContainerViewController *cvc = [[KLEContainerViewController alloc] init];
+    [cvc setEmbeddedViewController:[self splitviewController:dayNumber]];
+    [cvc setModalPresentationStyle:UIModalPresentationFormSheet];
+    [cvc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self presentViewController:cvc animated:YES completion:nil];
+//    [self.navigationController pushViewController:cvc animated:YES];
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
+{
+    return YES;
+}
+
+- (UISplitViewController *)splitviewController:(NSNumber *)buttonNumber
+{
+    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+    rvc.dayNumber = buttonNumber;
+    UINavigationController *rootNav = [[UINavigationController alloc] initWithRootViewController:rvc];
+    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:revc];
+    rvc.delegate = revc;
+    
+    UISplitViewController *svc = [[UISplitViewController alloc] init];
+    revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
+    svc.delegate = self;
+    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+    svc.viewControllers = @[rootNav, detailNav];
+//    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+//    [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
+    
+    return svc;
 }
 
 - (NSArray *)fetchRoutinesWithIndexPath:(NSIndexPath *)indexPath

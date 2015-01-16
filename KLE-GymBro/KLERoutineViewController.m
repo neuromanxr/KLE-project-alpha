@@ -126,6 +126,11 @@
 //    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
 //    KLEStatStore *routine = statStoreArray[indexPath.row];
     NSManagedObjectID *routineID = [[self.frc objectAtIndexPath:indexPath] objectID];
+    if (self.delegate) {
+        [self.delegate selectedRoutineID:routineID];
+        NSLog(@"##DELEGATE %@", self.delegate);
+    }
+    
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
     NSLog(@"Cell selected %@", routine);
@@ -228,7 +233,9 @@
     
     NSLog(@"Save button tapped");
     
-    [self.navigationController popViewControllerAnimated:YES];
+    // dismiss the container view controller
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController popViewControllerAnimated:YES];
     
 //    // access the routines in routine store
 //    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];

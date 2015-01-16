@@ -5,7 +5,9 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
-#import "KLE_GymBro-Swift.h"
+//#import "KLE_GymBro-Swift.h"
+#import "KLEManagedIDSelectionDelegate.h"
+#import "KLETableHeaderView.h"
 
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
@@ -25,17 +27,23 @@
 
 @property (nonatomic, copy) NSArray *routinesArray;
 
-@property (nonatomic, strong) KLECustomHeaderView *headerView;
-
-//@property (nonatomic, strong) IBOutlet UIView *headerView;
-//@property (strong, nonatomic) IBOutlet UITextField *nameTextField;
-//@property (strong, nonatomic) IBOutlet UILabel *exerciseCountLabel;
-//@property (strong, nonatomic) IBOutlet UILabel *totalWeightLabel;
+@property (nonatomic, strong) KLETableHeaderView *tableHeaderView;
 
 @end
 
 @implementation KLERoutineExercisesViewController
 #define debug 1
+
+- (void)selectedRoutineID:(id)objectID
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    self.selectedRoutineID = objectID;
+    NSLog(@"SELECTED ROUTINE ID %@", self.selectedRoutineID);
+    [self configureFetch];
+    [self performFetch];
+}
 
 - (void)configureFetch
 {
@@ -164,17 +172,23 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        KLEStatStore *statStore = self.statStore;
-        NSLog(@"revc statStore array %@", statStore);
-        NSArray *routineExercises = [statStore allStats];
-        KLEStat *exercise = routineExercises[indexPath.row];
-        [statStore removeStat:exercise];
-        
-        // also remove that row from the table view with animation
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        KLEExerciseGoal *deleteTarget = [self.frc objectAtIndexPath:indexPath];
+        [self.frc.managedObjectContext deleteObject:deleteTarget];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
+    
+    // if the table view is asking to commit a delete command
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        KLEStatStore *statStore = self.statStore;
+//        NSLog(@"revc statStore array %@", statStore);
+//        NSArray *routineExercises = [statStore allStats];
+//        KLEStat *exercise = routineExercises[indexPath.row];
+//        [statStore removeStat:exercise];
+    
+        // also remove that row from the table view with animation
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
@@ -207,25 +221,27 @@
 
 }
 
-- (UIView *)tableViewForHeader
+- (UIView *)customHeaderView
 {
-    _headerView = [KLECustomHeaderView new];
-//    KLEHeaderView *headerView = [KLEHeaderView new];
-    
-//    if (!_headerView) {
-//        [[NSBundle mainBundle] loadNibNamed:@"KLEHeaderView"
-//                                      owner:self
-//                                    options:nil];
-//        _headerView.backgroundColor = [UIColor orangeColor];
-//        _headerView.nameTextField.placeholder = @"Routine name";
-//        _headerView.exerciseCountLabel.text = @"";
-//    }
-    return _headerView;
+    if (!_tableHeaderView) {
+//        _tableHeaderView = [[KLETableHeaderView alloc] init];
+        [[NSBundle mainBundle] loadNibNamed:@"KLETableHeaderView"
+                                      owner:self
+                                    options:nil];
+        _tableHeaderView.nameTextField.placeholder = @"Routine name";
+    }
+    return _tableHeaderView;
 }
 
 - (void)showTableViewForHeader
 {
+    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
+    [self.tableView setTableHeaderView:tableHeaderView];
     
+    [UIView animateWithDuration:.5f animations:^{
+        CGRect theFrame = CGRectMake(0, 0, 320, 128);
+        tableHeaderView.frame = theFrame;
+    }];
 }
 
 - (void)hideTableViewForHeader
@@ -236,8 +252,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureFetch];
-    [self performFetch];
+//    [self configureFetch];
+//    [self performFetch];
     NSLog(@"frc managedObjectContext %@", self.frc);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
@@ -248,11 +264,9 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
     
-    self.tableView.tableHeaderView = [self tableViewForHeader];
-    
-//    [self.tableView setTableHeaderView:[self tableViewForHeader]];
-    
-    NSLog(@"Header View %@", self.headerView);
+//    [self showTableViewForHeader];
+//    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
+//    self.tableView.tableHeaderView = tableHeaderView;
     
 }
 
@@ -260,7 +274,6 @@
 {
     [super viewWillAppear:YES];
     
-//    [self.tableView reloadData];
 }
 
 @end

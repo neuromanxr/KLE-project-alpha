@@ -8,8 +8,11 @@
 
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
+#import "KLEManagedIDSelectionDelegate.h"
 
 @interface KLERoutineViewController : CoreDataTableViewController
+
+@property (nonatomic, assign) id<KLEManagedIDSelectionDelegate> delegate;
 
 @property (nonatomic) NSUInteger dayTag;
 

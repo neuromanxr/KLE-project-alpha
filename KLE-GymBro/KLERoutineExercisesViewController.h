@@ -9,7 +9,7 @@
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface KLERoutineExercisesViewController : CoreDataTableViewController
+@interface KLERoutineExercisesViewController : CoreDataTableViewController <KLEManagedIDSelectionDelegate>
 
 @property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
 // stores the selected stat stores created by routines store in routine view controller
