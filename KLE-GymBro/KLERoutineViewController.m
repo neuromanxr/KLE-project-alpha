@@ -54,19 +54,19 @@
     if (self) {
         UINavigationItem *navItem = self.navigationItem;
         // title for rvc
-        navItem.title = @"Your Routines";
+        navItem.title = @"Routines";
         
         // button to add exercises
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
+//        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+//        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
         // set bar button to toggle editing mode
-        editButton = self.editButtonItem;
+//        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
+//        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
         
     }
     
@@ -90,7 +90,7 @@
 //    self.routineViewCell.routineNameField.delegate = self;
 //    self.routineViewCell.routineNameField.tag = indexPath.row;
     self.routineViewCell.nameLabel.text = routine.routinename;
-    self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    self.routineViewCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //    NSLog(@"routine %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
     
     return self.routineViewCell;
@@ -200,17 +200,60 @@
     [self.tableView reloadData];
 }
 
-- (void)addNewRoutine
+- (void)addNewRoutine:(NSString *)name
 {
-    // give the routine a name
-//    newStatStore.routineName = [NSString stringWithFormat:@"Routine %lu", indexPath.row + 1];
-//    NSLog(@"Routine name %@", newStatStore.routineName);
-    
     KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
     
-    newRoutine.routinename = @"New Routine";
+    newRoutine.routinename = name;
 
     NSLog(@"new routine %@", newRoutine.routinename);
+}
+
+- (void)showRoutineNameAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Routine Name" message:@"Enter Routine Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    textField.keyboardType = UIKeyboardTypeDefault;
+    
+    [alertView show];
+}
+
+- (BOOL)validateText:(NSString *)routineName
+{
+    NSError *error = NULL;
+    NSString *regexPatternUnlimited = @"^[0-9]+$";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPatternUnlimited options:NSRegularExpressionCaseInsensitive error:&error];
+    if ([regex numberOfMatchesInString:routineName options:0 range:NSMakeRange(0, routineName.length)]) {
+        NSLog(@"Success Match");
+        return YES;
+    }
+    return NO;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *routineName = [[alertView textFieldAtIndex:0] text];
+    if (buttonIndex == 0) {
+        NSLog(@"CANCELLED");
+    } else {
+        NSLog(@"OK %@", routineName);
+        [self addNewRoutine:routineName];
+    }
+}
+
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    NSString *routineName = [[alertView textFieldAtIndex:0] text];
+    if ([self validateText:routineName]) {
+        NSLog(@"INPUT OK");
+        [alertView textFieldAtIndex:0].textColor = [UIColor blueColor];
+        return YES;
+    } else {
+        NSLog(@"INVALID INPUT");
+        [alertView textFieldAtIndex:0].textColor = [UIColor redColor];
+    }
+    return NO;
 }
 
 - (void)editRoutines
@@ -337,10 +380,19 @@
     
     self.tableView.allowsMultipleSelection = NO;
     
+    // button to add exercises
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRoutineNameAlert)];
+    
+    // button to edit routine
+//    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+    
+    // set bar button to toggle editing mode
+//    editButton = self.editButtonItem;
     // add a toolbar with a save button for routines selection
     UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];
+    UIBarButtonItem *spacing = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     [self.navigationController setToolbarHidden:NO animated:YES];
-    self.toolbarItems = [[NSArray alloc] initWithObjects:select, nil];
+    self.toolbarItems = [[NSArray alloc] initWithObjects:select, spacing,addButton, nil];
     
 }
 

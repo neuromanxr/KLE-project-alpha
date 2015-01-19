@@ -46,7 +46,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *manageRoutines;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
-@property (strong, nonatomic) UIBarButtonItem *editButton;
+//@property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows
 @property (nonatomic, strong) NSArray *actionRowPaths;
@@ -71,13 +71,13 @@
         navItem.title = @"Daily";
         
         // button to edit routine
-        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+//        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
         // set bar button to toggle editing mode
-        self.editButton = self.editButtonItem;
+//        self.editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:self.editButton, nil];
+//        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:self.editButton, nil];
     }
     
     return self;
@@ -156,7 +156,6 @@
     svc.delegate = self;
     svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
     svc.viewControllers = @[rootNav, detailNav];
-//    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
 //    [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
     
     return svc;
@@ -201,7 +200,7 @@
         }
     } else {
         NSLog(@"There's no exercises in this routine");
-        self.editButton.enabled = YES;
+//        self.editButton.enabled = YES;
     }
     
     return indexPathsForExercises;
@@ -369,7 +368,7 @@
         pathsToDelete = self.actionRowPaths;
         self.actionRowPaths = nil;
         [self deselect];
-        self.editButton.enabled = YES;
+//        self.editButton.enabled = YES;
         
     // case: when an action row is already expanded and you click a different action row
     } else if ([self.actionRowPaths count]) {
@@ -440,7 +439,7 @@
         NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
         // disable edit button when action row appears
-        self.editButton.enabled = NO;
+//        self.editButton.enabled = NO;
         
         NSArray *indexPathsForExercises = [self createActionRowPathsFromRoutineIndex:indexPath.row startIndex:startIndexAtOne atIndexPath:indexPath];
 
@@ -482,8 +481,10 @@
         KLERoutine *routine = [routineObjects objectAtIndex:self.didSelectRowAtIndexPath.row];
         
         NSArray *exercises = [NSArray arrayWithArray:[routine.exercisegoal allObjects]];
+        KLEExerciseGoal *routineExercise = [exercises objectAtIndex:startIndexForExerises];
         
-        actionCell.exerciseNameLabel.text = [[[exercises objectAtIndex:startIndexForExerises] exercise] exercisename];
+        actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
+        actionCell.setsAmount.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
 
         return actionCell;
         
@@ -544,9 +545,13 @@
     
     KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
     
+    // pass the routine ID to routineExerciseViewController
+    self.delegate = revc;
+    [self.delegate selectedRoutineID:selectedRoutineID];
+    
     // pass selected statStore from routine view controller to routine exercise view controller
-    revc.selectedRoutineID = selectedRoutineID;
-    NSLog(@"selected routine ID %@", revc.selectedRoutineID);
+//    revc.selectedRoutineID = selectedRoutineID;
+//    NSLog(@"selected routine ID %@", revc.selectedRoutineID);
     
     [self.navigationController pushViewController:revc animated:YES];
 }
@@ -617,7 +622,7 @@
         }
         [self.tableView endUpdates];
         
-        self.editButton.enabled = YES;
+//        self.editButton.enabled = YES;
     }
 }
 

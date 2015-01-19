@@ -66,7 +66,7 @@
     if (self) {
         
         UINavigationItem *navItem = self.navigationItem;
-        navItem.title = @"Exercises List";
+        navItem.title = @"Exercises";
         
         if (isNew) {
             
@@ -123,17 +123,18 @@
 - (void)saveChanges:(id)sender
 {
     // selected row is the exercise selected from the exercise array
-    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
+//    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    
     
     // pointer to the currently selected exercise
-    KLEStat *stat = self.stat;
-    stat.exercise = [_exerciseArray[selectedRow.row] name];
-    stat.sets = [self.setsField.text intValue];
-    stat.reps = [self.repsField.text intValue];
-    stat.weight = [self.weightField.text floatValue];
+//    KLEStat *stat = self.stat;
+//    stat.exercise = [_exerciseArray[selectedRow.row] name];
+//    stat.sets = [self.setsField.text intValue];
+//    stat.reps = [self.repsField.text intValue];
+//    stat.weight = [self.weightField.text floatValue];
     
     // store the new exercise selection
-    stat.userSelections = selectedRow;
+//    stat.userSelections = selectedRow;
     
     [self.navigationController popViewControllerAnimated:YES];
 }

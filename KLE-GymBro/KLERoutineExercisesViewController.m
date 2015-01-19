@@ -22,6 +22,7 @@
 #import "KLERoutineExercisesViewCell.h"
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
+#import "KLERoutineExerciseDetailViewController.h"
 
 @interface KLERoutineExercisesViewController () <ELVCDelegate>
 
@@ -41,8 +42,22 @@
     }
     self.selectedRoutineID = objectID;
     NSLog(@"SELECTED ROUTINE ID %@", self.selectedRoutineID);
+    
     [self configureFetch];
     [self performFetch];
+    
+    // get the selected routine in the current context
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:objectID];
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:13], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor blueColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    self.navigationItem.titleView = title;
 }
 
 - (void)configureFetch
@@ -74,21 +89,17 @@
     
     if (self) {
         
-        UINavigationItem *navItem = self.navigationItem;
-        // title for rvc
-        navItem.title = @"Routine Exercises";
-        
         // button to add exercises
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+//        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
         // set bar button to toggle editing mode
-        editButton = self.editButtonItem;
+//        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, nil];
         
     }
     
@@ -109,6 +120,7 @@
     KLEExercise *exercise = exerciseGoal.exercise;
 //    NSLog(@"cell for row frc %@", exercise);
     cell.exerciseNameLabel.text = exercise.exercisename;
+    cell.setsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.sets];
     
     // access the stat store using the selected index path row
     // then assign the exercise name property to the cell label
@@ -124,17 +136,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
+//    KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
     
     
-    KLEExerciseGoal *exerciseObject = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
-    NSLog(@"exercise %@", exerciseObject);
+//    KLEExerciseGoal *exerciseObject = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
+//    NSLog(@"exercise %@", exerciseObject);
     // pass the selected exercise object to elvc
     
     // delegate not used
-    elvc.delegate = self;
+//    elvc.delegate = self;
+    KLEExerciseGoal *routineExercise = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
+    KLERoutineExerciseDetailViewController *redvc = [[KLERoutineExerciseDetailViewController alloc] init];
+    redvc.selectedRoutineExercise = routineExercise;
     
-    [self.navigationController pushViewController:elvc animated:YES];
+    [self.navigationController pushViewController:redvc animated:YES];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView

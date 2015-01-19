@@ -11,4 +11,5 @@
 @interface KLEActionCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *exerciseNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *setsAmount;
 @end
