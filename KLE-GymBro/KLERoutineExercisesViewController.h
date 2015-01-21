@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLEManagedIDSelectionDelegate.h"
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
@@ -13,6 +14,6 @@
 
 @property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
 // stores the selected stat stores created by routines store in routine view controller
-@property (nonatomic, strong) KLEStatStore *statStore;
+//@property (nonatomic, strong) KLEStatStore *statStore;
 
 @end

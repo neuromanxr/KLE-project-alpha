@@ -36,6 +36,20 @@
     }
 }
 
+- (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    NSLog(@"##WILL TRANSITION TO TRAIT COLLECTION");
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        // transition to match context duration
+        CATransition *transition = [[CATransition alloc] init];
+        transition.duration = [context transitionDuration];
+        // fade
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        [self.view.layer addAnimation:transition forKey:@"Fade"];
+    } completion:nil];
+}
+
 //- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 //{
 //    if (size.width > size.height) {

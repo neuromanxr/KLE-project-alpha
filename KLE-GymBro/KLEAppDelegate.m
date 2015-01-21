@@ -8,6 +8,8 @@
 
 #import "KLEExercise.h"
 
+#import "KLEContainerViewController.h"
+#import "KLERoutineExercisesViewController.h"
 #import "KLERoutineViewController.h"
 #import "KLEDailyViewController.h"
 #import "KLEAppDelegate.h"
@@ -68,6 +70,37 @@
     return _coreDataHelper;
 }
 
+- (UISplitViewController *)splitviewController
+{
+    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+    UINavigationController *rootNav = [[UINavigationController alloc] initWithRootViewController:rvc];
+    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:revc];
+    rvc.delegate = revc;
+    
+    UISplitViewController *svc = [[UISplitViewController alloc] init];
+    revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
+    svc.delegate = self;
+    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+    svc.viewControllers = @[rootNav, detailNav];
+    //    [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
+    
+    return svc;
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
+{
+    return YES;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
+{
+    if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
+        NSLog(@"ALL VISIBLE");
+    }
+    NSLog(@"DISPLAY MODE CHANGED");
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     if (debug==1)
@@ -77,14 +110,18 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    KLEContainerViewController *cvc = [[KLEContainerViewController alloc] init];
+    [cvc setEmbeddedViewController:[self splitviewController]];
+    [cvc setModalPresentationStyle:UIModalPresentationFormSheet];
+    [cvc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     
     KLEDailyViewController *dvc = [[KLEDailyViewController alloc] init];
+    UINavigationController *dvcNav = [[UINavigationController alloc] initWithRootViewController:dvc];
+
+    UITabBarController *tbc = [[UITabBarController alloc] init];
+    tbc.viewControllers = @[dvcNav, cvc];
     
-//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-    
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dvc];
-    
-    self.window.rootViewController = navController;
+    self.window.rootViewController = tbc;
     
     [self.window makeKeyAndVisible];
     return YES;

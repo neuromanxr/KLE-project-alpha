@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 //#import "KLE_GymBro-Swift.h"
-#import "KLEManagedIDSelectionDelegate.h"
 #import "KLETableHeaderView.h"
 
 #import "KLEAppDelegate.h"
@@ -58,6 +57,7 @@
     title.attributedText = attribString;
     [title sizeToFit];
     self.navigationItem.titleView = title;
+    self.tableHeaderView.nameTextField.text = selectedRoutine.routinename;
 }
 
 - (void)configureFetch
@@ -208,7 +208,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    [self.statStore moveStatAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
+//    [self.statStore moveStatAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
 }
 
 - (void)save:(id)sender
@@ -248,21 +248,21 @@
     return _tableHeaderView;
 }
 
-- (void)showTableViewForHeader
-{
-    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
-    [self.tableView setTableHeaderView:tableHeaderView];
-    
-    [UIView animateWithDuration:.5f animations:^{
-        CGRect theFrame = CGRectMake(0, 0, 320, 128);
-        tableHeaderView.frame = theFrame;
-    }];
-}
+//- (void)showTableViewForHeader
+//{
+//    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
+//    [self.tableView setTableHeaderView:tableHeaderView];
+//    
+//    [UIView animateWithDuration:.5f animations:^{
+//        CGRect theFrame = CGRectMake(0, 0, 320, 128);
+//        tableHeaderView.frame = theFrame;
+//    }];
+//}
 
-- (void)hideTableViewForHeader
-{
-    
-}
+//- (void)hideTableViewForHeader
+//{
+//    
+//}
 
 - (void)viewDidLoad
 {
@@ -280,8 +280,8 @@
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
     
 //    [self showTableViewForHeader];
-//    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
-//    self.tableView.tableHeaderView = tableHeaderView;
+    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
+    self.tableView.tableHeaderView = tableHeaderView;
     
 }
 

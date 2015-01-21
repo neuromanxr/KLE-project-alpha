@@ -28,9 +28,19 @@
     self.navigationItem.title = self.selectedRoutineExercise.exercise.exercisename;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    NSLog(@"## ROUTINE EXERCISE DETAIL WILL TRANSITION");
 }
 
 /*

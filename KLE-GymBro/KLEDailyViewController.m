@@ -31,6 +31,7 @@
 
 {
     NSArray *daysArray;
+    NSArray *datesArray;
     
     NSInteger selectedIndex;
     NSInteger indexInActionRowPaths;
@@ -38,6 +39,7 @@
 }
 
 @property (nonatomic, strong) KLEContainerViewController *containerViewController;
+@property (nonatomic, copy) NSString *(^weeklyDates)(NSString *);
 
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
@@ -45,6 +47,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *manageRoutines;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
+@property (weak, nonatomic) IBOutlet UILabel *headerDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
 //@property (strong, nonatomic) UIBarButtonItem *editButton;
 
@@ -68,7 +71,7 @@
     
     if (self) {
         UINavigationItem *navItem = self.navigationItem;
-        navItem.title = @"Daily";
+        navItem.title = @"GymBro";
         
         // button to edit routine
 //        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
@@ -140,6 +143,14 @@
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
 {
     return YES;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
+{
+    if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
+        NSLog(@"ALL VISIBLE");
+    }
+    NSLog(@"DISPLAY MODE CHANGED");
 }
 
 - (UISplitViewController *)splitviewController:(NSNumber *)buttonNumber
@@ -234,6 +245,16 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    float currentOffset = scrollView.contentOffset.y;
+    float maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+    
+    if ((maximumOffset - currentOffset) <= 40) {
+        NSLog(@"##SCROLLING TO END");
+    }
+}
+
 #pragma mark - DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -284,6 +305,7 @@
                                 options:nil];
     _dailyHeaderView.backgroundColor = [UIColor grayColor];
     self.headerDayLabel.text = daysArray[section];
+    self.headerDateLabel.text = datesArray[section];
     self.manageRoutines.tag = section;
     [self.manageRoutines addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -304,9 +326,16 @@
 //    } completion:nil];
 //}
 
+// dynamic height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30.0;
+    float height = self.view.bounds.size.height / 7;
+    if (self.actionRowPaths) {
+        height = self.view.bounds.size.height / 7;
+    } else {
+        height = self.view.bounds.size.height / 7;
+    }
+    return height;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -593,6 +622,66 @@
     [dailyStore moveStatStoreAtIndex:sourceIndexPath.row atKey:fromKey toIndex:destinationIndexPath.row toKey:toKey];
 }
 
+- (void)startDate:(NSDate **)start andEndDate:(NSDate **)end ofWeekOn:(NSDate *)date
+{
+    NSDate *startDate = nil;
+    NSTimeInterval duration = 0;
+    BOOL b = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitWeekOfMonth startDate:&startDate interval:&duration forDate:date];
+    if (!b) {
+        *start = nil;
+        *end = nil;
+        return;
+    }
+    NSTimeInterval interval = 24 * 60 * 60;
+    NSLog(@"DURATION %f", duration);
+    NSDate *endDate = [startDate dateByAddingTimeInterval:(duration - interval)];
+    NSLog(@"END DATE %@", endDate);
+    *start = startDate;
+    *end = endDate;
+}
+
+- (void)getDates
+{
+    NSDate *thisStart = nil;
+    NSDate *thisEnd = nil;
+    [self startDate:&thisStart andEndDate:&thisEnd ofWeekOn:[NSDate date]];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterShortStyle];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitWeekday fromDate:thisStart];
+    NSString *dayName = stringFromWeekday((int)[components weekday]);
+    NSLog(@"STRING FROM WEEK DAY %@", dayName);
+    NSTimeInterval interval = 24 * 60 * 60;
+    NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+    for (int i = 0; i < 7; i++) {
+        NSDate *date = [thisStart dateByAddingTimeInterval:interval * i];
+        NSString *day = [formatter stringFromDate:date];
+        NSLog(@"Week Day %@", day);
+        [mutableArray addObject:day];
+    }
+    datesArray = [NSArray arrayWithArray:mutableArray];
+    
+    // test block
+    void (^block)(NSString *) = ^(NSString *date) {
+        NSLog(@"BLOCK");
+    };
+    block(@"STRING");
+    
+    NSDate *lastWeekDate = [thisStart dateByAddingTimeInterval:-10];
+    NSDate *lastStart = nil;
+    NSDate *lastEnd = nil;
+    [self startDate:&lastStart andEndDate:&lastEnd ofWeekOn:lastWeekDate];
+    
+    NSDate *nextWeekDate = [thisEnd dateByAddingTimeInterval:10 + interval];
+    NSDate *nextStart = nil;
+    NSDate *nextEnd = nil;
+    [self startDate:&nextStart andEndDate:&nextEnd ofWeekOn:nextWeekDate];
+    
+    NSLog(@"START DAY %@ END DAY %@", thisStart, thisEnd);
+    NSLog(@"LAST WEEK DAY %@ END DAY %@", lastStart, lastEnd);
+    NSLog(@"NEXT WEEK DAY %@ END DAY %@", nextStart, nextEnd);
+}
+
 - (void)makeDays
 {
     if (debug==1) {
@@ -626,9 +715,19 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([self.tableView indexPathsForVisibleRows]) {
+        NSLog(@"## VISIBLE ROWS ##");
+        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:YES];
+    [super viewWillAppear:animated];
     
     [self.tableView reloadData];
 }
@@ -638,6 +737,8 @@
     [super viewDidLoad];
     
     [self makeDays];
+    
+    [self getDates];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
@@ -657,9 +758,24 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:YES];
+    [super viewWillDisappear:animated];
     
     [self removeActionRowPathsFromView];
+}
+
+static inline NSString *stringFromWeekday(int weekday)
+{
+    static NSString *strings[] = {
+        @"Sunday",
+        @"Monday",
+        @"Tuesday",
+        @"Wednesday",
+        @"Thursday",
+        @"Friday",
+        @"Saturday",
+    };
+    
+    return strings[weekday - 1];
 }
 
 @end
