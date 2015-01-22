@@ -10,10 +10,8 @@
 
 @interface KLETableHeaderView : UIView
 
-@property (strong, nonatomic) IBOutlet UITextField *nameTextField;
-@property (strong, nonatomic) IBOutlet UILabel *exerciseCountLabel;
-@property (strong, nonatomic) IBOutlet UILabel *totalWeightLabel;
-
 + (id)customView;
+@property (strong, nonatomic) IBOutlet UILabel *totalWeight;
+@property (strong, nonatomic) IBOutlet UITextField *routineNameTextField;
 
 @end

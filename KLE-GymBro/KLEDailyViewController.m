@@ -27,6 +27,7 @@
 #define COMMENT_LABEL_MIN_HEIGHT 95
 #define COMMENT_LABEL_PADDING 10
 
+// can remove splitviewcontroller delegate
 @interface KLEDailyViewController () <UISplitViewControllerDelegate>
 
 {
@@ -132,6 +133,7 @@
 //    svc.delegate = self;
 //    svc.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
     
+    // can remove
     KLEContainerViewController *cvc = [[KLEContainerViewController alloc] init];
     [cvc setEmbeddedViewController:[self splitviewController:dayNumber]];
     [cvc setModalPresentationStyle:UIModalPresentationFormSheet];
@@ -140,11 +142,13 @@
 //    [self.navigationController pushViewController:cvc animated:YES];
 }
 
+// can remove, app delegate is delegate
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
 {
     return YES;
 }
 
+// can remove
 - (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
 {
     if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
@@ -153,6 +157,7 @@
     NSLog(@"DISPLAY MODE CHANGED");
 }
 
+// can remove
 - (UISplitViewController *)splitviewController:(NSNumber *)buttonNumber
 {
     KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];

@@ -80,7 +80,7 @@
     
     UISplitViewController *svc = [[UISplitViewController alloc] init];
     revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
-    svc.delegate = self;
+    svc.delegate = revc;
     svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
     svc.viewControllers = @[rootNav, detailNav];
     //    [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];

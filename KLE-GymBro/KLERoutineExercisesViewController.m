@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 //#import "KLE_GymBro-Swift.h"
-#import "KLETableHeaderView.h"
 
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
@@ -23,7 +22,7 @@
 #import "KLERoutineExercisesViewController.h"
 #import "KLERoutineExerciseDetailViewController.h"
 
-@interface KLERoutineExercisesViewController () <ELVCDelegate>
+@interface KLERoutineExercisesViewController () <ELVCDelegate, UITextFieldDelegate>
 
 @property (nonatomic, copy) NSArray *routinesArray;
 
@@ -57,8 +56,29 @@
     title.attributedText = attribString;
     [title sizeToFit];
     self.navigationItem.titleView = title;
-    self.tableHeaderView.nameTextField.text = selectedRoutine.routinename;
+    
+    self.tableHeaderView.totalWeight.text = @"TEST";
+    self.tableHeaderView.routineNameTextField.text = selectedRoutine.routinename;
+    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
 }
+
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
+{
+    if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
+        NSLog(@"ALL VISIBLE");
+    }
+    NSLog(@"DISPLAY MODE CHANGED REVC");
+}
+
+//- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
+//{
+//    return YES;
+//}
+
+//- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc
+//{
+//    return UISplitViewControllerDisplayModePrimaryHidden;
+//}
 
 - (void)configureFetch
 {
@@ -211,6 +231,24 @@
 //    [self.statStore moveStatAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"BEGAN EDITING");
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"END EDITING");
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
+    selectedRoutine.routinename = self.tableHeaderView.routineNameTextField.text;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 - (void)save:(id)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -236,17 +274,17 @@
 
 }
 
-- (UIView *)customHeaderView
-{
-    if (!_tableHeaderView) {
-//        _tableHeaderView = [[KLETableHeaderView alloc] init];
-        [[NSBundle mainBundle] loadNibNamed:@"KLETableHeaderView"
-                                      owner:self
-                                    options:nil];
-        _tableHeaderView.nameTextField.placeholder = @"Routine name";
-    }
-    return _tableHeaderView;
-}
+//- (UIView *)customHeaderView
+//{
+//    if (!_tableHeaderView) {
+////        _tableHeaderView = [[KLETableHeaderView alloc] init];
+//        [[NSBundle mainBundle] loadNibNamed:@"KLETableHeaderView"
+//                                      owner:self
+//                                    options:nil];
+//        _tableHeaderView.nameTextField.placeholder = @"Routine name";
+//    }
+//    return _tableHeaderView;
+//}
 
 //- (void)showTableViewForHeader
 //{
@@ -280,9 +318,11 @@
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
     
 //    [self showTableViewForHeader];
-    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
-    self.tableView.tableHeaderView = tableHeaderView;
+    self.tableHeaderView = [KLETableHeaderView customView];
+    self.tableView.tableHeaderView = self.tableHeaderView;
     
+    // set the delegate for textfield to this view controller
+    self.tableHeaderView.routineNameTextField.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated

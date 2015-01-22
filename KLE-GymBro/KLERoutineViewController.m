@@ -383,16 +383,17 @@
     // button to add exercises
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRoutineNameAlert)];
     
+    self.navigationItem.leftBarButtonItem = addButton;
     // button to edit routine
 //    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
     
     // set bar button to toggle editing mode
 //    editButton = self.editButtonItem;
     // add a toolbar with a save button for routines selection
-    UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];
-    UIBarButtonItem *spacing = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    [self.navigationController setToolbarHidden:NO animated:YES];
-    self.toolbarItems = [[NSArray alloc] initWithObjects:select, spacing,addButton, nil];
+//    UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];
+//    UIBarButtonItem *spacing = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    [self.navigationController setToolbarHidden:NO animated:YES];
+//    self.toolbarItems = [[NSArray alloc] initWithObjects:select, spacing,addButton, nil];
     
 }
 
