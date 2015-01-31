@@ -10,8 +10,6 @@
 
 @interface KLERoutineViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *weightLabel;
-@property (weak, nonatomic) IBOutlet UILabel *setsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *repsLabel;
 //@property (weak, nonatomic) IBOutlet UITextField *routineNameField;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;

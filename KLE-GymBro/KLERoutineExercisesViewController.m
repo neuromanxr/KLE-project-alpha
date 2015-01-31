@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 //#import "KLE_GymBro-Swift.h"
-
+#import "Pickers/ActionSheetStringPicker.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
 #import "KLEExercise.h"
@@ -27,6 +27,7 @@
 @property (nonatomic, copy) NSArray *routinesArray;
 
 @property (nonatomic, strong) KLETableHeaderView *tableHeaderView;
+@property (nonatomic, strong) UITextField *routineTextField;
 
 @end
 
@@ -47,19 +48,27 @@
     // get the selected routine in the current context
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:objectID];
     // custom title for navigation title
-    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:13], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+//    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:13], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
     // custom title for navigation title
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
-    title.backgroundColor = [UIColor clearColor];
-    title.textColor = [UIColor blueColor];
-    title.numberOfLines = 0;
-    title.attributedText = attribString;
-    [title sizeToFit];
-    self.navigationItem.titleView = title;
+//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+//    title.backgroundColor = [UIColor clearColor];
+//    title.textColor = [UIColor blueColor];
+//    title.numberOfLines = 0;
+//    title.attributedText = attribString;
+//    [title sizeToFit];
+//    self.navigationItem.titleView = title;
+    self.routineTextField.text = selectedRoutine.routinename;
     
-    self.tableHeaderView.totalWeight.text = @"TEST";
-    self.tableHeaderView.routineNameTextField.text = selectedRoutine.routinename;
-    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+//    self.tableHeaderView.totalWeight.text = @"TEST";
+//    self.tableHeaderView.routineNameTextField.text = selectedRoutine.routinename;
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+//    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+    
+    // pop off the exercise detail view controller when there's a new routine selection
+    if ([[self.navigationController.viewControllers lastObject] isKindOfClass:[KLERoutineExerciseDetailViewController class]]) {
+        NSLog(@"EXERCISE DETAIL VC PRESENT");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
@@ -99,7 +108,7 @@
     NSLog(@"configure fetch Objects %@", fetchedObjects);
     request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercise.exercisename" ascending:YES], nil];
 //    NSLog(@"request object %@", request);
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.exercisename" cacheName:nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.musclename" cacheName:nil];
     self.frc.delegate = self;
 }
 
@@ -111,7 +120,15 @@
         
         // button to add exercises
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
-        
+        self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 26)];
+        self.routineTextField.backgroundColor = [UIColor clearColor];
+        self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
+        self.routineTextField.text = @"Routine Name";
+        self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
+        self.routineTextField.textAlignment = NSTextAlignmentCenter;
+        UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
+
         // button to edit routine
 //        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
@@ -119,7 +136,7 @@
 //        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, nil];
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, textFieldBarButton, nil];
         
     }
     
@@ -141,6 +158,7 @@
 //    NSLog(@"cell for row frc %@", exercise);
     cell.exerciseNameLabel.text = exercise.exercisename;
     cell.setsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.sets];
+    cell.weightLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.weight];
     
     // access the stat store using the selected index path row
     // then assign the exercise name property to the cell label
@@ -240,7 +258,8 @@
 {
     NSLog(@"END EDITING");
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
-    selectedRoutine.routinename = self.tableHeaderView.routineNameTextField.text;
+//    selectedRoutine.routinename = self.tableHeaderView.routineNameTextField.text;
+    selectedRoutine.routinename = self.routineTextField.text;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -302,6 +321,24 @@
 //    
 //}
 
+- (void)showActionSheet
+{
+    NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
+    [ActionSheetStringPicker showPickerWithTitle:@"Select a Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+        NSError *error = nil;
+        KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:&error];
+        routine.daynumber = [NSNumber numberWithInteger:selectedIndex];
+        routine.dayname = [days objectAtIndex:selectedIndex];
+        routine.inworkout = [NSNumber numberWithBool:YES];
+        NSLog(@"Header Day %@", self.tableHeaderView.dayButton.titleLabel.text);
+        NSLog(@"Picker: %@", picker);
+        NSLog(@"Selected index %lu", selectedIndex);
+        NSLog(@"Selected value %@", selectedValue);
+    } cancelBlock:^(ActionSheetStringPicker *picker) {
+        NSLog(@"Cancelled");
+    } origin:self.view];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -321,8 +358,11 @@
     self.tableHeaderView = [KLETableHeaderView customView];
     self.tableView.tableHeaderView = self.tableHeaderView;
     
+    [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    
     // set the delegate for textfield to this view controller
-    self.tableHeaderView.routineNameTextField.delegate = self;
+//    self.tableHeaderView.routineNameTextField.delegate = self;
+    self.routineTextField.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated

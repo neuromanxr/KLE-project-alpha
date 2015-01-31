@@ -11,7 +11,7 @@
 @interface KLETableHeaderView : UIView
 
 + (id)customView;
-@property (strong, nonatomic) IBOutlet UILabel *totalWeight;
-@property (strong, nonatomic) IBOutlet UITextField *routineNameTextField;
+
+@property (strong, nonatomic) IBOutlet UIButton *dayButton;
 
 @end

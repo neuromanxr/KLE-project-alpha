@@ -5,6 +5,8 @@
 //  Created by Kelvin Lee on 9/6/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+
+#import "KLEWorkoutButton.h"
 #import "KLEContainerViewController.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
@@ -40,6 +42,7 @@
 }
 
 @property (nonatomic, strong) KLEContainerViewController *containerViewController;
+@property (nonatomic, strong) NSString *todaysDate;
 @property (nonatomic, copy) NSString *(^weeklyDates)(NSString *);
 
 // daily view header
@@ -74,6 +77,9 @@
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"GymBro";
         
+        UITabBarItem *tbi = [self tabBarItem];
+        UIImage *tabBarImage = [UIImage imageNamed:@"weightlift.png"];
+        tbi.image = tabBarImage;
         // button to edit routine
 //        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
@@ -517,8 +523,18 @@
         NSArray *exercises = [NSArray arrayWithArray:[routine.exercisegoal allObjects]];
         KLEExerciseGoal *routineExercise = [exercises objectAtIndex:startIndexForExerises];
         
+        // set the values in the action cell
+        NSString *repTitle = [NSString stringWithFormat:@"%@", routineExercise.reps];
         actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
-        actionCell.setsAmount.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
+        actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
+        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
+        [actionCell.workoutButton setTitle:repTitle forState:UIControlStateNormal];
+        
+        // make the button manually
+//        KLEWorkoutButton *workoutButton = [[KLEWorkoutButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+//        [workoutButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+//        [workoutButton setTitle:@"10" forState:UIControlStateNormal];
+//        [actionCell addSubview:workoutButton];
 
         return actionCell;
         
@@ -608,6 +624,8 @@
         NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
         KLERoutine *deleteTarget = [routineObjects objectAtIndex:indexPath.row];
         deleteTarget.inworkout = [NSNumber numberWithBool:NO];
+        deleteTarget.dayname = @"Day";
+        deleteTarget.daynumber = nil;
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
@@ -647,6 +665,12 @@
 
 - (void)getDates
 {
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateStyle:NSDateFormatterShortStyle];
+    self.todaysDate = [dateFormat stringFromDate:date];
+    NSLog(@"TODAYS DATE %@", self.todaysDate);
+    
     NSDate *thisStart = nil;
     NSDate *thisEnd = nil;
     [self startDate:&thisStart andEndDate:&thisEnd ofWeekOn:[NSDate date]];
@@ -685,6 +709,7 @@
     NSLog(@"START DAY %@ END DAY %@", thisStart, thisEnd);
     NSLog(@"LAST WEEK DAY %@ END DAY %@", lastStart, lastEnd);
     NSLog(@"NEXT WEEK DAY %@ END DAY %@", nextStart, nextEnd);
+    
 }
 
 - (void)makeDays
@@ -725,9 +750,22 @@
     [super viewDidAppear:animated];
     
     if ([self.tableView indexPathsForVisibleRows]) {
-        NSLog(@"## VISIBLE ROWS ##");
-        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        for (int i = 0; i < [datesArray count]; i++) {
+            NSLog(@"DAY MATCH %@ TODAY %@", [datesArray objectAtIndex:i], self.todaysDate);
+            if ([[datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+                NSLog(@"MATCH");
+                if ([self.tableView numberOfRowsInSection:i] > 0) {
+                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
+                    if (![self.actionRowPaths count]) {
+                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
     }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -765,7 +803,26 @@
 {
     [super viewWillDisappear:animated];
     
-    [self removeActionRowPathsFromView];
+    NSLog(@"VIEW WILL DISAPPEAR");
+    
+    if ([self.tableView indexPathsForVisibleRows]) {
+        for (int i = 0; i < [datesArray count]; i++) {
+            NSLog(@"DAY MATCH %@ TODAY %@", [datesArray objectAtIndex:i], self.todaysDate);
+            if ([[datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+                NSLog(@"MATCH");
+                if ([self.tableView numberOfRowsInSection:i] > 0) {
+                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
+                    if ([self.actionRowPaths count]) {
+                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
+//    [self removeActionRowPathsFromView];
 }
 
 static inline NSString *stringFromWeekday(int weekday)

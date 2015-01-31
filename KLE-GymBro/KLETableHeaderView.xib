@@ -10,51 +10,29 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DJv-dB-oOs">
-                    <rect key="frame" x="8" y="8" width="252" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Qp-jq-xPk">
+                    <rect key="frame" x="8" y="8" width="304" height="46"/>
+                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="P3M-px-Gls"/>
+                        <constraint firstAttribute="height" constant="46" id="dCC-1Y-BOc"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="total weight" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMK-1Y-pK5">
-                    <rect key="frame" x="8" y="75" width="89.5" height="21"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="21" id="2i1-Ny-Kx8"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Qp-jq-xPk">
-                    <rect key="frame" x="129" y="71" width="46" height="30"/>
                     <state key="normal" title="Day">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pnr-WB-GfX">
-                    <rect key="frame" x="183" y="71" width="46" height="30"/>
-                    <state key="normal" title="Button">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="DJv-dB-oOs" secondAttribute="trailing" constant="60" id="5Ph-dR-9te"/>
-                <constraint firstItem="QMK-1Y-pK5" firstAttribute="leading" secondItem="YwV-F8-nrw" secondAttribute="leading" constant="8" id="GCD-hS-HNf"/>
-                <constraint firstAttribute="bottom" secondItem="QMK-1Y-pK5" secondAttribute="bottom" constant="16" id="Ic7-f4-83D"/>
-                <constraint firstItem="DJv-dB-oOs" firstAttribute="top" secondItem="YwV-F8-nrw" secondAttribute="top" constant="8" id="TOG-yY-F2r"/>
-                <constraint firstItem="DJv-dB-oOs" firstAttribute="leading" secondItem="YwV-F8-nrw" secondAttribute="leading" constant="8" id="rF8-y4-Njk"/>
+                <constraint firstItem="4Qp-jq-xPk" firstAttribute="top" secondItem="YwV-F8-nrw" secondAttribute="top" constant="8" id="V1t-QQ-NnM"/>
+                <constraint firstAttribute="trailing" secondItem="4Qp-jq-xPk" secondAttribute="trailing" constant="8" id="WDl-Wg-D0n"/>
+                <constraint firstItem="4Qp-jq-xPk" firstAttribute="leading" secondItem="YwV-F8-nrw" secondAttribute="leading" constant="8" id="ivh-3m-jJD"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="routineNameTextField" destination="DJv-dB-oOs" id="lEG-nt-exh"/>
-                <outlet property="totalWeight" destination="QMK-1Y-pK5" id="tXx-mN-80D"/>
+                <outlet property="dayButton" destination="4Qp-jq-xPk" id="Ufj-yW-rEb"/>
             </connections>
             <point key="canvasLocation" x="272" y="491"/>
         </view>

@@ -8,6 +8,7 @@
 
 #import "KLEExercise.h"
 
+#import "KLEHistoryViewController.h"
 #import "KLEContainerViewController.h"
 #import "KLERoutineExercisesViewController.h"
 #import "KLERoutineViewController.h"
@@ -79,11 +80,15 @@
     rvc.delegate = revc;
     
     UISplitViewController *svc = [[UISplitViewController alloc] init];
-    revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
-    svc.delegate = revc;
-    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
     svc.viewControllers = @[rootNav, detailNav];
-    //    [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
+    revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
+//    rvc.navigationItem.rightBarButtonItem = [svc displayModeButtonItem];
+    // testing method in revc
+//    svc.delegate = revc;
+    svc.delegate = self;
+    
+    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+//    [svc setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
     
     return svc;
 }
@@ -115,11 +120,21 @@
     [cvc setModalPresentationStyle:UIModalPresentationFormSheet];
     [cvc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     
+    UIImage *containerTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
+    UITabBarItem *ctbi = [[UITabBarItem alloc] initWithTitle:nil image:containerTabBarImage tag:1];
+    cvc.tabBarItem = ctbi;
+    
     KLEDailyViewController *dvc = [[KLEDailyViewController alloc] init];
     UINavigationController *dvcNav = [[UINavigationController alloc] initWithRootViewController:dvc];
+    
+    KLEHistoryViewController *hvc = [[KLEHistoryViewController alloc] init];
+    UINavigationController *hvcNav = [[UINavigationController alloc] initWithRootViewController:hvc];
+    UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
+    UITabBarItem *htbi = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
+    hvc.tabBarItem = htbi;
 
     UITabBarController *tbc = [[UITabBarController alloc] init];
-    tbc.viewControllers = @[dvcNav, cvc];
+    tbc.viewControllers = @[dvcNav, cvc, hvcNav];
     
     self.window.rootViewController = tbc;
     

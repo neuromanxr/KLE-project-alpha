@@ -21,7 +21,7 @@
 
 @interface KLERoutineViewController () <UITextFieldDelegate>
 
-@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
+//@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
 @property (nonatomic, strong) KLEStatStore *statStore;
 
 @end
@@ -37,12 +37,12 @@
     }
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"dayname" ascending:YES], nil];
 //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
 //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
 //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
 //    [request setPredicate:predicate];
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"dayname" cacheName:nil];
     self.frc.delegate = self;
 //    NSLog(@"routines %@", routines);
 }
@@ -84,16 +84,18 @@
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     // create an instance of UITableViewCell, with default appearance
-    self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
+    KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
+//    self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
     KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
 //    self.routineViewCell.routineNameField.delegate = self;
 //    self.routineViewCell.routineNameField.tag = indexPath.row;
-    self.routineViewCell.nameLabel.text = routine.routinename;
-    self.routineViewCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    self.routineViewCell.nameLabel.text = routine.routinename;
+//    self.routineViewCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //    NSLog(@"routine %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
+    cell.nameLabel.text = routine.routinename;
     
-    return self.routineViewCell;
+    return cell;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -109,17 +111,17 @@
     return 56.0;
 }
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
-    
-    // pass selected routine ID from routine view controller to routine exercise view controller
-    KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
-    NSLog(@"selected routine ID %@", selectedRoutine.routinename);
-    revc.selectedRoutineID = selectedRoutine.objectID;
-    
-    [self.navigationController pushViewController:revc animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+//{
+//    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+//    
+//    // pass selected routine ID from routine view controller to routine exercise view controller
+//    KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
+//    NSLog(@"selected routine ID %@", selectedRoutine.routinename);
+//    revc.selectedRoutineID = selectedRoutine.objectID;
+//    
+//    [self.navigationController pushViewController:revc animated:YES];
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -134,6 +136,7 @@
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
     NSLog(@"Cell selected %@", routine);
+
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -192,19 +195,20 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-{
-    [[KLERoutinesStore sharedStore] moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
-    
-    // reload the table to update the tag numbers after re-ordering
-    [self.tableView reloadData];
-}
+//- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+//{
+//    [[KLERoutinesStore sharedStore] moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
+//    
+//    // reload the table to update the tag numbers after re-ordering
+//    [self.tableView reloadData];
+//}
 
 - (void)addNewRoutine:(NSString *)name
 {
     KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
     
     newRoutine.routinename = name;
+    newRoutine.dayname = @"Day";
 
     NSLog(@"new routine %@", newRoutine.routinename);
 }
@@ -222,7 +226,7 @@
 - (BOOL)validateText:(NSString *)routineName
 {
     NSError *error = NULL;
-    NSString *regexPatternUnlimited = @"^[0-9]+$";
+    NSString *regexPatternUnlimited = @"^[a-z]+$";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPatternUnlimited options:NSRegularExpressionCaseInsensitive error:&error];
     if ([regex numberOfMatchesInString:routineName options:0 range:NSMakeRange(0, routineName.length)]) {
         NSLog(@"Success Match");
@@ -331,35 +335,40 @@
 //    NSLog(@"daily store after %@", dailyRoutines);
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    NSLog(@"Text field begin editing tag %lu", textField.tag);
-    
-    return YES;
-}
+//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+//{
+//    NSLog(@"Text field begin editing tag %lu", textField.tag);
+//    
+//    return YES;
+//}
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    // the textfield that is done editing should match with the routine in the routine store
-    // using the textfield tags
-    NSLog(@"endediting textfield tag %lu", textField.tag);
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:textField.tag inSection:0];
-    KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
-    
-    // assign the routine name with the text in the text field
-    routine.routinename = textField.text;
-    
-    return YES;
-}
+//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+//{
+//    // the textfield that is done editing should match with the routine in the routine store
+//    // using the textfield tags
+//    NSLog(@"endediting textfield tag %lu", textField.tag);
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:textField.tag inSection:0];
+//    KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
+//    
+//    // assign the routine name with the text in the text field
+//    routine.routinename = textField.text;
+//    
+//    return YES;
+//}
 
 // hide the keyboard when done with input
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    NSLog(@"textfield return %@", textField);
-    [textField resignFirstResponder];
-    
-    return YES;
-}
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    NSLog(@"textfield return %@", textField);
+//    [textField resignFirstResponder];
+//    
+//    return YES;
+//}
+
+//- (void)showSecondaryViewController
+//{
+//    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+//}
 
 - (void)viewDidLoad
 {
@@ -383,7 +392,11 @@
     // button to add exercises
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRoutineNameAlert)];
     
+//    UIBarButtonItem *showButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showSecondaryViewController)];
+    
     self.navigationItem.leftBarButtonItem = addButton;
+//    self.navigationItem.rightBarButtonItem = showButton;
+    
     // button to edit routine
 //    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
     
@@ -394,6 +407,12 @@
 //    UIBarButtonItem *spacing = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 //    [self.navigationController setToolbarHidden:NO animated:YES];
 //    self.toolbarItems = [[NSArray alloc] initWithObjects:select, spacing,addButton, nil];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
 }
 

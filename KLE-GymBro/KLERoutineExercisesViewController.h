@@ -13,7 +13,5 @@
 @interface KLERoutineExercisesViewController : CoreDataTableViewController <KLEManagedIDSelectionDelegate, UISplitViewControllerDelegate>
 
 @property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
-// stores the selected stat stores created by routines store in routine view controller
-//@property (nonatomic, strong) KLEStatStore *statStore;
 
 @end

@@ -11,6 +11,6 @@
 
 @interface KLEDailyViewController : UITableViewController
 
-@property (nonatomic, assign) id<KLEManagedIDSelectionDelegate> delegate;
+@property (nonatomic, weak) id<KLEManagedIDSelectionDelegate> delegate;
 
 @end
