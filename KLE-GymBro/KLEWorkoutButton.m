@@ -8,6 +8,17 @@
 
 #import "KLEWorkoutButton.h"
 
+#define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
+#define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
+
+@interface KLEWorkoutButton ()
+
+{
+    float ringAngle;
+}
+
+@end
+
 @implementation KLEWorkoutButton
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -18,7 +29,9 @@
         [self setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 //        self.backgroundColor = [UIColor clearColor];
 //        self.layer.masksToBounds = YES;
-        ringAngle = 6.0;
+        ringAngle = 0.0;
+        NSLog(@"SETS FOR ANGLE %@", self.setsForAngle);
+        NSLog(@"RING ANGLE %f", ringAngle);
         NSLog(@"INIT CODER BUTTON");
     }
     return self;
@@ -84,18 +97,58 @@
     CGContextSetLineWidth(context, 8.0);
 //    CGContextSetLineDash(context, 0.0, [3,2] , 0);
     [[UIColor blueColor] set];
-    CGContextAddArc(context, (self.frame.size.width / 2), (self.frame.size.height / 2), (self.frame.size.width - 30) / 2, 0.0, ringAngle, 1);
+    NSLog(@"RING ANGLE IN DRAW PROGRESS %f", ringAngle);
+    CGContextAddArc(context,
+                    (self.frame.size.width / 2),
+                    (self.frame.size.height / 2),
+                    (self.frame.size.width - 30) / 2,
+                    0.0,
+                    ringAngle,
+                    0);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
+}
+
+- (void)resetAngle:(float)angle
+{
+    NSLog(@"RESET ANGLE %f", angle);
+    ringAngle = angle;
+    [self setNeedsDisplay];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
-    ringAngle -= 1.0;
-    if (ringAngle < 0) {
-        ringAngle = 6.0;
+    
+//    if ([self.setsForAngle integerValue] > 0) {
+//        ringAngle = 360 / [self.setsForAngle floatValue];
+//        self.setsForAngle = [NSNumber numberWithInteger:([self.setsForAngle integerValue] - 1)];
+//        [self setTitle:[NSString stringWithFormat:@"%@", self.setsForAngle] forState:UIControlStateNormal];
+//    } else {
+//        [self setTitle:[NSString stringWithFormat:@"%@", self.setsForAngle] forState:UIControlStateNormal];
+//    }
+    
+    NSLog(@"RING ANGLE IN BUTTON %f", ringAngle);
+    if (ringAngle >= SK_DEGREES_TO_RADIANS(360)) {
+        
+        ringAngle = SK_DEGREES_TO_RADIANS(0);
+        NSUInteger sets = [self.setsForAngle integerValue];
+        NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
+        NSLog(@"SETS NUMBER %@", setsNumber);
+        [self setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];
+    } else {
+        
+//        ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
+        NSUInteger sets = [self.titleLabel.text integerValue];
+        NSLog(@"SETS FOR ANGLE %lu", [self.setsForAngle integerValue]);
+        if ([self.setsForAngle integerValue] != 0) {
+            ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
+            sets--;
+        }
+        NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
+        [self setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];
     }
+    
     [self setNeedsDisplay];
     NSLog(@"CIRCLE BUTTON TOUCHES BEGAN");
 }

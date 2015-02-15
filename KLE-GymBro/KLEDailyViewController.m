@@ -29,6 +29,9 @@
 #define COMMENT_LABEL_MIN_HEIGHT 95
 #define COMMENT_LABEL_PADDING 10
 
+#define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
+#define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
+
 // can remove splitviewcontroller delegate
 @interface KLEDailyViewController () <UISplitViewControllerDelegate>
 
@@ -56,10 +59,12 @@
 //@property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows
+@property (nonatomic, strong) KLEActionCell *actionCell;
 @property (nonatomic, strong) NSArray *actionRowPaths;
 @property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
 @property (nonatomic, strong) NSArray *routineObjects;
+@property (nonatomic, strong) NSArray *exercisesInActionRows;
 
 @end
 
@@ -245,6 +250,14 @@
     [self.tableView endUpdates];
 }
 
+- (void)finishWorkout:(id)sender
+{
+    NSLog(@"FINISHED WORKOUT %@", sender);
+    NSLog(@"FINISH TAG %lu", [sender tag]);
+    KLEExerciseGoal *exerciseGoal = [self.exercisesInActionRows objectAtIndex:[sender tag]];
+    NSLog(@"EXERCISE IN ARRAY %@", exerciseGoal.exercise.exercisename);
+}
+// fix this
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // if this is the selected index we need to return the height of the cell
@@ -404,6 +417,7 @@
     NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
     
     if ([actionRowPathPrevious.previous isEqual:indexPath]) {
+        
         // hide action cell
         pathsToDelete = self.actionRowPaths;
         self.actionRowPaths = nil;
@@ -412,6 +426,7 @@
         
     // case: when an action row is already expanded and you click a different action row
     } else if ([self.actionRowPaths count]) {
+        
         // move action cell
         NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
         pathsToDelete = self.actionRowPaths;
@@ -487,6 +502,13 @@
         self.actionRowPaths = indexPathsForExercises;
     }
     
+    // needs work
+    if ([self.actionRowPaths count]) {
+        [self.tabBarController.tabBar setHidden:YES];
+    } else {
+        [self.tabBarController.tabBar setHidden:NO];
+    }
+    
     [self updateTableActionRowPathsToDelete:pathsToDelete pathsToAdd:pathsToAdd];
 }
 
@@ -524,17 +546,22 @@
         KLEExerciseGoal *routineExercise = [exercises objectAtIndex:startIndexForExerises];
         
         // set the values in the action cell
-        NSString *repTitle = [NSString stringWithFormat:@"%@", routineExercise.reps];
+        NSNumber *setsNumber = routineExercise.sets;
+        NSString *setsTitle = [NSString stringWithFormat:@"%@", setsNumber];
+        
+        actionCell.finishWorkoutButton.tag = startIndexForExerises;
+        NSLog(@"ACTION CELL TAG %lu", actionCell.workoutButton.tag);
+        NSLog(@"ROUTINE NAME FROM EXERCISE %@", routineExercise.routine.routinename);
         actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
         actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
-        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
-        [actionCell.workoutButton setTitle:repTitle forState:UIControlStateNormal];
+        actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
         
-        // make the button manually
-//        KLEWorkoutButton *workoutButton = [[KLEWorkoutButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-//        [workoutButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-//        [workoutButton setTitle:@"10" forState:UIControlStateNormal];
-//        [actionCell addSubview:workoutButton];
+        self.workoutButtonDelegate = actionCell.workoutButton;
+        [self.workoutButtonDelegate resetAngle:0.0];
+        actionCell.workoutButton.setsForAngle = routineExercise.sets;
+        [actionCell.workoutButton setTitle:setsTitle forState:UIControlStateNormal];
+        [actionCell.finishWorkoutButton addTarget:self action:@selector(finishWorkout:) forControlEvents:UIControlEventTouchUpInside];
+        self.exercisesInActionRows = exercises;
 
         return actionCell;
         
@@ -587,6 +614,10 @@
 //    KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
     
 //    NSLog(@"index at routines store %@", routineInRoutineStore);
+    NSIndexPath *adjustedIndexPath = indexPath;
+    if ([[self.actionRowPaths objectAtIndex:indexPath.previous.row] isKindOfClass:[KLEExerciseGoal class]]) {
+        adjustedIndexPath = [NSIndexPath indexPathForRow:indexPath.row + [self.actionRowPaths count] inSection:indexPath.section];
+    }
     
     NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
     KLERoutine *selectedRoutine = [routineObjects objectAtIndex:indexPath.row];
@@ -822,7 +853,7 @@
         }
     }
     
-//    [self removeActionRowPathsFromView];
+    [self removeActionRowPathsFromView];
 }
 
 static inline NSString *stringFromWeekday(int weekday)

@@ -47,8 +47,8 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Set" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kj8-av-obc">
-                        <rect key="frame" x="44" y="67" width="26" height="21"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kj8-av-obc">
+                        <rect key="frame" x="44" y="67" width="40" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -56,7 +56,8 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="exerciseNameLabel" destination="Vkv-9R-vqD" id="TwR-lv-sEP"/>
-                <outlet property="setsLabel" destination="kj8-av-obc" id="sar-6O-5CD"/>
+                <outlet property="finishWorkoutButton" destination="D86-CQ-Q5s" id="oNx-Pb-wXj"/>
+                <outlet property="repsLabel" destination="kj8-av-obc" id="uu8-Id-V9s"/>
                 <outlet property="weightLabel" destination="6Jf-K3-JXa" id="xWg-HV-nMG"/>
                 <outlet property="workoutButton" destination="hRf-Rr-h6v" id="YZl-RV-1cQ"/>
             </connections>
