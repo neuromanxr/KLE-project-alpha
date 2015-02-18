@@ -14,4 +14,6 @@ IB_DESIGNABLE
 
 @property (nonatomic) NSNumber *setsForAngle;
 
+@property (nonatomic, weak) id<KLEWorkoutButtonDelegate> delegate;
+
 @end

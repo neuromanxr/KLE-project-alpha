@@ -17,6 +17,8 @@
     float ringAngle;
 }
 
+@property (nonatomic, strong) NSNumber *currentSet;
+
 @end
 
 @implementation KLEWorkoutButton
@@ -30,6 +32,7 @@
 //        self.backgroundColor = [UIColor clearColor];
 //        self.layer.masksToBounds = YES;
         ringAngle = 0.0;
+        _currentSet = [NSNumber numberWithInteger:0];
         NSLog(@"SETS FOR ANGLE %@", self.setsForAngle);
         NSLog(@"RING ANGLE %f", ringAngle);
         NSLog(@"INIT CODER BUTTON");
@@ -113,6 +116,7 @@
 {
     NSLog(@"RESET ANGLE %f", angle);
     ringAngle = angle;
+    _currentSet = [NSNumber numberWithInteger:angle];
     [self setNeedsDisplay];
 }
 
@@ -134,16 +138,24 @@
         ringAngle = SK_DEGREES_TO_RADIANS(0);
         NSUInteger sets = [self.setsForAngle integerValue];
         NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
+        
+        // start the current set at zero
+        _currentSet = [NSNumber numberWithInteger:0];
+        NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
         NSLog(@"SETS NUMBER %@", setsNumber);
         [self setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];
     } else {
         
-//        ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
         NSUInteger sets = [self.titleLabel.text integerValue];
         NSLog(@"SETS FOR ANGLE %lu", [self.setsForAngle integerValue]);
         if ([self.setsForAngle integerValue] != 0) {
             ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
             sets--;
+            // increment current set every tap
+            _currentSet = [NSNumber numberWithInteger:([_currentSet integerValue] + 1)];
+            [self.delegate currentSet:[_currentSet integerValue]];
+            
+            NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
         }
         NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
         [self setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];

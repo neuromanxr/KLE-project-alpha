@@ -10,9 +10,10 @@
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
-@interface KLEDailyViewController : UITableViewController
+@interface KLEDailyViewController : UITableViewController <KLEWorkoutButtonDelegate>
 
 @property (nonatomic, weak) id<KLEManagedIDSelectionDelegate> delegate;
-@property (nonatomic, weak) id<KLEWorkoutButtonDelegate>workoutButtonDelegate;
+
+@property (nonatomic, weak) id<KLEWorkoutButtonDelegate> workoutButtonDelegate;
 
 @end

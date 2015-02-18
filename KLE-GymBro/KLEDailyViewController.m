@@ -42,6 +42,7 @@
     NSInteger selectedIndex;
     NSInteger indexInActionRowPaths;
     NSUInteger rowCountBySection;
+    NSUInteger currentSet;
 }
 
 @property (nonatomic, strong) KLEContainerViewController *containerViewController;
@@ -101,6 +102,12 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (void)currentSet:(float)set
+{
+    NSLog(@"DAILY VIEW CURRENT SET %f", set);
+    currentSet = set;
 }
 
 -(CGFloat)getLabelHeightForIndex:(NSInteger)index
@@ -252,10 +259,22 @@
 
 - (void)finishWorkout:(id)sender
 {
+    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
+    //    [exerciseGoal addExerciseObject:selectedExercise];
+    exerciseGoal.exercise = selectedExercise;
+    
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
+    [selectedRoutine addExercisegoalObject:exerciseGoal];
+    
+    NSLog(@"FINISH WORKOUT CURRENT SET %lu", currentSet);
     NSLog(@"FINISHED WORKOUT %@", sender);
     NSLog(@"FINISH TAG %lu", [sender tag]);
     KLEExerciseGoal *exerciseGoal = [self.exercisesInActionRows objectAtIndex:[sender tag]];
     NSLog(@"EXERCISE IN ARRAY %@", exerciseGoal.exercise.exercisename);
+    currentSet = 0;
 }
 // fix this
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -556,7 +575,10 @@
         actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
         actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
         
+        // set delegates for workout button
         self.workoutButtonDelegate = actionCell.workoutButton;
+        actionCell.workoutButton.delegate = self;
+        
         [self.workoutButtonDelegate resetAngle:0.0];
         actionCell.workoutButton.setsForAngle = routineExercise.sets;
         [actionCell.workoutButton setTitle:setsTitle forState:UIControlStateNormal];
