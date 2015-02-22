@@ -17,10 +17,7 @@
 #import "NSIndexPathUtilities.h"
 #import "KLEActionCell.h"
 #import "KLEDailyViewCell.h"
-#import "KLEStat.h"
-#import "KLEStatStore.h"
-#import "KLEDailyStore.h"
-#import "KLERoutinesStore.h"
+
 #import "KLEDailyViewController.h"
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
@@ -43,6 +40,7 @@
     NSInteger selectedIndex;
     NSInteger indexInActionRowPaths;
     NSUInteger rowCountBySection;
+    
     NSUInteger currentSet;
 }
 
@@ -54,7 +52,6 @@
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
 @property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
 
-@property (strong, nonatomic) IBOutlet UIButton *manageRoutines;
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UILabel *headerDateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
@@ -66,7 +63,7 @@
 @property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
 @property (nonatomic, strong) NSArray *routineObjects;
-@property (nonatomic, strong) NSArray *exercisesInActionRows;
+//@property (nonatomic, strong) NSArray *exercisesInActionRows;
 
 @end
 
@@ -105,95 +102,11 @@
     return [self init];
 }
 
-- (void)currentSet:(float)set
-{
-    NSLog(@"DAILY VIEW CURRENT SET %f", set);
-    currentSet = set;
-}
-
 -(CGFloat)getLabelHeightForIndex:(NSInteger)index
 {
     CGSize labelHeightSize = CGSizeMake(230, 100);
     
     return labelHeightSize.height;
-}
-
-//- (void)addWorkout
-//{
-//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-
-//    CGRect frame = [UIScreen mainScreen].bounds;
-//    UIView *view = [[UIView alloc] initWithFrame:frame];
-//    view.backgroundColor = [UIColor redColor];
-//    UIViewController *stats = [[UIViewController alloc] init];
-//    stats.view = view;
-    
-//    UITabBarController *tbc = [[UITabBarController alloc] init];
-//    tbc.viewControllers = @[rvc, stats];
-    
-//    [self.navigationController pushViewController:rvc animated:YES];
-//}
-
-- (void)addWorkout:(id)sender
-{
-    // get a pointer to the button passed from sender
-    UIButton *btn = (UIButton *)sender;
-    
-    NSNumber *dayNumber = @(btn.tag);
-    NSLog(@"Add button tapped in section %@", dayNumber);
-    
-//    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-    
-    // pass the day number to routine view controller to keep track of which day section to add the routine
-//    rvc.dayNumber = dayNumber;
-//    NSLog(@"### Day number %@", dayNumber);
-    
-//    UISplitViewController *svc = [self splitviewController:dayNumber];
-//    svc.delegate = self;
-//    svc.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
-    
-    // can remove
-    KLEContainerViewController *cvc = [[KLEContainerViewController alloc] init];
-    [cvc setEmbeddedViewController:[self splitviewController:dayNumber]];
-    [cvc setModalPresentationStyle:UIModalPresentationFormSheet];
-    [cvc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:cvc animated:YES completion:nil];
-//    [self.navigationController pushViewController:cvc animated:YES];
-}
-
-// can remove, app delegate is delegate
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
-{
-    return YES;
-}
-
-// can remove
-- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
-{
-    if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
-        NSLog(@"ALL VISIBLE");
-    }
-    NSLog(@"DISPLAY MODE CHANGED");
-}
-
-// can remove
-- (UISplitViewController *)splitviewController:(NSNumber *)buttonNumber
-{
-    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-    rvc.dayNumber = buttonNumber;
-    UINavigationController *rootNav = [[UINavigationController alloc] initWithRootViewController:rvc];
-    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
-    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:revc];
-    rvc.delegate = revc;
-    
-    UISplitViewController *svc = [[UISplitViewController alloc] init];
-    revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
-    svc.delegate = self;
-    svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
-    svc.viewControllers = @[rootNav, detailNav];
-//    [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
-    
-    return svc;
 }
 
 - (NSArray *)fetchRoutinesWithIndexPath:(NSIndexPath *)indexPath
@@ -258,22 +171,7 @@
     [self.tableView endUpdates];
 }
 
-- (void)finishWorkout:(id)sender
-{
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    
-    KLEExerciseGoal *exerciseGoal = [self.exercisesInActionRows objectAtIndex:[sender tag]];
-    
-    KLEExerciseCompleted *exerciseCompleted = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseCompleted" inManagedObjectContext:cdh.context];
-    exerciseCompleted.exercisenamecompleted = exerciseGoal.exercise.exercisename;
-    
-    NSLog(@"FINISH WORKOUT CURRENT SET %lu", currentSet);
-    NSLog(@"FINISHED WORKOUT %@", sender);
-    NSLog(@"FINISH TAG %lu", [sender tag]);
-    
-    NSLog(@"EXERCISE IN ARRAY %@", exerciseGoal.exercise.exercisename);
-    currentSet = 0;
-}
+
 // fix this
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -288,7 +186,7 @@
     if (selectedIndex == indexPath.row) {
         return 30;
     } else {
-        return 115;
+        return 70;
     }
 }
 
@@ -344,66 +242,30 @@
     return [daysArray count];
 }
 
+#pragma mark HEADER VIEW
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // load dailyHeaderView.xib
     [[NSBundle mainBundle] loadNibNamed:@"KLEDailyHeaderView"
                                   owner:self
                                 options:nil];
-    _dailyHeaderView.backgroundColor = [UIColor grayColor];
+
     self.headerDayLabel.text = daysArray[section];
     self.headerDateLabel.text = datesArray[section];
-    self.manageRoutines.tag = section;
-    [self.manageRoutines addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
     
     return _dailyHeaderView;
 }
 
-//- (void)showFooterView:(id)sender
-//{
-//    // get a pointer to the button passed from sender
-//    UIButton *btn = (UIButton *)sender;
-//
-//    NSLog(@"Add button tapped in section %lu", btn.tag);
-//    
-//    CGRect newRect = CGRectMake(0, _dailyFooterView.frame.origin.y, self.view.bounds.size.width, 30.0);
-//    [UIView animateKeyframesWithDuration:2.0 delay:0.0 options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-//        _dailyFooterView.frame = newRect;
-//        NSLog(@"daily footer view %@", _dailyFooterView);
-//    } completion:nil];
-//}
-
-// dynamic height
+// need dynamic height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    float height = self.view.bounds.size.height / 7;
-    if (self.actionRowPaths) {
-        height = self.view.bounds.size.height / 7;
-    } else {
-        height = self.view.bounds.size.height / 7;
-    }
-    return height;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    // load dailyFooterView.xib
-    [[NSBundle mainBundle] loadNibNamed:@"KLEDailyFooterView"
-                                  owner:self
-                                options:nil];
-    _dailyFooterView.backgroundColor = [UIColor lightGrayColor];
-    
-    // set the add button tag to be the section number
-    self.footerAddButton.tag = section;
-    
-    [self.footerAddButton addTarget:self action:@selector(addWorkout:) forControlEvents:UIControlEventTouchUpInside];
-    
-    return _dailyFooterView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0;
+//    float height = self.view.bounds.size.height / 7;
+//    if (self.actionRowPaths) {
+//        height = self.view.bounds.size.height / 7;
+//    } else {
+//        height = self.view.bounds.size.height / 7;
+//    }
+    return 30;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -426,8 +288,11 @@
     [self.tableView deselectRowAtIndexPath:path animated:YES];
 }
 
+#pragma mark TABLEVIEW
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // can delete
 //    if ([self.workoutButtonDelegate isWorkoutInProgress]) {
 //        NSLog(@"ACTION ROWS LOCKED");
 //        return;
@@ -530,12 +395,12 @@
         self.actionRowPaths = indexPathsForExercises;
     }
     
-    // needs work
-    if ([self.actionRowPaths count]) {
-        [self.tabBarController.tabBar setHidden:YES];
-    } else {
-        [self.tabBarController.tabBar setHidden:NO];
-    }
+    // can delete
+//    if ([self.actionRowPaths count]) {
+//        [self.tabBarController.tabBar setHidden:YES];
+//    } else {
+//        [self.tabBarController.tabBar setHidden:NO];
+//    }
     
     [self updateTableActionRowPathsToDelete:pathsToDelete pathsToAdd:pathsToAdd];
 }
@@ -574,29 +439,12 @@
         KLEExerciseGoal *routineExercise = [exercises objectAtIndex:startIndexForExerises];
         
         // set the values in the action cell
-        NSNumber *setsNumber = routineExercise.sets;
-        NSString *setsTitle = [NSString stringWithFormat:@"%@", setsNumber];
-        NSNumber *repsNumber = routineExercise.reps;
-        NSString *repsTitle = [NSString stringWithFormat:@"%@", repsNumber];
-        
-        actionCell.finishWorkoutButton.tag = startIndexForExerises;
-        NSLog(@"ACTION CELL TAG %lu", actionCell.workoutButton.tag);
-        NSLog(@"ROUTINE NAME FROM EXERCISE %@", routineExercise.routine.routinename);
         actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
         actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
         actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
+        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
         
-        // set delegates for workout button
-        self.workoutButtonDelegate = actionCell.workoutButton;
-        actionCell.workoutButton.delegate = self;
-        
-        [self.workoutButtonDelegate resetAngle:0.0];
-        actionCell.workoutButton.setsForAngle = routineExercise.sets;
-        [actionCell.workoutButton setTitle:setsTitle forState:UIControlStateNormal];
-        [actionCell.repsWorkoutButton setTitle:repsTitle forState:UIControlStateNormal];
-        
-        [actionCell.finishWorkoutButton addTarget:self action:@selector(finishWorkout:) forControlEvents:UIControlEventTouchUpInside];
-        self.exercisesInActionRows = exercises;
+//        self.exercisesInActionRows = exercises;
 
         return actionCell;
         
@@ -616,9 +464,16 @@
         NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
         NSLog(@"###cell for row objects %@ object count %lu", routineObjects, [routineObjects count]);
         KLERoutine *routine = [routineObjects objectAtIndex:adjustedRow];
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        cell.accessoryType = UITableViewCellAccessoryNone;
         cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
         cell.routineNameLabel.text = routine.routinename;
+        
+        // change cell selected color
+        UIView *selectedColorView = [[UIView alloc] init];
+        [selectedColorView setBackgroundColor:[UIColor orangeColor]];
+        [cell setSelectedBackgroundView:selectedColorView];
+        
+        [cell.startWorkoutButton addTarget:self action:@selector(startWorkout:event:) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
     }
@@ -678,16 +533,25 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+- (void)startWorkout:(id)sender event:(id)event
 {
-    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-    NSString *fromKey = [NSString stringWithFormat:@"%lu", sourceIndexPath.section];
-    NSString *toKey = [NSString stringWithFormat:@"%lu", destinationIndexPath.section];
+    // get a pointer to the button passed from sender
+    UIButton *btn = (UIButton *)sender;
     
-    NSLog(@"moving row in section %@ to section %@", fromKey, toKey);
+    NSNumber *dayNumber = @(btn.tag);
+    NSLog(@"Add button tapped in section %@", dayNumber);
     
-    [dailyStore moveStatStoreAtIndex:sourceIndexPath.row atKey:fromKey toIndex:destinationIndexPath.row toKey:toKey];
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    if (indexPath != nil) {
+        [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
+    }
+    
 }
+
+#pragma mark DATE METHODS
 
 - (void)startDate:(NSDate **)start andEndDate:(NSDate **)end ofWeekOn:(NSDate *)date
 {
@@ -801,7 +665,10 @@
                 if ([self.tableView numberOfRowsInSection:i] > 0) {
                     NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
                     if (![self.actionRowPaths count]) {
+                        
+                        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionTop];
                         [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
+                        
                     } else {
                         return;
                     }

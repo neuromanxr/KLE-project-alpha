@@ -22,7 +22,6 @@
 @interface KLERoutineViewController () <UITextFieldDelegate>
 
 //@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
-@property (nonatomic, strong) KLEStatStore *statStore;
 
 @end
 
@@ -85,14 +84,9 @@
     }
     // create an instance of UITableViewCell, with default appearance
     KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
-//    self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
     KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
-//    self.routineViewCell.routineNameField.delegate = self;
-//    self.routineViewCell.routineNameField.tag = indexPath.row;
-//    self.routineViewCell.nameLabel.text = routine.routinename;
-//    self.routineViewCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    NSLog(@"routine %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
+
     cell.nameLabel.text = routine.routinename;
     
     return cell;
@@ -111,22 +105,8 @@
     return 56.0;
 }
 
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-//{
-//    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
-//    
-//    // pass selected routine ID from routine view controller to routine exercise view controller
-//    KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
-//    NSLog(@"selected routine ID %@", selectedRoutine.routinename);
-//    revc.selectedRoutineID = selectedRoutine.objectID;
-//    
-//    [self.navigationController pushViewController:revc animated:YES];
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-//    KLEStatStore *routine = statStoreArray[indexPath.row];
     NSManagedObjectID *routineID = [[self.frc objectAtIndexPath:indexPath] objectID];
     if (self.delegate) {
         [self.delegate selectedRoutineID:routineID];
@@ -242,41 +222,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 
 }
-
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-//{
-//    NSLog(@"Text field begin editing tag %lu", textField.tag);
-//    
-//    return YES;
-//}
-
-//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-//{
-//    // the textfield that is done editing should match with the routine in the routine store
-//    // using the textfield tags
-//    NSLog(@"endediting textfield tag %lu", textField.tag);
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:textField.tag inSection:0];
-//    KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
-//    
-//    // assign the routine name with the text in the text field
-//    routine.routinename = textField.text;
-//    
-//    return YES;
-//}
-
-// hide the keyboard when done with input
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-//    NSLog(@"textfield return %@", textField);
-//    [textField resignFirstResponder];
-//    
-//    return YES;
-//}
-
-//- (void)showSecondaryViewController
-//{
-//    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
-//}
 
 - (void)viewDidLoad
 {

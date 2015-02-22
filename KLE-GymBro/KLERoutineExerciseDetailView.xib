@@ -23,103 +23,130 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Weight" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QnQ-WT-MLo">
-                    <rect key="frame" x="18" y="138" width="80" height="30"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QnQ-WT-MLo">
+                    <rect key="frame" x="46" y="76" width="94" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="94" id="IDf-m2-h0o"/>
+                        <constraint firstAttribute="height" constant="30" id="byd-31-iGr"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpf-Sj-QxN" customClass="KLEWorkoutButton">
-                    <rect key="frame" x="20" y="430" width="100" height="100"/>
-                    <state key="normal" title="Button">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
-                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="vR1-W9-n7t">
-                    <rect key="frame" x="126" y="351" width="94" height="29"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="351" width="94" height="29"/>
-                    </variation>
-                    <variation key="heightClass=compact-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="318" width="94" height="29"/>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="128" y="318" width="94" height="29"/>
-                    </variation>
-                    <connections>
-                        <action selector="setsStepperAction:" destination="-1" eventType="valueChanged" id="obk-cj-cuq"/>
-                    </connections>
-                </stepper>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TS3-Ob-IgJ">
-                    <rect key="frame" x="18" y="187" width="80" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Weight" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TS3-Ob-IgJ">
+                    <rect key="frame" x="46" y="114" width="94" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="94" id="igq-Oz-trX"/>
+                        <constraint firstAttribute="height" constant="30" id="o2A-16-Lvt"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="24"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6xI-sh-n6I">
-                    <rect key="frame" x="11" y="225" width="94" height="29"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="11" y="225" width="94" height="29"/>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="11" y="225" width="94" height="29"/>
-                    </variation>
+                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6xI-sh-n6I">
+                    <rect key="frame" x="46" y="146" width="94" height="29"/>
+                    <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="weightStepperAction:" destination="-1" eventType="valueChanged" id="Mf0-2t-UFJ"/>
                     </connections>
                 </stepper>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AGw-9M-jT1" customClass="KLEWorkoutButton">
-                    <rect key="frame" x="18" y="280" width="100" height="100"/>
-                    <state key="normal" title="Button">
+                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="vR1-W9-n7t">
+                    <rect key="frame" x="46" y="307" width="94" height="29"/>
+                    <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="setsStepperAction:" destination="-1" eventType="valueChanged" id="obk-cj-cuq"/>
+                    </connections>
+                </stepper>
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AGw-9M-jT1" customClass="KLERoundButton">
+                    <rect key="frame" x="43" y="199" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="DMt-le-gKY"/>
+                        <constraint firstAttribute="height" constant="100" id="s3M-JN-Z2m"/>
+                    </constraints>
+                    <state key="normal" title="Sets">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLE-Ca-xEv">
-                    <rect key="frame" x="126" y="430" width="60" height="30"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sets" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hES-LD-dUK">
+                    <rect key="frame" x="63" y="209" width="60" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="0mi-kc-hbw"/>
+                        <constraint firstAttribute="width" constant="60" id="PTH-hh-6xm"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="430" width="60" height="30"/>
-                    </variation>
-                    <variation key="heightClass=compact-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="430" width="60" height="30"/>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="128" y="430" width="60" height="30"/>
-                    </variation>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sets" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hES-LD-dUK">
-                    <rect key="frame" x="126" y="280" width="60" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpf-Sj-QxN" customClass="KLERoundButton">
+                    <rect key="frame" x="43" y="355" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="6Rh-2J-6fd"/>
+                        <constraint firstAttribute="width" constant="100" id="6tz-Ux-5yV"/>
+                    </constraints>
+                    <state key="normal" title="Reps">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLE-Ca-xEv">
+                    <rect key="frame" x="63" y="365" width="60" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="qcm-vI-a03"/>
+                        <constraint firstAttribute="height" constant="30" id="qcp-cD-78j"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="280" width="60" height="30"/>
-                    </variation>
-                    <variation key="heightClass=compact-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="280" width="60" height="30"/>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="128" y="280" width="60" height="30"/>
-                    </variation>
                 </label>
-                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="gMc-Wo-Zcc">
-                    <rect key="frame" x="126" y="501" width="94" height="29"/>
-                    <variation key="widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="126" y="501" width="94" height="29"/>
-                    </variation>
-                    <variation key="heightClass=compact-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="128" y="468" width="94" height="29"/>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
-                        <rect key="frame" x="128" y="468" width="94" height="29"/>
-                    </variation>
+                <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="gMc-Wo-Zcc">
+                    <rect key="frame" x="46" y="463" width="94" height="29"/>
+                    <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="repsStepperAction:" destination="-1" eventType="valueChanged" id="dWZ-JM-Xfc"/>
                     </connections>
                 </stepper>
             </subviews>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="gMc-Wo-Zcc" firstAttribute="centerX" secondItem="kpf-Sj-QxN" secondAttribute="centerX" id="0HX-x2-sd2"/>
+                <constraint firstItem="AGw-9M-jT1" firstAttribute="centerX" secondItem="hES-LD-dUK" secondAttribute="centerX" id="4cg-8a-a84"/>
+                <constraint firstItem="TS3-Ob-IgJ" firstAttribute="top" secondItem="QnQ-WT-MLo" secondAttribute="bottom" constant="8" id="7TZ-sZ-Wjq"/>
+                <constraint firstItem="6xI-sh-n6I" firstAttribute="top" secondItem="TS3-Ob-IgJ" secondAttribute="bottom" constant="2" id="Coj-nN-Gnh"/>
+                <constraint firstItem="vR1-W9-n7t" firstAttribute="top" secondItem="AGw-9M-jT1" secondAttribute="bottom" constant="8" id="E86-kV-4vW">
+                    <variation key="heightClass=compact-widthClass=regular" constant="8"/>
+                </constraint>
+                <constraint firstItem="kpf-Sj-QxN" firstAttribute="top" secondItem="vR1-W9-n7t" secondAttribute="bottom" constant="19" id="JUe-B4-qC1">
+                    <variation key="heightClass=compact" constant="-137"/>
+                    <variation key="heightClass=compact-widthClass=regular" constant="-137"/>
+                </constraint>
+                <constraint firstItem="QnQ-WT-MLo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="76" id="Rgh-be-Rau">
+                    <variation key="heightClass=compact" constant="80"/>
+                </constraint>
+                <constraint firstItem="AGw-9M-jT1" firstAttribute="top" secondItem="6xI-sh-n6I" secondAttribute="bottom" constant="24" id="Su2-Qn-w13">
+                    <variation key="heightClass=compact" constant="-99"/>
+                    <variation key="heightClass=compact-widthClass=regular" constant="-95"/>
+                </constraint>
+                <constraint firstItem="vR1-W9-n7t" firstAttribute="centerX" secondItem="kpf-Sj-QxN" secondAttribute="centerX" id="UVa-Wx-WPG">
+                    <variation key="heightClass=compact" constant="-116"/>
+                    <variation key="heightClass=compact-widthClass=regular" constant="-118"/>
+                </constraint>
+                <constraint firstItem="fLE-Ca-xEv" firstAttribute="centerY" secondItem="kpf-Sj-QxN" secondAttribute="centerY" constant="-25" id="Vhb-B4-H6w"/>
+                <constraint firstItem="gMc-Wo-Zcc" firstAttribute="top" secondItem="kpf-Sj-QxN" secondAttribute="bottom" constant="8" id="e3l-n5-Vmc"/>
+                <constraint firstItem="vR1-W9-n7t" firstAttribute="centerX" secondItem="AGw-9M-jT1" secondAttribute="centerX" id="fPE-rk-5Es">
+                    <variation key="heightClass=compact-widthClass=regular" constant="0.0"/>
+                </constraint>
+                <constraint firstItem="AGw-9M-jT1" firstAttribute="centerY" secondItem="hES-LD-dUK" secondAttribute="centerY" constant="25" id="rPN-rW-XKy"/>
+                <constraint firstItem="fLE-Ca-xEv" firstAttribute="centerX" secondItem="kpf-Sj-QxN" secondAttribute="centerX" id="s1i-fO-kJB"/>
+                <constraint firstItem="QnQ-WT-MLo" firstAttribute="centerX" secondItem="TS3-Ob-IgJ" secondAttribute="centerX" id="tZQ-x4-keu"/>
+                <constraint firstItem="AGw-9M-jT1" firstAttribute="centerX" secondItem="6xI-sh-n6I" secondAttribute="centerX" id="tpg-Yz-JHD">
+                    <variation key="heightClass=compact" constant="113"/>
+                    <variation key="heightClass=compact-widthClass=regular" constant="111"/>
+                </constraint>
+                <constraint firstItem="QnQ-WT-MLo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="46" id="v2F-Q5-87J">
+                    <variation key="heightClass=compact" constant="8"/>
+                </constraint>
+                <constraint firstItem="TS3-Ob-IgJ" firstAttribute="centerX" secondItem="6xI-sh-n6I" secondAttribute="centerX" id="w1Y-fh-s8J"/>
+            </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

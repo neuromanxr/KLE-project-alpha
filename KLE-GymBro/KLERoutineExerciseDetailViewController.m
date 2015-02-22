@@ -24,11 +24,10 @@
     // assign the weight, sets and reps values from the selected routine exercise
     self.weightTextField.delegate = self;
     self.weightTextField.keyboardType = UIKeyboardTypeNumberPad;
-    self.weightTextField.text = [NSString stringWithFormat:@"%@", self.selectedRoutineExercise.weight];
     
+    self.weightTextField.text = [NSString stringWithFormat:@"%@", self.selectedRoutineExercise.weight];
     self.setsAmount.text = [NSString stringWithFormat:@"%@", self.selectedRoutineExercise.sets];
     self.repsAmount.text = [NSString stringWithFormat:@"%@", self.selectedRoutineExercise.reps];
-    self.weightAmount.text = [NSString stringWithFormat:@"%@", self.selectedRoutineExercise.weight];
     
     // assign the current values to the steppers
     self.weightStepper.value = [self.weightTextField.text floatValue];

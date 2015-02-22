@@ -6,11 +6,18 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEAppDelegate.h"
+#import "CoreDataTableViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
+#import "KLEExerciseCompleted.h"
 #import "KLEExerciseGoal.h"
 #import "KLEExercise.h"
 
 @interface KLEWorkoutExerciseViewController ()
+
+{
+    NSUInteger currentSet;
+}
 
 @end
 
@@ -19,11 +26,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+   
+    self.navigationItem.title = _selectedRoutineExercise.exercise.exercisename;
     
-    self.navigationController.navigationItem.title = _selectedRoutineExercise.exercise.exercisename;
+    // set delegate for sets workout button
+    _setsWorkoutButton.delegate = self;
     
     _weightTextField.delegate = self;
-    _weightTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    _weightTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     
     [self setupExerciseData];
 }
@@ -41,6 +51,32 @@
     [_setsWorkoutButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.sets] forState:UIControlStateNormal];
     [_repsWorkoutButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.reps] forState:UIControlStateNormal];
     
+    [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+
+- (void)finishWorkout
+{
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    
+    KLEExerciseGoal *exerciseGoal = _selectedRoutineExercise;
+    
+    KLEExerciseCompleted *exerciseCompleted = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseCompleted" inManagedObjectContext:cdh.context];
+    exerciseCompleted.exercisenamecompleted = exerciseGoal.exercise.exercisename;
+    
+}
+
+- (void)currentSet:(CGFloat)set
+{
+    // delegate method to get the current set
+    currentSet = set;
+    NSLog(@"CURRENT SET IN WORKOUT EXERCISE VIEW CONTROLLER %.2f", set);
+}
+
+- (void)calculateTotalReps
+{
+    NSUInteger currentReps = [_repsWorkoutButton.titleLabel.text integerValue];
+    NSLog(@"Current Reps and Sets %lu, %lu", currentReps, currentSet);
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

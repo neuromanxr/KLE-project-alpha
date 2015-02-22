@@ -13,11 +13,9 @@ IB_DESIGNABLE
 
 @interface KLEActionCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UIButton *finishWorkoutButton;
-@property (strong, nonatomic) IBOutlet KLEWorkoutButton *workoutButton;
-@property (strong, nonatomic) IBOutlet KLEWorkoutButton *repsWorkoutButton;
 @property (strong, nonatomic) IBOutlet UILabel *exerciseNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *weightLabel;
 @property (strong, nonatomic) IBOutlet UILabel *repsLabel;
+@property (strong, nonatomic) IBOutlet UILabel *setsLabel;
 
 @end

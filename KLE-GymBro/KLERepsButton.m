@@ -9,6 +9,7 @@
 #import "KLERepsButton.h"
 
 #define BUTTONCOLOR [UIColor orangeColor]
+#define BUTTONTWOTONECOLOR [UIColor colorWithRed:255.f green:204.f blue:102.f alpha:1.0]
 #define BUTTONSELECTCOLOR [UIColor redColor]
 
 @interface KLERepsButton ()
@@ -26,11 +27,10 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self setTitle:@"Reps" forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         
         self.opaque = NO;
         self.layer.borderWidth = 0;
-        self.layer.cornerRadius = 26;
+        self.layer.cornerRadius = 50;
         self.layer.masksToBounds = YES;
         
         NSLog(@"INIT CODER BUTTON");
@@ -56,8 +56,8 @@
     UIColor *buttonColor = BUTTONCOLOR;
     UIColor *buttonSelectColor = BUTTONSELECTCOLOR;
     
-    CGRect leftHalf = CGRectMake(0, 0, 50, 50);
-    CGRect rightHalf = CGRectMake(50, 0, 50, 50);
+    CGRect leftHalf = CGRectMake(0, 0, 50, 100);
+    CGRect rightHalf = CGRectMake(50, 0, 50, 100);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     if (buttonSwitch) {
@@ -70,9 +70,9 @@
     else
     {
         
-        CGContextSetFillColorWithColor(context, buttonSelectColor.CGColor);
-        CGContextFillRect(context, rightHalf);
         CGContextSetFillColorWithColor(context, buttonColor.CGColor);
+        CGContextFillRect(context, rightHalf);
+        CGContextSetFillColorWithColor(context, buttonSelectColor.CGColor);
         CGContextFillRect(context, leftHalf);
     }
     
@@ -80,7 +80,9 @@
     if (!self.isTouchInside) {
         CGContextSaveGState(context);
         CGContextSetFillColorWithColor(context, buttonColor.CGColor);
-        CGContextFillRect(context, self.bounds);
+        CGContextFillRect(context, leftHalf);
+        CGContextSetFillColorWithColor(context, buttonSelectColor.CGColor);
+        CGContextFillRect(context, rightHalf);
         CGContextRestoreGState(context);
     }
 }

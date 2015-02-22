@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-// daily view controller
 @protocol KLEWorkoutButtonDelegate <NSObject>
 @optional
 
-- (void)resetAngle:(float)angle;
+- (void)resetAngle:(CGFloat)angle;
 
 - (BOOL)isWorkoutInProgress;
 
-- (void)currentSet:(float)set;
+- (void)currentSet:(CGFloat)set;
+
+- (void)calculateTotalReps;
 
 @end

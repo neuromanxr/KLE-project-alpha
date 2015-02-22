@@ -183,19 +183,11 @@
     
     KLEExerciseGoal *exerciseGoal = [self.frc objectAtIndexPath:indexPath];
     KLEExercise *exercise = exerciseGoal.exercise;
-//    NSLog(@"cell for row frc %@", exercise);
+
     cell.exerciseNameLabel.text = exercise.exercisename;
     cell.setsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.sets];
+    cell.repsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.reps];
     cell.weightLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.weight];
-    
-    // access the stat store using the selected index path row
-    // then assign the exercise name property to the cell label
-//    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-//    KLEStat *stat = statStoreArray[indexPath.row];
-//    cell.exerciseNameLabel.text = stat.exercise;
-//    cell.setsLabel.text = [NSString stringWithFormat:@"%d", stat.sets];
-//    cell.repsLabel.text = [NSString stringWithFormat:@"%d", stat.reps];
-//    cell.weightLabel.text = [NSString stringWithFormat:@"%f", stat.weight];
     
     return cell;
 }
@@ -225,6 +217,11 @@
         
         [self.navigationController pushViewController:redvc animated:YES];
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -267,23 +264,6 @@
         [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
-    
-    // if the table view is asking to commit a delete command
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        KLEStatStore *statStore = self.statStore;
-//        NSLog(@"revc statStore array %@", statStore);
-//        NSArray *routineExercises = [statStore allStats];
-//        KLEStat *exercise = routineExercises[indexPath.row];
-//        [statStore removeStat:exercise];
-    
-        // also remove that row from the table view with animation
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    }
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-{
-//    [self.statStore moveStatAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

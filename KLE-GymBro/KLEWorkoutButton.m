@@ -14,7 +14,7 @@
 @interface KLEWorkoutButton ()
 
 {
-    float ringAngle;
+    CGFloat ringAngle;
     BOOL inProgress;
 }
 
@@ -30,8 +30,7 @@
     if (self) {
         [self setTitle:@"Reps" forState:UIControlStateNormal];
         [self setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//        self.backgroundColor = [UIColor clearColor];
-//        self.layer.masksToBounds = YES;
+
         ringAngle = 0.0;
         _currentSet = [NSNumber numberWithInteger:0];
         NSLog(@"SETS FOR ANGLE %@", self.setsForAngle);
@@ -44,21 +43,21 @@
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
+    
     // Drawing code
-//    UIColor *buttonColor = [UIColor colorWithRed:32/255.0f green:116/255.0f blue:138/255.0f alpha:1.0f];
-//    UIColor *buttonSelectColor = [UIColor colorWithRed:9/255.0f green:48/255.0f blue:74/255.0f alpha:1.0f];
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     [self drawRing:context];
     [self drawProgressRing:context];
-    [self drawWorkoutRing];
+    
+//    [self drawWorkoutRing];
 }
 
 - (void)drawRing:(CGContextRef)context
 {
     CGContextSaveGState(context);
-    CGContextSetLineWidth(context, 8.0);
+    CGContextSetLineWidth(context, 10.0);
     [[UIColor redColor] set];
     // draw a circle
     CGContextAddArc(context, (self.frame.size.width / 2), (self.frame.size.height / 2), (self.frame.size.width - 10) / 2, 0.0, M_PI * 2.0, 1);
@@ -68,13 +67,15 @@
 
 - (void)drawWorkoutRing
 {
+    // animation
+    
 //    int radius = 100;
     CAShapeLayer *circle = [CAShapeLayer layer];
     circle.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake((self.frame.size.width / 2), (self.frame.size.height / 2)) radius:(self.frame.size.width - 40) / 2 startAngle:0.0 endAngle:(M_PI * 2.0) clockwise:1].CGPath;
 //    circle.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.frame.size.width / 4), (self.frame.size.height / 4), (self.frame.size.width - 10) / 2, (self.frame.size.height - 10) / 2) cornerRadius:radius].CGPath;
 //    circle.position = CGPointMake(self.frame.origin.x, self.frame.origin.y);
     circle.fillColor = [UIColor clearColor].CGColor;
-    circle.strokeColor = [UIColor blueColor].CGColor;
+    circle.strokeColor = [UIColor orangeColor].CGColor;
     circle.lineWidth = 5.0;
     // fix blurred edges
     CALayer *mainLayer = [self layer];
@@ -98,14 +99,14 @@
 - (void)drawProgressRing:(CGContextRef)context
 {
     CGContextSaveGState(context);
-    CGContextSetLineWidth(context, 8.0);
+    CGContextSetLineWidth(context, 10.0);
 //    CGContextSetLineDash(context, 0.0, [3,2] , 0);
-    [[UIColor blueColor] set];
+    [[UIColor orangeColor] set];
     NSLog(@"RING ANGLE IN DRAW PROGRESS %f", ringAngle);
     CGContextAddArc(context,
                     (self.frame.size.width / 2),
                     (self.frame.size.height / 2),
-                    (self.frame.size.width - 30) / 2,
+                    (self.frame.size.width - 40) / 2,
                     0.0,
                     ringAngle,
                     0);
@@ -113,7 +114,7 @@
     CGContextRestoreGState(context);
 }
 
-- (void)resetAngle:(float)angle
+- (void)resetAngle:(CGFloat)angle
 {
     NSLog(@"RESET ANGLE %f", angle);
     ringAngle = angle;
@@ -168,7 +169,10 @@
             sets--;
             // increment current set every tap
             _currentSet = [NSNumber numberWithInteger:([_currentSet integerValue] + 1)];
+            
+            // run delegate methods
             [self.delegate currentSet:[_currentSet integerValue]];
+            [self.delegate calculateTotalReps];
             
             NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
             

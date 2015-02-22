@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "KLEWorkoutButton.h"
 #import "KLERepsButton.h"
+#import "KLEWorkoutButtonDelegate.h"
 
 @class KLEExerciseGoal;
 
-@interface KLEWorkoutExerciseViewController : UIViewController <UITextFieldDelegate>
+@interface KLEWorkoutExerciseViewController : UIViewController <UITextFieldDelegate, KLEWorkoutButtonDelegate>
 
 @property (nonatomic, strong) KLEExerciseGoal *selectedRoutineExercise;
 
