@@ -21,6 +21,7 @@
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
 #import "KLERoutineExerciseDetailViewController.h"
+#import "KLEWorkoutExerciseViewController.h"
 
 @interface KLERoutineExercisesViewController () <ELVCDelegate, UITextFieldDelegate>
 
@@ -33,6 +34,33 @@
 
 @implementation KLERoutineExercisesViewController
 #define debug 1
+
++ (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode
+{
+    KLERoutineExercisesViewController *routineExercisesViewController = [[KLERoutineExercisesViewController alloc] init];
+    [routineExercisesViewController setMode:mode];
+    
+    return routineExercisesViewController;
+}
+
+- (void)setMode:(KLERoutineExercisesViewControllerMode)mode
+{
+    _mode = mode;
+    NSLog(@"CURRENT MODE %ld", _mode);
+    
+    switch (_mode)
+    {
+        case KLERoutineExercisesViewControllerModeNormal:
+            
+            break;
+        case KLERoutineExercisesViewControllerModeWorkout:
+            
+            break;
+        default:
+            break;
+    }
+    
+}
 
 - (void)selectedRoutineID:(id)objectID
 {
@@ -181,13 +209,22 @@
 //    NSLog(@"exercise %@", exerciseObject);
     // pass the selected exercise object to elvc
     
-    // delegate not used
-//    elvc.delegate = self;
     KLEExerciseGoal *routineExercise = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
-    KLERoutineExerciseDetailViewController *redvc = [[KLERoutineExerciseDetailViewController alloc] init];
-    redvc.selectedRoutineExercise = routineExercise;
     
-    [self.navigationController pushViewController:redvc animated:YES];
+    if (self.mode == KLERoutineExercisesViewControllerModeWorkout) {
+        NSLog(@"GOING TO WORKOUT MODE");
+        KLEWorkoutExerciseViewController *wevc = [[KLEWorkoutExerciseViewController alloc] init];
+        wevc.selectedRoutineExercise = routineExercise;
+        [self.navigationController pushViewController:wevc animated:YES];
+    }
+    else
+    {
+        KLERoutineExerciseDetailViewController *redvc = [[KLERoutineExerciseDetailViewController alloc] init];
+        redvc.selectedRoutineExercise = routineExercise;
+        NSLog(@"ROUTINE EXERCISES VIEW CONTROLLER MODE %lu", self.mode);
+        
+        [self.navigationController pushViewController:redvc animated:YES];
+    }
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView

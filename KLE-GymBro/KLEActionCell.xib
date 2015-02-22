@@ -26,7 +26,7 @@
                         </state>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D86-CQ-Q5s">
-                        <rect key="frame" x="200" y="43" width="41" height="30"/>
+                        <rect key="frame" x="271" y="30" width="41" height="30"/>
                         <state key="normal" title="Finish">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -36,28 +36,25 @@
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jRv-aB-Ujm">
-                        <rect key="frame" x="268" y="34" width="44" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpE-di-gCP">
-                        <rect key="frame" x="268" y="63" width="44" height="30"/>
-                        <state key="normal" title="Pause">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                    </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kj8-av-obc">
                         <rect key="frame" x="44" y="67" width="40" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dza-bB-UlO" customClass="KLERepsButton">
+                        <rect key="frame" x="178" y="58" width="100" height="50"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <state key="normal" title="Button">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="exerciseNameLabel" destination="Vkv-9R-vqD" id="TwR-lv-sEP"/>
                 <outlet property="finishWorkoutButton" destination="D86-CQ-Q5s" id="oNx-Pb-wXj"/>
                 <outlet property="repsLabel" destination="kj8-av-obc" id="uu8-Id-V9s"/>
+                <outlet property="repsWorkoutButton" destination="dza-bB-UlO" id="TQO-XK-Kbw"/>
                 <outlet property="weightLabel" destination="6Jf-K3-JXa" id="xWg-HV-nMG"/>
                 <outlet property="workoutButton" destination="hRf-Rr-h6v" id="YZl-RV-1cQ"/>
             </connections>

@@ -145,11 +145,6 @@
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     
-//    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-//    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-    
-//    NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
-    
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
@@ -158,50 +153,13 @@
         [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        // remove the selected routine from the routine store
-//        KLEStatStore *routine = routines[indexPath.row];
-//        [[KLERoutinesStore sharedStore] removeStatStore:routine];
-        
-        // also remove that row from the table view with animation
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
         // alert the user about deletion
         UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [deleteAlert show];
         
-        // check to see if the routine being deleted is in the daily routines
-        // if so, delete the routine in daily view too with a warning message
-        // check each day also, routine can be in different days
-//        for (NSString *key in dailyRoutines) {
-//            
-//            if ([[dailyRoutines objectForKey:key] containsObject:routine]) {
-//                
-//                NSMutableArray *routinesInDay = [dailyRoutines objectForKey:key];
-//                [routinesInDay removeObjectIdenticalTo:routine];
-//                
-//                NSLog(@"This routine is in your daily. Day tag in delete %@", key);
-        
-                // get the index of the routine in daily view
-//                NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:key] indexOfObjectIdenticalTo:routine];
-                
-                // get the routine in daily view
-//                KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:key] objectAtIndex:indexOfDailyRoutine];
-                
-                // remove the routine in daily view
-//                [dailyStore removeStatStoreFromDay:routineInDaily atIndex:indexOfDailyRoutine atKey:key];
-//            }
-//        }
     }
 }
-
-//- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-//{
-//    [[KLERoutinesStore sharedStore] moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
-//    
-//    // reload the table to update the tag numbers after re-ordering
-//    [self.tableView reloadData];
-//}
 
 - (void)addNewRoutine:(NSString *)name
 {
@@ -282,57 +240,7 @@
     
     // dismiss the container view controller
     [self dismissViewControllerAnimated:YES completion:nil];
-//    [self.navigationController popViewControllerAnimated:YES];
-    
-//    // access the routines in routine store
-//    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];
-//    
-//    NSLog(@"routines array %@", routinesArray);
-//    // access the daily store
-//    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-//    
-//    // access all the routines in daily store
-//    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-//    
-//    NSLog(@"daily store %@", dailyStore);
-//    NSLog(@"daily Routines %@", dailyRoutines);
-    
-    // save the user selections
-//    NSArray *selections = [self.tableView indexPathsForSelectedRows];
-//    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
-    
-//    NSLog(@"selected rows in routine store %@", selections);
-    
-//    for (NSIndexPath *index in selections) {
-//        NSLog(@"Index %lu", index.row);
-//        // add the selected routines to the daily store by day
-//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
-//    }
-    
-//    // if there are no routines in daily then just add it to daily
-//    if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
-//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    // if there's one or more routine, check if there's a duplicate and show alert if there is
-//    // otherwise add the routine to daily
-//    } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
-//        NSLog(@"theres one or more routine");
-//        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
-//            NSLog(@"this is a duplicate");
-//            UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-//            
-//            [duplicateAlert show];
-//            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-//            [self.navigationController popViewControllerAnimated:YES];
-//        } else {
-//            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-//            [self.navigationController popViewControllerAnimated:YES];
-//        }
-//    }
-//    
-//    NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
-//    
-//    NSLog(@"daily store after %@", dailyRoutines);
+
 }
 
 //- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField

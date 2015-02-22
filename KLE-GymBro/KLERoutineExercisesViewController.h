@@ -10,7 +10,17 @@
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, KLERoutineExercisesViewControllerMode)
+{
+    KLERoutineExercisesViewControllerModeNormal,
+    KLERoutineExercisesViewControllerModeWorkout
+};
+
 @interface KLERoutineExercisesViewController : CoreDataTableViewController <KLEManagedIDSelectionDelegate, UISplitViewControllerDelegate>
+
++ (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode;
+
+@property (nonatomic, assign) KLERoutineExercisesViewControllerMode mode;
 
 @property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
 

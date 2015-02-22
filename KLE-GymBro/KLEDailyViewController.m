@@ -10,6 +10,7 @@
 #import "KLEContainerViewController.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
+#import "KLEExerciseCompleted.h"
 #import "KLERoutine.h"
 #import "KLEAppDelegate.h"
 
@@ -259,20 +260,17 @@
 
 - (void)finishWorkout:(id)sender
 {
-    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
-    //    [exerciseGoal addExerciseObject:selectedExercise];
-    exerciseGoal.exercise = selectedExercise;
-    
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
-    [selectedRoutine addExercisegoalObject:exerciseGoal];
+    
+    KLEExerciseGoal *exerciseGoal = [self.exercisesInActionRows objectAtIndex:[sender tag]];
+    
+    KLEExerciseCompleted *exerciseCompleted = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseCompleted" inManagedObjectContext:cdh.context];
+    exerciseCompleted.exercisenamecompleted = exerciseGoal.exercise.exercisename;
     
     NSLog(@"FINISH WORKOUT CURRENT SET %lu", currentSet);
     NSLog(@"FINISHED WORKOUT %@", sender);
     NSLog(@"FINISH TAG %lu", [sender tag]);
-    KLEExerciseGoal *exerciseGoal = [self.exercisesInActionRows objectAtIndex:[sender tag]];
+    
     NSLog(@"EXERCISE IN ARRAY %@", exerciseGoal.exercise.exercisename);
     currentSet = 0;
 }
@@ -281,10 +279,16 @@
 {
     // if this is the selected index we need to return the height of the cell
     // in relation to the label height otherwise just return the minimum height with padding
+//    if (selectedIndex == indexPath.row) {
+//        return [self getLabelHeightForIndex:indexPath.row] + COMMENT_LABEL_PADDING * 2;
+//    } else {
+//        return COMMENT_LABEL_MIN_HEIGHT + COMMENT_LABEL_PADDING * 2;
+//    }
+
     if (selectedIndex == indexPath.row) {
-        return [self getLabelHeightForIndex:indexPath.row] + COMMENT_LABEL_PADDING * 2;
+        return 30;
     } else {
-        return COMMENT_LABEL_MIN_HEIGHT + COMMENT_LABEL_PADDING * 2;
+        return 115;
     }
 }
 
@@ -424,6 +428,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    if ([self.workoutButtonDelegate isWorkoutInProgress]) {
+//        NSLog(@"ACTION ROWS LOCKED");
+//        return;
+//    }
+    
     NSLog(@"didSelectRowAtIndexPath row %lu and section %lu", indexPath.row, indexPath.section);
     
     NSArray *pathsToAdd;
@@ -567,6 +576,8 @@
         // set the values in the action cell
         NSNumber *setsNumber = routineExercise.sets;
         NSString *setsTitle = [NSString stringWithFormat:@"%@", setsNumber];
+        NSNumber *repsNumber = routineExercise.reps;
+        NSString *repsTitle = [NSString stringWithFormat:@"%@", repsNumber];
         
         actionCell.finishWorkoutButton.tag = startIndexForExerises;
         NSLog(@"ACTION CELL TAG %lu", actionCell.workoutButton.tag);
@@ -582,6 +593,8 @@
         [self.workoutButtonDelegate resetAngle:0.0];
         actionCell.workoutButton.setsForAngle = routineExercise.sets;
         [actionCell.workoutButton setTitle:setsTitle forState:UIControlStateNormal];
+        [actionCell.repsWorkoutButton setTitle:repsTitle forState:UIControlStateNormal];
+        
         [actionCell.finishWorkoutButton addTarget:self action:@selector(finishWorkout:) forControlEvents:UIControlEventTouchUpInside];
         self.exercisesInActionRows = exercises;
 
@@ -614,28 +627,6 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    // access the routine store
-//    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
-    
-    // access the daily routine dictionary
-//    NSDictionary *dailyRoutines = [[KLEDailyStore sharedStore] allStatStores];
-    
-    // key from the table view section which represents the day
-//    NSString *key = [NSString stringWithFormat:@"%lu", indexPath.section];
-    
-    // access the routines for the selected day
-//    NSArray *routines = [dailyRoutines objectForKey:key];
-    
-    // get the selected routine in the daily view
-//    KLEStatStore *selectedStatStoreInDaily = [routines objectAtIndex:indexPath.row];
-    
-    // get the index in routines store by matching the routine from daily dictionary to the routine store
-//    NSUInteger indexAtRoutinesStore = [statStores indexOfObjectIdenticalTo:selectedStatStoreInDaily];
-    
-    // routine in routine store
-//    KLEStatStore *routineInRoutineStore = statStores[indexAtRoutinesStore];
-    
-//    NSLog(@"index at routines store %@", routineInRoutineStore);
     NSIndexPath *adjustedIndexPath = indexPath;
     if ([[self.actionRowPaths objectAtIndex:indexPath.previous.row] isKindOfClass:[KLEExerciseGoal class]]) {
         adjustedIndexPath = [NSIndexPath indexPathForRow:indexPath.row + [self.actionRowPaths count] inSection:indexPath.section];
@@ -646,7 +637,7 @@
     NSLog(@"selected routine %@", selectedRoutine);
     NSManagedObjectID *selectedRoutineID = selectedRoutine.objectID;
     
-    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeWorkout];
     
     // pass the routine ID to routineExerciseViewController
     self.delegate = revc;

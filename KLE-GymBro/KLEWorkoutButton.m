@@ -15,6 +15,7 @@
 
 {
     float ringAngle;
+    BOOL inProgress;
 }
 
 @property (nonatomic, strong) NSNumber *currentSet;
@@ -120,6 +121,16 @@
     [self setNeedsDisplay];
 }
 
+- (BOOL)isWorkoutInProgress
+{
+    if (inProgress) {
+        NSLog(@"WORKOUT IN PROGRESS");
+        return YES;
+    }
+    NSLog(@"WORKOUT NOT IN PROGRESS");
+    return NO;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
@@ -135,6 +146,7 @@
     NSLog(@"RING ANGLE IN BUTTON %f", ringAngle);
     if (ringAngle >= SK_DEGREES_TO_RADIANS(360)) {
         
+        inProgress = NO;
         ringAngle = SK_DEGREES_TO_RADIANS(0);
         NSUInteger sets = [self.setsForAngle integerValue];
         NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
@@ -144,11 +156,14 @@
         NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
         NSLog(@"SETS NUMBER %@", setsNumber);
         [self setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];
+        
     } else {
         
         NSUInteger sets = [self.titleLabel.text integerValue];
         NSLog(@"SETS FOR ANGLE %lu", [self.setsForAngle integerValue]);
         if ([self.setsForAngle integerValue] != 0) {
+            
+            inProgress = YES;
             ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
             sets--;
             // increment current set every tap
@@ -156,9 +171,11 @@
             [self.delegate currentSet:[_currentSet integerValue]];
             
             NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
+            
         }
         NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
         [self setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];
+        
     }
     
     [self setNeedsDisplay];
