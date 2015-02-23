@@ -96,7 +96,7 @@
 {
     CGFloat weightChangeValue = [_weightIncrementLabel.text floatValue];
     
-    if ([_weightTextField.text floatValue] > weightChangeValue)
+    if ([_weightTextField.text floatValue] >= weightChangeValue)
     {
         CGFloat weightTextFieldValue = [_weightTextField.text floatValue];
         weightTextFieldValue -= weightChangeValue;

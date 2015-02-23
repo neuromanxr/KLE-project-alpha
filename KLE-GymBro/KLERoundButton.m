@@ -15,9 +15,29 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         
+//        [self xibSetup];
     }
     return self;
 }
+
+//- (void)xibSetup
+//{
+//    UIView *view = [self loadViewFromNib];
+//    
+//    view.frame = self.bounds;
+//    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    [self addSubview:view];
+//}
+
+//- (UIView *)loadViewFromNib
+//{
+//    NSBundle *bundle = [NSBundle mainBundle];
+//    UINib *nib = [UINib nibWithNibName:@"KLERoundButton" bundle:bundle];
+//    
+//    UIView *view = [[nib instantiateWithOwner:self options:nil] firstObject];
+//    
+//    return view;
+//}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
