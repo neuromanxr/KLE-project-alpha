@@ -10,6 +10,16 @@
 
 IB_DESIGNABLE
 
+@protocol KLERepsButtonDelegate <NSObject>
+
+@optional
+
+- (void)changeRepsValue:(BOOL)buttonSwitch;
+
+@end
+
 @interface KLERepsButton : UIButton
+
+@property (nonatomic, weak) id<KLERepsButtonDelegate> delegate;
 
 @end

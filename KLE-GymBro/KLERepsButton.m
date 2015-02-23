@@ -59,6 +59,20 @@
     CGRect leftHalf = CGRectMake(0, 0, 50, 100);
     CGRect rightHalf = CGRectMake(50, 0, 50, 100);
     
+    UILabel *minusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, 50, 50)];
+    minusLabel.text = @"-";
+    minusLabel.font = [UIFont fontWithName:@"Arial" size:30];
+    minusLabel.textColor = [UIColor whiteColor];
+    minusLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:minusLabel];
+    
+    UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 25, 50, 50)];
+    plusLabel.text = @"+";
+    plusLabel.font = [UIFont fontWithName:@"Arial" size:30];
+    plusLabel.textColor = [UIColor whiteColor];
+    plusLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:plusLabel];
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     if (buttonSwitch) {
         
@@ -122,13 +136,21 @@
     CGPoint location = [touch locationInView:touch.view];
     
     if (location.x > 0 && location.x < 51) {
+        
         NSLog(@"TOUCH LEFT HALF");
         buttonSwitch = YES;
+        
+        // tell delegate the half is tapped
+        [self.delegate changeRepsValue:buttonSwitch];
     }
     else
     {
+        
         NSLog(@"TOUCH RIGHT HALF");
         buttonSwitch = NO;
+        
+        // tell delegate the half is tapped
+        [self.delegate changeRepsValue:buttonSwitch];
     }
     
     NSLog(@"TOUCH LOCATION %f %f", location.x, location.y);

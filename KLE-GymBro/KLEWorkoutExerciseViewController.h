@@ -13,7 +13,7 @@
 
 @class KLEExerciseGoal;
 
-@interface KLEWorkoutExerciseViewController : UIViewController <UITextFieldDelegate, KLEWorkoutButtonDelegate>
+@interface KLEWorkoutExerciseViewController : UIViewController <UITextFieldDelegate, KLEWorkoutButtonDelegate, KLERepsButtonDelegate>
 
 @property (nonatomic, strong) KLEExerciseGoal *selectedRoutineExercise;
 
