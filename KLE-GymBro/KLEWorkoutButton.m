@@ -45,25 +45,72 @@
 - (void)drawRect:(CGRect)rect {
     
     // Drawing code
+    [self drawBlurRing:rect];
+
+    [self drawProgressRing];
     
-    CGContextRef context = UIGraphicsGetCurrentContext();
+//    [self flashOn:self];
     
-    [self drawRing:context];
-    [self drawProgressRing:context];
-    
-//    [self drawWorkoutRing];
+    [self drawWorkoutRing];
 }
 
-- (void)drawRing:(CGContextRef)context
+- (void)drawBlurRing:(CGRect)rect
 {
-    CGContextSaveGState(context);
-    CGContextSetLineWidth(context, 10.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    // background
+    CGContextAddArc(context, (self.frame.size.width / 2.0), (self.frame.size.height / 2.0), (self.frame.size.width - 20) / 2, 0, M_PI * 2.0, 1);
     [[UIColor redColor] set];
-    // draw a circle
-    CGContextAddArc(context, (self.frame.size.width / 2), (self.frame.size.height / 2), (self.frame.size.width - 10) / 2, 0.0, M_PI * 2.0, 1);
-    CGContextStrokePath(context);
+    CGContextSetLineWidth(context, 18);
+    CGContextSetLineCap(context, kCGLineCapButt);
+    CGContextDrawPath(context, kCGPathStroke);
+    
+    // ring where gradient will be
+    UIGraphicsBeginImageContext(CGSizeMake(self.bounds.size.width, self.bounds.size.height));
+    CGContextRef imageContext = UIGraphicsGetCurrentContext();
+    CGContextAddArc(imageContext, (self.frame.size.width / 2), (self.frame.size.height / 2), (self.frame.size.width - 20) / 2, 0.0, M_PI * 2.0, 1);
+    [[UIColor redColor] set];
+    
+    // shadow for blur effect
+    CGContextSetShadowWithColor(imageContext, CGSizeMake(0, 0), (M_PI * 2.0), [UIColor blackColor].CGColor);
+    // path for shadow
+    CGContextSetLineWidth(imageContext, 16);
+    CGContextDrawPath(imageContext, kCGPathStroke);
+    
+    // create mask from image
+    CGImageRef mask = CGBitmapContextCreateImage(UIGraphicsGetCurrentContext());
+    UIGraphicsEndImageContext();
+    
+    // save context into mask
+    CGContextSaveGState(context);
+    
+    CGContextClipToMask(context, self.bounds, mask);
+    
+    // gradient colors
+    CGFloat *startColor = (CGFloat *)CGColorGetComponents([UIColor redColor].CGColor);
+    CGFloat *endColor = (CGFloat *)CGColorGetComponents([UIColor yellowColor].CGColor);
+    CGFloat colorComponents[8] = { startColor[0], startColor[1], startColor[2], startColor[3], endColor[0], endColor[1], endColor[2], endColor[3] };
+    
+    CGColorSpaceRef baseSpace = CGColorSpaceCreateDeviceRGB();
+    CGGradientRef gradient = CGGradientCreateWithColorComponents(baseSpace, colorComponents, nil, 2);
+    // gradient start and end
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+    CGPoint endPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect));
+    // draw gradient
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
     CGContextRestoreGState(context);
 }
+
+//- (void)drawRing:(CGContextRef)context
+//{
+//    CGContextSaveGState(context);
+//    CGContextSetLineWidth(context, 10.0);
+//    
+//    [[UIColor redColor] set];
+//    // draw a circle
+//    CGContextAddArc(context, (self.frame.size.width / 2), (self.frame.size.height / 2), (self.frame.size.width - 10) / 2, 0.0, M_PI * 2.0, 1);
+//    CGContextStrokePath(context);
+//    CGContextRestoreGState(context);
+//}
 
 - (void)drawWorkoutRing
 {
@@ -86,18 +133,29 @@
     [mainLayer setShouldRasterize:YES];
     [self.layer addSublayer:circle];
     
-    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    drawAnimation.duration = 1.0;
-    drawAnimation.repeatCount = 1.0;
-    drawAnimation.removedOnCompletion = NO;
-    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
+//    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+//    drawAnimation.duration = 1.0;
+//    drawAnimation.repeatCount = 1.0;
+//    drawAnimation.removedOnCompletion = NO;
+//    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+//    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+//    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+//    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
+    
+    CABasicAnimation *pulseAnimation;
+    pulseAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    pulseAnimation.duration = 1.0;
+    pulseAnimation.repeatCount = HUGE_VALF;
+    pulseAnimation.autoreverses = YES;
+    pulseAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+    pulseAnimation.toValue = [NSNumber numberWithFloat:0.1];
+    [circle addAnimation:pulseAnimation forKey:@"animateOpacity"];
 }
 
-- (void)drawProgressRing:(CGContextRef)context
+- (void)drawProgressRing
 {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
     CGContextSaveGState(context);
     CGContextSetLineWidth(context, 10.0);
 //    CGContextSetLineDash(context, 0.0, [3,2] , 0);
@@ -112,6 +170,18 @@
                     0);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
+}
+
+- (void)flashOn:(UIView *)v
+{
+    [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAutoreverse animations:^{
+        v.alpha = .05;
+        [UIView setAnimationRepeatCount:5.0];
+    } completion:^(BOOL finished) {
+        NSLog(@"COMPLETE");
+        v.alpha = 1.0;
+        
+    }];
 }
 
 - (void)resetAngle:(CGFloat)angle

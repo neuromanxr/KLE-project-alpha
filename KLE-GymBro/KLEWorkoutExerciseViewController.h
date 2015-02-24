@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *weightIncrementLabel;
 @property (strong, nonatomic) IBOutlet UISlider *weightIncrementSlider;
 
+@property (strong, nonatomic) IBOutlet UILabel *workoutFeedLabel;
 @property (strong, nonatomic) IBOutlet KLEWorkoutButton *setsWorkoutButton;
 @property (strong, nonatomic) IBOutlet KLERepsButton *repsWorkoutButton;
 

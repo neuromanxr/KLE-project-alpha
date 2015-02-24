@@ -16,6 +16,7 @@
                 <outlet property="weightIncrementSlider" destination="LHN-Ze-9lr" id="Hp3-TF-lY9"/>
                 <outlet property="weightTextField" destination="Wni-Wl-gxk" id="d6k-Ph-6qD"/>
                 <outlet property="weightUnitSwitch" destination="5kC-uE-4H2" id="sv8-Qf-uge"/>
+                <outlet property="workoutFeedLabel" destination="C5g-bE-iCg" id="WY3-Ep-AJW"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -81,6 +82,12 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5g-bE-iCg">
+                    <rect key="frame" x="40" y="252" width="240" height="21"/>
+                    <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="19"/>
+                    <color key="textColor" red="0.77263144839999998" green="0.17794146" blue="0.076295328849999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>

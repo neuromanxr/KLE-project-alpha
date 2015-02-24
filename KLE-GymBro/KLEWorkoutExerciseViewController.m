@@ -178,6 +178,8 @@
     NSString *currentSetKey = [NSString stringWithFormat:@"%lu", currentSet];
     NSLog(@"Current Reps and Sets %lu, %lu", currentReps, currentSet);
     
+    _workoutFeedLabel.text = [NSString stringWithFormat:@"Weight: %@ Sets: %@ Reps: %lu", currentWeight, currentSetKey, currentReps];
+    
     if (!_currentExerciseDictionary) {
         _currentExerciseDictionary = [[NSMutableDictionary alloc] init];
     }
