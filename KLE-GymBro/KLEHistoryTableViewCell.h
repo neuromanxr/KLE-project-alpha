@@ -10,7 +10,10 @@
 
 @interface KLEHistoryTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *sortTypeName;
+@property (strong, nonatomic) IBOutlet UILabel *setsLabel;
 @property (strong, nonatomic) IBOutlet UILabel *routineName;
+@property (strong, nonatomic) IBOutlet UILabel *repsLabel;
+@property (strong, nonatomic) IBOutlet UILabel *weightLabel;
+@property (strong, nonatomic) IBOutlet UILabel *exerciseLabel;
 
 @end

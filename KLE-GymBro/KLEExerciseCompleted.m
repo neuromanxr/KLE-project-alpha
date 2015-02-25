@@ -2,17 +2,93 @@
 //  KLEExerciseCompleted.m
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/22/14.
-//  Copyright (c) 2014 Kelvin. All rights reserved.
+//  Created by Kelvin Lee on 2/25/15.
+//  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
 #import "KLEExerciseCompleted.h"
-#import "KLERoutineCompleted.h"
 
 
 @implementation KLEExerciseCompleted
 
-@dynamic exercisenamecompleted;
-@dynamic routinecompleted;
+@dynamic routinename;
+@dynamic exercisename;
+@dynamic timecompleted;
+@dynamic datecompleted;
+@dynamic setsarray;
+@dynamic repsarray;
+@dynamic weightarray;
+
+@end
+
+@implementation SetsArray
+
++ (Class)transformedValueClass
+{
+    return [NSArray class];
+}
+
++ (BOOL)allowsReverseTransformation
+{
+    return YES;
+}
+
+- (id)transformedValue:(id)value
+{
+    return [NSKeyedArchiver archivedDataWithRootObject:value];
+}
+
+- (id)reverseTransformedValue:(id)value
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:value];
+}
+
+@end
+
+@implementation RepsArray
+
++ (Class)transformedValueClass
+{
+    return [NSArray class];
+}
+
++ (BOOL)allowsReverseTransformation
+{
+    return YES;
+}
+
+- (id)transformedValue:(id)value
+{
+    return [NSKeyedArchiver archivedDataWithRootObject:value];
+}
+
+- (id)reverseTransformedValue:(id)value
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:value];
+}
+
+@end
+
+@implementation WeightArray
+
++ (Class)transformedValueClass
+{
+    return [NSArray class];
+}
+
++ (BOOL)allowsReverseTransformation
+{
+    return YES;
+}
+
+- (id)transformedValue:(id)value
+{
+    return [NSKeyedArchiver archivedDataWithRootObject:value];
+}
+
+- (id)reverseTransformedValue:(id)value
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithData:value];
+}
 
 @end

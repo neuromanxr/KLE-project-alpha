@@ -11,10 +11,7 @@
 #import "KLERoutine.h"
 
 #import "KLERoutineViewCell.h"
-#import "KLEStat.h"
-#import "KLEStatStore.h"
-#import "KLEDailyStore.h"
-#import "KLERoutinesStore.h"
+
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"

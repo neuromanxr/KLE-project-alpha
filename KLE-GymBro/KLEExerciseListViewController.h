@@ -25,10 +25,6 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style;
 
 @property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
-// stat store from revc will be passed to here
-@property (nonatomic, strong) KLEStatStore *statStore;
-
-@property (nonatomic, strong) KLEStat *stat;
 
 @property (nonatomic, weak) id<ELVCDelegate> delegate;
 

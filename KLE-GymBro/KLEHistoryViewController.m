@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEExercise.h"
+#import "KLERoutine.h"
+#import "KLEExerciseCompleted.h"
 #import "KLEHistoryTableViewCell.h"
 #import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
@@ -21,12 +24,12 @@
 {
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercisenamecompleted" ascending:YES], nil];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
     //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
     //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
     //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
     //    [request setPredicate:predicate];
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercisenamecompleted" cacheName:nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
     self.frc.delegate = self;
     //    NSLog(@"routines %@", routines);
 }
@@ -67,9 +70,22 @@
     // create an instance of UITableViewCell, with default appearance
     KLEHistoryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEHistoryTableViewCell" forIndexPath:indexPath];
     
-//    KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
-
-//    cell.nameLabel.text = routine.routinename;
+    KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
+    
+    NSLog(@"REPS ARRAY in HISTORY %@", exerciseCompleted.repsarray);
+    
+    NSString *setsString = [exerciseCompleted.setsarray componentsJoinedByString:@" - "];
+    
+    NSString *repsString = [exerciseCompleted.repsarray componentsJoinedByString:@" - "];
+    NSString *weightString = [exerciseCompleted.weightarray componentsJoinedByString:@" - "];
+    
+    NSLog(@"REPS STRING %@", repsString);
+    
+    cell.setsLabel.text = setsString;
+    cell.repsLabel.text = repsString;
+    cell.weightLabel.text = weightString;
+    cell.routineName.text = exerciseCompleted.routinename;
+    cell.exerciseLabel.text = exerciseCompleted.exercisename;
     
     return cell;
 }
@@ -81,7 +97,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.0;
+    return 80.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -94,8 +110,8 @@
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-//        KLERoutine *deleteTarget = [self.frc objectAtIndexPath:indexPath];
-//        [self.frc.managedObjectContext deleteObject:deleteTarget];
+        KLEExerciseCompleted *deleteTarget = [self.frc objectAtIndexPath:indexPath];
+        [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         // alert the user about deletion

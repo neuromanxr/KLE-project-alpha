@@ -11,11 +11,7 @@
 #import "KLEExerciseGoal.h"
 #import "KLERoutine.h"
 
-#import "KLERoutinesStore.h"
-#import "KLEExercises.h"
 #import "KLEExerciseListViewCell.h"
-#import "KLEStat.h"
-#import "KLEStatStore.h"
 #import "KLEExerciseListViewController.h"
 
 @interface KLEExerciseListViewController () <UITextFieldDelegate>

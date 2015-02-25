@@ -13,10 +13,6 @@
 #import "KLEExerciseGoal.h"
 #import "KLEDailyViewController.h"
 
-#import "KLEExercises.h"
-#import "KLEStat.h"
-#import "KLEStatStore.h"
-#import "KLERoutinesStore.h"
 #import "KLERoutineExercisesViewCell.h"
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
