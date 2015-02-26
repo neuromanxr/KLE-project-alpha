@@ -50,11 +50,11 @@
 
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
-@property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
+//@property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
 
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UILabel *headerDateLabel;
-@property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
+//@property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
 //@property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows

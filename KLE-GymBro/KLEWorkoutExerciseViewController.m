@@ -21,11 +21,7 @@
     NSArray *weightIncrementNumbers;
 }
 
-@property (nonatomic, copy) NSMutableArray *currentSetsArray;
-@property (nonatomic, copy) NSMutableArray *currentRepsArray;
-@property (nonatomic, copy) NSMutableArray *currentWeightArray;
-
-@property (nonatomic, copy) NSMutableArray *currentExerciseArray;
+@property (nonatomic, copy) NSMutableArray *currentRepsWeightArray;
 
 @end
 
@@ -79,10 +75,10 @@
     
     KLEExerciseCompleted *exerciseCompleted = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseCompleted" inManagedObjectContext:cdh.context];
     
-    exerciseCompleted.setsarray = [NSArray arrayWithArray:_currentExerciseArray];
+//    exerciseCompleted.repsweightarray = [[_currentRepsWeightArray reverseObjectEnumerator] allObjects];
+    exerciseCompleted.repsweightarray = [NSArray arrayWithArray:_currentRepsWeightArray];
+    exerciseCompleted.setscompleted = [NSNumber numberWithInteger:currentSet];
     
-    exerciseCompleted.repsarray = [NSArray arrayWithArray:_currentRepsArray];
-    exerciseCompleted.weightarray = [NSArray arrayWithArray:_currentWeightArray];
     exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
     exerciseCompleted.routinename = exerciseGoal.routine.routinename;
     
@@ -94,11 +90,9 @@
 //    exerciseCompleted.exercise = exerciseGoal.exercise;
 //    exerciseCompleted.routine = exerciseGoal.routine;
     
-    _currentSetsArray = nil;
-    _currentRepsArray = nil;
-    _currentWeightArray = nil;
+    _currentRepsWeightArray = nil;
     
-    NSLog(@"EXERCISE COMPLETED SETS %@ REPS %@", exerciseCompleted.setsarray, exerciseCompleted.repsarray);
+    NSLog(@"EXERCISE COMPLETED SETS %@ REPS WEIGHT ARRAY %@", exerciseCompleted.setscompleted, exerciseCompleted.repsweightarray);
     NSLog(@"EXERCISE GOAL SETS %@ REPS %@", exerciseGoal.sets, exerciseGoal.reps);
 }
 
@@ -198,30 +192,23 @@
 
 - (void)calculateTotalReps
 {
-    NSString *currentReps = [NSString stringWithFormat:@"%03lu", [_repsWorkoutButton.titleLabel.text integerValue]];
-    NSString *currentWeight = [NSString stringWithFormat:@"%03lu", [_weightTextField.text integerValue]];
-    NSString *currentSetKey = [NSString stringWithFormat:@"%03lu", currentSet];
+    NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.titleLabel.text integerValue]];
+    NSString *currentWeight = [NSString stringWithFormat:@"  %.2f", [_weightTextField.text floatValue]];
+    NSString *currentSetKey = [NSString stringWithFormat:@"%lu", currentSet];
+    
     NSLog(@"Current Reps and Sets %@, %@", currentReps, currentSetKey);
     
     _workoutFeedLabel.text = [NSString stringWithFormat:@"Weight: %@ Sets: %@ Reps: %@", currentWeight, currentSetKey, currentReps];
     
-    if (!_currentWeightArray) {
-        _currentWeightArray = [[NSMutableArray alloc] init];
-        _currentSetsArray = [[NSMutableArray alloc] init];
-        _currentRepsArray = [[NSMutableArray alloc] init];
-        
-        _currentExerciseArray = [[NSMutableArray alloc] init];
+    NSString *repsWeightString = [currentReps stringByAppendingString:currentWeight];
+    
+    if (!_currentRepsWeightArray) {
+        _currentRepsWeightArray = [[NSMutableArray alloc] init];
     }
+
+    [_currentRepsWeightArray addObject:repsWeightString];
     
-    [_currentExerciseArray addObject:currentSetKey];
-    [_currentExerciseArray addObject:currentReps];
-    [_currentExerciseArray addObject:currentWeight];
-    
-    [_currentSetsArray addObject:currentSetKey];
-    [_currentRepsArray addObject:currentReps];
-    [_currentWeightArray addObject:currentWeight];
-    
-    NSLog(@"EXERCISE ARRAYS %@, %@, %@", _currentSetsArray, _currentRepsArray, _currentWeightArray);
+    NSLog(@"CURRENT REPS WEIGHT ARRAY IN WORKOUT: %@", _currentRepsWeightArray);
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

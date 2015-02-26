@@ -16,6 +16,9 @@
 
 @interface KLEHistoryViewController ()
 
+@property (nonatomic, assign) NSUInteger setsCompleted;
+@property (nonatomic, assign) NSUInteger repsWeightCompleted;
+
 @end
 
 @implementation KLEHistoryViewController
@@ -72,18 +75,19 @@
     
     KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
     
-    NSLog(@"REPS ARRAY in HISTORY %@", exerciseCompleted.repsarray);
+    NSLog(@"REPS WEIGHT ARRAY in HISTORY %@", exerciseCompleted.repsweightarray);
     
-    NSString *setsString = [exerciseCompleted.setsarray componentsJoinedByString:@" - "];
+//    NSString *repsString = [exerciseCompleted.repsweightarray componentsJoinedByString:@" - "];
     
-    NSString *repsString = [exerciseCompleted.repsarray componentsJoinedByString:@" - "];
-    NSString *weightString = [exerciseCompleted.weightarray componentsJoinedByString:@" - "];
+//    NSLog(@"REPS STRING %@", repsString);
     
-    NSLog(@"REPS STRING %@", repsString);
+    _repsWeightCompleted = [exerciseCompleted.repsweightarray count] - 1;
+    _setsCompleted = [exerciseCompleted.setscompleted integerValue];
     
-    cell.setsLabel.text = setsString;
-    cell.repsLabel.text = repsString;
-    cell.weightLabel.text = weightString;
+    NSLog(@"CELL TAG IN CELL FOR ROW %lu", cell.tag);
+    
+    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", [exerciseCompleted.setscompleted integerValue]];
+    cell.setsRepsLabel.text = [exerciseCompleted.repsweightarray firstObject];
     cell.routineName.text = exerciseCompleted.routinename;
     cell.exerciseLabel.text = exerciseCompleted.exercisename;
     
@@ -103,6 +107,41 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Cell selected");
+    
+    KLEHistoryTableViewCell * cell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
+    NSArray *repsWeightArray = exerciseCompleted.repsweightarray;
+    
+    
+    
+    if (_repsWeightCompleted != 0) {
+        
+        NSLog(@"SETS REPS LABEL %@", cell.setsRepsLabel.text);
+        _repsWeightCompleted--;
+    }
+    else
+    {
+        NSLog(@"cell tag at ZERO");
+        _repsWeightCompleted = [repsWeightArray count] - 1;
+    }
+    
+    if (_setsCompleted > 1) {
+        
+        _setsCompleted--;
+//        cell.setsLabel.text = [NSString stringWithFormat:@"%lu", _setsCompleted];
+    }
+    else
+    {
+        NSLog(@"sets Completed at ZERO");
+        _setsCompleted = [exerciseCompleted.setscompleted integerValue];
+//        cell.setsLabel.text = [NSString stringWithFormat:@"%lu", _setsCompleted];
+    }
+    
+    cell.setsRepsLabel.text = repsWeightArray[_repsWeightCompleted];
+    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", _setsCompleted];
+    
+    
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -126,6 +165,8 @@
     // Do any additional setup after loading the view.
     [self configureFetch];
     [self performFetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEHistoryTableViewCell" bundle:nil];

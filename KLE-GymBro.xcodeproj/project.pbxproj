@@ -80,6 +80,9 @@
 		50F9AC8D1A9E64C1005B8047 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F9AC871A9E64C1005B8047 /* BEMLine.m */; };
 		50F9AC8E1A9E64C1005B8047 /* BEMPermanentPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F9AC891A9E64C1005B8047 /* BEMPermanentPopupView.m */; };
 		50F9AC8F1A9E64C1005B8047 /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F9AC8B1A9E64C1005B8047 /* BEMSimpleLineGraphView.m */; };
+		50F9AC921A9E6699005B8047 /* KLEGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */; };
+		50F9AC951A9E7999005B8047 /* KLEGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F9AC941A9E7999005B8047 /* KLEGraphView.m */; };
+		50F9AC971A9E79B9005B8047 /* KLEGraphView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -216,6 +219,11 @@
 		50F9AC891A9E64C1005B8047 /* BEMPermanentPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMPermanentPopupView.m; sourceTree = "<group>"; };
 		50F9AC8A1A9E64C1005B8047 /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
 		50F9AC8B1A9E64C1005B8047 /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		50F9AC901A9E6699005B8047 /* KLEGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEGraphViewController.h; sourceTree = "<group>"; };
+		50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEGraphViewController.m; sourceTree = "<group>"; };
+		50F9AC931A9E7999005B8047 /* KLEGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEGraphView.h; sourceTree = "<group>"; };
+		50F9AC941A9E7999005B8047 /* KLEGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEGraphView.m; sourceTree = "<group>"; };
+		50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEGraphView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +307,11 @@
 				5057D62B1A0D963300CF99C0 /* Generic Core Data Classes */,
 				50DD4CD819C2ABF600A3E6E5 /* Model */,
 				50DD4CD919C2AFB200A3E6E5 /* Views */,
+				50F9AC931A9E7999005B8047 /* KLEGraphView.h */,
+				50F9AC941A9E7999005B8047 /* KLEGraphView.m */,
+				50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */,
+				50F9AC901A9E6699005B8047 /* KLEGraphViewController.h */,
+				50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */,
 				507530801A782E8C0006C08D /* KLEHistoryViewController.h */,
 				507530811A782E8C0006C08D /* KLEHistoryViewController.m */,
 				507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */,
@@ -550,6 +563,7 @@
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
 				50EBE34A1A29908200D33448 /* KLETableHeaderView.xib in Resources */,
+				50F9AC971A9E79B9005B8047 /* KLEGraphView.xib in Resources */,
 				5057D6B91A0F5AAA00CF99C0 /* exercises.xml in Resources */,
 				5075308D1A78A79F0006C08D /* weightlift.png in Resources */,
 				50A9C3E91A99819E00640051 /* KLERoundButton.xib in Resources */,
@@ -581,6 +595,7 @@
 			files = (
 				50DD4CCA19BE3E0100A3E6E5 /* KLERoutineViewCell.m in Sources */,
 				50F4985B1A70BD73007424C0 /* ActionSheetLocalePicker.m in Sources */,
+				50F9AC951A9E7999005B8047 /* KLEGraphView.m in Sources */,
 				5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */,
 				50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */,
 				50F4985C1A70BD73007424C0 /* ActionSheetStringPicker.m in Sources */,
@@ -595,6 +610,7 @@
 				50DD4CD219C235FC00A3E6E5 /* KLEExerciseListViewCell.m in Sources */,
 				5037659E1A9DA1CB000CC53A /* KLEExerciseCompleted.m in Sources */,
 				50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */,
+				50F9AC921A9E6699005B8047 /* KLEGraphViewController.m in Sources */,
 				50F344EF1A759CF300CB17D0 /* KLEWorkoutButton.m in Sources */,
 				50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */,
 				505D1E2B1A69C218000BD0D7 /* KLERoutineExerciseDetailView.m in Sources */,

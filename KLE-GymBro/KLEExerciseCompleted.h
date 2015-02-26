@@ -16,20 +16,11 @@
 @property (nonatomic, retain) NSString * exercisename;
 @property (nonatomic, retain) NSNumber * timecompleted;
 @property (nonatomic, retain) NSDate * datecompleted;
-@property (nonatomic, retain) id setsarray;
-@property (nonatomic, retain) id repsarray;
-@property (nonatomic, retain) id weightarray;
+@property (nonatomic, retain) NSNumber * setscompleted;
+@property (nonatomic, retain) id repsweightarray;
 
 @end
 
-@interface SetsArray : NSValueTransformer
-
-@end
-
-@interface RepsArray : NSValueTransformer
-
-@end
-
-@interface WeightArray : NSValueTransformer
+@interface RepsWeightArray : NSValueTransformer
 
 @end

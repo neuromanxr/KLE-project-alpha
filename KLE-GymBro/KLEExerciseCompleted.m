@@ -15,61 +15,12 @@
 @dynamic exercisename;
 @dynamic timecompleted;
 @dynamic datecompleted;
-@dynamic setsarray;
-@dynamic repsarray;
-@dynamic weightarray;
+@dynamic setscompleted;
+@dynamic repsweightarray;
 
 @end
 
-@implementation SetsArray
-
-+ (Class)transformedValueClass
-{
-    return [NSArray class];
-}
-
-+ (BOOL)allowsReverseTransformation
-{
-    return YES;
-}
-
-- (id)transformedValue:(id)value
-{
-    return [NSKeyedArchiver archivedDataWithRootObject:value];
-}
-
-- (id)reverseTransformedValue:(id)value
-{
-    return [NSKeyedUnarchiver unarchiveObjectWithData:value];
-}
-
-@end
-
-@implementation RepsArray
-
-+ (Class)transformedValueClass
-{
-    return [NSArray class];
-}
-
-+ (BOOL)allowsReverseTransformation
-{
-    return YES;
-}
-
-- (id)transformedValue:(id)value
-{
-    return [NSKeyedArchiver archivedDataWithRootObject:value];
-}
-
-- (id)reverseTransformedValue:(id)value
-{
-    return [NSKeyedUnarchiver unarchiveObjectWithData:value];
-}
-
-@end
-
-@implementation WeightArray
+@implementation RepsWeightArray
 
 + (Class)transformedValueClass
 {
