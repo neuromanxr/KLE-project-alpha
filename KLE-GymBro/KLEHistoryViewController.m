@@ -16,9 +16,6 @@
 
 @interface KLEHistoryViewController ()
 
-@property (nonatomic, assign) NSUInteger setsCompleted;
-@property (nonatomic, assign) NSUInteger repsWeightCompleted;
-
 @end
 
 @implementation KLEHistoryViewController
@@ -68,6 +65,16 @@
     return [self init];
 }
 
+- (NSString *)dateCompleted:(NSDate *)dateCompleted
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateStyle:NSDateFormatterShortStyle];
+    NSString *dateCompletedText = [dateFormat stringFromDate:dateCompleted];
+    NSLog(@"TODAYS DATE %@", dateCompleted);
+    
+    return dateCompletedText;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
@@ -77,19 +84,16 @@
     
     NSLog(@"REPS WEIGHT ARRAY in HISTORY %@", exerciseCompleted.repsweightarray);
     
-//    NSString *repsString = [exerciseCompleted.repsweightarray componentsJoinedByString:@" - "];
-    
-//    NSLog(@"REPS STRING %@", repsString);
-    
-    _repsWeightCompleted = [exerciseCompleted.repsweightarray count] - 1;
-    _setsCompleted = [exerciseCompleted.setscompleted integerValue];
+    cell.repsWeightCompleted = [exerciseCompleted.repsweightarray count] - 1;
+    cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
     
     NSLog(@"CELL TAG IN CELL FOR ROW %lu", cell.tag);
     
     cell.setsLabel.text = [NSString stringWithFormat:@"%lu", [exerciseCompleted.setscompleted integerValue]];
-    cell.setsRepsLabel.text = [exerciseCompleted.repsweightarray firstObject];
+    cell.repsWeightLabel.text = [exerciseCompleted.repsweightarray firstObject];
     cell.routineName.text = exerciseCompleted.routinename;
     cell.exerciseLabel.text = exerciseCompleted.exercisename;
+    cell.dateCompleted.text = [self dateCompleted:exerciseCompleted.datecompleted];
     
     return cell;
 }
@@ -113,33 +117,21 @@
     KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
     NSArray *repsWeightArray = exerciseCompleted.repsweightarray;
     
-    
-    
-    if (_repsWeightCompleted != 0) {
+    if (cell.repsWeightCompleted != 0) {
         
-        NSLog(@"SETS REPS LABEL %@", cell.setsRepsLabel.text);
-        _repsWeightCompleted--;
+        NSLog(@"SETS REPS LABEL %@", cell.repsWeightLabel.text);
+        cell.repsWeightCompleted--;
+        cell.setsCompleted--;
     }
     else
     {
         NSLog(@"cell tag at ZERO");
-        _repsWeightCompleted = [repsWeightArray count] - 1;
+        cell.repsWeightCompleted = [repsWeightArray count] - 1;
+        cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
     }
     
-    if (_setsCompleted > 1) {
-        
-        _setsCompleted--;
-//        cell.setsLabel.text = [NSString stringWithFormat:@"%lu", _setsCompleted];
-    }
-    else
-    {
-        NSLog(@"sets Completed at ZERO");
-        _setsCompleted = [exerciseCompleted.setscompleted integerValue];
-//        cell.setsLabel.text = [NSString stringWithFormat:@"%lu", _setsCompleted];
-    }
-    
-    cell.setsRepsLabel.text = repsWeightArray[_repsWeightCompleted];
-    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", _setsCompleted];
+    cell.repsWeightLabel.text = repsWeightArray[cell.repsWeightCompleted];
+    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", cell.setsCompleted];
     
     
 }

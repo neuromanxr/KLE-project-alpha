@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber * timecompleted;
 @property (nonatomic, retain) NSDate * datecompleted;
 @property (nonatomic, retain) NSNumber * setscompleted;
+@property (nonatomic, retain) NSNumber * maxweight;
 @property (nonatomic, retain) id repsweightarray;
 
 @end

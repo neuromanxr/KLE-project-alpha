@@ -8,6 +8,7 @@
     <entity name="KLEExerciseCompleted" representedClassName="KLEExerciseCompleted" syncable="YES">
         <attribute name="datecompleted" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="exercisename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="maxweight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="repsweightarray" optional="YES" attributeType="Transformable" valueTransformerName="RepsWeightArray" syncable="YES"/>
         <attribute name="routinename" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="setscompleted" optional="YES" attributeType="Integer 32" valueTransformerName="SetsArray" defaultValueString="0" syncable="YES"/>
@@ -31,7 +32,7 @@
     </entity>
     <elements>
         <element name="KLEExercise" positionX="234" positionY="-169" width="128" height="88"/>
-        <element name="KLEExerciseCompleted" positionX="63" positionY="134" width="128" height="133"/>
+        <element name="KLEExerciseCompleted" positionX="63" positionY="134" width="128" height="148"/>
         <element name="KLEExerciseGoal" positionX="63" positionY="-99" width="128" height="133"/>
         <element name="KLERoutine" positionX="-117" positionY="-0" width="128" height="133"/>
     </elements>

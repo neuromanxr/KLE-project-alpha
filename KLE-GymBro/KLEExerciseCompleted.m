@@ -16,6 +16,7 @@
 @dynamic timecompleted;
 @dynamic datecompleted;
 @dynamic setscompleted;
+@dynamic maxweight;
 @dynamic repsweightarray;
 
 @end

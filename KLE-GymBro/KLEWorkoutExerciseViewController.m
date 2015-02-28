@@ -16,12 +16,9 @@
 
 @interface KLEWorkoutExerciseViewController ()
 
-{
-    NSUInteger currentSet;
-    NSArray *weightIncrementNumbers;
-}
-
 @property (nonatomic, copy) NSMutableArray *currentRepsWeightArray;
+@property (nonatomic, copy) NSArray *weightIncrementNumbers;
+@property (nonatomic, assign) NSUInteger currentSet;
 
 @end
 
@@ -77,18 +74,21 @@
     
 //    exerciseCompleted.repsweightarray = [[_currentRepsWeightArray reverseObjectEnumerator] allObjects];
     exerciseCompleted.repsweightarray = [NSArray arrayWithArray:_currentRepsWeightArray];
-    exerciseCompleted.setscompleted = [NSNumber numberWithInteger:currentSet];
     
+    // get the array then get the max weight
+    NSArray *repsWeightArray = [NSArray arrayWithArray:_currentRepsWeightArray];
+    NSMutableArray *weightArray = [[NSMutableArray alloc] init];
+    for (NSString *weight in repsWeightArray) {
+        [weightArray addObject:[[weight componentsSeparatedByString:@" "] lastObject]];
+    }
+    CGFloat maxWeight = [[weightArray valueForKeyPath:@"@max.self"] floatValue];
+    NSLog(@"MAX WEIGHT %.2f", maxWeight);
+    
+    exerciseCompleted.maxweight = [NSNumber numberWithFloat:maxWeight];
+    exerciseCompleted.setscompleted = [NSNumber numberWithInteger:_currentSet];
     exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
     exerciseCompleted.routinename = exerciseGoal.routine.routinename;
-    
-//    exerciseCompleted.reps = [NSNumber numberWithInteger:[_repsWorkoutButton.titleLabel.text integerValue]];
-//    exerciseCompleted.sets = [NSNumber numberWithInteger:currentSet];
-//    exerciseCompleted.weight = [NSNumber numberWithFloat:[_weightTextField.text floatValue]];
-    
-    // can't do this, adds the exercise to the routine
-//    exerciseCompleted.exercise = exerciseGoal.exercise;
-//    exerciseCompleted.routine = exerciseGoal.routine;
+    exerciseCompleted.datecompleted = [NSDate date];
     
     _currentRepsWeightArray = nil;
     
@@ -98,8 +98,8 @@
 
 - (void)setupWeightSlider
 {
-    weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
-    NSUInteger numberOfSteps = [weightIncrementNumbers count] - 1;
+    _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
+    NSUInteger numberOfSteps = [_weightIncrementNumbers count] - 1;
     
     _weightIncrementSlider.maximumValue = numberOfSteps;
     _weightIncrementSlider.minimumValue = 0;
@@ -145,7 +145,7 @@
     // round the slider position to the nearest index of the weight increment numbers array
     NSUInteger index = _weightIncrementSlider.value + 0.5;
     [_weightIncrementSlider setValue:index animated:NO];
-    NSNumber *number = [weightIncrementNumbers objectAtIndex:index];
+    NSNumber *number = [_weightIncrementNumbers objectAtIndex:index];
     
     _weightIncrementLabel.text = [NSString stringWithFormat:@"%@", number];
     
@@ -157,7 +157,7 @@
 - (void)currentSet:(CGFloat)set
 {
     // delegate method to get the current set
-    currentSet = set;
+    _currentSet = set;
     NSLog(@"CURRENT SET IN WORKOUT EXERCISE VIEW CONTROLLER %.2f", set);
 }
 
@@ -193,14 +193,23 @@
 - (void)calculateTotalReps
 {
     NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.titleLabel.text integerValue]];
-    NSString *currentWeight = [NSString stringWithFormat:@"  %.2f", [_weightTextField.text floatValue]];
-    NSString *currentSetKey = [NSString stringWithFormat:@"%lu", currentSet];
+    NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightTextField.text floatValue]];
+    NSString *currentSet = [NSString stringWithFormat:@"%lu", _currentSet];
     
-    NSLog(@"Current Reps and Sets %@, %@", currentReps, currentSetKey);
+    NSLog(@"Current Reps and Sets %@, %@", currentReps, currentSet);
     
-    _workoutFeedLabel.text = [NSString stringWithFormat:@"Weight: %@ Sets: %@ Reps: %@", currentWeight, currentSetKey, currentReps];
+    _workoutFeedLabel.text = [NSString stringWithFormat:@"Weight: %@ Sets: %@ Reps: %@", currentWeight, currentSet, currentReps];
     
     NSString *repsWeightString = [currentReps stringByAppendingString:currentWeight];
+    
+    // for storing reps and weight as string instead of transformable array in core data
+//    if (!_repsWeightString) {
+//        _repsWeightString = [[NSMutableString alloc] init];
+//    }
+//    [_repsWeightString appendString:currentReps];
+//    [_repsWeightString appendString:currentWeight];
+    
+//    NSLog(@"REPS WEIGHT STRING %@", _repsWeightString);
     
     if (!_currentRepsWeightArray) {
         _currentRepsWeightArray = [[NSMutableArray alloc] init];

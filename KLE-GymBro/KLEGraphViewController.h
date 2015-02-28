@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BEMSimpleLineGraphView.h"
 
-@interface KLEGraphViewController : UIViewController
+@interface KLEGraphViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
+
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *graphView;
 
 @end

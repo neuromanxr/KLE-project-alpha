@@ -6,14 +6,23 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEExerciseCompleted.h"
 #import "KLEAppDelegate.h"
 #import "KLEGraphViewController.h"
 
 @interface KLEGraphViewController () <NSFetchedResultsControllerDelegate>
 
-@property (strong, nonatomic) IBOutlet UILabel *textLabel;
+@property (strong, nonatomic) IBOutlet UILabel *dateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *detailStreamLabel;
+
+@property (strong, nonatomic) IBOutlet UIStepper *exerciseCompletedStepper;
+- (IBAction)exerciseCompletedStepperAction:(id)sender;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+
+@property (nonatomic, copy) NSMutableArray *dateCompletedArray;
+@property (nonatomic, copy) NSMutableArray *maxWeightArray;
+@property (nonatomic, copy) NSMutableArray *exerciseNameArray;
 
 @end
 
@@ -23,10 +32,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    self.textLabel.text = [[self fetchCompletedExercises] componentsJoinedByString:@"-"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureFetchGraphData) name:@"SomethingChanged" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCompletedExercises) name:@"SomethingChanged" object:nil];
+    [self configureFetchGraphData];
     
+    [self configureGraphView];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)configureFetchGraphData
+{
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KLEExerciseCompleted"];
     fetchRequest.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
@@ -38,11 +58,129 @@
     if (error) {
         NSLog(@"Unable to perform fetch %@, %@", error, error.localizedDescription);
     }
+    
+    NSLog(@"FETCHED RESULTS %@", [[_fetchedResultsController fetchedObjects] componentsJoinedByString:@"-"]);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)configureGraphView
+{
+    _graphView.dataSource = self;
+    _graphView.delegate = self;
+    _graphView.widthLine = 3.0;
+    _graphView.alwaysDisplayDots = NO;
+    _graphView.alwaysDisplayPopUpLabels = NO;
+    _graphView.enableReferenceAxisFrame = YES;
+    _graphView.enableReferenceXAxisLines = YES;
+    _graphView.enableReferenceYAxisLines = YES;
+    _graphView.enableTouchReport = YES;
+    _graphView.enablePopUpReport = YES;
+    _graphView.enableXAxisLabel = YES;
+    _graphView.enableYAxisLabel = YES;
+    _graphView.autoScaleYAxis = YES;
+    
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    size_t num_locations = 2;
+    CGFloat locations[2] = { 0.0, 1.0 };
+    CGFloat components[8] = {
+        1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 0.0
+    };
+    
+    _graphView.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
+    _graphView.colorTop = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
+    _graphView.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
+    _graphView.colorLine = [UIColor whiteColor];
+    _graphView.colorXaxisLabel = [UIColor whiteColor];
+    _graphView.colorYaxisLabel = [UIColor whiteColor];
+    
+    _detailStreamLabel.text = @"Exercise";
+    _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+}
+
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index
+{
+    CGFloat weight = [[_maxWeightArray objectAtIndex:index] floatValue];
+    // y points
+    return weight;
+}
+
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph
+{
+    // x points
+    // Dates
+    _maxWeightArray = [[NSMutableArray alloc] init];
+    _dateCompletedArray = [[NSMutableArray alloc] init];
+    _exerciseNameArray = [[NSMutableArray alloc] init];
+    NSArray *exerciseCompletedArray = [_fetchedResultsController fetchedObjects];
+    
+    for (KLEExerciseCompleted *exerciseCompleted in exerciseCompletedArray) {
+        
+        NSLog(@"EXERCISE REPS WEIGHT ARRAY %@",exerciseCompleted.maxweight);
+        NSString *dateCompleted = [self dateCompleted:exerciseCompleted.datecompleted];
+//        NSString *setsCompleted = [NSString stringWithFormat:@"%lu", [exerciseCompleted.setscompleted integerValue]];
+        [_exerciseNameArray addObject:exerciseCompleted.exercisename];
+        [_dateCompletedArray addObject:dateCompleted];
+        [_maxWeightArray addObject:exerciseCompleted.maxweight];
+
+    }
+    NSLog(@"MAX WEIGHT ARRAY : DATE COMPLETED ARRAY %@ %@", _maxWeightArray, _dateCompletedArray);
+    
+    return [exerciseCompletedArray count];
+}
+
+- (NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 1;
+}
+
+- (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph
+{
+    return @" lb";
+}
+
+- (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index
+{
+    // x axis label
+    NSString *dateCompleted = _dateCompletedArray[index];
+    NSLog(@"date Completed %@", dateCompleted);
+    
+    return dateCompleted;
+}
+
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didTouchGraphWithClosestIndex:(NSInteger)index
+{
+    NSLog(@"DID TOUCH GRAPH");
+    
+    _detailStreamLabel.text = [NSString stringWithFormat:@"%@", _exerciseNameArray[index]];
+    _dateLabel.text = [NSString stringWithFormat:@"%@", _dateCompletedArray[index]];
+}
+
+- (void)lineGraph:(BEMSimpleLineGraphView *)graph didReleaseTouchFromGraphWithClosestIndex:(CGFloat)index
+{
+    NSLog(@"DID RELEASE TOUCH");
+    
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        _detailStreamLabel.alpha = 0.0;
+        _dateLabel.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        _detailStreamLabel.text = @"Exercise";
+        _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+        
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            _detailStreamLabel.alpha = 1.0;
+            _dateLabel.alpha = 1.0;
+        } completion:nil];
+    }];
+}
+
+- (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph
+{
+    _detailStreamLabel.text = @"Exercise";
+    _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+}
+
+- (void)reloadGraph
+{
+    [self.graphView reloadGraph];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -60,11 +198,15 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             NSLog(@"INSERT");
+            [self configureFetchGraphData];
+            [self reloadGraph];
             // insert
             break;
         case NSFetchedResultsChangeDelete:
             // delete
             NSLog(@"DELETE");
+            [self configureFetchGraphData];
+            [self reloadGraph];
             break;
         case NSFetchedResultsChangeUpdate:
             // configure cell
@@ -80,21 +222,14 @@
     }
 }
 
-- (NSArray *)fetchCompletedExercises
+- (NSString *)dateCompleted:(NSDate *)dateCompleted
 {
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
-
-    // fetch the routines with daynumbers that match the section and bool value is set to yes
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inworkout == %@ AND daynumber == %@", @(YES), @(indexPath.section)];
-//    [request setPredicate:predicate];
-
-    NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateStyle:NSDateFormatterShortStyle];
+    NSString *dateCompletedText = [dateFormat stringFromDate:dateCompleted];
+    NSLog(@"TODAYS DATE %@", dateCompleted);
     
-    NSLog(@"fetch objects in graph %@", requestObjects);
-    
-    return requestObjects;
+    return dateCompletedText;
 }
 
 /*
@@ -107,4 +242,8 @@
 }
 */
 
+- (IBAction)exerciseCompletedStepperAction:(id)sender
+{
+    
+}
 @end

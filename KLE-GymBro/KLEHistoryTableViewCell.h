@@ -10,11 +10,14 @@
 
 @interface KLEHistoryTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *setsRepsLabel;
+@property (strong, nonatomic) IBOutlet UILabel *repsWeightLabel;
 @property (strong, nonatomic) IBOutlet UILabel *routineName;
 @property (strong, nonatomic) IBOutlet UILabel *exerciseLabel;
+@property (strong, nonatomic) IBOutlet UILabel *dateCompleted;
 
 @property (strong, nonatomic) IBOutlet UILabel *setsLabel;
 
+@property (nonatomic, assign) NSUInteger setsCompleted;
+@property (nonatomic, assign) NSUInteger repsWeightCompleted;
 
 @end
