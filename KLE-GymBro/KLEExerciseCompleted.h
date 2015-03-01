@@ -25,3 +25,9 @@
 @interface RepsWeightArray : NSValueTransformer
 
 @end
+
+@interface KLEExerciseCompleted (AdditionalMethods)
+
+- (NSString *)shortDateCompleted;
+
+@end

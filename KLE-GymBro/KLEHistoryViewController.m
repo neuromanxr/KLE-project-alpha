@@ -14,6 +14,10 @@
 #import "KLEAppDelegate.h"
 #import "KLEHistoryViewController.h"
 
+#define kDateCompleted [NSString stringWithString:@"datecompleted"];
+#define kRoutineName [NSString stringWithString:@"routinename"];
+#define kExerciseName [NSString stringWithString:@"exercisename"];
+
 @interface KLEHistoryViewController ()
 
 @end
@@ -22,16 +26,48 @@
 
 - (void)configureFetch
 {
+    NSDate *firstRecordDate = [self fetchFirstRecord];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:firstRecordDate];
+    components.month -= 3;
+
+    NSDate *threeMonthsBeforeToday = [calendar dateFromComponents:components];
+    NSDate *twoWeeksAfterFirst = [calendar dateByAddingUnit:NSCalendarUnitWeekOfMonth value:2 toDate:firstRecordDate options:kNilOptions];
+    NSLog(@"TWO WEEKS DATE %@", twoWeeksAfterFirst);
+    NSLog(@"THREE MONTHS AGO DATE %@", threeMonthsBeforeToday);
+    
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
-    //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
-    //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
-    //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
-    //    [request setPredicate:predicate];
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO];
+//    NSSortDescriptor *sortByRoutine = [NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES];
+    request.sortDescriptors = @[sortByDate];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted > %@ AND datecompleted < %@", firstRecordDate, twoWeeksAfterFirst];
+    [request setPredicate:predicate];
+    
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"shortDateCompleted" cacheName:nil];
     self.frc.delegate = self;
-    //    NSLog(@"routines %@", routines);
+    
+}
+
+- (NSDate *)fetchFirstRecord
+{
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:YES];
+    request.sortDescriptors = @[sortByDate];
+    request.fetchLimit = 1;
+    
+    NSError *error = nil;
+    NSArray *requestArray = [cdh.context executeFetchRequest:request error:&error];
+    if (error) {
+        NSLog(@"Unable to perform fetch %@, %@", error, error.localizedDescription);
+    }
+    KLEExerciseCompleted *firstRecord = [requestArray firstObject];
+    NSLog(@"FIRST RECORD REQUEST %@ : %@ : %@", firstRecord.datecompleted, firstRecord.exercisename, firstRecord.maxweight);
+    
+    return firstRecord.datecompleted;
 }
 
 - (instancetype)init
@@ -103,6 +139,13 @@
     return nil;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.frc sections] objectAtIndex:section];
+    
+    return [sectionInfo name];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80.0;
@@ -152,6 +195,29 @@
     }
 }
 
+- (NSDate *)todaysDate
+{
+    // date from current calendar
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSLog(@" ## TIMEZONE %@", [calendar timeZone]);
+    NSDate *todaysDate = [NSDate date];
+    // date components with month, day, year, hour and minute
+    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:todaysDate];
+    
+    // todays date
+    NSDate *todaysDateWithComponents = [calendar dateFromComponents:components];
+    NSDate *dayAfterToday = [calendar dateByAddingUnit:NSCalendarUnitDay value:2 toDate:todaysDateWithComponents options:kNilOptions];
+    
+    // date format and time zone
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    [formatter setDateFormat:@"MM-dd-yy HH:mm"];
+    
+    NSLog(@"## DATE %@", [formatter stringFromDate:todaysDateWithComponents]);
+    
+    return todaysDateWithComponents;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -165,6 +231,8 @@
     
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEHistoryTableViewCell"];
+    
+    [self todaysDate];
 }
 
 - (void)didReceiveMemoryWarning {

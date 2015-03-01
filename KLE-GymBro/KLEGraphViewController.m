@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *detailStreamLabel;
 
+@property (strong, nonatomic) IBOutlet UILabel *exerciseCompletedStepperLabel;
 @property (strong, nonatomic) IBOutlet UIStepper *exerciseCompletedStepper;
 - (IBAction)exerciseCompletedStepperAction:(id)sender;
 
@@ -38,6 +39,8 @@
     
     [self configureGraphView];
     
+    _exerciseCompletedStepper.value = 0;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,7 +52,7 @@
 {
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KLEExerciseCompleted"];
-    fetchRequest.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+    fetchRequest.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO], nil];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:cdh.context sectionNameKeyPath:nil cacheName:nil];
     [_fetchedResultsController setDelegate:self];
     
@@ -244,6 +247,6 @@
 
 - (IBAction)exerciseCompletedStepperAction:(id)sender
 {
-    
+    _exerciseCompletedStepperLabel.text = [NSString stringWithFormat:@"%.f", _exerciseCompletedStepper.value];
 }
 @end

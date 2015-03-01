@@ -9,6 +9,7 @@
                 <outlet property="dateLabel" destination="Cfs-HT-yPc" id="FV1-Ea-doe"/>
                 <outlet property="detailStreamLabel" destination="ewB-yk-QwU" id="uGw-Gf-ex3"/>
                 <outlet property="exerciseCompletedStepper" destination="MMG-Dc-uUL" id="Wml-1p-k04"/>
+                <outlet property="exerciseCompletedStepperLabel" destination="lzr-iF-4RZ" id="Ept-bB-9Wo"/>
                 <outlet property="graphView" destination="r5h-Dc-73I" id="4sD-Ky-0dU"/>
                 <outlet property="view" destination="iN0-l3-epB" id="K6x-5z-ePN"/>
             </connections>
@@ -36,18 +37,24 @@
                         </constraint>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewB-yk-QwU">
-                    <rect key="frame" x="8" y="455" width="304" height="20"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="MMG-Dc-uUL">
                     <rect key="frame" x="218" y="483" width="94" height="29"/>
                     <connections>
                         <action selector="exerciseCompletedStepperAction:" destination="-1" eventType="valueChanged" id="5p3-zB-nmL"/>
                     </connections>
                 </stepper>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewB-yk-QwU">
+                    <rect key="frame" x="8" y="455" width="202" height="20"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lzr-iF-4RZ">
+                    <rect key="frame" x="218" y="455" width="94" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>

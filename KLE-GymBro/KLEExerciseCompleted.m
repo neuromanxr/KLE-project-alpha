@@ -21,6 +21,26 @@
 
 @end
 
+@implementation KLEExerciseCompleted (AdditionalMethods)
+
+- (NSString *)shortDateCompleted
+{
+    NSDate *dateCompleted = self.datecompleted;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear) fromDate:dateCompleted];
+    
+    NSDate *dateCompletedWithComponents = [calendar dateFromComponents:components];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"MM-dd-yy"];
+    
+    NSLog(@" ** DATE COMPLETED SECTION %@", [formatter stringFromDate:dateCompletedWithComponents]);
+    
+    return [formatter stringFromDate:dateCompletedWithComponents];
+    
+}
+
+@end
+
 @implementation RepsWeightArray
 
 + (Class)transformedValueClass
