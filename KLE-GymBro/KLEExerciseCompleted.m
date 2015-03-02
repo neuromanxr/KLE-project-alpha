@@ -31,7 +31,8 @@
     
     NSDate *dateCompletedWithComponents = [calendar dateFromComponents:components];
     NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setDateFormat:@"MM-dd-yy"];
+//    [formatter setDateFormat:@"MM-dd-yy"];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
     
     NSLog(@" ** DATE COMPLETED SECTION %@", [formatter stringFromDate:dateCompletedWithComponents]);
     

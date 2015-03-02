@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "DateTools.h"
 #import "KLEExercise.h"
 #import "KLERoutine.h"
 #import "KLEExerciseCompleted.h"
@@ -18,24 +19,38 @@
 #define kRoutineName [NSString stringWithString:@"routinename"];
 #define kExerciseName [NSString stringWithString:@"exercisename"];
 
+typedef NS_ENUM(NSInteger, KLEDateRangeMode)
+{
+    KLEDateRangeModeThreeMonths,
+    KLEDateRangeModeSixMonths,
+    KLEDateRangeModeNineMonths,
+    KLEDateRangeModeOneYear,
+    KLEDateRangeModeAll
+};
+
 @interface KLEHistoryViewController ()
 
 @end
 
 @implementation KLEHistoryViewController
 
-- (void)configureFetch
+- (void)configureFetch:(KLEDateRangeMode)dateRange
 {
-    NSDate *firstRecordDate = [self fetchFirstRecord];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
     
-    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:firstRecordDate];
-    components.month -= 3;
-
-    NSDate *threeMonthsBeforeToday = [calendar dateFromComponents:components];
-    NSDate *twoWeeksAfterFirst = [calendar dateByAddingUnit:NSCalendarUnitWeekOfMonth value:2 toDate:firstRecordDate options:kNilOptions];
-    NSLog(@"TWO WEEKS DATE %@", twoWeeksAfterFirst);
-    NSLog(@"THREE MONTHS AGO DATE %@", threeMonthsBeforeToday);
+    
+//    NSCalendar *calendar = [NSCalendar currentCalendar];
+//    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:firstRecordDate];
+//    components.month -= 3;
+//    NSDate *threeMonthsBeforeToday = [calendar dateFromComponents:components];
+//    
+//    NSDate *twoWeeksAfterFirst = [calendar dateByAddingUnit:NSCalendarUnitWeekOfMonth value:2 toDate:firstRecordDate options:kNilOptions];
+//    NSDate *twoWeeksAfterFirstUsingTools = [firstRecordDate dateByAddingWeeks:2];
+//    
+//    NSLog(@"TWO WEEKS DATE: %@ DATE TOOLS: %@", twoWeeksAfterFirst, twoWeeksAfterFirstUsingTools);
+//    NSLog(@"THREE MONTHS AGO DATE TOOLS: %@", threeMonthsBeforeToday);
+    NSLog(@"DATE RANGE MODE %lu", dateRange);
+    
+    NSDate *dateToCompare = [self setDateToCompare:dateRange];
     
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
@@ -43,7 +58,8 @@
 //    NSSortDescriptor *sortByRoutine = [NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES];
     request.sortDescriptors = @[sortByDate];
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted > %@ AND datecompleted < %@", firstRecordDate, twoWeeksAfterFirst];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted > %@ AND datecompleted < %@", firstRecordDate, twoWeeksAfterFirst];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted >= %@", dateToCompare];
     [request setPredicate:predicate];
     
     self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"shortDateCompleted" cacheName:nil];
@@ -51,7 +67,7 @@
     
 }
 
-- (NSDate *)fetchFirstRecord
+- (NSDate *)fetchFirstRecordDate
 {
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
@@ -80,16 +96,10 @@
         navItem.title = @"History";
         
         // button to add exercises
-        //        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
+        UIBarButtonItem *dateRangeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(changeDateRange)];
         
-        // button to edit routine
-        //        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
-        
-        // set bar button to toggle editing mode
-        //        editButton = self.editButtonItem;
-        
-        // set the button to be the right nav button of the nav item
-        //        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
+        // set the button to be the left nav button of the nav item
+        navItem.leftBarButtonItem = dateRangeButton;
         
     }
     
@@ -99,6 +109,115 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (NSDate *)setDateToCompare:(KLEDateRangeMode)dateRange
+{
+    NSDate *firstRecordDate;
+    NSDate *todaysDate;
+    
+    if (dateRange == KLEDateRangeModeAll) {
+        firstRecordDate = [self fetchFirstRecordDate];
+    }
+    else
+    {
+        todaysDate = [self todaysDate];
+    }
+    
+    NSDate *dateToCompare;
+    
+    switch (dateRange) {
+        case KLEDateRangeModeThreeMonths:
+            dateToCompare = [todaysDate dateBySubtractingMonths:3];
+            NSLog(@"THREE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeSixMonths:
+            dateToCompare = [todaysDate dateBySubtractingMonths:6];
+            NSLog(@"SIX MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeNineMonths:
+            dateToCompare = [todaysDate dateBySubtractingMonths:9];
+            NSLog(@"NINE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeOneYear:
+            dateToCompare = [todaysDate dateBySubtractingYears:1];
+            NSLog(@"ONE YEAR AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeAll:
+            dateToCompare = firstRecordDate;
+            NSLog(@"ALL DATES");
+            break;
+        default:
+            break;
+    }
+    return dateToCompare;
+}
+
+- (void)changeDateRange
+{
+    NSLog(@"Change Date Range");
+    
+    UIAlertController *dateRangeActionSheet = [UIAlertController alertControllerWithTitle:@"Date Range" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *setRangeToThreeMonths = [UIAlertAction actionWithTitle:@"3 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 3 MONTHS");
+        [self configureFetch:KLEDateRangeModeThreeMonths];
+        [self performFetch];
+    }];
+    UIAlertAction *setRangeToSixMonths = [UIAlertAction actionWithTitle:@"6 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 6 MONTHS");
+        [self configureFetch:KLEDateRangeModeSixMonths];
+        [self performFetch];
+    }];
+    UIAlertAction *setRangeToNineMonths = [UIAlertAction actionWithTitle:@"9 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 9 MONTHS");
+        [self configureFetch:KLEDateRangeModeNineMonths];
+        [self performFetch];
+    }];
+    UIAlertAction *setRangeToOneYear = [UIAlertAction actionWithTitle:@"1 Year" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 1 YEAR");
+        [self configureFetch:KLEDateRangeModeOneYear];
+        [self performFetch];
+    }];
+    UIAlertAction *setRangeToAll = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO ALL");
+        [self configureFetch:KLEDateRangeModeAll];
+        [self performFetch];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO CANCEL");
+    }];
+    
+    [dateRangeActionSheet addAction:setRangeToThreeMonths];
+    [dateRangeActionSheet addAction:setRangeToSixMonths];
+    [dateRangeActionSheet addAction:setRangeToNineMonths];
+    [dateRangeActionSheet addAction:setRangeToOneYear];
+    [dateRangeActionSheet addAction:setRangeToAll];
+    [dateRangeActionSheet addAction:cancelAction];
+    
+    [self presentViewController:dateRangeActionSheet animated:YES completion:nil];
+}
+
+- (NSDate *)todaysDate
+{
+    // date from current calendar
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSLog(@" ## TIMEZONE %@", [calendar timeZone]);
+    NSDate *todaysDate = [NSDate date];
+    // date components with month, day, year, hour and minute
+    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:todaysDate];
+    
+    // todays date
+    NSDate *todaysDateWithComponents = [calendar dateFromComponents:components];
+    
+    // date format and time zone for string
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    [formatter setDateFormat:@"MM-dd-yy HH:mm"];
+    
+    NSLog(@"## TODAY'S DATE %@", [formatter stringFromDate:todaysDateWithComponents]);
+    
+    return todaysDateWithComponents;
 }
 
 - (NSString *)dateCompleted:(NSDate *)dateCompleted
@@ -195,33 +314,10 @@
     }
 }
 
-- (NSDate *)todaysDate
-{
-    // date from current calendar
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSLog(@" ## TIMEZONE %@", [calendar timeZone]);
-    NSDate *todaysDate = [NSDate date];
-    // date components with month, day, year, hour and minute
-    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:todaysDate];
-    
-    // todays date
-    NSDate *todaysDateWithComponents = [calendar dateFromComponents:components];
-    NSDate *dayAfterToday = [calendar dateByAddingUnit:NSCalendarUnitDay value:2 toDate:todaysDateWithComponents options:kNilOptions];
-    
-    // date format and time zone
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    formatter.timeZone = [NSTimeZone localTimeZone];
-    [formatter setDateFormat:@"MM-dd-yy HH:mm"];
-    
-    NSLog(@"## DATE %@", [formatter stringFromDate:todaysDateWithComponents]);
-    
-    return todaysDateWithComponents;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self configureFetch];
+    [self configureFetch:KLEDateRangeModeThreeMonths];
     [self performFetch];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
@@ -232,7 +328,6 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEHistoryTableViewCell"];
     
-    [self todaysDate];
 }
 
 - (void)didReceiveMemoryWarning {

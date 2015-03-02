@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		502E2E851AA319CB0083BDEA /* DateTools.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 502E2E761AA319CB0083BDEA /* DateTools.bundle */; };
+		502E2E861AA319CB0083BDEA /* DTError.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E7A1AA319CB0083BDEA /* DTError.m */; };
+		502E2E871AA319CB0083BDEA /* DTTimePeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E7C1AA319CB0083BDEA /* DTTimePeriod.m */; };
+		502E2E881AA319CB0083BDEA /* DTTimePeriodChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E7E1AA319CB0083BDEA /* DTTimePeriodChain.m */; };
+		502E2E891AA319CB0083BDEA /* DTTimePeriodCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E801AA319CB0083BDEA /* DTTimePeriodCollection.m */; };
+		502E2E8A1AA319CB0083BDEA /* DTTimePeriodGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E821AA319CB0083BDEA /* DTTimePeriodGroup.m */; };
+		502E2E8B1AA319CB0083BDEA /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E841AA319CB0083BDEA /* NSDate+DateTools.m */; };
 		5037658F1A9D5BA3000CC53A /* KLEExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037658E1A9D5BA3000CC53A /* KLEExercise.m */; };
 		503765951A9D5BA4000CC53A /* KLEExerciseGoal.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765941A9D5BA4000CC53A /* KLEExerciseGoal.m */; };
 		503765981A9D5BA4000CC53A /* KLERoutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765971A9D5BA4000CC53A /* KLERoutine.m */; };
@@ -96,6 +103,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		502E2E761AA319CB0083BDEA /* DateTools.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DateTools.bundle; sourceTree = "<group>"; };
+		502E2E771AA319CB0083BDEA /* DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTools.h; sourceTree = "<group>"; };
+		502E2E781AA319CB0083BDEA /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
+		502E2E791AA319CB0083BDEA /* DTError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTError.h; sourceTree = "<group>"; };
+		502E2E7A1AA319CB0083BDEA /* DTError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTError.m; sourceTree = "<group>"; };
+		502E2E7B1AA319CB0083BDEA /* DTTimePeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriod.h; sourceTree = "<group>"; };
+		502E2E7C1AA319CB0083BDEA /* DTTimePeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriod.m; sourceTree = "<group>"; };
+		502E2E7D1AA319CB0083BDEA /* DTTimePeriodChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriodChain.h; sourceTree = "<group>"; };
+		502E2E7E1AA319CB0083BDEA /* DTTimePeriodChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodChain.m; sourceTree = "<group>"; };
+		502E2E7F1AA319CB0083BDEA /* DTTimePeriodCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriodCollection.h; sourceTree = "<group>"; };
+		502E2E801AA319CB0083BDEA /* DTTimePeriodCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodCollection.m; sourceTree = "<group>"; };
+		502E2E811AA319CB0083BDEA /* DTTimePeriodGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTTimePeriodGroup.h; sourceTree = "<group>"; };
+		502E2E821AA319CB0083BDEA /* DTTimePeriodGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodGroup.m; sourceTree = "<group>"; };
+		502E2E831AA319CB0083BDEA /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
+		502E2E841AA319CB0083BDEA /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
 		5037658D1A9D5BA3000CC53A /* KLEExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExercise.h; sourceTree = "<group>"; };
 		5037658E1A9D5BA3000CC53A /* KLEExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExercise.m; sourceTree = "<group>"; };
 		503765931A9D5BA4000CC53A /* KLEExerciseGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExerciseGoal.h; sourceTree = "<group>"; };
@@ -252,6 +274,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		502E2E751AA319CB0083BDEA /* DateTools */ = {
+			isa = PBXGroup;
+			children = (
+				502E2E761AA319CB0083BDEA /* DateTools.bundle */,
+				502E2E771AA319CB0083BDEA /* DateTools.h */,
+				502E2E781AA319CB0083BDEA /* DTConstants.h */,
+				502E2E791AA319CB0083BDEA /* DTError.h */,
+				502E2E7A1AA319CB0083BDEA /* DTError.m */,
+				502E2E7B1AA319CB0083BDEA /* DTTimePeriod.h */,
+				502E2E7C1AA319CB0083BDEA /* DTTimePeriod.m */,
+				502E2E7D1AA319CB0083BDEA /* DTTimePeriodChain.h */,
+				502E2E7E1AA319CB0083BDEA /* DTTimePeriodChain.m */,
+				502E2E7F1AA319CB0083BDEA /* DTTimePeriodCollection.h */,
+				502E2E801AA319CB0083BDEA /* DTTimePeriodCollection.m */,
+				502E2E811AA319CB0083BDEA /* DTTimePeriodGroup.h */,
+				502E2E821AA319CB0083BDEA /* DTTimePeriodGroup.m */,
+				502E2E831AA319CB0083BDEA /* NSDate+DateTools.h */,
+				502E2E841AA319CB0083BDEA /* NSDate+DateTools.m */,
+			);
+			path = DateTools;
+			sourceTree = "<group>";
+		};
 		5057D62B1A0D963300CF99C0 /* Generic Core Data Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +412,7 @@
 				50B302191A66E82300E98222 /* KLEContainerViewController.m */,
 				5057D62319F8CB5500CF99C0 /* NSIndexPathUtilities.h */,
 				5057D62419F8CB5500CF99C0 /* NSIndexPathUtilities.m */,
+				502E2E751AA319CB0083BDEA /* DateTools */,
 				50F9AC831A9E64C1005B8047 /* Graph */,
 				50F498441A70BD73007424C0 /* Pickers */,
 				50AC0B4419B5750700E39A7E /* Porsche_logo.png */,
@@ -563,6 +608,7 @@
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
 				50EBE34A1A29908200D33448 /* KLETableHeaderView.xib in Resources */,
+				502E2E851AA319CB0083BDEA /* DateTools.bundle in Resources */,
 				50F9AC971A9E79B9005B8047 /* KLEGraphView.xib in Resources */,
 				5057D6B91A0F5AAA00CF99C0 /* exercises.xml in Resources */,
 				5075308D1A78A79F0006C08D /* weightlift.png in Resources */,
@@ -603,6 +649,7 @@
 				5057D6BC1A0F603100CF99C0 /* CoreDataImporter.m in Sources */,
 				5057D62019F781B900CF99C0 /* KLEActionCell.m in Sources */,
 				507530861A7834F00006C08D /* KLEHistoryTableViewCell.m in Sources */,
+				502E2E8B1AA319CB0083BDEA /* NSDate+DateTools.m in Sources */,
 				50DD4CCF19C22EC100A3E6E5 /* KLEExerciseListViewController.m in Sources */,
 				507530821A782E8C0006C08D /* KLEHistoryViewController.m in Sources */,
 				50F4985E1A70BD73007424C0 /* SWActionSheet.m in Sources */,
@@ -620,20 +667,25 @@
 				50F9AC8E1A9E64C1005B8047 /* BEMPermanentPopupView.m in Sources */,
 				503765951A9D5BA4000CC53A /* KLEExerciseGoal.m in Sources */,
 				50A9C3E71A99817F00640051 /* KLERoundButton.m in Sources */,
+				502E2E871AA319CB0083BDEA /* DTTimePeriod.m in Sources */,
 				5057D6B71A0DF6D400CF99C0 /* GymBro.xcdatamodeld in Sources */,
 				50F4985A1A70BD73007424C0 /* ActionSheetDistancePicker.m in Sources */,
 				50F4985D1A70BD73007424C0 /* DistancePickerView.m in Sources */,
+				502E2E861AA319CB0083BDEA /* DTError.m in Sources */,
 				50AC0B1A19B52C8500E39A7E /* main.m in Sources */,
 				50F498591A70BD73007424C0 /* ActionSheetDatePicker.m in Sources */,
 				50F498571A70BD73007424C0 /* AbstractActionSheetPicker.m in Sources */,
 				50DD4CC719BE3CA600A3E6E5 /* KLERoutineViewController.m in Sources */,
 				5037658F1A9D5BA3000CC53A /* KLEExercise.m in Sources */,
+				502E2E891AA319CB0083BDEA /* DTTimePeriodCollection.m in Sources */,
 				50F9AC8D1A9E64C1005B8047 /* BEMLine.m in Sources */,
 				50A9C3DF1A98A35D00640051 /* KLEWorkoutExerciseViewController.m in Sources */,
 				50DD4CDE19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m in Sources */,
+				502E2E8A1AA319CB0083BDEA /* DTTimePeriodGroup.m in Sources */,
 				5057D62E1A0D96CC00CF99C0 /* CoreDataHelper.m in Sources */,
 				50B3021A1A66E82300E98222 /* KLEContainerViewController.m in Sources */,
 				50F498581A70BD73007424C0 /* ActionSheetCustomPicker.m in Sources */,
+				502E2E881AA319CB0083BDEA /* DTTimePeriodChain.m in Sources */,
 				50DE6BA11A948324006713BE /* KLERepsButton.m in Sources */,
 				503765981A9D5BA4000CC53A /* KLERoutine.m in Sources */,
 				50AC0B1E19B52C8500E39A7E /* KLEAppDelegate.m in Sources */,

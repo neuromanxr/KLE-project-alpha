@@ -24,6 +24,7 @@
 @property (nonatomic, copy) NSMutableArray *dateCompletedArray;
 @property (nonatomic, copy) NSMutableArray *maxWeightArray;
 @property (nonatomic, copy) NSMutableArray *exerciseNameArray;
+@property (nonatomic, copy) NSMutableArray *routineNameArray;
 
 @end
 
@@ -52,9 +53,12 @@
 {
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KLEExerciseCompleted"];
-    fetchRequest.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO], nil];
+    fetchRequest.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:NO], nil];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:cdh.context sectionNameKeyPath:nil cacheName:nil];
     [_fetchedResultsController setDelegate:self];
+    
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted > %@ AND datecompleted < %@", firstRecordDate, twoWeeksAfterFirst];
+//    [request setPredicate:predicate];
     
     NSError *error = nil;
     [_fetchedResultsController performFetch:&error];
@@ -111,17 +115,19 @@
 {
     // x points
     // Dates
-    _maxWeightArray = [[NSMutableArray alloc] init];
-    _dateCompletedArray = [[NSMutableArray alloc] init];
-    _exerciseNameArray = [[NSMutableArray alloc] init];
+    _maxWeightArray = [NSMutableArray new];
+    _dateCompletedArray = [NSMutableArray new];
+    _exerciseNameArray = [NSMutableArray new];
+    _routineNameArray = [NSMutableArray new];
     NSArray *exerciseCompletedArray = [_fetchedResultsController fetchedObjects];
     
     for (KLEExerciseCompleted *exerciseCompleted in exerciseCompletedArray) {
         
         NSLog(@"EXERCISE REPS WEIGHT ARRAY %@",exerciseCompleted.maxweight);
-        NSString *dateCompleted = [self dateCompleted:exerciseCompleted.datecompleted];
+        NSString *dateCompleted = [self setDateCompletedString:exerciseCompleted.datecompleted];
 //        NSString *setsCompleted = [NSString stringWithFormat:@"%lu", [exerciseCompleted.setscompleted integerValue]];
         [_exerciseNameArray addObject:exerciseCompleted.exercisename];
+        [_routineNameArray addObject:exerciseCompleted.routinename];
         [_dateCompletedArray addObject:dateCompleted];
         [_maxWeightArray addObject:exerciseCompleted.maxweight];
 
@@ -153,7 +159,7 @@
 {
     NSLog(@"DID TOUCH GRAPH");
     
-    _detailStreamLabel.text = [NSString stringWithFormat:@"%@", _exerciseNameArray[index]];
+    _detailStreamLabel.text = [NSString stringWithFormat:@"%@ / %@", _exerciseNameArray[index], _routineNameArray[index]];
     _dateLabel.text = [NSString stringWithFormat:@"%@", _dateCompletedArray[index]];
 }
 
@@ -225,7 +231,7 @@
     }
 }
 
-- (NSString *)dateCompleted:(NSDate *)dateCompleted
+- (NSString *)setDateCompletedString:(NSDate *)dateCompleted
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateStyle:NSDateFormatterShortStyle];
