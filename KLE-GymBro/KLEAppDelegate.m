@@ -8,7 +8,6 @@
 
 #import "KLEExercise.h"
 
-#import "KLEGraphViewController.h"
 #import "KLEHistoryViewController.h"
 #import "KLEContainerViewController.h"
 #import "KLERoutineExercisesViewController.h"
@@ -134,16 +133,9 @@
     UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
     UITabBarItem *htbi = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
     hvc.tabBarItem = htbi;
-    
-    KLEGraphViewController *gvc = [[KLEGraphViewController alloc] init];
-    UINavigationController *gvcNav = [[UINavigationController alloc] initWithRootViewController:gvc];
-    
-    UIImage *graphTabBarImage = [UIImage imageNamed:@"menu.png"];
-    UITabBarItem *gtbi = [[UITabBarItem alloc] initWithTitle:nil image:graphTabBarImage tag:2];
-    gvc.tabBarItem = gtbi;
 
     UITabBarController *tbc = [[UITabBarController alloc] init];
-    tbc.viewControllers = @[dvcNav, cvc, hvcNav, gvcNav];
+    tbc.viewControllers = @[dvcNav, cvc, hvcNav];
     
     self.window.rootViewController = tbc;
     

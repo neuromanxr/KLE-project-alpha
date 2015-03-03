@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "DateTools.h"
 #import "KLEExerciseCompleted.h"
 #import "KLEAppDelegate.h"
 #import "KLEGraphViewController.h"
@@ -34,14 +35,48 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureFetchGraphData) name:@"SomethingChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureFetchGraphData:withExercise:) name:@"SomethingChanged" object:nil];
     
-    [self configureFetchGraphData];
+    _exerciseCompletedStepper.value = 0;
+    _exerciseCompletedStepper.maximumValue = [_exercisesFromHistory count] - 1;
+    _exerciseCompletedStepper.minimumValue = 0;
+    _exerciseCompletedStepperLabel.text = [_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value];
+    
+    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
     
     [self configureGraphView];
     
-    _exerciseCompletedStepper.value = 0;
+    UINavigationItem *navItem = self.navigationItem;
+    // title for hvc
+    navItem.title = @"Graph";
     
+    // button to add exercises
+    UIBarButtonItem *dateRangeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(changeDateRange)];
+    
+    UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissGraphView)];
+    
+    // set the button to be the left nav button of the nav item
+    navItem.leftBarButtonItem = dateRangeButton;
+    
+    navItem.rightBarButtonItem = dismissButton;
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"** VIEW DID APPEAR");
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    _maxWeightArray = nil;
+    _dateCompletedArray = nil;
+    _exerciseNameArray = nil;
+    _routineNameArray = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,16 +84,28 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)configureFetchGraphData
+- (void)dismissGraphView
 {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)configureFetchGraphData:(KLEDateRangeMode)dateRange withExercise:(NSString *)exercise
+{
+    NSLog(@"DATE RANGE MODE %lu", dateRange);
+    NSLog(@"EXERCISE PARAMETER %@", exercise);
+    
+    NSDate *dateToCompare = [self setDateToCompare:dateRange];
+    
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KLEExerciseCompleted"];
-    fetchRequest.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:NO], nil];
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO];
+    NSSortDescriptor *sortByExercise = [NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:NO];
+    fetchRequest.sortDescriptors = @[sortByExercise, sortByDate];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:cdh.context sectionNameKeyPath:nil cacheName:nil];
     [_fetchedResultsController setDelegate:self];
     
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted > %@ AND datecompleted < %@", firstRecordDate, twoWeeksAfterFirst];
-//    [request setPredicate:predicate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted >= %@ AND exercisename == %@", dateToCompare, exercise];
+    [fetchRequest setPredicate:predicate];
     
     NSError *error = nil;
     [_fetchedResultsController performFetch:&error];
@@ -67,6 +114,139 @@
     }
     
     NSLog(@"FETCHED RESULTS %@", [[_fetchedResultsController fetchedObjects] componentsJoinedByString:@"-"]);
+    
+//    for (id<NSFetchedResultsSectionInfo> sectionInfo in [self.fetchedResultsController sections]) {
+//        NSLog(@" SECTION %@", [sectionInfo name]);
+//    }
+}
+
+- (NSDate *)fetchFirstRecordDate
+{
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
+    NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:YES];
+    request.sortDescriptors = @[sortByDate];
+    request.fetchLimit = 1;
+    
+    NSError *error = nil;
+    NSArray *requestArray = [cdh.context executeFetchRequest:request error:&error];
+    if (error) {
+        NSLog(@"Unable to perform fetch %@, %@", error, error.localizedDescription);
+    }
+    KLEExerciseCompleted *firstRecord = [requestArray firstObject];
+    NSLog(@"FIRST RECORD REQUEST %@ : %@ : %@", firstRecord.datecompleted, firstRecord.exercisename, firstRecord.maxweight);
+    
+    return firstRecord.datecompleted;
+}
+
+- (NSDate *)setDateToCompare:(KLEDateRangeMode)dateRange
+{
+    NSDate *firstRecordDate;
+    NSDate *todaysDate;
+    
+    if (dateRange == KLEDateRangeModeAll) {
+        firstRecordDate = [self fetchFirstRecordDate];
+    }
+    else
+    {
+        todaysDate = [self todaysDate];
+    }
+    
+    NSDate *dateToCompare;
+    
+    switch (dateRange) {
+        case KLEDateRangeModeThreeMonths:
+            dateToCompare = [todaysDate dateBySubtractingMonths:3];
+            NSLog(@"THREE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeSixMonths:
+            dateToCompare = [todaysDate dateBySubtractingMonths:6];
+            NSLog(@"SIX MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeNineMonths:
+            dateToCompare = [todaysDate dateBySubtractingMonths:9];
+            NSLog(@"NINE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeOneYear:
+            dateToCompare = [todaysDate dateBySubtractingYears:1];
+            NSLog(@"ONE YEAR AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
+        case KLEDateRangeModeAll:
+            dateToCompare = firstRecordDate;
+            NSLog(@"ALL DATES");
+            break;
+        default:
+            break;
+    }
+    return dateToCompare;
+}
+
+- (NSDate *)todaysDate
+{
+    // date from current calendar
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSLog(@" ## TIMEZONE %@", [calendar timeZone]);
+    NSDate *todaysDate = [NSDate date];
+    // date components with month, day, year, hour and minute
+    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:todaysDate];
+    
+    // todays date
+    NSDate *todaysDateWithComponents = [calendar dateFromComponents:components];
+    
+    // date format and time zone for string
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    [formatter setDateFormat:@"MM-dd-yy HH:mm"];
+    
+    NSLog(@"## TODAY'S DATE %@", [formatter stringFromDate:todaysDateWithComponents]);
+    
+    return todaysDateWithComponents;
+}
+
+- (void)changeDateRange
+{
+    NSLog(@"Change Date Range");
+    
+    UIAlertController *dateRangeActionSheet = [UIAlertController alertControllerWithTitle:@"Date Range" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *setRangeToThreeMonths = [UIAlertAction actionWithTitle:@"3 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 3 MONTHS");
+        [self configureFetchGraphData:KLEDateRangeModeThreeMonths withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self reloadGraph];
+        
+    }];
+    UIAlertAction *setRangeToSixMonths = [UIAlertAction actionWithTitle:@"6 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 6 MONTHS");
+        [self configureFetchGraphData:KLEDateRangeModeSixMonths withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self reloadGraph];
+    }];
+    UIAlertAction *setRangeToNineMonths = [UIAlertAction actionWithTitle:@"9 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 9 MONTHS");
+        [self configureFetchGraphData:KLEDateRangeModeNineMonths withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self reloadGraph];
+    }];
+    UIAlertAction *setRangeToOneYear = [UIAlertAction actionWithTitle:@"1 Year" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 1 YEAR");
+        [self configureFetchGraphData:KLEDateRangeModeOneYear withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self reloadGraph];
+    }];
+    UIAlertAction *setRangeToAll = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO ALL");
+        [self configureFetchGraphData:KLEDateRangeModeAll withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self reloadGraph];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO CANCEL");
+    }];
+    
+    [dateRangeActionSheet addAction:setRangeToThreeMonths];
+    [dateRangeActionSheet addAction:setRangeToSixMonths];
+    [dateRangeActionSheet addAction:setRangeToNineMonths];
+    [dateRangeActionSheet addAction:setRangeToOneYear];
+    [dateRangeActionSheet addAction:setRangeToAll];
+    [dateRangeActionSheet addAction:cancelAction];
+    
+    [self presentViewController:dateRangeActionSheet animated:YES completion:nil];
 }
 
 - (void)configureGraphView
@@ -74,6 +254,7 @@
     _graphView.dataSource = self;
     _graphView.delegate = self;
     _graphView.widthLine = 3.0;
+    _graphView.widthTouchInputLine = 5.0;
     _graphView.alwaysDisplayDots = NO;
     _graphView.alwaysDisplayPopUpLabels = NO;
     _graphView.enableReferenceAxisFrame = YES;
@@ -124,8 +305,9 @@
     for (KLEExerciseCompleted *exerciseCompleted in exerciseCompletedArray) {
         
         NSLog(@"EXERCISE REPS WEIGHT ARRAY %@",exerciseCompleted.maxweight);
+        
         NSString *dateCompleted = [self setDateCompletedString:exerciseCompleted.datecompleted];
-//        NSString *setsCompleted = [NSString stringWithFormat:@"%lu", [exerciseCompleted.setscompleted integerValue]];
+
         [_exerciseNameArray addObject:exerciseCompleted.exercisename];
         [_routineNameArray addObject:exerciseCompleted.routinename];
         [_dateCompletedArray addObject:dateCompleted];
@@ -207,14 +389,14 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             NSLog(@"INSERT");
-            [self configureFetchGraphData];
+            [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
             [self reloadGraph];
             // insert
             break;
         case NSFetchedResultsChangeDelete:
             // delete
             NSLog(@"DELETE");
-            [self configureFetchGraphData];
+            [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
             [self reloadGraph];
             break;
         case NSFetchedResultsChangeUpdate:
@@ -253,6 +435,9 @@
 
 - (IBAction)exerciseCompletedStepperAction:(id)sender
 {
-    _exerciseCompletedStepperLabel.text = [NSString stringWithFormat:@"%.f", _exerciseCompletedStepper.value];
+    _exerciseCompletedStepperLabel.text = [_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value];
+    NSLog(@"EXERCISE STEPPER %@", [_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]);
+    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+    [self reloadGraph];
 }
 @end

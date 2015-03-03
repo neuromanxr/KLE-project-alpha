@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "DateTools.h"
 #import "KLEExercise.h"
 #import "KLERoutine.h"
@@ -14,21 +15,15 @@
 #import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
 #import "KLEHistoryViewController.h"
+#import "KLEGraphViewController.h"
 
 #define kDateCompleted [NSString stringWithString:@"datecompleted"];
 #define kRoutineName [NSString stringWithString:@"routinename"];
 #define kExerciseName [NSString stringWithString:@"exercisename"];
 
-typedef NS_ENUM(NSInteger, KLEDateRangeMode)
-{
-    KLEDateRangeModeThreeMonths,
-    KLEDateRangeModeSixMonths,
-    KLEDateRangeModeNineMonths,
-    KLEDateRangeModeOneYear,
-    KLEDateRangeModeAll
-};
-
 @interface KLEHistoryViewController ()
+
+@property (nonatomic, assign) KLEDateRangeMode currentDateRangeMode;
 
 @end
 
@@ -48,6 +43,7 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
 //    
 //    NSLog(@"TWO WEEKS DATE: %@ DATE TOOLS: %@", twoWeeksAfterFirst, twoWeeksAfterFirstUsingTools);
 //    NSLog(@"THREE MONTHS AGO DATE TOOLS: %@", threeMonthsBeforeToday);
+    
     NSLog(@"DATE RANGE MODE %lu", dateRange);
     
     NSDate *dateToCompare = [self setDateToCompare:dateRange];
@@ -55,10 +51,8 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO];
-//    NSSortDescriptor *sortByRoutine = [NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES];
     request.sortDescriptors = @[sortByDate];
 
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted > %@ AND datecompleted < %@", firstRecordDate, twoWeeksAfterFirst];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted >= %@", dateToCompare];
     [request setPredicate:predicate];
     
@@ -86,6 +80,21 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
     return firstRecord.datecompleted;
 }
 
+- (NSArray *)exerciseArray
+{
+    NSMutableOrderedSet *exercises = [NSMutableOrderedSet new];
+    
+    for (KLEExerciseCompleted *exerciseCompleted in [self.frc fetchedObjects]) {
+        [exercises addObject:exerciseCompleted.exercisename];
+    }
+    
+    NSArray *exerciseHistoryArray = [[NSOrderedSet orderedSetWithOrderedSet:exercises] array];
+    
+    NSLog(@"HISTORY EXERCISES %@", exerciseHistoryArray);
+    
+    return exerciseHistoryArray;
+}
+
 - (instancetype)init
 {
     self = [super initWithStyle:UITableViewStylePlain];
@@ -98,8 +107,12 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
         // button to add exercises
         UIBarButtonItem *dateRangeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(changeDateRange)];
         
+        UIBarButtonItem *graphViewButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showGraphView)];
+        
         // set the button to be the left nav button of the nav item
         navItem.leftBarButtonItem = dateRangeButton;
+        
+        navItem.rightBarButtonItem = graphViewButton;
         
     }
     
@@ -109,6 +122,14 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (void)showGraphView
+{
+    KLEGraphViewController *graphViewController = [KLEGraphViewController new];
+    graphViewController.dateRangeMode = _currentDateRangeMode;
+    graphViewController.exercisesFromHistory = [self exerciseArray];
+    [self.navigationController pushViewController:graphViewController animated:YES];
 }
 
 - (NSDate *)setDateToCompare:(KLEDateRangeMode)dateRange
@@ -161,26 +182,31 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
     
     UIAlertAction *setRangeToThreeMonths = [UIAlertAction actionWithTitle:@"3 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 3 MONTHS");
+        _currentDateRangeMode = KLEDateRangeModeThreeMonths;
         [self configureFetch:KLEDateRangeModeThreeMonths];
         [self performFetch];
     }];
     UIAlertAction *setRangeToSixMonths = [UIAlertAction actionWithTitle:@"6 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 6 MONTHS");
+        _currentDateRangeMode = KLEDateRangeModeSixMonths;
         [self configureFetch:KLEDateRangeModeSixMonths];
         [self performFetch];
     }];
     UIAlertAction *setRangeToNineMonths = [UIAlertAction actionWithTitle:@"9 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 9 MONTHS");
+        _currentDateRangeMode = KLEDateRangeModeNineMonths;
         [self configureFetch:KLEDateRangeModeNineMonths];
         [self performFetch];
     }];
     UIAlertAction *setRangeToOneYear = [UIAlertAction actionWithTitle:@"1 Year" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 1 YEAR");
+        _currentDateRangeMode = KLEDateRangeModeOneYear;
         [self configureFetch:KLEDateRangeModeOneYear];
         [self performFetch];
     }];
     UIAlertAction *setRangeToAll = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO ALL");
+        _currentDateRangeMode = KLEDateRangeModeAll;
         [self configureFetch:KLEDateRangeModeAll];
         [self performFetch];
     }];

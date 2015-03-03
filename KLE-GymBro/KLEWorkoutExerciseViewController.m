@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "DateTools.h"
 #import "KLEAppDelegate.h"
 #import "CoreDataTableViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
@@ -64,6 +65,28 @@
     
 }
 
+- (NSDate *)todaysDate
+{
+    // date from current calendar
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSLog(@" ## TIMEZONE %@", [calendar timeZone]);
+    NSDate *todaysDate = [NSDate date];
+    // date components with month, day, year, hour and minute
+    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:todaysDate];
+    
+    // todays date
+    NSDate *todaysDateWithComponents = [calendar dateFromComponents:components];
+    
+    // date format and time zone for string
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    formatter.timeZone = [NSTimeZone localTimeZone];
+    [formatter setDateFormat:@"MM-dd-yy HH:mm"];
+    
+    NSLog(@"## TODAY'S DATE %@", [formatter stringFromDate:todaysDateWithComponents]);
+    
+    return todaysDateWithComponents;
+}
+
 - (void)finishWorkout
 {
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
@@ -78,17 +101,21 @@
     // get the array then get the max weight
     NSArray *repsWeightArray = [NSArray arrayWithArray:_currentRepsWeightArray];
     NSMutableArray *weightArray = [[NSMutableArray alloc] init];
-    for (NSString *weight in repsWeightArray) {
-        [weightArray addObject:[[weight componentsSeparatedByString:@" "] lastObject]];
+    for (NSString *weightString in repsWeightArray) {
+        NSNumber *weightNumber = [NSNumber numberWithFloat:[[[weightString componentsSeparatedByString:@" "] lastObject] floatValue]];
+        [weightArray addObject:weightNumber];
     }
-    CGFloat maxWeight = [[weightArray valueForKeyPath:@"@max.self"] floatValue];
-    NSLog(@"MAX WEIGHT %.2f", maxWeight);
+    NSNumber *maxInWeightArray = [weightArray valueForKeyPath:@"@max.self"];
+    NSLog(@"MAX WEIGHT %@", maxInWeightArray);
     
-    exerciseCompleted.maxweight = [NSNumber numberWithFloat:maxWeight];
+    // date range test
+    NSDate *dateTest = [[NSDate date] dateBySubtractingMonths:12];
+    NSLog(@"NSDATE IN FINISH WORKOUT %@", [self todaysDate]);
+    exerciseCompleted.maxweight = maxInWeightArray;
     exerciseCompleted.setscompleted = [NSNumber numberWithInteger:_currentSet];
     exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
     exerciseCompleted.routinename = exerciseGoal.routine.routinename;
-    exerciseCompleted.datecompleted = [NSDate date];
+    exerciseCompleted.datecompleted = [self todaysDate];
     
     _currentRepsWeightArray = nil;
     

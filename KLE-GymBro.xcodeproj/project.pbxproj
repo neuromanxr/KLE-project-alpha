@@ -118,6 +118,7 @@
 		502E2E821AA319CB0083BDEA /* DTTimePeriodGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTTimePeriodGroup.m; sourceTree = "<group>"; };
 		502E2E831AA319CB0083BDEA /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		502E2E841AA319CB0083BDEA /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
+		502E2E8C1AA62DFD0083BDEA /* KLEUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEUtility.h; sourceTree = "<group>"; };
 		5037658D1A9D5BA3000CC53A /* KLEExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExercise.h; sourceTree = "<group>"; };
 		5037658E1A9D5BA3000CC53A /* KLEExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExercise.m; sourceTree = "<group>"; };
 		503765931A9D5BA4000CC53A /* KLEExerciseGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExerciseGoal.h; sourceTree = "<group>"; };
@@ -354,6 +355,7 @@
 				50F9AC931A9E7999005B8047 /* KLEGraphView.h */,
 				50F9AC941A9E7999005B8047 /* KLEGraphView.m */,
 				50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */,
+				502E2E8C1AA62DFD0083BDEA /* KLEUtility.h */,
 				50F9AC901A9E6699005B8047 /* KLEGraphViewController.h */,
 				50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */,
 				507530801A782E8C0006C08D /* KLEHistoryViewController.h */,
