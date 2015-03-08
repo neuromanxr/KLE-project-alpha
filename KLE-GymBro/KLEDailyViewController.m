@@ -14,6 +14,7 @@
 #import "KLERoutine.h"
 #import "KLEAppDelegate.h"
 
+#import "DateTools.h"
 #import "NSIndexPathUtilities.h"
 #import "KLEActionCell.h"
 #import "KLEDailyViewCell.h"
@@ -33,16 +34,14 @@
 // can remove splitviewcontroller delegate
 @interface KLEDailyViewController () <UISplitViewControllerDelegate>
 
-{
-    NSArray *daysArray;
-    NSArray *datesArray;
+
+@property (nonatomic, copy) NSArray *daysArray;
+@property (nonatomic, copy) NSArray *datesArray;
     
-    NSInteger selectedIndex;
-    NSInteger indexInActionRowPaths;
-    NSUInteger rowCountBySection;
-    
-    NSUInteger currentSet;
-}
+@property (nonatomic, assign) NSInteger selectedIndex;
+@property (nonatomic, assign) NSInteger indexInActionRowPaths;
+@property (nonatomic, assign) NSUInteger rowCountBySection;
+@property (nonatomic, assign) NSUInteger currentSet;
 
 @property (nonatomic, strong) KLEContainerViewController *containerViewController;
 @property (nonatomic, strong) NSString *todaysDate;
@@ -84,6 +83,7 @@
         UITabBarItem *tbi = [self tabBarItem];
         UIImage *tabBarImage = [UIImage imageNamed:@"weightlift.png"];
         tbi.image = tabBarImage;
+        
         // button to edit routine
 //        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
@@ -148,7 +148,6 @@
         }
     } else {
         NSLog(@"There's no exercises in this routine");
-//        self.editButton.enabled = YES;
     }
     
     return indexPathsForExercises;
@@ -183,7 +182,7 @@
 //        return COMMENT_LABEL_MIN_HEIGHT + COMMENT_LABEL_PADDING * 2;
 //    }
 
-    if (selectedIndex == indexPath.row) {
+    if (_selectedIndex == indexPath.row) {
         return 30;
     } else {
         return 70;
@@ -217,29 +216,29 @@
     NSUInteger actionRowsCount = 0;
     NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
     NSIndexPath *actionRow;
-    rowCountBySection = 0;
+    _rowCountBySection = 0;
     NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
     if ([self.actionRowPaths count]) {
         actionRowsCount = [self.actionRowPaths count];
         while (actionRow = [enumerator nextObject]) {
             NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
             if (actionRow.section == section) {
-                rowCountBySection = routinesCount + actionRowsCount;
+                _rowCountBySection = routinesCount + actionRowsCount;
             } else {
-                rowCountBySection = routinesCount;
+                _rowCountBySection = routinesCount;
             }
         }
     } else {
-        rowCountBySection = routinesCount;
-        NSLog(@"rowCountBySection ELSE %lu", rowCountBySection);
+        _rowCountBySection = routinesCount;
+        NSLog(@"rowCountBySection ELSE %lu", _rowCountBySection);
     }
     
-    return rowCountBySection;
+    return _rowCountBySection;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [daysArray count];
+    return [_daysArray count];
 }
 
 #pragma mark HEADER VIEW
@@ -250,8 +249,8 @@
                                   owner:self
                                 options:nil];
 
-    self.headerDayLabel.text = daysArray[section];
-    self.headerDateLabel.text = datesArray[section];
+    self.headerDayLabel.text = _daysArray[section];
+    self.headerDateLabel.text = _datesArray[section];
     
     return _dailyHeaderView;
 }
@@ -292,11 +291,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // can delete
-//    if ([self.workoutButtonDelegate isWorkoutInProgress]) {
-//        NSLog(@"ACTION ROWS LOCKED");
-//        return;
-//    }
     
     NSLog(@"didSelectRowAtIndexPath row %lu and section %lu", indexPath.row, indexPath.section);
     
@@ -315,35 +309,45 @@
         pathsToDelete = self.actionRowPaths;
         self.actionRowPaths = nil;
         [self deselect];
-//        self.editButton.enabled = YES;
         
     // case: when an action row is already expanded and you click a different action row
     } else if ([self.actionRowPaths count]) {
         
         // move action cell
         NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
+        
         pathsToDelete = self.actionRowPaths;
         
         NSIndexPath *newActionRowPath;
         NSIndexPath *actionRowPath = [self.actionRowPaths lastObject];
+        
+        // is the selected index before or after current action rows?
         BOOL before = [indexPath before:actionRowPath];
         
         NSUInteger routineIndex = actionRowPath.row;
         NSUInteger startIndexAtOne = newActionRowPath.row;
-        NSLog(@"startIndexAtOne %lu", startIndexAtOne);
+        NSLog(@"startIndexAtOne %lu routineIndex %lu", startIndexAtOne, routineIndex);
         
         // case: when the selected indexPath is before the action rows
         if (before) {
+            
             self.didSelectRowAtIndexPath = indexPath;
+            
             // case: when the selected indexPath is in the same section
             if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
+                
                 NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
+                
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath.next;
+                
             // case: when the selected indexPath is not in the same section
             } else {
+                
                 actionRowPath = indexPath;
-                newActionRowPath = indexPath;
+                newActionRowPath = indexPath.next;
+                NSLog(@"new Action Row Path %lu : action Row Path %lu", newActionRowPath.row, actionRowPath.row);
+                
             }
             
             routineIndex = actionRowPath.row;
@@ -352,21 +356,28 @@
         
         // case: when the selected indexPath is after the action rows
         } else {
+            
             // this indexPath is for exercises in the action rows
             NSIndexPath *adjustedIndexPath;
+            
             // the row selected is after the action row plus the expanded rows
-            // when action row that is selected below the already expanded action row, the daily routine index has to be the routine that was selected (where the routine is in daily store) and the action row start index has to be the index after the routine index
+            
+            /* when action row that is selected below the already expanded action row, the daily routine index has to be the routine that was selected (where the routine is in daily store) and the action row start index has to be the index after the routine index */
+            
             // have to account for the expanded rows above, so subtract the count of actionRowPaths
             if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
+                
                 NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
                 actionRowPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
                 newActionRowPath = [NSIndexPath indexPathForRow:(indexPath.next.row - [self.actionRowPaths count]) inSection:indexPath.section];
                 adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
                 self.didSelectRowAtIndexPath = adjustedIndexPath;
+                
             } else {
+                
                 actionRowPath = indexPath;
-                newActionRowPath = indexPath;
-                adjustedIndexPath = indexPath;
+                newActionRowPath = indexPath.next;
+//                adjustedIndexPath = nil;
                 self.didSelectRowAtIndexPath = indexPath;
             }
             
@@ -380,27 +391,18 @@
         self.actionRowPaths = indexPathsForExercises;
         
     } else {
+        
         // case: action row tapped
         self.didSelectRowAtIndexPath = indexPath;
 
         NSUInteger startIndexAtOne = indexPath.next.row;
         NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
-        // disable edit button when action row appears
-//        self.editButton.enabled = NO;
-        
         NSArray *indexPathsForExercises = [self createActionRowPathsFromRoutineIndex:indexPath.row startIndex:startIndexAtOne atIndexPath:indexPath];
 
         pathsToAdd = indexPathsForExercises;
         self.actionRowPaths = indexPathsForExercises;
     }
-    
-    // can delete
-//    if ([self.actionRowPaths count]) {
-//        [self.tabBarController.tabBar setHidden:YES];
-//    } else {
-//        [self.tabBarController.tabBar setHidden:NO];
-//    }
     
     [self updateTableActionRowPathsToDelete:pathsToDelete pathsToAdd:pathsToAdd];
 }
@@ -409,28 +411,30 @@
 {
     // case: test if there are actionRowPaths and match the indexPath with the actionRowPath and set the indexInActionRowPaths. actionRowPath starts after the normal cell
     if ([self.actionRowPaths count]) {
+        
         // is the indexPath being shown in actionRowPaths? if so set the indexInActionRowPaths to be the action row that matches indexPath
         if ([self.actionRowPaths containsObject:indexPath]) {
-            indexInActionRowPaths = [self.actionRowPaths indexOfObject:indexPath];
+            _indexInActionRowPaths = [self.actionRowPaths indexOfObject:indexPath];
         } else {
-            indexInActionRowPaths = -1;
+            _indexInActionRowPaths = -1;
         }
         
-        NSLog(@"indexInActionRowPaths %ld", (long)indexInActionRowPaths);
+        NSLog(@"indexInActionRowPaths %ld", (long)_indexInActionRowPaths);
     } else {
-        indexInActionRowPaths = -1;
+        _indexInActionRowPaths = -1;
     }
+    
     // case: action rows will be displayed for the indexPaths that equal to the indexPaths in actionRowPaths
-    if ((indexInActionRowPaths >= 0) && [self.actionRowPaths[indexInActionRowPaths] isEqual:indexPath]) {
-        NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[indexInActionRowPaths] row], indexPath.row);
-        NSLog(@"indexInActionRowPaths in action %lu", indexInActionRowPaths);
+    if ((_indexInActionRowPaths >= 0) && [self.actionRowPaths[_indexInActionRowPaths] isEqual:indexPath]) {
+        NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[_indexInActionRowPaths] row], indexPath.row);
+        NSLog(@"indexInActionRowPaths in action %lu", _indexInActionRowPaths);
 
         // action row
         KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
         
         NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
         
-        NSUInteger startIndexForExerises = indexInActionRowPaths;
+        NSUInteger startIndexForExerises = _indexInActionRowPaths;
         
         // get the routine in the daily view from the selected index
         KLERoutine *routine = [routineObjects objectAtIndex:self.didSelectRowAtIndexPath.row];
@@ -449,6 +453,7 @@
         return actionCell;
         
     } else {
+        
         // normal cell
         KLEDailyViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEDailyViewCell" forIndexPath:indexPath];
         
@@ -483,12 +488,18 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     NSIndexPath *adjustedIndexPath = indexPath;
-    if ([[self.actionRowPaths objectAtIndex:indexPath.previous.row] isKindOfClass:[KLEExerciseGoal class]]) {
-        adjustedIndexPath = [NSIndexPath indexPathForRow:indexPath.row + [self.actionRowPaths count] inSection:indexPath.section];
+    
+    if ([[self.tableView cellForRowAtIndexPath:indexPath.previous] isKindOfClass:[KLEActionCell class]]) {
+        adjustedIndexPath = [NSIndexPath indexPathForRow:indexPath.row - [self.actionRowPaths count] inSection:indexPath.section];
+        NSLog(@"ADJUSTED INDEX ROW %lu", adjustedIndexPath.row);
+    }
+    else
+    {
+        adjustedIndexPath = indexPath;
     }
     
-    NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
-    KLERoutine *selectedRoutine = [routineObjects objectAtIndex:indexPath.row];
+    NSArray *routineObjects = [self fetchRoutinesWithIndexPath:adjustedIndexPath];
+    KLERoutine *selectedRoutine = [routineObjects objectAtIndex:adjustedIndexPath.row];
     NSLog(@"selected routine %@", selectedRoutine);
     NSManagedObjectID *selectedRoutineID = selectedRoutine.objectID;
     
@@ -497,10 +508,6 @@
     // pass the routine ID to routineExerciseViewController
     self.delegate = revc;
     [self.delegate selectedRoutineID:selectedRoutineID];
-    
-    // pass selected statStore from routine view controller to routine exercise view controller
-//    revc.selectedRoutineID = selectedRoutineID;
-//    NSLog(@"selected routine ID %@", revc.selectedRoutineID);
     
     [self.navigationController pushViewController:revc animated:YES];
 }
@@ -545,94 +552,153 @@
     UITouch *touch = [touches anyObject];
     CGPoint currentTouchPosition = [touch locationInView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    
     if (indexPath != nil) {
+        
         [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
     }
-    
 }
 
 #pragma mark DATE METHODS
+
+//- (void)startDate:(NSDate **)start andEndDate:(NSDate **)end ofWeekOn:(NSDate *)date
+//{
+//    NSDate *startDate = nil;
+//    NSTimeInterval duration = 0;
+//    BOOL b = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitWeekOfMonth startDate:&startDate interval:&duration forDate:date];
+//    if (!b) {
+//        *start = nil;
+//        *end = nil;
+//        return;
+//    }
+//    NSTimeInterval interval = 24 * 60 * 60;
+//    NSLog(@"DURATION %f", duration);
+//    NSDate *endDate = [startDate dateByAddingTimeInterval:(duration - interval)];
+//    NSLog(@"END DATE %@", endDate);
+//    *start = startDate;
+//    *end = endDate;
+//}
+
+//- (void)getDates
+//{
+//    NSDate *date = [NSDate date];
+//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//    [dateFormat setDateStyle:NSDateFormatterShortStyle];
+//    self.todaysDate = [dateFormat stringFromDate:date];
+//    NSLog(@"TODAYS DATE %@", self.todaysDate);
+//    
+//    NSDate *thisStart = nil;
+//    NSDate *thisEnd = nil;
+//    [self startDate:&thisStart andEndDate:&thisEnd ofWeekOn:[NSDate date]];
+//    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateStyle:NSDateFormatterShortStyle];
+//    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitWeekday fromDate:thisStart];
+//    NSString *dayName = stringFromWeekday((int)[components weekday]);
+//    NSLog(@"STRING FROM WEEK DAY %@", dayName);
+//    NSTimeInterval interval = 24 * 60 * 60;
+//    NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+//    for (int i = 0; i < 7; i++) {
+//        NSDate *date = [thisStart dateByAddingTimeInterval:interval * i];
+//        NSString *day = [formatter stringFromDate:date];
+//        NSLog(@"Week Day %@", day);
+//        [mutableArray addObject:day];
+//    }
+//    _datesArray = [NSArray arrayWithArray:mutableArray];
+//    
+//    // test block
+//    void (^block)(NSString *) = ^(NSString *date) {
+//        NSLog(@"BLOCK");
+//    };
+//    block(@"STRING");
+//    
+//    NSDate *lastWeekDate = [thisStart dateByAddingTimeInterval:-10];
+//    NSDate *lastStart = nil;
+//    NSDate *lastEnd = nil;
+//    [self startDate:&lastStart andEndDate:&lastEnd ofWeekOn:lastWeekDate];
+//    
+//    NSDate *nextWeekDate = [thisEnd dateByAddingTimeInterval:10 + interval];
+//    NSDate *nextStart = nil;
+//    NSDate *nextEnd = nil;
+//    [self startDate:&nextStart andEndDate:&nextEnd ofWeekOn:nextWeekDate];
+//    
+//    NSLog(@"START DAY %@ END DAY %@", thisStart, thisEnd);
+//    NSLog(@"LAST WEEK DAY %@ END DAY %@", lastStart, lastEnd);
+//    NSLog(@"NEXT WEEK DAY %@ END DAY %@", nextStart, nextEnd);
+//    
+//}
 
 - (void)startDate:(NSDate **)start andEndDate:(NSDate **)end ofWeekOn:(NSDate *)date
 {
     NSDate *startDate = nil;
     NSTimeInterval duration = 0;
-    BOOL b = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitWeekOfMonth startDate:&startDate interval:&duration forDate:date];
-    if (!b) {
+    
+    // is today's date in the week
+    BOOL isDateInWeek = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitWeekOfMonth startDate:&startDate interval:&duration forDate:date];
+    
+    if (!isDateInWeek) {
         *start = nil;
         *end = nil;
         return;
     }
-    NSTimeInterval interval = 24 * 60 * 60;
-    NSLog(@"DURATION %f", duration);
-    NSDate *endDate = [startDate dateByAddingTimeInterval:(duration - interval)];
-    NSLog(@"END DATE %@", endDate);
-    *start = startDate;
-    *end = endDate;
+    else
+    {
+        // seconds in a day
+        NSTimeInterval interval = 24 * 60 * 60;
+        NSLog(@"DURATION %f", duration);
+        
+        NSDate *endDate = [startDate dateByAddingTimeInterval:(duration - interval)];
+        
+        NSLog(@"END DATE %@", endDate);
+        *start = startDate;
+        *end = endDate;
+    }
 }
 
-- (void)getDates
+- (void)getWeekDates
 {
-    NSDate *date = [NSDate date];
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateStyle:NSDateFormatterShortStyle];
-    self.todaysDate = [dateFormat stringFromDate:date];
-    NSLog(@"TODAYS DATE %@", self.todaysDate);
+    NSDate *todaysDate = [NSDate date];
+
+    NSDate *todaysDateWithComponents = [NSDate dateWithYear:todaysDate.year month:todaysDate.month day:todaysDate.day hour:todaysDate.hour minute:todaysDate.minute second:todaysDate.second];
     
-    NSDate *thisStart = nil;
-    NSDate *thisEnd = nil;
-    [self startDate:&thisStart andEndDate:&thisEnd ofWeekOn:[NSDate date]];
+    NSString *todaysDateString = [todaysDateWithComponents formattedDateWithFormat:@"MMMM-dd-yy" timeZone:[NSTimeZone localTimeZone]];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterShortStyle];
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitWeekday fromDate:thisStart];
-    NSString *dayName = stringFromWeekday((int)[components weekday]);
-    NSLog(@"STRING FROM WEEK DAY %@", dayName);
-    NSTimeInterval interval = 24 * 60 * 60;
-    NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+    self.todaysDate = todaysDateString;
+    
+    NSDate *startWeekDate = nil;
+    NSDate *endWeekDate = nil;
+    [self startDate:&startWeekDate andEndDate:&endWeekDate ofWeekOn:todaysDateWithComponents];
+    
+    NSMutableArray *weekDatesArray = [NSMutableArray new];
+    NSMutableArray *weekDayArray = [NSMutableArray new];
+    
     for (int i = 0; i < 7; i++) {
-        NSDate *date = [thisStart dateByAddingTimeInterval:interval * i];
-        NSString *day = [formatter stringFromDate:date];
-        NSLog(@"Week Day %@", day);
-        [mutableArray addObject:day];
+        
+        NSDate *dayDate = [startWeekDate dateByAddingDays:i];
+        NSString *dateString = [dayDate formattedDateWithFormat:@"MMMM-dd-yy" timeZone:[NSTimeZone localTimeZone]];
+        NSString *dayString = [dayDate formattedDateWithFormat:@"EEEE" timeZone:[NSTimeZone localTimeZone]];
+        [weekDatesArray addObject:dateString];
+        [weekDayArray addObject:dayString];
     }
-    datesArray = [NSArray arrayWithArray:mutableArray];
+    _datesArray = [NSArray arrayWithArray:weekDatesArray];
+    _daysArray = [NSArray arrayWithArray:weekDayArray];
     
-    // test block
-    void (^block)(NSString *) = ^(NSString *date) {
-        NSLog(@"BLOCK");
-    };
-    block(@"STRING");
-    
-    NSDate *lastWeekDate = [thisStart dateByAddingTimeInterval:-10];
-    NSDate *lastStart = nil;
-    NSDate *lastEnd = nil;
-    [self startDate:&lastStart andEndDate:&lastEnd ofWeekOn:lastWeekDate];
-    
-    NSDate *nextWeekDate = [thisEnd dateByAddingTimeInterval:10 + interval];
-    NSDate *nextStart = nil;
-    NSDate *nextEnd = nil;
-    [self startDate:&nextStart andEndDate:&nextEnd ofWeekOn:nextWeekDate];
-    
-    NSLog(@"START DAY %@ END DAY %@", thisStart, thisEnd);
-    NSLog(@"LAST WEEK DAY %@ END DAY %@", lastStart, lastEnd);
-    NSLog(@"NEXT WEEK DAY %@ END DAY %@", nextStart, nextEnd);
-    
+    NSLog(@"TODAYS DATE STRING %@", todaysDateString);
 }
 
-- (void)makeDays
-{
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
-    // thread safe method
-    if (!daysArray) {
-        static dispatch_once_t day;
-        dispatch_once(&day, ^{
-            daysArray = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
-        });
-    }
-}
+//- (void)makeDays
+//{
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
+//    // thread safe method
+//    if (!_daysArray) {
+//        static dispatch_once_t day;
+//        dispatch_once(&day, ^{
+//            _daysArray = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
+//        });
+//    }
+//}
 
 - (void)removeActionRowPathsFromView
 {
@@ -649,7 +715,6 @@
         }
         [self.tableView endUpdates];
         
-//        self.editButton.enabled = YES;
     }
 }
 
@@ -658,15 +723,27 @@
     [super viewDidAppear:animated];
     
     if ([self.tableView indexPathsForVisibleRows]) {
-        for (int i = 0; i < [datesArray count]; i++) {
-            NSLog(@"DAY MATCH %@ TODAY %@", [datesArray objectAtIndex:i], self.todaysDate);
-            if ([[datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+        
+        for (int i = 0; i < [_datesArray count]; i++) {
+            
+            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
+            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+                
                 NSLog(@"MATCH");
                 if ([self.tableView numberOfRowsInSection:i] > 0) {
+                    
                     NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
                     if (![self.actionRowPaths count]) {
                         
-                        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionTop];
+                        if (i > 4) {
+                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                            [self.tableView scrollToRowAtIndexPath:[self.actionRowPaths lastObject] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+                        }
+                        else
+                        {
+                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionTop];
+                        }
+                        
                         [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
                         
                     } else {
@@ -690,9 +767,11 @@
 {
     [super viewDidLoad];
     
-    [self makeDays];
+//    [self makeDays];
     
-    [self getDates];
+//    [self getDates];
+    
+    [self getWeekDates];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
@@ -705,9 +784,9 @@
     [self.tableView registerNib:actionNib forCellReuseIdentifier:@"KLEActionCell"];
     
     // no cell is expanded
-    selectedIndex = -1;
+    _selectedIndex = -1;
     
-    indexInActionRowPaths = -1;
+    _indexInActionRowPaths = -1;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -717,13 +796,18 @@
     NSLog(@"VIEW WILL DISAPPEAR");
     
     if ([self.tableView indexPathsForVisibleRows]) {
-        for (int i = 0; i < [datesArray count]; i++) {
-            NSLog(@"DAY MATCH %@ TODAY %@", [datesArray objectAtIndex:i], self.todaysDate);
-            if ([[datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+        
+        for (int i = 0; i < [_datesArray count]; i++) {
+            
+            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
+            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+                
                 NSLog(@"MATCH");
                 if ([self.tableView numberOfRowsInSection:i] > 0) {
+                    
                     NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
                     if ([self.actionRowPaths count]) {
+                        
                         [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
                     } else {
                         return;
@@ -736,19 +820,19 @@
     [self removeActionRowPathsFromView];
 }
 
-static inline NSString *stringFromWeekday(int weekday)
-{
-    static NSString *strings[] = {
-        @"Sunday",
-        @"Monday",
-        @"Tuesday",
-        @"Wednesday",
-        @"Thursday",
-        @"Friday",
-        @"Saturday",
-    };
-    
-    return strings[weekday - 1];
-}
+//static inline NSString *stringFromWeekday(int weekday)
+//{
+//    static NSString *strings[] = {
+//        @"Sunday",
+//        @"Monday",
+//        @"Tuesday",
+//        @"Wednesday",
+//        @"Thursday",
+//        @"Friday",
+//        @"Saturday",
+//    };
+//    
+//    return strings[weekday - 1];
+//}
 
 @end
