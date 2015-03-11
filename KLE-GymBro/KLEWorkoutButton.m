@@ -242,7 +242,7 @@
             
             // run delegate methods
             [self.delegate currentSet:[_currentSet integerValue]];
-            [self.delegate calculateTotalReps];
+            [self.delegate logCurrentSetsRepsWeight];
             
             NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
             

@@ -63,6 +63,8 @@
     
     [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
     
+    [_finishWorkoutButton setEnabled:NO];
+    
 }
 
 - (NSDate *)todaysDate
@@ -121,6 +123,8 @@
     
     NSLog(@"EXERCISE COMPLETED SETS %@ REPS WEIGHT ARRAY %@", exerciseCompleted.setscompleted, exerciseCompleted.repsweightarray);
     NSLog(@"EXERCISE GOAL SETS %@ REPS %@", exerciseGoal.sets, exerciseGoal.reps);
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)setupWeightSlider
@@ -217,7 +221,7 @@
     }
 }
 
-- (void)calculateTotalReps
+- (void)logCurrentSetsRepsWeight
 {
     NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.titleLabel.text integerValue]];
     NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightTextField.text floatValue]];
@@ -245,6 +249,8 @@
     [_currentRepsWeightArray addObject:repsWeightString];
     
     NSLog(@"CURRENT REPS WEIGHT ARRAY IN WORKOUT: %@", _currentRepsWeightArray);
+    
+    [_finishWorkoutButton setEnabled:YES];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

@@ -17,6 +17,6 @@
 
 - (void)currentSet:(CGFloat)set;
 
-- (void)calculateTotalReps;
+- (void)logCurrentSetsRepsWeight;
 
 @end

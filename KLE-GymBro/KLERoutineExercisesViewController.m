@@ -71,6 +71,7 @@
     
     // get the selected routine in the current context
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:objectID];
+    
     // custom title for navigation title
 //    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:13], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
     // custom title for navigation title
@@ -81,11 +82,12 @@
 //    title.attributedText = attribString;
 //    [title sizeToFit];
 //    self.navigationItem.titleView = title;
+    
     self.routineTextField.text = selectedRoutine.routinename;
     
-//    self.tableHeaderView.totalWeight.text = @"TEST";
-//    self.tableHeaderView.routineNameTextField.text = selectedRoutine.routinename;
     [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+    
+    // hides routine view when routine selected
 //    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
     
     // pop off the exercise detail view controller when there's a new routine selection
@@ -94,24 +96,6 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
-
-- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
-{
-    if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
-        NSLog(@"ALL VISIBLE");
-    }
-    NSLog(@"DISPLAY MODE CHANGED REVC");
-}
-
-//- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController
-//{
-//    return YES;
-//}
-
-//- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc
-//{
-//    return UISplitViewControllerDisplayModePrimaryHidden;
-//}
 
 - (void)configureFetch
 {
@@ -143,9 +127,21 @@
     
     if (self) {
         
+        // button to add exercises
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
+        self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 26)];
+        self.routineTextField.backgroundColor = [UIColor clearColor];
+        self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
+        self.routineTextField.text = @"Routine Name";
+        self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
+        self.routineTextField.textAlignment = NSTextAlignmentCenter;
+        UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
         
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showRoutineViewController)];
         
-        // button to edit routine
+        // set the button to be the right nav button of the nav item
+        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, textFieldBarButton, nil];
         
     }
     
@@ -274,74 +270,34 @@
     return YES;
 }
 
-- (void)save:(id)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
-//    [self.presentingViewController dismissViewControllerAnimated:YES completion:self.dismissBlock];
-}
-
-- (void)cancel:(id)sender
-{
-    // if the user cancelled, then remove the BNRItem from the store
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)editRoutines
-{
-    NSLog(@"Edit button tapped");
-}
-
 - (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
 {
     NSLog(@"REVC delegate ELVCselection %lu", selection.row);
 
 }
 
-//- (UIView *)customHeaderView
-//{
-//    if (!_tableHeaderView) {
-////        _tableHeaderView = [[KLETableHeaderView alloc] init];
-//        [[NSBundle mainBundle] loadNibNamed:@"KLETableHeaderView"
-//                                      owner:self
-//                                    options:nil];
-//        _tableHeaderView.nameTextField.placeholder = @"Routine name";
-//    }
-//    return _tableHeaderView;
-//}
-
-//- (void)showTableViewForHeader
-//{
-//    KLETableHeaderView *tableHeaderView = [KLETableHeaderView customView];
-//    [self.tableView setTableHeaderView:tableHeaderView];
-//    
-//    [UIView animateWithDuration:.5f animations:^{
-//        CGRect theFrame = CGRectMake(0, 0, 320, 128);
-//        tableHeaderView.frame = theFrame;
-//    }];
-//}
-
-//- (void)hideTableViewForHeader
-//{
-//    
-//}
-
 - (void)showActionSheet
 {
     NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
     [ActionSheetStringPicker showPickerWithTitle:@"Select a Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+        
         NSError *error = nil;
         KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:&error];
         routine.daynumber = [NSNumber numberWithInteger:selectedIndex];
         routine.dayname = [days objectAtIndex:selectedIndex];
         routine.inworkout = [NSNumber numberWithBool:YES];
+        
+        [self.tableHeaderView.dayButton setTitle:routine.dayname forState:UIControlStateNormal];
+        
         NSLog(@"Header Day %@", self.tableHeaderView.dayButton.titleLabel.text);
         NSLog(@"Picker: %@", picker);
         NSLog(@"Selected index %lu", selectedIndex);
         NSLog(@"Selected value %@", selectedValue);
+        
     } cancelBlock:^(ActionSheetStringPicker *picker) {
+        
         NSLog(@"Cancelled");
+        
     } origin:self.view];
 }
 
@@ -400,23 +356,6 @@
 //    if (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassCompact) {
 //        self.navigationItem.leftBarButtonItem = [self.splitViewController displayModeButtonItem];
 //    }
-    
-    // button to add exercises
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
-    self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 26)];
-    self.routineTextField.backgroundColor = [UIColor clearColor];
-    self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
-    self.routineTextField.text = @"Routine Name";
-    self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
-    self.routineTextField.textAlignment = NSTextAlignmentCenter;
-    UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
-    
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showRoutineViewController)];
-    
-    // set the button to be the right nav button of the nav item
-    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, textFieldBarButton, nil];
-    
     
 }
 

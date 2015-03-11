@@ -10,7 +10,7 @@
 
 #import "KLEHistoryViewController.h"
 #import "KLEContainerViewController.h"
-
+#import "KLERoutineViewController.h"
 #import "KLEDailyViewController.h"
 #import "KLEAppDelegate.h"
 
@@ -23,35 +23,6 @@
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
-    
-//    NSArray *fetchedObjects = [_coreDataHelper.context executeFetchRequest:request error:nil];
-    
-//    NSArray *newExercises = [NSArray arrayWithObjects:@"Bench Press", @"Squats", @"Arm Curls", nil];
-//    NSLog(@"newExercises array count %lu", [newExercises count]);
-//    
-//    for (NSString *newExerciseName in newExercises) {
-//        KLEExercise *newExercise = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExercise" inManagedObjectContext:_coreDataHelper.context];
-//        newExercise.exerciseName = newExerciseName;
-//        NSLog(@"Inserted New Managed Object for '%@'", newExercise.exerciseName);
-//    }
-    
-//    for (KLEExercise *exercise in fetchedObjects) {
-//        NSLog(@"Fetched Object = %@", exercise.exerciseName);
-//    }
-//    NSArray *exerciseArray = [NSArray arrayWithArray:fetchedObjects];
-//    NSLog(@"exerciseArray in AppDelegate %@", exerciseArray);
-    
-//    for (KLEExercise *exercise in fetchedObjects) {
-//        NSLog(@"Deleting Object '%@'", exercise.exerciseName);
-//        [_coreDataHelper.context deleteObject:exercise];
-//    }
-//    for (int i = 1; i < 100; i++) {
-//        KLESta *stat = [NSEntityDescription insertNewObjectForEntityForName:@"KLESta" inManagedObjectContext:_coreDataHelper.context];
-//        stat.sets = [NSNumber numberWithInt:i];
-//        NSLog(@"Inserted %@", stat.sets);
-//    }
-//    [_coreDataHelper saveContext];
 }
 
 - (CoreDataHelper*)cdh

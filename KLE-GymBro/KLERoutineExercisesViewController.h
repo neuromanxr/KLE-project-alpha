@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, KLERoutineExercisesViewControllerMode)
     KLERoutineExercisesViewControllerModeWorkout
 };
 
-@interface KLERoutineExercisesViewController : CoreDataTableViewController <KLEManagedIDSelectionDelegate, UISplitViewControllerDelegate>
+@interface KLERoutineExercisesViewController : CoreDataTableViewController <KLEManagedIDSelectionDelegate>
 
 + (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode;
 
