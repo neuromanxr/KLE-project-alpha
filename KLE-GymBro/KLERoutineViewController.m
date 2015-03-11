@@ -105,6 +105,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObjectID *routineID = [[self.frc objectAtIndexPath:indexPath] objectID];
+    
     if (self.delegate) {
         [self.delegate selectedRoutineID:routineID];
         NSLog(@"##DELEGATE %@", self.delegate);
@@ -113,6 +114,22 @@
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
     NSLog(@"Cell selected %@", routine);
+    
+//    _collapseRoutineExercisesViewController = NO;
+    
+    KLERoutineExercisesViewController *revc = (KLERoutineExercisesViewController *)self.delegate;
+//    KLEAppDelegate *appDelegate = (KLEAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    KLERoutineExercisesViewController *revc = appDelegate.routineExercisesViewController;
+    
+    UINavigationController *revcNav = revc.navigationController;
+    
+    [self showDetailViewController:revcNav sender:self];
+    
+//    NSLog(@"REVC ** %@", [[self.splitViewController.viewControllers firstObject] topViewController]);
+//    KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController new];
+//    revc.selectedRoutineID = routineID;
+//    
+//    [self.navigationController pushViewController:revcNav animated:YES];
 
 }
 
@@ -257,6 +274,7 @@
 //    UIBarButtonItem *spacing = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 //    [self.navigationController setToolbarHidden:NO animated:YES];
 //    self.toolbarItems = [[NSArray alloc] initWithObjects:select, spacing,addButton, nil];
+    
     
 }
 

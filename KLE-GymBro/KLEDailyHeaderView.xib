@@ -16,20 +16,34 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrX-aM-rwa">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrX-aM-rwa">
                     <rect key="frame" x="6" y="4" width="119" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="8TV-kh-6Q0"/>
+                        <constraint firstAttribute="width" constant="119" id="nwy-80-It4"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69Y-Y7-DAn">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69Y-Y7-DAn">
                     <rect key="frame" x="202" y="4" width="110" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="OPK-Ab-qAo"/>
+                        <constraint firstAttribute="width" constant="110" id="OXD-qh-5J3"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="RrX-aM-rwa" firstAttribute="leading" secondItem="qCr-It-q8e" secondAttribute="leading" constant="6" id="2EE-pm-RsQ"/>
+                <constraint firstAttribute="centerY" secondItem="RrX-aM-rwa" secondAttribute="centerY" constant="0.5" id="3xn-YV-0wT"/>
+                <constraint firstAttribute="trailing" secondItem="69Y-Y7-DAn" secondAttribute="trailing" constant="8" id="P1V-Fp-O68"/>
+                <constraint firstAttribute="centerY" secondItem="69Y-Y7-DAn" secondAttribute="centerY" constant="0.5" id="z11-LF-8Ng"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>

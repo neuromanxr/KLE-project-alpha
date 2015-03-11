@@ -32,7 +32,9 @@
         [self addChildViewController:self.viewController];
         [self.view addSubview:self.viewController.view];
         [self.viewController didMoveToParentViewController:self];
-        [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:self.viewController];
+        
+        // uncomment to have split view for both orientations
+//        [self setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:self.viewController];
     }
 }
 
@@ -50,15 +52,15 @@
     } completion:nil];
 }
 
-//- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-//{
-//    if (size.width > size.height) {
-//        [self setOverrideTraitCollection:[UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:self.viewController];
-//    } else {
-//        [self setOverrideTraitCollection:nil forChildViewController:self.viewController];
-//    }
-//    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-//}
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    if (size.width > size.height) {
+        [self setOverrideTraitCollection:[UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:self.viewController];
+    } else {
+        [self setOverrideTraitCollection:nil forChildViewController:self.viewController];
+    }
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+}
 
 /*
 #pragma mark - Navigation

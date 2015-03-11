@@ -32,18 +32,6 @@
 - (void)configureFetch:(KLEDateRangeMode)dateRange
 {
     
-    
-//    NSCalendar *calendar = [NSCalendar currentCalendar];
-//    NSDateComponents *components = [calendar components:(NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:firstRecordDate];
-//    components.month -= 3;
-//    NSDate *threeMonthsBeforeToday = [calendar dateFromComponents:components];
-//    
-//    NSDate *twoWeeksAfterFirst = [calendar dateByAddingUnit:NSCalendarUnitWeekOfMonth value:2 toDate:firstRecordDate options:kNilOptions];
-//    NSDate *twoWeeksAfterFirstUsingTools = [firstRecordDate dateByAddingWeeks:2];
-//    
-//    NSLog(@"TWO WEEKS DATE: %@ DATE TOOLS: %@", twoWeeksAfterFirst, twoWeeksAfterFirstUsingTools);
-//    NSLog(@"THREE MONTHS AGO DATE TOOLS: %@", threeMonthsBeforeToday);
-    
     NSLog(@"DATE RANGE MODE %lu", dateRange);
     
     NSDate *dateToCompare = [self setDateToCompare:dateRange];

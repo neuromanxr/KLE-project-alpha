@@ -10,8 +10,7 @@
 
 #import "KLEHistoryViewController.h"
 #import "KLEContainerViewController.h"
-#import "KLERoutineExercisesViewController.h"
-#import "KLERoutineViewController.h"
+
 #import "KLEDailyViewController.h"
 #import "KLEAppDelegate.h"
 
@@ -74,17 +73,21 @@
 - (UISplitViewController *)splitviewController
 {
     KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
+//    _routineViewController = [KLERoutineViewController new];
     UINavigationController *rootNav = [[UINavigationController alloc] initWithRootViewController:rvc];
-    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
-    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:revc];
-    rvc.delegate = revc;
+//    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    _routineExercisesViewController = [KLERoutineExercisesViewController new];
+    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:_routineExercisesViewController];
+    rvc.delegate = _routineExercisesViewController;
     
     UISplitViewController *svc = [[UISplitViewController alloc] init];
     svc.viewControllers = @[rootNav, detailNav];
-    revc.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
+//    _routineExercisesViewController.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
+//    _routineExercisesViewController.navigationItem.leftItemsSupplementBackButton = YES;
+    
 //    rvc.navigationItem.rightBarButtonItem = [svc displayModeButtonItem];
     // testing method in revc
-//    svc.delegate = revc;
+//    svc.delegate = rvc;
     svc.delegate = self;
     
     svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
@@ -98,12 +101,19 @@
     return YES;
 }
 
+- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc
+{
+    return UISplitViewControllerDisplayModePrimaryHidden;
+}
+
 - (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode
 {
-    if (displayMode == UISplitViewControllerDisplayModeAllVisible) {
+    if (displayMode != UISplitViewControllerDisplayModeAllVisible) {
         NSLog(@"ALL VISIBLE");
     }
     NSLog(@"DISPLAY MODE CHANGED");
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayModeChangeNote" object:[NSNumber numberWithInteger:displayMode]];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

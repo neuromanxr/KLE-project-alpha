@@ -122,6 +122,7 @@
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
 //    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context objectWithID:self.selectedRoutineID];
+    
     NSLog(@"configure fetch selected routine %@", selectedRoutine);
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
@@ -142,25 +143,9 @@
     
     if (self) {
         
-        // button to add exercises
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
-        self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 26)];
-        self.routineTextField.backgroundColor = [UIColor clearColor];
-        self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
-        self.routineTextField.text = @"Routine Name";
-        self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
-        self.routineTextField.textAlignment = NSTextAlignmentCenter;
-        UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
-
+        
+        
         // button to edit routine
-//        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
-        
-        // set bar button to toggle editing mode
-//        editButton = self.editButtonItem;
-        
-        // set the button to be the right nav button of the nav item
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, textFieldBarButton, nil];
         
     }
     
@@ -170,6 +155,14 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (void)showRoutineViewController
+{
+    NSLog(@"DISMISS VC IN REVC %@", [[[self.splitViewController viewControllers] lastObject] viewControllers]);
+    
+    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -352,6 +345,15 @@
     } origin:self.view];
 }
 
+- (void)handleDisplayModeChangeWithNotification:(NSNotification *)note
+{
+    // not used, for display mode button
+    
+    NSNumber *displayModeObject = [note object];
+    NSUInteger displayMode = [displayModeObject integerValue];
+    NSLog(@"DISPLAY MODE %lu", displayMode);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -376,11 +378,45 @@
     // set the delegate for textfield to this view controller
 //    self.tableHeaderView.routineNameTextField.delegate = self;
     self.routineTextField.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayModeChangeWithNotification:) name:@"DisplayModeChangeNote" object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
+//    if (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassCompact) {
+//        self.navigationItem.leftBarButtonItem = [self.splitViewController displayModeButtonItem];
+//    }
+    
+    // button to add exercises
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
+    self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 26)];
+    self.routineTextField.backgroundColor = [UIColor clearColor];
+    self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
+    self.routineTextField.text = @"Routine Name";
+    self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
+    self.routineTextField.textAlignment = NSTextAlignmentCenter;
+    UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
+    
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showRoutineViewController)];
+    
+    // set the button to be the right nav button of the nav item
+    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, textFieldBarButton, nil];
+    
     
 }
 

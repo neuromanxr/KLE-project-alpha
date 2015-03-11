@@ -38,7 +38,7 @@
 @property (nonatomic, copy) NSArray *daysArray;
 @property (nonatomic, copy) NSArray *datesArray;
     
-@property (nonatomic, assign) NSInteger selectedIndex;
+//@property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, assign) NSInteger indexInActionRowPaths;
 @property (nonatomic, assign) NSUInteger rowCountBySection;
 @property (nonatomic, assign) NSUInteger currentSet;
@@ -172,22 +172,11 @@
 
 
 // fix this
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // if this is the selected index we need to return the height of the cell
-    // in relation to the label height otherwise just return the minimum height with padding
-//    if (selectedIndex == indexPath.row) {
-//        return [self getLabelHeightForIndex:indexPath.row] + COMMENT_LABEL_PADDING * 2;
-//    } else {
-//        return COMMENT_LABEL_MIN_HEIGHT + COMMENT_LABEL_PADDING * 2;
-//    }
-
-    if (_selectedIndex == indexPath.row) {
-        return 30;
-    } else {
-        return 70;
-    }
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 70;
+//    
+//}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -443,12 +432,45 @@
         KLEExerciseGoal *routineExercise = [exercises objectAtIndex:startIndexForExerises];
         
         // set the values in the action cell
+        // animate sets and reps text
+        if ([routineExercise.sets integerValue] == 0) {
+            actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
+        }
+        else
+        {
+            CGFloat animationPeriod = 10;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                for (int i = 1; i <= [routineExercise.sets integerValue]; i++) {
+                    usleep(animationPeriod / 100 * 1000000); // sleep in ms
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        actionCell.setsLabel.text = [NSString stringWithFormat:@"%d", i];
+                    });
+                }
+            });
+        }
+        
+        if ([routineExercise.reps integerValue] == 0) {
+            actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
+        }
+        else
+        {
+            CGFloat animationPeriod = 10;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                for (int i = 1; i <= [routineExercise.reps integerValue]; i++) {
+                    usleep(animationPeriod / 100 * 1000000); // sleep in ms
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        actionCell.repsLabel.text = [NSString stringWithFormat:@"%d", i];
+                    });
+                }
+            });
+        }
+        
         actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
         actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
-        actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
-        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
-        
-//        self.exercisesInActionRows = exercises;
+//        actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
+//        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
 
         return actionCell;
         
@@ -783,8 +805,11 @@
     
     [self.tableView registerNib:actionNib forCellReuseIdentifier:@"KLEActionCell"];
     
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 70;
+    
     // no cell is expanded
-    _selectedIndex = -1;
+//    _selectedIndex = -1;
     
     _indexInActionRowPaths = -1;
 }

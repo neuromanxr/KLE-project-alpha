@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "KLEManagedIDSelectionDelegate.h"
 
-@interface KLERoutineViewController : CoreDataTableViewController
+@interface KLERoutineViewController : CoreDataTableViewController <UISplitViewControllerDelegate>
 
 @property (nonatomic, weak) id<KLEManagedIDSelectionDelegate> delegate;
 
