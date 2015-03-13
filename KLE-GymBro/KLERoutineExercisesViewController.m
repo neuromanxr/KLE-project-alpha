@@ -5,7 +5,7 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
-//#import "KLE_GymBro-Swift.h"
+
 #import "Pickers/ActionSheetStringPicker.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
@@ -42,6 +42,7 @@
 - (void)setMode:(KLERoutineExercisesViewControllerMode)mode
 {
     _mode = mode;
+    
     NSLog(@"CURRENT MODE %ld", _mode);
     
     switch (_mode)
@@ -52,10 +53,54 @@
         case KLERoutineExercisesViewControllerModeWorkout:
             
             break;
+            
         default:
             break;
     }
     
+}
+
+/* textfield in the navigation bar
+ 
+- (UIBarButtonItem *)createRoutineTextFieldInNav
+{
+    self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.bounds.size.width / 2, 26)];
+    self.routineTextField.backgroundColor = [UIColor clearColor];
+    self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
+    self.routineTextField.text = @"Routine Name";
+    self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
+    self.routineTextField.textAlignment = NSTextAlignmentCenter;
+    
+    UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
+    
+    return textFieldBarButton;
+}
+*/
+
+- (void)createAddExerciseButton
+{
+    // button to add exercises
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
+    
+    
+    // not used, supplement to display mode button, refer to appcoda split view tutorial
+    
+    //        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showRoutineViewController)];
+    
+    
+    // set the button to be the right nav button of the nav item
+    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, nil];
+    
+    // don't enable add exercise button when in workout mode
+    if (_mode == KLERoutineExercisesViewControllerModeWorkout) {
+        
+        addButton.enabled = NO;
+    }
+    else
+    {
+        addButton.enabled = YES;
+    }
 }
 
 - (void)selectedRoutineID:(id)objectID
@@ -90,11 +135,15 @@
     // hides routine view when routine selected
 //    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
     
+    
+    /* for split view
+     
     // pop off the exercise detail view controller when there's a new routine selection
     if ([[self.navigationController.viewControllers lastObject] isKindOfClass:[KLERoutineExerciseDetailViewController class]]) {
         NSLog(@"EXERCISE DETAIL VC PRESENT");
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    */
 }
 
 - (void)configureFetch
@@ -102,6 +151,7 @@
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
+    
     NSLog(@"object id from daily view %@", self.selectedRoutineID);
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
@@ -127,21 +177,6 @@
     
     if (self) {
         
-        // button to add exercises
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
-        self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 200, 26)];
-        self.routineTextField.backgroundColor = [UIColor clearColor];
-        self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
-        self.routineTextField.text = @"Routine Name";
-        self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
-        self.routineTextField.textAlignment = NSTextAlignmentCenter;
-        UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
-        
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showRoutineViewController)];
-        
-        // set the button to be the right nav button of the nav item
-        self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, textFieldBarButton, nil];
         
     }
     
@@ -153,6 +188,8 @@
     return [self init];
 }
 
+/* for additional button to display primary master when display mode button not present, refer to appcoda split view tutorial
+ 
 - (void)showRoutineViewController
 {
     NSLog(@"DISMISS VC IN REVC %@", [[[self.splitViewController viewControllers] lastObject] viewControllers]);
@@ -160,6 +197,7 @@
     self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
 
 }
+ */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -179,13 +217,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
-    
-    
-//    KLEExerciseGoal *exerciseObject = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
-//    NSLog(@"exercise %@", exerciseObject);
-    // pass the selected exercise object to elvc
-    
+
     KLEExerciseGoal *routineExercise = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
     
     if (self.mode == KLERoutineExercisesViewControllerModeWorkout) {
@@ -260,8 +292,12 @@
 {
     NSLog(@"END EDITING");
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
-//    selectedRoutine.routinename = self.tableHeaderView.routineNameTextField.text;
-    selectedRoutine.routinename = self.routineTextField.text;
+    
+    selectedRoutine.routinename = self.tableHeaderView.renameRoutineTextField.text;
+    self.tableHeaderView.renameRoutineTextField.placeholder = nil;
+    
+    
+//    selectedRoutine.routinename = self.routineTextField.text;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -301,6 +337,8 @@
     } origin:self.view];
 }
 
+/* for split view
+ 
 - (void)handleDisplayModeChangeWithNotification:(NSNotification *)note
 {
     // not used, for display mode button
@@ -309,12 +347,14 @@
     NSUInteger displayMode = [displayModeObject integerValue];
     NSLog(@"DISPLAY MODE %lu", displayMode);
 }
+ */
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [self configureFetch];
-//    [self performFetch];
+    [self configureFetch];
+    [self performFetch];
+    
     NSLog(@"frc managedObjectContext %@", self.frc);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
@@ -325,17 +365,21 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
     
-//    [self showTableViewForHeader];
-    self.tableHeaderView = [KLETableHeaderView customView];
+    // create KLETableHeaderView and set it as the table view header
+    self.tableHeaderView = [KLETableHeaderView routineExercisesTableHeaderView];
     self.tableView.tableHeaderView = self.tableHeaderView;
     
     [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
     
     // set the delegate for textfield to this view controller
-//    self.tableHeaderView.routineNameTextField.delegate = self;
-    self.routineTextField.delegate = self;
+    self.tableHeaderView.renameRoutineTextField.delegate = self;
     
+//    self.routineTextField.delegate = self;
+    
+
+    /* for split view, did the display mode change (all visible)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayModeChangeWithNotification:) name:@"DisplayModeChangeNote" object:nil];
+     */
 }
 
 - (void)dealloc
@@ -353,9 +397,13 @@
 {
     [super viewWillAppear:YES];
     
-//    if (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassCompact) {
-//        self.navigationItem.leftBarButtonItem = [self.splitViewController displayModeButtonItem];
-//    }
+    [self createAddExerciseButton];
+    
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
+    
+    [self.routineTextField setText:selectedRoutine.routinename];
+    
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
     
 }
 

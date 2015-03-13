@@ -19,6 +19,7 @@
 #import "KLEActionCell.h"
 #import "KLEDailyViewCell.h"
 
+#import "KLESettingsTableViewController.h"
 #import "KLEDailyViewController.h"
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
@@ -33,7 +34,6 @@
 
 // can remove splitviewcontroller delegate
 @interface KLEDailyViewController () <UISplitViewControllerDelegate>
-
 
 @property (nonatomic, copy) NSArray *daysArray;
 @property (nonatomic, copy) NSArray *datesArray;
@@ -77,6 +77,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
+        
         UINavigationItem *navItem = self.navigationItem;
         navItem.title = @"GymBro";
         
@@ -84,14 +85,9 @@
         UIImage *tabBarImage = [UIImage imageNamed:@"weightlift.png"];
         tbi.image = tabBarImage;
         
-        // button to edit routine
-//        self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
-        
-        // set bar button to toggle editing mode
-//        self.editButton = self.editButtonItem;
-        
-        // set the button to be the right nav button of the nav item
-//        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:self.editButton, nil];
+        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
+
+        navItem.rightBarButtonItem = settingsBarButton;
     }
     
     return self;
@@ -102,11 +98,11 @@
     return [self init];
 }
 
--(CGFloat)getLabelHeightForIndex:(NSInteger)index
+- (void)showSettingsView
 {
-    CGSize labelHeightSize = CGSizeMake(230, 100);
+    KLESettingsTableViewController *settingsTableView = [KLESettingsTableViewController new];
     
-    return labelHeightSize.height;
+    [self.navigationController pushViewController:settingsTableView animated:YES];
 }
 
 - (NSArray *)fetchRoutinesWithIndexPath:(NSIndexPath *)indexPath
@@ -256,6 +252,8 @@
     return 30;
 }
 
+#pragma mark TABLEVIEW
+
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // we only don't want to allow selection on any expanded cells
@@ -275,8 +273,6 @@
     NSIndexPath *path = paths[0];
     [self.tableView deselectRowAtIndexPath:path animated:YES];
 }
-
-#pragma mark TABLEVIEW
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -471,6 +467,10 @@
         actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
 //        actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
 //        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
+        
+        // remove spacing from cell seperator
+        actionCell.layoutMargins = UIEdgeInsetsZero;
+        actionCell.preservesSuperviewLayoutMargins = NO;
 
         return actionCell;
         
@@ -500,7 +500,12 @@
         [selectedColorView setBackgroundColor:[UIColor orangeColor]];
         [cell setSelectedBackgroundView:selectedColorView];
         
+        // start button calls accessoryButtonTappedForRow
         [cell.startWorkoutButton addTarget:self action:@selector(startWorkout:event:) forControlEvents:UIControlEventTouchUpInside];
+        
+        // remove spacing from cell seperator
+        cell.layoutMargins = UIEdgeInsetsZero;
+        cell.preservesSuperviewLayoutMargins = NO;
         
         return cell;
     }
@@ -562,12 +567,9 @@
     }
 }
 
-- (void)startWorkout:(id)sender event:(id)event
-{
-    // get a pointer to the button passed from sender
-    UIButton *btn = (UIButton *)sender;
-    
-    NSNumber *dayNumber = @(btn.tag);
+- (void)startWorkout:(UIButton *)button event:(id)event
+{    
+    NSNumber *dayNumber = @(button.tag);
     NSLog(@"Add button tapped in section %@", dayNumber);
     
     NSSet *touches = [event allTouches];
@@ -708,20 +710,6 @@
     NSLog(@"TODAYS DATE STRING %@", todaysDateString);
 }
 
-//- (void)makeDays
-//{
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
-//    // thread safe method
-//    if (!_daysArray) {
-//        static dispatch_once_t day;
-//        dispatch_once(&day, ^{
-//            _daysArray = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
-//        });
-//    }
-//}
-
 - (void)removeActionRowPathsFromView
 {
     if ([self.tableView indexPathForSelectedRow]) {
@@ -758,12 +746,12 @@
                     if (![self.actionRowPaths count]) {
                         
                         if (i > 4) {
-                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
-                            [self.tableView scrollToRowAtIndexPath:[self.actionRowPaths lastObject] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+//                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
+//                            [self.tableView scrollToRowAtIndexPath:[self.actionRowPaths lastObject] atScrollPosition:UITableViewScrollPositionNone animated:YES];
                         }
                         else
                         {
-                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionTop];
+//                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
                         }
                         
                         [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
@@ -808,6 +796,8 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 70;
     
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
     // no cell is expanded
 //    _selectedIndex = -1;
     
@@ -844,20 +834,5 @@
     
     [self removeActionRowPathsFromView];
 }
-
-//static inline NSString *stringFromWeekday(int weekday)
-//{
-//    static NSString *strings[] = {
-//        @"Sunday",
-//        @"Monday",
-//        @"Tuesday",
-//        @"Wednesday",
-//        @"Thursday",
-//        @"Friday",
-//        @"Saturday",
-//    };
-//    
-//    return strings[weekday - 1];
-//}
 
 @end

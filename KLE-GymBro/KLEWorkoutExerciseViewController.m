@@ -39,6 +39,7 @@
     
     _weightTextField.delegate = self;
     _weightTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    _workoutFeedLabel.text = @"- - -";
     
     [self setupExerciseData];
     
@@ -58,8 +59,8 @@
     _weightTextField.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.weight];
     
     _setsWorkoutButton.setsForAngle = _selectedRoutineExercise.sets;
-    [_setsWorkoutButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.sets] forState:UIControlStateNormal];
-    [_repsWorkoutButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.reps] forState:UIControlStateNormal];
+    [_setsWorkoutButton.setsButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.sets] forState:UIControlStateNormal];
+    _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.reps];
     
     [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
     
@@ -199,31 +200,31 @@
     {
         // decrement reps value
         
-        NSUInteger currentReps = [_repsWorkoutButton.titleLabel.text integerValue];
+        NSUInteger currentReps = [_repsWorkoutButton.repsLabel.text integerValue];
         if (currentReps != 0) {
             currentReps--;
             NSLog(@"CURRENT REPS %lu", currentReps);
-            [_repsWorkoutButton setTitle:[NSString stringWithFormat:@"%lu", currentReps] forState:UIControlStateNormal];
+            _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", currentReps];
         }
         else
         {
-            [_repsWorkoutButton setTitle:[NSString stringWithFormat:@"%lu", currentReps] forState:UIControlStateNormal];
+            _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", currentReps];
         }
     }
     else
     {
         // increment reps value
         
-        NSUInteger currentReps = [_repsWorkoutButton.titleLabel.text integerValue];
+        NSUInteger currentReps = [_repsWorkoutButton.repsLabel.text integerValue];
         currentReps++;
         NSLog(@"CURRENT REPS %lu", currentReps);
-        [_repsWorkoutButton setTitle:[NSString stringWithFormat:@"%lu", currentReps] forState:UIControlStateNormal];
+        _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", currentReps];
     }
 }
 
 - (void)logCurrentSetsRepsWeight
 {
-    NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.titleLabel.text integerValue]];
+    NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.repsLabel.text integerValue]];
     NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightTextField.text floatValue]];
     NSString *currentSet = [NSString stringWithFormat:@"%lu", _currentSet];
     
@@ -270,15 +271,5 @@
     [textField resignFirstResponder];
     return YES;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -89,6 +89,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark FETCH DATA
 - (void)configureFetchGraphData:(KLEDateRangeMode)dateRange withExercise:(NSString *)exercise
 {
     NSLog(@"DATE RANGE MODE %lu", dateRange);
@@ -138,6 +139,8 @@
     
     return firstRecord.datecompleted;
 }
+
+#pragma mark SET DATES
 
 - (NSDate *)setDateToCompare:(KLEDateRangeMode)dateRange
 {
@@ -249,6 +252,8 @@
     [self presentViewController:dateRangeActionSheet animated:YES completion:nil];
 }
 
+#pragma mark GRAPHING
+
 - (void)configureGraphView
 {
     _graphView.dataSource = self;
@@ -265,6 +270,17 @@
     _graphView.enableXAxisLabel = YES;
     _graphView.enableYAxisLabel = YES;
     _graphView.autoScaleYAxis = YES;
+    
+    // colors
+    
+//    _graphView.colorTop =
+//    _graphView.colorBottom =
+//    _graphView.colorLine =
+//    _graphView.colorReferenceLines =
+//    _graphView.colorPoint =
+//    _graphView.colorTouchInputLine =
+//    _graphView.colorBackgroundXaxis =
+//    _graphView.colorBackgroundYaxis =
     
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
     size_t num_locations = 2;
@@ -369,10 +385,24 @@
     _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
 }
 
+- (BOOL)noDataLabelEnableForLineGraph:(BEMSimpleLineGraphView *)graph
+{
+    return YES;
+}
+
+- (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph
+{
+    NSString *noDataLabel = @"There's not enough data";
+    
+    return noDataLabel;
+}
+
 - (void)reloadGraph
 {
     [self.graphView reloadGraph];
 }
+
+#pragma mark FETCHED RESULTS CONTROLLER
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -422,16 +452,6 @@
     
     return dateCompletedText;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)exerciseCompletedStepperAction:(id)sender
 {

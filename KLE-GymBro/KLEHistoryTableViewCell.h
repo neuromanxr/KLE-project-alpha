@@ -20,4 +20,5 @@
 @property (nonatomic, assign) NSUInteger setsCompleted;
 @property (nonatomic, assign) NSUInteger repsWeightCompleted;
 
+@property (strong, nonatomic) IBOutlet UIButton *detailHistoryButton;
 @end

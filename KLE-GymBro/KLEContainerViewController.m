@@ -8,6 +8,8 @@
 
 #import "KLEContainerViewController.h"
 
+// needs work. After transition to landscape mode and tabbing through the views, the views are displayed in a unexpected way. Look at viewWillTransitionToSize..
+
 @interface KLEContainerViewController ()
 
 @end
@@ -54,22 +56,16 @@
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
+    NSLog(@"**VIEW WILL TRANSITION TO SIZE");
+
     if (size.width > size.height) {
+        
         [self setOverrideTraitCollection:[UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:self.viewController];
     } else {
+        
         [self setOverrideTraitCollection:nil forChildViewController:self.viewController];
     }
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

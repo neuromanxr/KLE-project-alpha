@@ -20,7 +20,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *weightTextField;
 @property (strong, nonatomic) IBOutlet UIButton *decreaseWeightButton;
 @property (strong, nonatomic) IBOutlet UIButton *increaseWeightButton;
-@property (strong, nonatomic) IBOutlet UISwitch *weightUnitSwitch;
 
 @property (strong, nonatomic) IBOutlet UILabel *weightIncrementLabel;
 @property (strong, nonatomic) IBOutlet UISlider *weightIncrementSlider;

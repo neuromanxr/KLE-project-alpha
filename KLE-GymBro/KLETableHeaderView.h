@@ -10,8 +10,9 @@
 
 @interface KLETableHeaderView : UIView
 
-+ (id)customView;
++ (instancetype)routineExercisesTableHeaderView;
 
 @property (strong, nonatomic) IBOutlet UIButton *dayButton;
+@property (strong, nonatomic) IBOutlet UITextField *renameRoutineTextField;
 
 @end

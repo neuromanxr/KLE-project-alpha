@@ -16,6 +16,7 @@
 #import "KLEAppDelegate.h"
 #import "KLEHistoryViewController.h"
 #import "KLEGraphViewController.h"
+#import "KLEHistoryDetailViewController.h"
 
 #define kDateCompleted [NSString stringWithString:@"datecompleted"];
 #define kRoutineName [NSString stringWithString:@"routinename"];
@@ -212,6 +213,19 @@
     [self presentViewController:dateRangeActionSheet animated:YES completion:nil];
 }
 
+- (void)showHistoryDetailView:(UIButton *)button event:(id)event
+{
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    
+    if (indexPath != nil) {
+        
+        [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
+    }
+}
+
 - (NSDate *)todaysDate
 {
     // date from current calendar
@@ -264,6 +278,14 @@
     cell.exerciseLabel.text = exerciseCompleted.exercisename;
     cell.dateCompleted.text = [self dateCompleted:exerciseCompleted.datecompleted];
     
+    // change cell selected color
+    UIView *selectedColorView = [UIView new];
+    UIColor *orange = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:0.7];
+    [selectedColorView setBackgroundColor:orange];
+    [cell setSelectedBackgroundView:selectedColorView];
+    
+    [cell.detailHistoryButton addTarget:self action:@selector(showHistoryDetailView:event:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
 
@@ -282,6 +304,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80.0;
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    KLEHistoryDetailViewController *historyDetailView = [KLEHistoryDetailViewController new];
+    
+    [self.navigationController pushViewController:historyDetailView animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

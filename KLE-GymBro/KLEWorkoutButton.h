@@ -10,7 +10,9 @@
 
 IB_DESIGNABLE
 
-@interface KLEWorkoutButton : UIButton <KLEWorkoutButtonDelegate>
+@interface KLEWorkoutButton : UIControl <KLEWorkoutButtonDelegate>
+
+@property (strong, nonatomic) UIButton *setsButton;
 
 @property (nonatomic) NSNumber *setsForAngle;
 

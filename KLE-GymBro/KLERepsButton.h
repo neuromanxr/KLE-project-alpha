@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-IB_DESIGNABLE
-
 @protocol KLERepsButtonDelegate <NSObject>
 
 @optional
@@ -18,7 +16,13 @@ IB_DESIGNABLE
 
 @end
 
-@interface KLERepsButton : UIButton
+IB_DESIGNABLE
+
+@interface KLERepsButton : UIControl
+
+@property (nonatomic, strong) UILabel *repsLabel;
+@property (nonatomic, strong) UILabel *minusLabel;
+@property (nonatomic, strong) UILabel *plusLabel;
 
 @property (nonatomic, weak) id<KLERepsButtonDelegate> delegate;
 

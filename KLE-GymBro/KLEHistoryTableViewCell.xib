@@ -20,19 +20,19 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Routine Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPo-9X-57Z">
-                        <rect key="frame" x="202" y="0.0" width="110" height="20"/>
+                        <rect key="frame" x="167" y="0.0" width="110" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Exercise Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-7i-xJC">
-                        <rect key="frame" x="67" y="0.0" width="110" height="20"/>
+                        <rect key="frame" x="47" y="0.0" width="110" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sets" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sql-iC-Cvj">
-                        <rect key="frame" x="8" y="15" width="50" height="50"/>
+                        <rect key="frame" x="8" y="22" width="50" height="50"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -43,15 +43,24 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7u-dx-TyA">
+                        <rect key="frame" x="285" y="0.0" width="35" height="80"/>
+                        <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="18"/>
+                        <state key="normal" title="&gt;">
+                            <color key="titleColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateCompleted" destination="LyF-7f-rBY" id="mc6-I7-DBH"/>
+                <outlet property="detailHistoryButton" destination="R7u-dx-TyA" id="2Ht-9r-r0I"/>
                 <outlet property="exerciseLabel" destination="oyx-7i-xJC" id="eSG-lN-OVz"/>
                 <outlet property="repsWeightLabel" destination="mGF-92-J07" id="BRz-b3-f3h"/>
                 <outlet property="routineName" destination="pPo-9X-57Z" id="uW4-KA-OO6"/>
                 <outlet property="setsLabel" destination="sql-iC-Cvj" id="b2W-8f-XVu"/>
             </connections>
+            <point key="canvasLocation" x="250" y="384"/>
         </tableViewCell>
     </objects>
 </document>

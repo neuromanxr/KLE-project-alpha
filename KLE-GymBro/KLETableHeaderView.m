@@ -10,7 +10,7 @@
 
 @implementation KLETableHeaderView
 
-+ (id)customView
++ (instancetype)routineExercisesTableHeaderView
 {
     KLETableHeaderView *tableHeaderView = [[[NSBundle mainBundle] loadNibNamed:@"KLETableHeaderView" owner:self options:nil] lastObject];
     

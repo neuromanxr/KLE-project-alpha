@@ -56,6 +56,8 @@
 		50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */; };
 		50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B4419B5750700E39A7E /* Porsche_logo.png */; };
 		50B3021A1A66E82300E98222 /* KLEContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B302191A66E82300E98222 /* KLEContainerViewController.m */; };
+		50B54CBA1AB21C710061D67D /* KLEHistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B54CB91AB21C710061D67D /* KLEHistoryDetailViewController.m */; };
+		50B54CBC1AB21D060061D67D /* KLEHistoryDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B54CBB1AB21D060061D67D /* KLEHistoryDetailView.xib */; };
 		50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */; };
 		50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */; };
 		50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */; };
@@ -71,6 +73,8 @@
 		50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */; };
 		50DE6BA11A948324006713BE /* KLERepsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DE6BA01A948324006713BE /* KLERepsButton.m */; };
 		50DE6BA31A948368006713BE /* KLERepsButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DE6BA21A948368006713BE /* KLERepsButton.xib */; };
+		50E403531AB1EBD00004F234 /* KLESettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50E403521AB1EBD00004F234 /* KLESettingsTableViewController.m */; };
+		50E4035E1AB1FFE70004F234 /* KLESettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E4035D1AB1FFE70004F234 /* KLESettingsTableViewCell.xib */; };
 		50EBE3481A29906500D33448 /* KLETableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50EBE3471A29906500D33448 /* KLETableHeaderView.m */; };
 		50EBE34A1A29908200D33448 /* KLETableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EBE3491A29908200D33448 /* KLETableHeaderView.xib */; };
 		50F344EF1A759CF300CB17D0 /* KLEWorkoutButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F344EE1A759CF300CB17D0 /* KLEWorkoutButton.m */; };
@@ -185,6 +189,9 @@
 		50B302181A66E82300E98222 /* KLEContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEContainerViewController.h; sourceTree = "<group>"; };
 		50B302191A66E82300E98222 /* KLEContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEContainerViewController.m; sourceTree = "<group>"; };
 		50B3021B1A67359B00E98222 /* KLEManagedIDSelectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEManagedIDSelectionDelegate.h; sourceTree = "<group>"; };
+		50B54CB81AB21C710061D67D /* KLEHistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryDetailViewController.h; sourceTree = "<group>"; };
+		50B54CB91AB21C710061D67D /* KLEHistoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEHistoryDetailViewController.m; sourceTree = "<group>"; };
+		50B54CBB1AB21D060061D67D /* KLEHistoryDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEHistoryDetailView.xib; sourceTree = "<group>"; };
 		50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyViewController.h; sourceTree = "<group>"; };
 		50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEDailyViewController.m; sourceTree = "<group>"; };
 		50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEDailyViewCell.h; sourceTree = "<group>"; };
@@ -209,6 +216,9 @@
 		50DE6B9F1A948324006713BE /* KLERepsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERepsButton.h; sourceTree = "<group>"; };
 		50DE6BA01A948324006713BE /* KLERepsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERepsButton.m; sourceTree = "<group>"; };
 		50DE6BA21A948368006713BE /* KLERepsButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLERepsButton.xib; sourceTree = "<group>"; };
+		50E403511AB1EBD00004F234 /* KLESettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLESettingsTableViewController.h; sourceTree = "<group>"; };
+		50E403521AB1EBD00004F234 /* KLESettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLESettingsTableViewController.m; sourceTree = "<group>"; };
+		50E4035D1AB1FFE70004F234 /* KLESettingsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLESettingsTableViewCell.xib; sourceTree = "<group>"; };
 		50EBE33B1A25BB8000D33448 /* KLE-GymBro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KLE-GymBro-Bridging-Header.h"; sourceTree = "<group>"; };
 		50EBE3461A29906500D33448 /* KLETableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLETableHeaderView.h; sourceTree = "<group>"; };
 		50EBE3471A29906500D33448 /* KLETableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLETableHeaderView.m; sourceTree = "<group>"; };
@@ -355,9 +365,11 @@
 				50F9AC931A9E7999005B8047 /* KLEGraphView.h */,
 				50F9AC941A9E7999005B8047 /* KLEGraphView.m */,
 				50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */,
-				502E2E8C1AA62DFD0083BDEA /* KLEUtility.h */,
 				50F9AC901A9E6699005B8047 /* KLEGraphViewController.h */,
 				50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */,
+				50B54CBB1AB21D060061D67D /* KLEHistoryDetailView.xib */,
+				50B54CB81AB21C710061D67D /* KLEHistoryDetailViewController.h */,
+				50B54CB91AB21C710061D67D /* KLEHistoryDetailViewController.m */,
 				507530801A782E8C0006C08D /* KLEHistoryViewController.h */,
 				507530811A782E8C0006C08D /* KLEHistoryViewController.m */,
 				507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */,
@@ -400,15 +412,19 @@
 				50DD4CCB19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib */,
 				50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */,
 				50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */,
-				507530881A78A79F0006C08D /* dumbbell.png */,
-				507530891A78A79F0006C08D /* menu.png */,
-				5075308A1A78A79F0006C08D /* weightlift.png */,
 				50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */,
 				50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */,
 				50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */,
 				5057D61E19F781B900CF99C0 /* KLEActionCell.h */,
 				5057D61F19F781B900CF99C0 /* KLEActionCell.m */,
 				5057D62119F781CF00CF99C0 /* KLEActionCell.xib */,
+				502E2E8C1AA62DFD0083BDEA /* KLEUtility.h */,
+				50E403511AB1EBD00004F234 /* KLESettingsTableViewController.h */,
+				50E403521AB1EBD00004F234 /* KLESettingsTableViewController.m */,
+				50E4035D1AB1FFE70004F234 /* KLESettingsTableViewCell.xib */,
+				507530881A78A79F0006C08D /* dumbbell.png */,
+				507530891A78A79F0006C08D /* menu.png */,
+				5075308A1A78A79F0006C08D /* weightlift.png */,
 				50B3021B1A67359B00E98222 /* KLEManagedIDSelectionDelegate.h */,
 				50B302181A66E82300E98222 /* KLEContainerViewController.h */,
 				50B302191A66E82300E98222 /* KLEContainerViewController.m */,
@@ -606,6 +622,7 @@
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
 				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
 				5075308C1A78A79F0006C08D /* menu.png in Resources */,
+				50B54CBC1AB21D060061D67D /* KLEHistoryDetailView.xib in Resources */,
 				5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
@@ -623,6 +640,7 @@
 				50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */,
 				507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */,
 				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
+				50E4035E1AB1FFE70004F234 /* KLESettingsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,8 +665,10 @@
 				5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */,
 				50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */,
 				50F4985C1A70BD73007424C0 /* ActionSheetStringPicker.m in Sources */,
+				50E403531AB1EBD00004F234 /* KLESettingsTableViewController.m in Sources */,
 				505D1E281A69C02C000BD0D7 /* KLERoutineExerciseDetailViewController.m in Sources */,
 				5057D6BC1A0F603100CF99C0 /* CoreDataImporter.m in Sources */,
+				50B54CBA1AB21C710061D67D /* KLEHistoryDetailViewController.m in Sources */,
 				5057D62019F781B900CF99C0 /* KLEActionCell.m in Sources */,
 				507530861A7834F00006C08D /* KLEHistoryTableViewCell.m in Sources */,
 				502E2E8B1AA319CB0083BDEA /* NSDate+DateTools.m in Sources */,

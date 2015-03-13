@@ -18,7 +18,7 @@
 
 @interface KLERoutineViewController () <UITextFieldDelegate>
 
-//@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
+
 
 @end
 
@@ -116,17 +116,19 @@
     
     NSLog(@"Cell selected %@", routine);
     
-    
+    /* for split views
+    // need a pointer to routine exercises view for showDetailViewController
     KLERoutineExercisesViewController *revc = (KLERoutineExercisesViewController *)self.delegate;
-    
-//    KLEAppDelegate *appDelegate = (KLEAppDelegate *)[[UIApplication sharedApplication] delegate];
-//    KLERoutineExercisesViewController *revc = appDelegate.routineExercisesViewController;
-    
     revc.selectedRoutineID = routineID;
-    
     UINavigationController *revcNav = revc.navigationController;
     
     [self showDetailViewController:revcNav sender:self];
+     */
+    
+    KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController new];
+    routineExercisesView.selectedRoutineID = routineID;
+    
+    [self.navigationController pushViewController:routineExercisesView animated:YES];
 
 }
 
@@ -139,15 +141,10 @@
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        // test
+        // delete row
         KLERoutine *deleteTarget = [self.frc objectAtIndexPath:indexPath];
         [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-        // alert the user about deletion
-        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [deleteAlert show];
         
     }
 }

@@ -9,7 +9,7 @@
 #import "KLEExercise.h"
 
 #import "KLEHistoryViewController.h"
-#import "KLEContainerViewController.h"
+
 #import "KLERoutineViewController.h"
 #import "KLEDailyViewController.h"
 #import "KLEAppDelegate.h"
@@ -43,25 +43,27 @@
 
 - (UISplitViewController *)splitviewController
 {
-    KLERoutineViewController *rvc = [[KLERoutineViewController alloc] init];
-//    _routineViewController = [KLERoutineViewController new];
+    KLERoutineViewController *rvc = [KLERoutineViewController new];
     UINavigationController *rootNav = [[UINavigationController alloc] initWithRootViewController:rvc];
-//    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
-    _routineExercisesViewController = [KLERoutineExercisesViewController new];
-    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:_routineExercisesViewController];
-    rvc.delegate = _routineExercisesViewController;
+    
+    KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController new];
+    UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:revc];
+    
+    // for routine selection delegate
+    rvc.delegate = revc;
     
     UISplitViewController *svc = [[UISplitViewController alloc] init];
     svc.viewControllers = @[rootNav, detailNav];
+    
+    // display mode button item
 //    _routineExercisesViewController.navigationItem.leftBarButtonItem = [svc displayModeButtonItem];
 //    _routineExercisesViewController.navigationItem.leftItemsSupplementBackButton = YES;
-    
 //    rvc.navigationItem.rightBarButtonItem = [svc displayModeButtonItem];
-    // testing method in revc
-//    svc.delegate = rvc;
+    
     svc.delegate = self;
     
     svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+    
 //    [svc setOverrideTraitCollection: [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassRegular] forChildViewController:rootNav];
     
     return svc;
@@ -96,31 +98,47 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    KLEContainerViewController *cvc = [[KLEContainerViewController alloc] init];
-    [cvc setEmbeddedViewController:[self splitviewController]];
-    [cvc setModalPresentationStyle:UIModalPresentationFormSheet];
-    [cvc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     
+    /* for split view, routine view and routine exercise view
+     
+    KLEContainerViewController *containerView = [KLEContainerViewController new];
+    [containerView setEmbeddedViewController:[self splitviewController]];
+    [containerView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [containerView setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+     
     UIImage *containerTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
-    UITabBarItem *ctbi = [[UITabBarItem alloc] initWithTitle:nil image:containerTabBarImage tag:1];
-    cvc.tabBarItem = ctbi;
+    UITabBarItem *containerTabItem = [[UITabBarItem alloc] initWithTitle:nil image:containerTabBarImage tag:1];
+    containerView.tabBarItem = containerTabItem;
+    */
     
-    KLEDailyViewController *dvc = [[KLEDailyViewController alloc] init];
-    UINavigationController *dvcNav = [[UINavigationController alloc] initWithRootViewController:dvc];
+    // daily view
+    KLEDailyViewController *dailyView = [KLEDailyViewController new];
+    UINavigationController *dailyViewNav = [[UINavigationController alloc] initWithRootViewController:dailyView];
+    // daily view tab bar stuff in daily view controller
     
-    KLEHistoryViewController *hvc = [[KLEHistoryViewController alloc] init];
-    UINavigationController *hvcNav = [[UINavigationController alloc] initWithRootViewController:hvc];
+    // routine view
+    KLERoutineViewController *routineView = [KLERoutineViewController new];
+    UINavigationController *routineViewNav = [[UINavigationController alloc] initWithRootViewController:routineView];
+    
+    UIImage *routineTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
+    UITabBarItem *routineTabItem = [[UITabBarItem alloc] initWithTitle:nil image:routineTabBarImage tag:1];
+    routineView.tabBarItem = routineTabItem;
+    
+    // history view
+    KLEHistoryViewController *historyView = [KLEHistoryViewController new];
+    UINavigationController *historyViewNav = [[UINavigationController alloc] initWithRootViewController:historyView];
     
     UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
-    UITabBarItem *htbi = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
-    hvc.tabBarItem = htbi;
+    UITabBarItem *historyTabItem = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
+    historyView.tabBarItem = historyTabItem;
 
-    UITabBarController *tbc = [[UITabBarController alloc] init];
-    tbc.viewControllers = @[dvcNav, cvc, hvcNav];
+    UITabBarController *tabBar = [UITabBarController new];
+    tabBar.viewControllers = @[dailyViewNav, routineViewNav, historyViewNav];
     
-    self.window.rootViewController = tbc;
+    self.window.rootViewController = tabBar;
     
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
