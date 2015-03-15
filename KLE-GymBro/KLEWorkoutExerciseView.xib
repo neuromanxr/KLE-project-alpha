@@ -10,6 +10,7 @@
                 <outlet property="finishWorkoutButton" destination="dzE-Ql-z23" id="yF1-PY-tZD"/>
                 <outlet property="increaseWeightButton" destination="ilw-Qy-hEh" id="XbQ-MY-mLc"/>
                 <outlet property="repsWorkoutButton" destination="IZl-TZ-Olg" id="iYg-iM-8Yw"/>
+                <outlet property="resetButton" destination="4vQ-5c-xkc" id="x5n-Ni-jja"/>
                 <outlet property="setsWorkoutButton" destination="AWm-67-5Fh" id="gd9-dA-qGP"/>
                 <outlet property="view" destination="iN0-l3-epB" id="UVt-U5-Ay8"/>
                 <outlet property="weightIncrementLabel" destination="hgb-kE-YLL" id="yIY-qb-lkS"/>
@@ -76,6 +77,16 @@
                     <rect key="frame" x="187" y="250" width="125" height="125"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4vQ-5c-xkc">
+                    <rect key="frame" x="226" y="397" width="46" height="30"/>
+                    <state key="normal" title="Reset">
+                        <color key="titleColor" red="0.77263144839999998" green="0.17794146" blue="0.076295328849999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="resetButtonAction:" destination="-1" eventType="touchUpInside" id="lYJ-hr-ctd"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>

@@ -16,7 +16,8 @@
 #import "KLEAppDelegate.h"
 #import "KLEHistoryViewController.h"
 #import "KLEGraphViewController.h"
-#import "KLEHistoryDetailViewController.h"
+
+#import "KLEHistoryDetailTableViewController.h"
 
 #define kDateCompleted [NSString stringWithString:@"datecompleted"];
 #define kRoutineName [NSString stringWithString:@"routinename"];
@@ -308,9 +309,12 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    KLEHistoryDetailViewController *historyDetailView = [KLEHistoryDetailViewController new];
     
-    [self.navigationController pushViewController:historyDetailView animated:YES];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+    KLEHistoryDetailTableViewController *historyDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"HistoryDetail"];
+    historyDetailTableViewController.selectedExerciseCompleted = [self.frc objectAtIndexPath:indexPath];
+    
+    [self.navigationController pushViewController:historyDetailTableViewController animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

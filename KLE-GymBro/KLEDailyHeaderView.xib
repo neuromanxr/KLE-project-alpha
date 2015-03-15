@@ -22,7 +22,7 @@
                         <constraint firstAttribute="height" constant="21" id="8TV-kh-6Q0"/>
                         <constraint firstAttribute="width" constant="119" id="nwy-80-It4"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -32,12 +32,12 @@
                         <constraint firstAttribute="height" constant="21" id="OPK-Ab-qAo"/>
                         <constraint firstAttribute="width" constant="110" id="OXD-qh-5J3"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.77263144839999998" green="0.17794146" blue="0.076295328849999997" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="RrX-aM-rwa" firstAttribute="leading" secondItem="qCr-It-q8e" secondAttribute="leading" constant="6" id="2EE-pm-RsQ"/>
                 <constraint firstAttribute="centerY" secondItem="RrX-aM-rwa" secondAttribute="centerY" constant="0.5" id="3xn-YV-0wT"/>

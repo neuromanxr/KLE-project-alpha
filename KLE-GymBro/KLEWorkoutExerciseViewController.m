@@ -39,7 +39,7 @@
     
     _weightTextField.delegate = self;
     _weightTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    _workoutFeedLabel.text = @"- - -";
+    _workoutFeedLabel.text = @"Start your set then press S";
     
     [self setupExerciseData];
     
@@ -47,6 +47,8 @@
     
     [_decreaseWeightButton addTarget:self action:@selector(decreaseWeight) forControlEvents:UIControlEventTouchUpInside];
     [_increaseWeightButton addTarget:self action:@selector(increaseWeight) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,9 +64,8 @@
     [_setsWorkoutButton.setsButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.sets] forState:UIControlStateNormal];
     _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.reps];
     
-    [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
-    
     [_finishWorkoutButton setEnabled:NO];
+    [_finishWorkoutButton setAlpha:0.5];
     
 }
 
@@ -112,7 +113,8 @@
     NSLog(@"MAX WEIGHT %@", maxInWeightArray);
     
     // date range test
-    NSDate *dateTest = [[NSDate date] dateBySubtractingMonths:12];
+//    NSDate *dateTest = [[NSDate date] dateBySubtractingMonths:12];
+    
     NSLog(@"NSDATE IN FINISH WORKOUT %@", [self todaysDate]);
     exerciseCompleted.maxweight = maxInWeightArray;
     exerciseCompleted.setscompleted = [NSNumber numberWithInteger:_currentSet];
@@ -143,6 +145,7 @@
     
 }
 
+// for weight subtracting and adding //
 - (void)decreaseWeight
 {
     CGFloat weightChangeValue = [_weightIncrementLabel.text floatValue];
@@ -160,6 +163,7 @@
     }
 }
 
+// for weight subtracting and adding, can combine both later //
 - (void)increaseWeight
 {
     CGFloat weightChangeValue = [_weightIncrementLabel.text floatValue];
@@ -185,7 +189,7 @@
     NSLog(@"~~number: %@", number);
 }
 
-// delegate method for sets button
+// delegate method to set the current set for sets button
 - (void)currentSet:(CGFloat)set
 {
     // delegate method to get the current set
@@ -234,16 +238,20 @@
     
     NSString *repsWeightString = [currentReps stringByAppendingString:currentWeight];
     
+    /*
     // for storing reps and weight as string instead of transformable array in core data
-//    if (!_repsWeightString) {
-//        _repsWeightString = [[NSMutableString alloc] init];
-//    }
-//    [_repsWeightString appendString:currentReps];
-//    [_repsWeightString appendString:currentWeight];
+     
+    if (!_repsWeightString) {
+        _repsWeightString = [[NSMutableString alloc] init];
+    }
+    [_repsWeightString appendString:currentReps];
+    [_repsWeightString appendString:currentWeight];
     
-//    NSLog(@"REPS WEIGHT STRING %@", _repsWeightString);
+    NSLog(@"REPS WEIGHT STRING %@", _repsWeightString);
+    */
     
-    if (!_currentRepsWeightArray) {
+    if (!_currentRepsWeightArray)
+    {
         _currentRepsWeightArray = [[NSMutableArray alloc] init];
     }
 
@@ -251,7 +259,19 @@
     
     NSLog(@"CURRENT REPS WEIGHT ARRAY IN WORKOUT: %@", _currentRepsWeightArray);
     
+    // when finished with last set, disable the sets workout button
+    if (_currentSet == [_selectedRoutineExercise.sets integerValue])
+    {
+        NSLog(@"SETS AT 0");
+        [_setsWorkoutButton.setsButton setEnabled:NO];
+        [_setsWorkoutButton setAlpha:0.5];
+        
+        [_repsWorkoutButton setEnabled:NO];
+        [_repsWorkoutButton setAlpha:0.5];
+    }
+    
     [_finishWorkoutButton setEnabled:YES];
+    [_finishWorkoutButton setAlpha:1.0];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -272,4 +292,21 @@
     return YES;
 }
 
+- (IBAction)resetButtonAction:(UIButton *)sender
+{
+    _currentSet = 0;
+    _currentRepsWeightArray = nil;
+    
+    _workoutFeedLabel.text = @"Start your set then press S";
+    
+    [_setsWorkoutButton.setsButton setEnabled:YES];
+    [_setsWorkoutButton setAlpha:1.0];
+    
+    [_repsWorkoutButton setEnabled:YES];
+    [_repsWorkoutButton setAlpha:1.0];
+    
+    [_setsWorkoutButton resetAngle:0.0];
+    
+    [self setupExerciseData];
+}
 @end

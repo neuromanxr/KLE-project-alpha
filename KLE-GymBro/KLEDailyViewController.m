@@ -32,13 +32,12 @@
 #define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
 #define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
 
-// can remove splitviewcontroller delegate
-@interface KLEDailyViewController () <UISplitViewControllerDelegate>
+
+@interface KLEDailyViewController ()
 
 @property (nonatomic, copy) NSArray *daysArray;
 @property (nonatomic, copy) NSArray *datesArray;
-    
-//@property (nonatomic, assign) NSInteger selectedIndex;
+
 @property (nonatomic, assign) NSInteger indexInActionRowPaths;
 @property (nonatomic, assign) NSUInteger rowCountBySection;
 @property (nonatomic, assign) NSUInteger currentSet;
@@ -49,12 +48,9 @@
 
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
-//@property (strong, nonatomic) IBOutlet UIView *dailyFooterView;
 
 @property (weak, nonatomic) IBOutlet UILabel *headerDayLabel;
 @property (weak, nonatomic) IBOutlet UILabel *headerDateLabel;
-//@property (weak, nonatomic) IBOutlet UIButton *footerAddButton;
-//@property (strong, nonatomic) UIBarButtonItem *editButton;
 
 // action rows
 @property (nonatomic, strong) KLEActionCell *actionCell;
@@ -62,7 +58,6 @@
 @property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
 @property (nonatomic, strong) NSArray *routineObjects;
-//@property (nonatomic, strong) NSArray *exercisesInActionRows;
 
 @end
 
@@ -100,9 +95,12 @@
 
 - (void)showSettingsView
 {
-    KLESettingsTableViewController *settingsTableView = [KLESettingsTableViewController new];
+//    KLESettingsTableViewController *settingsTableView = [KLESettingsTableViewController new];
     
-    [self.navigationController pushViewController:settingsTableView animated:YES];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+    KLESettingsTableViewController *settingsTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"Settings"];
+    
+    [self.navigationController pushViewController:settingsTableViewController animated:YES];
 }
 
 - (NSArray *)fetchRoutinesWithIndexPath:(NSIndexPath *)indexPath
@@ -465,8 +463,6 @@
         
         actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
         actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
-//        actionCell.repsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.reps];
-//        actionCell.setsLabel.text = [NSString stringWithFormat:@"%@", routineExercise.sets];
         
         // remove spacing from cell seperator
         actionCell.layoutMargins = UIEdgeInsetsZero;
@@ -568,7 +564,8 @@
 }
 
 - (void)startWorkout:(UIButton *)button event:(id)event
-{    
+{
+#warning Crash when dragging touch on start button
     NSNumber *dayNumber = @(button.tag);
     NSLog(@"Add button tapped in section %@", dayNumber);
     

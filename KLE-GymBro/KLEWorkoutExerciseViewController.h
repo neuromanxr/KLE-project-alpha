@@ -30,4 +30,6 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *finishWorkoutButton;
 
+@property (strong, nonatomic) IBOutlet UIButton *resetButton;
+- (IBAction)resetButtonAction:(UIButton *)sender;
 @end

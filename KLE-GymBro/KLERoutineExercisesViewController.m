@@ -294,7 +294,8 @@
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
     
     selectedRoutine.routinename = self.tableHeaderView.renameRoutineTextField.text;
-    self.tableHeaderView.renameRoutineTextField.placeholder = nil;
+    self.tableHeaderView.renameRoutineTextField.placeholder = selectedRoutine.routinename;
+    self.navigationItem.title = selectedRoutine.routinename;
     
     
 //    selectedRoutine.routinename = self.routineTextField.text;
@@ -369,12 +370,22 @@
     self.tableHeaderView = [KLETableHeaderView routineExercisesTableHeaderView];
     self.tableView.tableHeaderView = self.tableHeaderView;
     
+    // day button
     [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
     
     // set the delegate for textfield to this view controller
     self.tableHeaderView.renameRoutineTextField.delegate = self;
+    self.tableHeaderView.renameRoutineTextField.text = selectedRoutine.routinename;
+    
+    self.navigationItem.title = selectedRoutine.routinename;
+    
+    [self createAddExerciseButton];
     
 //    self.routineTextField.delegate = self;
+//    [self.routineTextField setText:selectedRoutine.routinename];
     
 
     /* for split view, did the display mode change (all visible)
@@ -396,14 +407,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    
-    [self createAddExerciseButton];
-    
-    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
-    
-    [self.routineTextField setText:selectedRoutine.routinename];
-    
-    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
     
 }
 
