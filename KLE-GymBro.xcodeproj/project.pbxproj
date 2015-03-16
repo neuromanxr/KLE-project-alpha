@@ -11,6 +11,7 @@
 		500341A01AB3A4C10003BCD2 /* KLEHistoryDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5003419F1AB3A4C10003BCD2 /* KLEHistoryDetailTableViewController.m */; };
 		500341A31AB57A990003BCD2 /* KLEWeightControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 500341A21AB57A990003BCD2 /* KLEWeightControl.m */; };
 		500341A51AB57AF40003BCD2 /* KLEWeightControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500341A41AB57AF40003BCD2 /* KLEWeightControl.xib */; };
+		500341A81AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 500341A71AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.m */; };
 		502E2E851AA319CB0083BDEA /* DateTools.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 502E2E761AA319CB0083BDEA /* DateTools.bundle */; };
 		502E2E861AA319CB0083BDEA /* DTError.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E7A1AA319CB0083BDEA /* DTError.m */; };
 		502E2E871AA319CB0083BDEA /* DTTimePeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E7C1AA319CB0083BDEA /* DTTimePeriod.m */; };
@@ -114,6 +115,8 @@
 		500341A11AB57A990003BCD2 /* KLEWeightControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWeightControl.h; sourceTree = "<group>"; };
 		500341A21AB57A990003BCD2 /* KLEWeightControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWeightControl.m; sourceTree = "<group>"; };
 		500341A41AB57AF40003BCD2 /* KLEWeightControl.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEWeightControl.xib; sourceTree = "<group>"; };
+		500341A61AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoutineDetailTableViewController.h; sourceTree = "<group>"; };
+		500341A71AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoutineDetailTableViewController.m; sourceTree = "<group>"; };
 		502E2E761AA319CB0083BDEA /* DateTools.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DateTools.bundle; sourceTree = "<group>"; };
 		502E2E771AA319CB0083BDEA /* DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTools.h; sourceTree = "<group>"; };
 		502E2E781AA319CB0083BDEA /* DTConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTConstants.h; sourceTree = "<group>"; };
@@ -373,6 +376,8 @@
 				50E403511AB1EBD00004F234 /* KLESettingsTableViewController.h */,
 				50E403521AB1EBD00004F234 /* KLESettingsTableViewController.m */,
 				5003419C1AB3A4180003BCD2 /* KLEStoryBoard.storyboard */,
+				500341A61AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.h */,
+				500341A71AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.m */,
 				5003419E1AB3A4C10003BCD2 /* KLEHistoryDetailTableViewController.h */,
 				5003419F1AB3A4C10003BCD2 /* KLEHistoryDetailTableViewController.m */,
 				507530801A782E8C0006C08D /* KLEHistoryViewController.h */,
@@ -691,6 +696,7 @@
 				50DD4CE119C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m in Sources */,
 				50F9AC8C1A9E64C1005B8047 /* BEMCircle.m in Sources */,
 				50F9AC8F1A9E64C1005B8047 /* BEMSimpleLineGraphView.m in Sources */,
+				500341A81AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.m in Sources */,
 				50F9AC8E1A9E64C1005B8047 /* BEMPermanentPopupView.m in Sources */,
 				503765951A9D5BA4000CC53A /* KLEExerciseGoal.m in Sources */,
 				50A9C3E71A99817F00640051 /* KLERoundButton.m in Sources */,

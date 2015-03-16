@@ -24,11 +24,19 @@
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWl-Xj-8i2">
+                        <rect key="frame" x="277" y="3" width="35" height="50"/>
+                        <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="18"/>
+                        <state key="normal" title="|||">
+                            <color key="titleColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="nameLabel" destination="Zgv-uL-uzu" id="6t1-bO-0eE"/>
                 <outlet property="repsLabel" destination="aTi-Mp-vBM" id="awA-hQ-swV"/>
+                <outlet property="routineDetailButton" destination="DWl-Xj-8i2" id="5FQ-AF-hJ9"/>
             </connections>
         </tableViewCell>
     </objects>

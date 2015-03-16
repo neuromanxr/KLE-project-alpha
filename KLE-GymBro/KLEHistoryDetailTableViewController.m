@@ -9,7 +9,7 @@
 #import "KLEHistoryDetailTableViewController.h"
 #import "KLEWeightControl.h"
 
-@interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
+@interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 
 @property (nonatomic, copy) NSMutableArray *repsCompletedArray;
 @property (nonatomic, copy) NSMutableArray *weightCompletedArray;
@@ -18,14 +18,11 @@
 
 @property (weak, nonatomic) IBOutlet UIPickerView *setsCompletedPicker;
 @property (strong, nonatomic) IBOutlet UILabel *repsCompletedLabel;
-@property (strong, nonatomic) IBOutlet UILabel *weightCompletedLabel;
 
 @property (strong, nonatomic) IBOutlet UISlider *repsCompletedSlider;
 - (IBAction)repsCompletedSliderAction:(UISlider *)sender;
 
-@property (strong, nonatomic) IBOutlet UISlider *weightCompletedSlider;
-- (IBAction)weightCompletedSliderAction:(UISlider *)sender;
-
+@property (strong, nonatomic) IBOutlet KLEWeightControl *weightControl;
 @end
 
 @implementation KLEHistoryDetailTableViewController
@@ -40,13 +37,29 @@
     _setsCompletedPicker.delegate = self;
     _setsCompletedPicker.dataSource = self;
     
+    _weightControl.weightTextField.delegate = self;
+    _weightControl.weightTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    
     [self pickerView:_setsCompletedPicker didSelectRow:0 inComponent:0];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(toggleEditSave:)];
+    self.navigationItem.rightBarButtonItem = editButton;
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [_repsCompletedSlider setEnabled:NO];
+    [_weightControl setEnabled:NO];
+    [_weightControl setAlpha:0.3];
+    [_dateCompletedPicker setAlpha:0.3];
+    [_dateCompletedPicker setUserInteractionEnabled:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,11 +82,37 @@
     NSLog(@"REPS COMPLETED ARRAY IN HISTORY DETAIL %@, weight completed %@", _repsCompletedArray, _weightCompletedArray);
 }
 
-- (void)setupExerciseCompletedData
+- (void)combineStringsToRepsWeightArray
 {
     [_selectedExerciseCompleted.repsweightarray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         
     }];
+}
+
+- (void)toggleEditSave:(UIBarButtonItem *)sender
+{
+    NSLog(@"BAR BUTTON STYLE %lu", sender.style);
+    if (sender.style == UIBarButtonItemStylePlain) {
+        NSLog(@"EDIT");
+        
+        [_repsCompletedSlider setEnabled:YES];
+        [_weightControl setEnabled:YES];
+        [_weightControl setAlpha:1.0];
+        [_dateCompletedPicker setUserInteractionEnabled:YES];
+        [_dateCompletedPicker setAlpha:1.0];
+        
+        [sender setStyle:UIBarButtonItemStyleDone];
+        [sender setTitle:@"Save"];
+    }
+    else
+    {
+        NSLog(@"ELSE STYLE %lu", sender.style);
+        
+        [sender setStyle:UIBarButtonItemStylePlain];
+        [sender setTitle:@"Edit"];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - Picker view data source
@@ -109,10 +148,12 @@
     NSString *weightCompleted = _weightCompletedArray[row];
     
     _repsCompletedLabel.text = repsCompleted;
-    _weightCompletedLabel.text = weightCompleted;
+    _weightControl.weightTextField.text = weightCompleted;
+    _dateCompletedPicker.date = _selectedExerciseCompleted.datecompleted;
     
     [_repsCompletedSlider setValue:[repsCompleted integerValue]];
-    [_weightCompletedSlider setValue:[weightCompleted floatValue]];
+    
+    NSLog(@"WEIGHT CONTROL %@", _weightControl.weightTextField.text);
 }
 
 #pragma mark - Table view data source
@@ -145,27 +186,28 @@
 //    return cell;
 //}
 
-
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 */
-
-/*
+ 
 // Override to support editing the table view.
+/*
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+    NSLog(@"EDITING STYLE %lu", editingStyle);
+    if (editingStyle == UITableViewCellEditingStyleNone) {
         // Delete the row from the data source
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
 */
-
+ 
 /*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
@@ -190,6 +232,24 @@
 }
 */
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"BEGAN EDITING");
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"END EDITING");
+//    _selectedExerciseCompleted.reps = [NSNumber numberWithInteger:[_weightControl.weightTextField.text integerValue]];
+//    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 - (IBAction)dateCompletedAction:(UIDatePicker *)sender
 {
     NSLog(@"Date Completed %@", sender.date);
@@ -200,8 +260,5 @@
     
     _repsCompletedLabel.text = [NSString stringWithFormat:@"%.f", sender.value];
 }
-- (IBAction)weightCompletedSliderAction:(UISlider *)sender
-{
-    _weightCompletedLabel.text = [NSString stringWithFormat:@"%.2f", sender.value];
-}
+
 @end

@@ -12,6 +12,7 @@
 
 #import "KLERoutineViewCell.h"
 
+#import "KLERoutineDetailTableViewController.h"
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
@@ -85,6 +86,7 @@
     KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
 
     cell.nameLabel.text = routine.routinename;
+    [cell.routineDetailButton addTarget:self action:@selector(showRoutineDetails:event:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -100,6 +102,29 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 56.0;
+}
+
+- (void)showRoutineDetails:(UIButton *)button event:(id)event
+{
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    
+    if (indexPath != nil) {
+        
+        [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+    KLERoutineDetailTableViewController *routineDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineDetail"];
+    routineDetailTableViewController.selectedRoutine = [self.frc objectAtIndexPath:indexPath];
+    
+    [self.navigationController pushViewController:routineDetailTableViewController animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

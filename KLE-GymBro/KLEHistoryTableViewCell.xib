@@ -37,24 +37,9 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyF-7f-rBY">
-                        <rect key="frame" x="212" y="39" width="100" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <button opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7u-dx-TyA">
-                        <rect key="frame" x="285" y="0.0" width="35" height="80"/>
-                        <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="18"/>
-                        <state key="normal" title="&gt;">
-                            <color key="titleColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
-                        </state>
-                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="dateCompleted" destination="LyF-7f-rBY" id="mc6-I7-DBH"/>
-                <outlet property="detailHistoryButton" destination="R7u-dx-TyA" id="2Ht-9r-r0I"/>
                 <outlet property="exerciseLabel" destination="oyx-7i-xJC" id="eSG-lN-OVz"/>
                 <outlet property="repsWeightLabel" destination="mGF-92-J07" id="BRz-b3-f3h"/>
                 <outlet property="routineName" destination="pPo-9X-57Z" id="uW4-KA-OO6"/>

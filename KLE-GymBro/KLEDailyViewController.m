@@ -696,7 +696,7 @@
     for (int i = 0; i < 7; i++) {
         
         NSDate *dayDate = [startWeekDate dateByAddingDays:i];
-        NSString *dateString = [dayDate formattedDateWithFormat:@"MMMM-dd-yy" timeZone:[NSTimeZone localTimeZone]];
+        NSString *dateString = [dayDate formattedDateWithFormat:@"MMMM dd" timeZone:[NSTimeZone localTimeZone]];
         NSString *dayString = [dayDate formattedDateWithFormat:@"EEEE" timeZone:[NSTimeZone localTimeZone]];
         [weekDatesArray addObject:dateString];
         [weekDayArray addObject:dayString];
@@ -743,12 +743,12 @@
                     if (![self.actionRowPaths count]) {
                         
                         if (i > 4) {
-//                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
 //                            [self.tableView scrollToRowAtIndexPath:[self.actionRowPaths lastObject] atScrollPosition:UITableViewScrollPositionNone animated:YES];
                         }
                         else
                         {
-//                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
                         }
                         
                         [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];

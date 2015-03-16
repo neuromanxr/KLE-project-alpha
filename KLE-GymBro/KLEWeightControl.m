@@ -77,24 +77,6 @@
     NSLog(@"~~number: %@", number);
 }
 
-//- (void)textFieldDidBeginEditing:(UITextField *)textField
-//{
-//    NSLog(@"BEGAN EDITING");
-//}
-//
-//- (void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    NSLog(@"END EDITING");
-//    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightTextField.text integerValue]];
-//    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
-//}
-//
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-//    [textField resignFirstResponder];
-//    return YES;
-//}
-
 - (IBAction)weightIncrementSliderAction:(UISlider *)sender
 {
     // round the slider position to the nearest index of the weight increment numbers array

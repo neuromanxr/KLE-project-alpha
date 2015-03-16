@@ -214,18 +214,7 @@
     [self presentViewController:dateRangeActionSheet animated:YES completion:nil];
 }
 
-- (void)showHistoryDetailView:(UIButton *)button event:(id)event
-{
-    NSSet *touches = [event allTouches];
-    UITouch *touch = [touches anyObject];
-    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
-    
-    if (indexPath != nil) {
-        
-        [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
-    }
-}
+
 
 - (NSDate *)todaysDate
 {
@@ -277,15 +266,12 @@
     cell.repsWeightLabel.text = [exerciseCompleted.repsweightarray firstObject];
     cell.routineName.text = exerciseCompleted.routinename;
     cell.exerciseLabel.text = exerciseCompleted.exercisename;
-    cell.dateCompleted.text = [self dateCompleted:exerciseCompleted.datecompleted];
     
     // change cell selected color
     UIView *selectedColorView = [UIView new];
     UIColor *orange = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:0.7];
     [selectedColorView setBackgroundColor:orange];
     [cell setSelectedBackgroundView:selectedColorView];
-    
-    [cell.detailHistoryButton addTarget:self action:@selector(showHistoryDetailView:event:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -307,41 +293,36 @@
     return 80.0;
 }
 
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Cell selected");
+    
+//    KLEHistoryTableViewCell * cell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+//    
+//    KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
+//    NSArray *repsWeightArray = exerciseCompleted.repsweightarray;
+//    
+//    if (cell.repsWeightCompleted != 0) {
+//        
+//        NSLog(@"SETS REPS LABEL %@", cell.repsWeightLabel.text);
+//        cell.repsWeightCompleted--;
+//        cell.setsCompleted--;
+//    }
+//    else
+//    {
+//        NSLog(@"cell tag at ZERO");
+//        cell.repsWeightCompleted = [repsWeightArray count] - 1;
+//        cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
+//    }
+//    
+//    cell.repsWeightLabel.text = repsWeightArray[cell.repsWeightCompleted];
+//    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", cell.setsCompleted];
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
     KLEHistoryDetailTableViewController *historyDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"HistoryDetail"];
     historyDetailTableViewController.selectedExerciseCompleted = [self.frc objectAtIndexPath:indexPath];
     
     [self.navigationController pushViewController:historyDetailTableViewController animated:YES];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"Cell selected");
-    
-    KLEHistoryTableViewCell * cell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    
-    KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
-    NSArray *repsWeightArray = exerciseCompleted.repsweightarray;
-    
-    if (cell.repsWeightCompleted != 0) {
-        
-        NSLog(@"SETS REPS LABEL %@", cell.repsWeightLabel.text);
-        cell.repsWeightCompleted--;
-        cell.setsCompleted--;
-    }
-    else
-    {
-        NSLog(@"cell tag at ZERO");
-        cell.repsWeightCompleted = [repsWeightArray count] - 1;
-        cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
-    }
-    
-    cell.repsWeightLabel.text = repsWeightArray[cell.repsWeightCompleted];
-    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", cell.setsCompleted];
-    
     
 }
 

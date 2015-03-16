@@ -283,30 +283,6 @@
     }
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    NSLog(@"BEGAN EDITING");
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSLog(@"END EDITING");
-    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:nil];
-    
-    selectedRoutine.routinename = self.tableHeaderView.renameRoutineTextField.text;
-    self.tableHeaderView.renameRoutineTextField.placeholder = selectedRoutine.routinename;
-    self.navigationItem.title = selectedRoutine.routinename;
-    
-    
-//    selectedRoutine.routinename = self.routineTextField.text;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
-
 - (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
 {
     NSLog(@"REVC delegate ELVCselection %lu", selection.row);
@@ -375,10 +351,6 @@
     
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
     [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
-    
-    // set the delegate for textfield to this view controller
-    self.tableHeaderView.renameRoutineTextField.delegate = self;
-    self.tableHeaderView.renameRoutineTextField.text = selectedRoutine.routinename;
     
     self.navigationItem.title = selectedRoutine.routinename;
     
