@@ -10,6 +10,7 @@
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
 
+#import "KLEUtility.h"
 #import "KLERoutineViewCell.h"
 
 #import "KLERoutineDetailTableViewController.h"
@@ -49,9 +50,8 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
+        
         UINavigationItem *navItem = self.navigationItem;
-        // title for rvc
-        navItem.title = @"Routines";
         
         // button to add exercises
 //        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
@@ -88,6 +88,10 @@
     cell.nameLabel.text = routine.routinename;
     [cell.routineDetailButton addTarget:self action:@selector(showRoutineDetails:event:) forControlEvents:UIControlEventTouchUpInside];
     
+    UIView *selectedColorView = [[UIView alloc] init];
+    [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];
+    [cell setSelectedBackgroundView:selectedColorView];
+    
     return cell;
 }
 
@@ -99,9 +103,19 @@
     return nil;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    [headerView.backgroundView setBackgroundColor:[UIColor kPrimaryColor]];
+    [headerView.backgroundView setAlpha:0.7];
+    [headerView.textLabel setTextColor:[UIColor whiteColor]];
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 56.0;
+    return 50.0;
 }
 
 - (void)showRoutineDetails:(UIButton *)button event:(id)event
@@ -115,6 +129,26 @@
         
         [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    KLERoutineViewCell *routineCell = (KLERoutineViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineCell.nameLabel setTextColor:[UIColor whiteColor]];
+    [routineCell.routineDetailButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLERoutineViewCell *routineCell = (KLERoutineViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineCell.nameLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineCell.routineDetailButton setTitleColor:[UIColor kPrimaryColor] forState:UIControlStateNormal];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -280,6 +314,7 @@
     
     self.navigationItem.leftBarButtonItem = addButton;
     
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -291,6 +326,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
     
 }
 

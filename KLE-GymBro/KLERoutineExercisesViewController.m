@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "Pickers/ActionSheetStringPicker.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
@@ -16,6 +17,8 @@
 #import "KLERoutineExercisesViewCell.h"
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
+
+#import "KLERoutineExerciseDetailTableViewController.h"
 #import "KLERoutineExerciseDetailViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
 
@@ -117,16 +120,7 @@
     // get the selected routine in the current context
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:objectID];
     
-    // custom title for navigation title
-//    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:13], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
-    // custom title for navigation title
-//    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
-//    title.backgroundColor = [UIColor clearColor];
-//    title.textColor = [UIColor blueColor];
-//    title.numberOfLines = 0;
-//    title.attributedText = attribString;
-//    [title sizeToFit];
-//    self.navigationItem.titleView = title;
+    
     
     self.routineTextField.text = selectedRoutine.routinename;
     
@@ -212,7 +206,35 @@
     cell.repsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.reps];
     cell.weightLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.weight];
     
+    UIView *selectedColorView = [[UIView alloc] init];
+    [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];
+    [cell setSelectedBackgroundView:selectedColorView];
+    
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    KLERoutineExercisesViewCell *routineExerciseCell = (KLERoutineExercisesViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineExerciseCell.exerciseNameLabel setTextColor:[UIColor whiteColor]];
+    [routineExerciseCell.setsLabel setTextColor:[UIColor whiteColor]];
+    [routineExerciseCell.repsLabel setTextColor:[UIColor whiteColor]];
+    [routineExerciseCell.weightLabel setTextColor:[UIColor whiteColor]];
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLERoutineExercisesViewCell *routineExerciseCell = (KLERoutineExercisesViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineExerciseCell.exerciseNameLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineExerciseCell.setsLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineExerciseCell.repsLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineExerciseCell.weightLabel setTextColor:[UIColor kPrimaryColor]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -228,11 +250,20 @@
     }
     else
     {
-        KLERoutineExerciseDetailViewController *redvc = [[KLERoutineExerciseDetailViewController alloc] init];
-        redvc.selectedRoutineExercise = routineExercise;
-        NSLog(@"ROUTINE EXERCISES VIEW CONTROLLER MODE %lu", self.mode);
+#warning finish this
         
-        [self.navigationController pushViewController:redvc animated:YES];
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+        KLERoutineExerciseDetailTableViewController *routineExerciseDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineExerciseDetail"];
+        routineExerciseDetailTableViewController.selectedRoutineExercise = [self.frc objectAtIndexPath:indexPath];
+        
+        [self.navigationController pushViewController:routineExerciseDetailTableViewController animated:YES];
+        
+        
+//        KLERoutineExerciseDetailViewController *redvc = [[KLERoutineExerciseDetailViewController alloc] init];
+//        redvc.selectedRoutineExercise = routineExercise;
+//        NSLog(@"ROUTINE EXERCISES VIEW CONTROLLER MODE %lu", self.mode);
+//        
+//        [self.navigationController pushViewController:redvc animated:YES];
     }
 }
 
@@ -247,6 +278,15 @@
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    [headerView.backgroundView setBackgroundColor:[UIColor kPrimaryColor]];
+    [headerView.textLabel setTextColor:[UIColor whiteColor]];
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
 }
 
 - (void)addNewExercise
@@ -292,6 +332,7 @@
 - (void)showActionSheet
 {
     NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
+    
     [ActionSheetStringPicker showPickerWithTitle:@"Select a Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         
         NSError *error = nil;
@@ -348,6 +389,11 @@
     
     // day button
     [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
+        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
+    } completion:^(BOOL finished) {
+        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+    }];
     
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
     [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];

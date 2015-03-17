@@ -5,7 +5,7 @@
 //  Created by Kelvin Lee on 9/1/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
-
+#import "KLEUtility.h"
 #import "KLEExercise.h"
 
 #import "KLEHistoryViewController.h"
@@ -89,6 +89,29 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayModeChangeNote" object:[NSNumber numberWithInteger:displayMode]];
 }
 
+- (void)setupNavigationBarWithTitle:(NSString *)titleName forViewController:(UIViewController *)viewController
+{
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:titleName attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    
+    //    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    //    logo.contentMode = UIViewContentModeScaleAspectFit;
+    //    UIImage *logoImage = [UIImage imageNamed:@""];
+    //    [logo setImage:logoImage];
+    //    self.navigationItem.titleView = logo;
+    
+    [viewController.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [viewController.navigationController.navigationBar setTintColor:[UIColor orangeColor]];
+    [viewController.navigationItem setTitleView:title];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     if (debug==1)
@@ -115,10 +138,12 @@
     KLEDailyViewController *dailyView = [KLEDailyViewController new];
     UINavigationController *dailyViewNav = [[UINavigationController alloc] initWithRootViewController:dailyView];
     // daily view tab bar stuff in daily view controller
+    [self setupNavigationBarWithTitle:@"GymBro" forViewController:dailyView];
     
     // routine view
     KLERoutineViewController *routineView = [KLERoutineViewController new];
     UINavigationController *routineViewNav = [[UINavigationController alloc] initWithRootViewController:routineView];
+    [self setupNavigationBarWithTitle:@"Routines" forViewController:routineView];
     
     UIImage *routineTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
     UITabBarItem *routineTabItem = [[UITabBarItem alloc] initWithTitle:nil image:routineTabBarImage tag:1];
@@ -127,15 +152,18 @@
     // history view
     KLEHistoryViewController *historyView = [KLEHistoryViewController new];
     UINavigationController *historyViewNav = [[UINavigationController alloc] initWithRootViewController:historyView];
+    [self setupNavigationBarWithTitle:@"History" forViewController:historyView];
     
     UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
     UITabBarItem *historyTabItem = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
     historyView.tabBarItem = historyTabItem;
 
-    UITabBarController *tabBar = [UITabBarController new];
-    tabBar.viewControllers = @[dailyViewNav, routineViewNav, historyViewNav];
+    UITabBarController *threeTabBar = [UITabBarController new];
+    threeTabBar.viewControllers = @[dailyViewNav, routineViewNav, historyViewNav];
+    [threeTabBar.tabBar setBarStyle:UIBarStyleBlack];
+    [threeTabBar.tabBar setTintColor:[UIColor orangeColor]];
     
-    self.window.rootViewController = tabBar;
+    self.window.rootViewController = threeTabBar;
     
     [self.window makeKeyAndVisible];
     

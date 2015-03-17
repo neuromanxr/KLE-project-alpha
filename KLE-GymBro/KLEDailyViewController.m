@@ -14,6 +14,7 @@
 #import "KLERoutine.h"
 #import "KLEAppDelegate.h"
 
+#import "KLEUtility.h"
 #import "DateTools.h"
 #import "NSIndexPathUtilities.h"
 #import "KLEActionCell.h"
@@ -74,15 +75,15 @@
     if (self) {
         
         UINavigationItem *navItem = self.navigationItem;
-        navItem.title = @"GymBro";
         
         UITabBarItem *tbi = [self tabBarItem];
         UIImage *tabBarImage = [UIImage imageNamed:@"weightlift.png"];
         tbi.image = tabBarImage;
         
         UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
-
+        
         navItem.rightBarButtonItem = settingsBarButton;
+        
     }
     
     return self;
@@ -95,7 +96,6 @@
 
 - (void)showSettingsView
 {
-//    KLESettingsTableViewController *settingsTableView = [KLESettingsTableViewController new];
     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
     KLESettingsTableViewController *settingsTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"Settings"];
@@ -251,6 +251,39 @@
 }
 
 #pragma mark TABLEVIEW
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.actionRowPaths)
+    {
+        return;
+    }
+    else
+    {
+        KLEDailyViewCell *dailyCell = (KLEDailyViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        [dailyCell.routineNameLabel setTextColor:[UIColor whiteColor]];
+        [dailyCell.startWorkoutButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.actionRowPaths)
+    {
+        return;
+    }
+    else
+    {
+        KLEDailyViewCell *dailyCell = (KLEDailyViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        [dailyCell.routineNameLabel setTextColor:[UIColor kPrimaryColor]];
+        [dailyCell.startWorkoutButton setTitleColor:[UIColor kPrimaryColor] forState:UIControlStateNormal];
+    }
+}
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -488,12 +521,11 @@
         NSLog(@"###cell for row objects %@ object count %lu", routineObjects, [routineObjects count]);
         KLERoutine *routine = [routineObjects objectAtIndex:adjustedRow];
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.routineNameLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0f];
         cell.routineNameLabel.text = routine.routinename;
         
         // change cell selected color
         UIView *selectedColorView = [[UIView alloc] init];
-        [selectedColorView setBackgroundColor:[UIColor orangeColor]];
+        [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];
         [cell setSelectedBackgroundView:selectedColorView];
         
         // start button calls accessoryButtonTappedForRow
@@ -684,6 +716,7 @@
     
     NSString *todaysDateString = [todaysDateWithComponents formattedDateWithFormat:@"MMMM-dd-yy" timeZone:[NSTimeZone localTimeZone]];
     
+#warning make it NSDATE
     self.todaysDate = todaysDateString;
     
     NSDate *startWeekDate = nil;
@@ -728,6 +761,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     
     if ([self.tableView indexPathsForVisibleRows]) {
         
@@ -779,6 +813,7 @@
 //    [self getDates];
     
     [self getWeekDates];
+    
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];

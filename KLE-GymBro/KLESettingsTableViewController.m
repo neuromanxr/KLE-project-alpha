@@ -14,41 +14,45 @@
 
 @implementation KLESettingsTableViewController
 
-//- (instancetype)init
-//{
-//    self = [super initWithStyle:UITableViewStyleGrouped];
-//    
-//    if (self) {
-//        UINavigationItem *navItem = self.navigationItem;
-//        
-//        navItem.title = @"Settings";
-//        
-//    }
-//    
-//    return self;
-//}
-//
-//- (instancetype)initWithStyle:(UITableViewStyle)style
-//{
-//    return [self init];
-//}
-//
-//- (void)viewDidLoad {
-//    [super viewDidLoad];
-//    
-//    // Uncomment the following line to preserve selection between presentations.
-//    // self.clearsSelectionOnViewWillAppear = NO;
-//    
-//    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-//    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-//    
-//    // load the nib file
-//    UINib *nib = [UINib nibWithNibName:@"KLESettingsTableViewCell" bundle:nil];
-//    //    [[NSBundle mainBundle] loadNibNamed:@"KLESettingsTableViewCell" owner:self options:nil];
-//    // register this nib, which contains the cell
-//    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLESettingsTableViewCell"];
-//    
-//}
+- (instancetype)init
+{
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    
+    if (self) {
+        
+        
+        
+        
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    return [self init];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLESettingsTableViewCell" bundle:nil];
+    //    [[NSBundle mainBundle] loadNibNamed:@"KLESettingsTableViewCell" owner:self options:nil];
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLESettingsTableViewCell"];
+    
+    UINavigationItem *navItem = self.navigationItem;
+    
+    [navItem setTitle:@"Settings"];
+    
+}
 //
 //- (void)didReceiveMemoryWarning {
 //    [super didReceiveMemoryWarning];

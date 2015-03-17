@@ -99,17 +99,22 @@
     
     KLEExerciseCompleted *exerciseCompleted = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseCompleted" inManagedObjectContext:cdh.context];
     
+    
+    // reps and weight of each set is recorded here from the currentRepsWeightArray
+    
 //    exerciseCompleted.repsweightarray = [[_currentRepsWeightArray reverseObjectEnumerator] allObjects];
     exerciseCompleted.repsweightarray = [NSArray arrayWithArray:_currentRepsWeightArray];
     
     // get the array then get the max weight
     NSArray *repsWeightArray = [NSArray arrayWithArray:_currentRepsWeightArray];
-    NSMutableArray *weightArray = [[NSMutableArray alloc] init];
-    for (NSString *weightString in repsWeightArray) {
-        NSNumber *weightNumber = [NSNumber numberWithFloat:[[[weightString componentsSeparatedByString:@" "] lastObject] floatValue]];
-        [weightArray addObject:weightNumber];
+    NSMutableArray *weightsArray = [[NSMutableArray alloc] init];
+    
+    for (NSString *repsWeightString in repsWeightArray) {
+        
+        NSNumber *weightNumber = [NSNumber numberWithFloat:[[[repsWeightString componentsSeparatedByString:@" "] lastObject] floatValue]];
+        [weightsArray addObject:weightNumber];
     }
-    NSNumber *maxInWeightArray = [weightArray valueForKeyPath:@"@max.self"];
+    NSNumber *maxInWeightArray = [weightsArray valueForKeyPath:@"@max.self"];
     NSLog(@"MAX WEIGHT %@", maxInWeightArray);
     
     // date range test
@@ -129,7 +134,7 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
-
+#warning use weight control class
 - (void)setupWeightSlider
 {
     _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];

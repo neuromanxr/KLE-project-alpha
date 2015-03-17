@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "DateTools.h"
 #import "KLEExerciseCompleted.h"
 #import "KLEAppDelegate.h"
@@ -77,6 +78,9 @@
     _dateCompletedArray = nil;
     _exerciseNameArray = nil;
     _routineNameArray = nil;
+    
+    // dismiss graph view when different tab selected
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -271,16 +275,19 @@
     _graphView.enableYAxisLabel = YES;
     _graphView.autoScaleYAxis = YES;
     
-    // colors
     
-//    _graphView.colorTop =
-//    _graphView.colorBottom =
-//    _graphView.colorLine =
-//    _graphView.colorReferenceLines =
-//    _graphView.colorPoint =
-//    _graphView.colorTouchInputLine =
-//    _graphView.colorBackgroundXaxis =
-//    _graphView.colorBackgroundYaxis =
+    // colors
+    _graphView.colorTop = [UIColor kGraphPrimaryColor];
+    _graphView.colorBottom = [UIColor kGraphSecondaryColor];
+    _graphView.colorLine = [UIColor kGraphPrimaryLineColor];
+    _graphView.colorReferenceLines = [UIColor kGraphPrimaryLineColor];
+    _graphView.colorPoint = [UIColor kGraphTouchLineColor];
+    _graphView.colorTouchInputLine = [UIColor kGraphTouchLineColor];
+    _graphView.colorBackgroundXaxis = [UIColor kGraphPrimaryColor];
+    _graphView.colorBackgroundYaxis = [UIColor kGraphPrimaryColor];
+    _graphView.colorXaxisLabel = [UIColor kGraphAxisLabelColor];
+    _graphView.colorYaxisLabel = [UIColor kGraphAxisLabelColor];
+    
     
     CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
     size_t num_locations = 2;
@@ -291,11 +298,7 @@
     };
     
     _graphView.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
-    _graphView.colorTop = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
-    _graphView.colorBottom = [UIColor colorWithRed:31.0/255.0 green:187.0/255.0 blue:166.0/255.0 alpha:1.0];
-    _graphView.colorLine = [UIColor whiteColor];
-    _graphView.colorXaxisLabel = [UIColor whiteColor];
-    _graphView.colorYaxisLabel = [UIColor whiteColor];
+    
     
     _detailStreamLabel.text = @"Exercise";
     _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];

@@ -11,6 +11,8 @@
 
 @interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 
+@property (nonatomic, copy) NSMutableArray *tempRepsWeightArray;
+
 @property (nonatomic, copy) NSMutableArray *repsCompletedArray;
 @property (nonatomic, copy) NSMutableArray *weightCompletedArray;
 @property (weak, nonatomic) IBOutlet UIDatePicker *dateCompletedPicker;

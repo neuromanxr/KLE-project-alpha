@@ -26,10 +26,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5h-Dc-73I" customClass="BEMSimpleLineGraphView">
-                    <rect key="frame" x="0.0" y="65" width="320" height="343"/>
-                    <color key="backgroundColor" red="0.12549019610000001" green="0.4549019608" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="0.0" y="65" width="320" height="342"/>
+                    <color key="backgroundColor" red="0.08235294118" green="0.43137254899999999" blue="0.53725490200000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="343" id="BlK-xD-vLA">
+                        <constraint firstAttribute="height" constant="342" id="BlK-xD-vLA">
                             <variation key="heightClass=compact" constant="204"/>
                             <variation key="widthClass=compact" constant="382"/>
                             <variation key="heightClass=compact-widthClass=compact" constant="204"/>
@@ -75,6 +75,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="r5h-Dc-73I" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="C63-Le-Yjc"/>
+                <constraint firstAttribute="bottom" secondItem="r5h-Dc-73I" secondAttribute="bottom" constant="161" id="Nrt-fy-adR"/>
                 <constraint firstAttribute="trailing" secondItem="r5h-Dc-73I" secondAttribute="trailing" id="XXY-Ax-alA"/>
                 <constraint firstItem="r5h-Dc-73I" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aev-fk-JCh"/>
             </constraints>

@@ -72,9 +72,13 @@
 
 - (NSArray *)exerciseArray
 {
+    // discard all other sets except for the exercise completed with max weight for graph view
+    
     NSMutableOrderedSet *exercises = [NSMutableOrderedSet new];
     
-    for (KLEExerciseCompleted *exerciseCompleted in [self.frc fetchedObjects]) {
+    NSArray *exercisesCompletedArray = [self.frc fetchedObjects];
+    
+    for (KLEExerciseCompleted *exerciseCompleted in exercisesCompletedArray) {
         [exercises addObject:exerciseCompleted.exercisename];
     }
     
@@ -91,8 +95,6 @@
     
     if (self) {
         UINavigationItem *navItem = self.navigationItem;
-        // title for hvc
-        navItem.title = @"History";
         
         // button to add exercises
         UIBarButtonItem *dateRangeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(changeDateRange)];
@@ -248,6 +250,21 @@
     return dateCompletedText;
 }
 
+- (NSNumber *)getMaxWeightMaxRepLowRep:(NSArray *)repsWeightArray
+{
+    NSMutableArray *weightsArray = [NSMutableArray new];
+    NSMutableArray *repsArray = [NSMutableArray new];
+    for (NSString *repsWeight in repsWeightArray) {
+        
+        NSNumber *weightNumber = [NSNumber numberWithFloat:[[[repsWeight componentsSeparatedByString:@" "] lastObject] floatValue]];
+        [weightsArray addObject:weightNumber];
+    }
+    NSNumber *maxInWeightArray = [weightsArray valueForKeyPath:@"@max.self"];
+    NSLog(@"MAX WEIGHT %@", maxInWeightArray);
+    
+    return maxInWeightArray;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
@@ -257,6 +274,8 @@
     
     NSLog(@"REPS WEIGHT ARRAY in HISTORY %@", exerciseCompleted.repsweightarray);
     
+    /* tap cell to cycle through sets
+     
     cell.repsWeightCompleted = [exerciseCompleted.repsweightarray count] - 1;
     cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
     
@@ -266,11 +285,19 @@
     cell.repsWeightLabel.text = [exerciseCompleted.repsweightarray firstObject];
     cell.routineName.text = exerciseCompleted.routinename;
     cell.exerciseLabel.text = exerciseCompleted.exercisename;
+     
+    */
     
+    NSNumber *maxWeight = [self getMaxWeightMaxRepLowRep:exerciseCompleted.repsweightarray];
+    
+    [cell.exerciseLabel setText:exerciseCompleted.exercisename];
+    [cell.routineName setText:exerciseCompleted.routinename];
+    [cell.setsLabel setText:[NSString stringWithFormat:@"%@", exerciseCompleted.setscompleted]];
+    [cell.prLabel setText:[NSString stringWithFormat:@"%@", maxWeight]];
+     
     // change cell selected color
-    UIView *selectedColorView = [UIView new];
-    UIColor *orange = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:0.7];
-    [selectedColorView setBackgroundColor:orange];
+    UIView *selectedColorView = [[UIView alloc] init];
+    [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];
     [cell setSelectedBackgroundView:selectedColorView];
     
     return cell;
@@ -279,6 +306,15 @@
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    [headerView.backgroundView setBackgroundColor:[UIColor kPrimaryColor]];
+    [headerView.textLabel setTextColor:[UIColor whiteColor]];
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -290,34 +326,64 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80.0;
+    return 60.0;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    KLEHistoryTableViewCell *historyCell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [historyCell.exerciseLabel setTextColor:[UIColor whiteColor]];
+    [historyCell.routineName setTextColor:[UIColor whiteColor]];
+    [historyCell.setsLabel setTextColor:[UIColor whiteColor]];
+    [historyCell.repsLabel setTextColor:[UIColor whiteColor]];
+    [historyCell.prLabel setTextColor:[UIColor whiteColor]];
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLEHistoryTableViewCell *historyCell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [historyCell.exerciseLabel setTextColor:[UIColor kPrimaryColor]];
+    [historyCell.routineName setTextColor:[UIColor kPrimaryColor]];
+    [historyCell.setsLabel setTextColor:[UIColor kPrimaryColor]];
+    [historyCell.repsLabel setTextColor:[UIColor kPrimaryColor]];
+    [historyCell.prLabel setTextColor:[UIColor kPrimaryColor]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Cell selected");
     
-//    KLEHistoryTableViewCell * cell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-//    
-//    KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
-//    NSArray *repsWeightArray = exerciseCompleted.repsweightarray;
-//    
-//    if (cell.repsWeightCompleted != 0) {
-//        
-//        NSLog(@"SETS REPS LABEL %@", cell.repsWeightLabel.text);
-//        cell.repsWeightCompleted--;
-//        cell.setsCompleted--;
-//    }
-//    else
-//    {
-//        NSLog(@"cell tag at ZERO");
-//        cell.repsWeightCompleted = [repsWeightArray count] - 1;
-//        cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
-//    }
-//    
-//    cell.repsWeightLabel.text = repsWeightArray[cell.repsWeightCompleted];
-//    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", cell.setsCompleted];
+    /* tap cell to cycle through set
     
+    KLEHistoryTableViewCell * cell = (KLEHistoryTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    KLEExerciseCompleted *exerciseCompleted = [self.frc objectAtIndexPath:indexPath];
+    NSArray *repsWeightArray = exerciseCompleted.repsweightarray;
+    
+    if (cell.repsWeightCompleted != 0) {
+        
+        NSLog(@"SETS REPS LABEL %@", cell.repsWeightLabel.text);
+        cell.repsWeightCompleted--;
+        cell.setsCompleted--;
+    }
+    else
+    {
+        NSLog(@"cell tag at ZERO");
+        cell.repsWeightCompleted = [repsWeightArray count] - 1;
+        cell.setsCompleted = [exerciseCompleted.setscompleted integerValue];
+    }
+    
+    cell.repsWeightLabel.text = repsWeightArray[cell.repsWeightCompleted];
+    cell.setsLabel.text = [NSString stringWithFormat:@"%lu", cell.setsCompleted];
+    
+    */
+     
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
     KLEHistoryDetailTableViewController *historyDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"HistoryDetail"];
     historyDetailTableViewController.selectedExerciseCompleted = [self.frc objectAtIndexPath:indexPath];
@@ -355,6 +421,12 @@
     
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEHistoryTableViewCell"];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
 }
 

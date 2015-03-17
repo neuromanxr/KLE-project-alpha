@@ -62,18 +62,17 @@
     if (self) {
         
         UINavigationItem *navItem = self.navigationItem;
-        navItem.title = @"Exercises";
         
         if (isNew) {
             
             UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(save:)];
-            self.navigationItem.rightBarButtonItem = doneItem;
+            navItem.rightBarButtonItem = doneItem;
             
             UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-            self.navigationItem.leftBarButtonItem = cancelItem;
+            navItem.leftBarButtonItem = cancelItem;
         } else {
             UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveChanges:)];
-            self.navigationItem.rightBarButtonItem = saveItem;
+            navItem.rightBarButtonItem = saveItem;
         }
     }
     return self;
@@ -216,6 +215,31 @@
     return YES;
 }
 
+- (void)setupNavigationBar
+{
+    // custom title for navigation title
+    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
+    UIFont *font = [UIFont fontWithName:[fontFamily firstObject] size:18.0];
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:@"Exercises" attributes:@{ NSFontAttributeName : font, NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    
+    //    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    //    logo.contentMode = UIViewContentModeScaleAspectFit;
+    //    UIImage *logoImage = [UIImage imageNamed:@""];
+    //    [logo setImage:logoImage];
+    //    self.navigationItem.titleView = logo;
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.navigationController.navigationBar setTintColor:[UIColor redColor]];
+    [self.navigationItem setTitleView:title];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -244,6 +268,8 @@
     [super viewDidLoad];
     [self configureFetch];
     [self performFetch];
+    
+    [self setupNavigationBar];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
     
