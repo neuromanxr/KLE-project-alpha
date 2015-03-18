@@ -42,6 +42,7 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO];
     request.sortDescriptors = @[sortByDate];
+    [request setFetchBatchSize:10];
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted >= %@", dateToCompare];
     [request setPredicate:predicate];

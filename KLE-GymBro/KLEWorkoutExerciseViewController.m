@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "DateTools.h"
 #import "KLEAppDelegate.h"
 #import "CoreDataTableViewController.h"
@@ -14,12 +15,15 @@
 #import "KLEExerciseGoal.h"
 #import "KLEExercise.h"
 #import "KLERoutine.h"
+#import "KLEWeightControl.h"
 
 @interface KLEWorkoutExerciseViewController ()
 
 @property (nonatomic, copy) NSMutableArray *currentRepsWeightArray;
 @property (nonatomic, copy) NSArray *weightIncrementNumbers;
 @property (nonatomic, assign) NSUInteger currentSet;
+
+@property (strong, nonatomic) IBOutlet KLEWeightControl *weightControl;
 
 @end
 
@@ -37,18 +41,40 @@
     // set delegate for reps workout button
     _repsWorkoutButton.delegate = self;
     
-    _weightTextField.delegate = self;
-    _weightTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+//    _weightTextField.delegate = self;
+//    _weightTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    _weightControl.weightTextField.delegate = self;
+    [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
+    
     _workoutFeedLabel.text = @"Start your set then press S";
     
     [self setupExerciseData];
     
-    [self setupWeightSlider];
+//    [self setupWeightSlider];
     
-    [_decreaseWeightButton addTarget:self action:@selector(decreaseWeight) forControlEvents:UIControlEventTouchUpInside];
-    [_increaseWeightButton addTarget:self action:@selector(increaseWeight) forControlEvents:UIControlEventTouchUpInside];
+//    [_decreaseWeightButton addTarget:self action:@selector(decreaseWeight) forControlEvents:UIControlEventTouchUpInside];
+//    [_increaseWeightButton addTarget:self action:@selector(increaseWeight) forControlEvents:UIControlEventTouchUpInside];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSelectedExercise:) name:kExerciseGoalChangedNote object:nil];
     
     [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kExerciseGoalChangedNote object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,7 +84,8 @@
 
 - (void)setupExerciseData
 {
-    _weightTextField.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.weight];
+//    _weightTextField.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.weight];
+    _weightControl.weightTextField.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.weight];
     
     _setsWorkoutButton.setsForAngle = _selectedRoutineExercise.sets;
     [_setsWorkoutButton.setsButton setTitle:[NSString stringWithFormat:@"%@", _selectedRoutineExercise.sets] forState:UIControlStateNormal];
@@ -135,6 +162,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 #warning use weight control class
+/*
 - (void)setupWeightSlider
 {
     _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
@@ -146,9 +174,9 @@
     [_weightIncrementSlider setMaximumTrackTintColor:[UIColor redColor]];
     _weightIncrementSlider.continuous = YES;
     [_weightIncrementSlider addTarget:self action:@selector(weightValueChanged:) forControlEvents:UIControlEventValueChanged];
-    
-    
+ 
 }
+
 
 // for weight subtracting and adding //
 - (void)decreaseWeight
@@ -193,6 +221,8 @@
     NSLog(@"~~SLIDERINDEX: %lu", index);
     NSLog(@"~~number: %@", number);
 }
+ 
+*/
 
 // delegate method to set the current set for sets button
 - (void)currentSet:(CGFloat)set
@@ -234,7 +264,8 @@
 - (void)logCurrentSetsRepsWeight
 {
     NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.repsLabel.text integerValue]];
-    NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightTextField.text floatValue]];
+//    NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightTextField.text floatValue]];
+    NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightControl.weightTextField.text floatValue]];
     NSString *currentSet = [NSString stringWithFormat:@"%lu", _currentSet];
     
     NSLog(@"Current Reps and Sets %@, %@", currentReps, currentSet);
@@ -287,14 +318,35 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSLog(@"END EDITING");
-    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightTextField.text integerValue]];
-    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
+//    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightTextField.text integerValue]];
+    
+//    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightControl.weightTextField.text integerValue]];
+//    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    
     return YES;
+}
+
+- (void)resetSelectedExercise:(id)exercise
+{
+    // exercise goal changed notification action and object
+    NSLog(@"RESET OBJECT %@", [exercise object]);
+    
+    // check if the exercise in workout is the same
+    if ([_selectedRoutineExercise isEqual:[exercise object]])
+    {
+        NSLog(@"EQUAL");
+        
+        [self resetButtonAction:nil];
+    }
+    else
+    {
+        NSLog(@"DON'T RESET, EXERCISE IN WORKOUT NOT THE SAME");
+    }
 }
 
 - (IBAction)resetButtonAction:(UIButton *)sender

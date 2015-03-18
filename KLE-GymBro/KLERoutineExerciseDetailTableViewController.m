@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "KLEWeightControl.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
@@ -34,7 +35,11 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveChanges)];
+    self.navigationItem.rightBarButtonItem = saveItem;
+    
+    _weightControl.weightTextField.delegate = self;
+    [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
     
     self.navigationItem.title = _selectedRoutineExercise.exercise.exercisename;
     
@@ -44,10 +49,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    _selectedRoutineExercise.weight = [NSNumber numberWithFloat:[self.weightControl.weightTextField.text floatValue]];
-    _selectedRoutineExercise.sets = [NSNumber numberWithInteger:[self.setsLabel.text integerValue]];
-    _selectedRoutineExercise.reps = [NSNumber numberWithInteger:[self.repsLabel.text integerValue]];
     
 }
 
@@ -73,6 +74,17 @@
     {
         NSLog(@"NO DATA");
     }
+}
+
+- (void)saveChanges
+{
+    _selectedRoutineExercise.weight = [NSNumber numberWithFloat:[self.weightControl.weightTextField.text floatValue]];
+    _selectedRoutineExercise.sets = [NSNumber numberWithInteger:[self.setsLabel.text integerValue]];
+    _selectedRoutineExercise.reps = [NSNumber numberWithInteger:[self.repsLabel.text integerValue]];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kExerciseGoalChangedNote object:_selectedRoutineExercise];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -153,6 +165,27 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - TEXTFIELD DELEGATE
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"BEGAN EDITING");
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"END EDITING");
+
+    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightControl.weightTextField.text integerValue]];
+    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 #pragma mark - SLIDERS
 

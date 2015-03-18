@@ -10,6 +10,6 @@
 
 IB_DESIGNABLE
 
-@interface KLERoundButton : UIButton
+@interface KLERoundButton : UIControl
 
 @end

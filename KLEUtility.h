@@ -21,6 +21,9 @@
 #define kGraphTouchLineColor whiteColor
 #define kGraphAxisLabelColor whiteColor
 
+
+#define kExerciseGoalChangedNote @"ExerciseGoalChanged"
+
 typedef NS_ENUM(NSInteger, KLEDateRangeMode)
 {
 //    KLEDateRangeModeOneWeek,
