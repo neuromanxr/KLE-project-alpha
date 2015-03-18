@@ -14,7 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *exerciseLabel;
 
 @property (strong, nonatomic) IBOutlet UILabel *setsLabel;
-@property (strong, nonatomic) IBOutlet UILabel *repsLabel;
 @property (strong, nonatomic) IBOutlet UILabel *prLabel;
 
 @property (nonatomic, assign) NSUInteger setsCompleted;

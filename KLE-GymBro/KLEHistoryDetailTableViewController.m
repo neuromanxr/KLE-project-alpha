@@ -5,13 +5,15 @@
 //  Created by Kelvin Lee on 3/13/15.
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
+
+#import "KLEUtility.h"
 #import "KLEExerciseCompleted.h"
 #import "KLEHistoryDetailTableViewController.h"
 #import "KLEWeightControl.h"
 
 @interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 
-@property (nonatomic, copy) NSMutableArray *tempRepsWeightArray;
+//@property (nonatomic, copy) NSMutableArray *tempRepsWeightArray;
 
 @property (nonatomic, copy) NSMutableArray *repsCompletedArray;
 @property (nonatomic, copy) NSMutableArray *weightCompletedArray;
@@ -25,6 +27,11 @@
 - (IBAction)repsCompletedSliderAction:(UISlider *)sender;
 
 @property (strong, nonatomic) IBOutlet KLEWeightControl *weightControl;
+- (IBAction)saveSetButton:(UIButton *)sender;
+@property (strong, nonatomic) IBOutlet UIButton *saveSetButton;
+
+@property (nonatomic, assign) NSUInteger currentSetIndex;
+
 @end
 
 @implementation KLEHistoryDetailTableViewController
@@ -57,6 +64,9 @@
 {
     [super viewWillAppear:animated];
     
+    [_saveSetButton setEnabled:NO];
+    [_saveSetButton setAlpha:0.3];
+    [_repsCompletedLabel setAlpha:0.3];
     [_repsCompletedSlider setEnabled:NO];
     [_weightControl setEnabled:NO];
     [_weightControl setAlpha:0.3];
@@ -84,11 +94,23 @@
     NSLog(@"REPS COMPLETED ARRAY IN HISTORY DETAIL %@, weight completed %@", _repsCompletedArray, _weightCompletedArray);
 }
 
-- (void)combineStringsToRepsWeightArray
+- (NSArray *)combineStringsToRepsWeightArray
 {
-    [_selectedExerciseCompleted.repsweightarray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    NSMutableArray *combinedStringsArray = _repsCompletedArray;
+    
+    [combinedStringsArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         
+        NSString *repsString = obj;
+        NSString *repsWeightString = [repsString stringByAppendingFormat:@" %@",[_weightCompletedArray objectAtIndex:idx]];
+        
+        [combinedStringsArray replaceObjectAtIndex:idx withObject:repsWeightString];
+        
+        NSLog(@"ITERATE REPS WEIGHT STRINGS %@", repsWeightString);
     }];
+    
+    NSLog(@"COMBINED ARRAY %@", combinedStringsArray);
+    
+    return combinedStringsArray;
 }
 
 - (void)toggleEditSave:(UIBarButtonItem *)sender
@@ -97,6 +119,9 @@
     if (sender.style == UIBarButtonItemStylePlain) {
         NSLog(@"EDIT");
         
+        [_saveSetButton setEnabled:YES];
+        [_saveSetButton setAlpha:1.0];
+        [_repsCompletedLabel setAlpha:1.0];
         [_repsCompletedSlider setEnabled:YES];
         [_weightControl setEnabled:YES];
         [_weightControl setAlpha:1.0];
@@ -112,6 +137,12 @@
         
         [sender setStyle:UIBarButtonItemStylePlain];
         [sender setTitle:@"Edit"];
+        
+        // save the new date
+        _selectedExerciseCompleted.datecompleted = _dateCompletedPicker.date;
+        
+        // combine the reps and weight into new array then save the new reps weight array
+        _selectedExerciseCompleted.repsweightarray = [self combineStringsToRepsWeightArray];
         
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -155,6 +186,19 @@
     
     [_repsCompletedSlider setValue:[repsCompleted integerValue]];
     
+    _currentSetIndex = row;
+    
+    // run animation only when button is enabled
+    if (_saveSetButton.isEnabled) {
+        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
+            _saveSetButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
+        } completion:^(BOOL finished) {
+            _saveSetButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+        }];
+    }
+    
+    NSLog(@"Current Set Index %lu", _currentSetIndex);
+    
     NSLog(@"WEIGHT CONTROL %@", _weightControl.weightTextField.text);
 }
 
@@ -163,8 +207,8 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
-    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
-    [headerView.textLabel setFont:[UIFont fontWithName:[fontFamily firstObject] size:17.0]];
+
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:17.0]];
 }
 
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -261,6 +305,18 @@
     NSLog(@"REPS COMPLETED SLIDER ACTION %lu", [_setsCompletedPicker selectedRowInComponent:0] + 1);
     
     _repsCompletedLabel.text = [NSString stringWithFormat:@"%.f", sender.value];
+}
+
+- (IBAction)saveSetButton:(UIButton *)sender
+{
+    // replace the old values with new values in the array
+    
+    NSLog(@"SAVE SET REPS %@ : WEIGHT %@", _repsCompletedArray[_currentSetIndex], _weightCompletedArray[_currentSetIndex]);
+    
+    [_repsCompletedArray replaceObjectAtIndex:_currentSetIndex withObject:_repsCompletedLabel.text];
+    [_weightCompletedArray replaceObjectAtIndex:_currentSetIndex withObject:_weightControl.weightTextField.text];
+    NSLog(@"NEW COMPLETE REPS ARRAY %@ AND WEIGHT ARRAY %@", _repsCompletedArray, _weightCompletedArray);
+    
 }
 
 @end

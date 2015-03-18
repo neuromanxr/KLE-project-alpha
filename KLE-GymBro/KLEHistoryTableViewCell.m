@@ -29,7 +29,6 @@
     if (self.selected) {
         [_exerciseLabel setTextColor:[UIColor whiteColor]];
         [_setsLabel setTextColor:[UIColor whiteColor]];
-        [_repsLabel setTextColor:[UIColor whiteColor]];
         [_prLabel setTextColor:[UIColor whiteColor]];
         
     }
@@ -37,7 +36,6 @@
     {
         [_exerciseLabel setTextColor:[UIColor kPrimaryColor]];
         [_setsLabel setTextColor:[UIColor kPrimaryColor]];
-        [_repsLabel setTextColor:[UIColor kPrimaryColor]];
         [_prLabel setTextColor:[UIColor kPrimaryColor]];
         
     }

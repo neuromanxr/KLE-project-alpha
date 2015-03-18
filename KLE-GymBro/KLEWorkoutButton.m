@@ -195,6 +195,8 @@
     pulseAnimation.autoreverses = YES;
     pulseAnimation.fromValue = [NSNumber numberWithFloat:0.7];
     pulseAnimation.toValue = [NSNumber numberWithFloat:0.1];
+    // don't stop animation
+    [pulseAnimation setRemovedOnCompletion:NO];
     [circle addAnimation:pulseAnimation forKey:@"animateOpacity"];
     
     // outer ring

@@ -342,7 +342,6 @@
     [historyCell.exerciseLabel setTextColor:[UIColor whiteColor]];
     [historyCell.routineName setTextColor:[UIColor whiteColor]];
     [historyCell.setsLabel setTextColor:[UIColor whiteColor]];
-    [historyCell.repsLabel setTextColor:[UIColor whiteColor]];
     [historyCell.prLabel setTextColor:[UIColor whiteColor]];
 }
 
@@ -352,7 +351,6 @@
     [historyCell.exerciseLabel setTextColor:[UIColor kPrimaryColor]];
     [historyCell.routineName setTextColor:[UIColor kPrimaryColor]];
     [historyCell.setsLabel setTextColor:[UIColor kPrimaryColor]];
-    [historyCell.repsLabel setTextColor:[UIColor kPrimaryColor]];
     [historyCell.prLabel setTextColor:[UIColor kPrimaryColor]];
 }
 

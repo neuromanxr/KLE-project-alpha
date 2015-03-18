@@ -24,6 +24,14 @@
 @property (weak, nonatomic) IBOutlet UISlider *repsSlider;
 - (IBAction)repsSliderAction:(UISlider *)sender;
 
+- (IBAction)setsSegmentControl:(UISegmentedControl *)sender;
+- (IBAction)repsSegmentControl:(UISegmentedControl *)sender;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *setsSegment;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *repsSegment;
+
+@property (nonatomic, assign) NSUInteger setStepAmount;
+@property (nonatomic, assign) NSUInteger repStepAmount;
+
 @end
 
 @implementation KLERoutineExerciseDetailTableViewController
@@ -40,6 +48,22 @@
     
     _weightControl.weightTextField.delegate = self;
     [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
+    
+    // setup sets slider
+    [_setsSlider setMinimumValue:1];
+    [_setsSlider setMaximumValue:100];
+    [_setsSlider setValue:5];
+    [_setsSegment setSelectedSegmentIndex:3];
+    _setStepAmount = 5;
+    _setsSlider.tag = kSetsSliderTag;
+    
+    // setup reps slider
+    [_repsSlider setMinimumValue:1];
+    [_repsSlider setMaximumValue:100];
+    [_repsSlider setValue:5];
+    [_repsSegment setSelectedSegmentIndex:3];
+    _repStepAmount = 5;
+    _repsSlider.tag = kRepsSliderTag;
     
     self.navigationItem.title = _selectedRoutineExercise.exercise.exercisename;
     
@@ -92,8 +116,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
     UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
-    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
-    [headerView.textLabel setFont:[UIFont fontWithName:[fontFamily firstObject] size:17.0]];
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:17.0]];
 }
 
 /*
@@ -165,6 +188,26 @@
     // Pass the selected object to the new view controller.
 }
 */
+#warning math error
+- (void)changeSliderStepAmount:(UISlider *)slider stepAmount:(NSUInteger)amount
+{
+
+    NSUInteger sliderValue = (NSUInteger)slider.value;
+    NSUInteger newValue = amount * floorf((sliderValue / amount) + 0.5);
+    [slider setValue:newValue animated:NO];
+    
+//    switch (slider.tag) {
+//        case kSetsSliderTag:
+//            _setsLabel.text = [NSString stringWithFormat:@"%.f", slider.value];
+//            break;
+//        case kRepsSliderTag:
+//            _repsLabel.text = [NSString stringWithFormat:@"%.f", slider.value];
+//            break;
+//        default:
+//            break;
+//    }
+    
+}
 
 #pragma mark - TEXTFIELD DELEGATE
 
@@ -187,14 +230,66 @@
     return YES;
 }
 
-#pragma mark - SLIDERS
+#pragma mark - SETS, REPS SLIDERS
 
 - (IBAction)setsSliderAction:(UISlider *)sender
 {
+    [self changeSliderStepAmount:sender stepAmount:_setStepAmount];
     _setsLabel.text = [NSString stringWithFormat:@"%.f", sender.value];
 }
 - (IBAction)repsSliderAction:(UISlider *)sender
 {
+    [self changeSliderStepAmount:sender stepAmount:_repStepAmount];
     _repsLabel.text = [NSString stringWithFormat:@"%.f", sender.value];
+}
+
+#pragma mark - SETS, REPS SEGMENT CONTROLS
+
+- (IBAction)setsSegmentControl:(UISegmentedControl *)sender
+{
+    switch (sender.selectedSegmentIndex) {
+        case 0:
+            _setStepAmount = 1;
+            NSLog(@"Step Amount %lu", _setStepAmount);
+            break;
+        case 1:
+            _setStepAmount = 2;
+            NSLog(@"Step Amount %lu", _setStepAmount);
+            break;
+        case 2:
+            _setStepAmount = 3;
+            NSLog(@"Step Amount %lu", _setStepAmount);
+            break;
+        case 3:
+            _setStepAmount = 5;
+            NSLog(@"Step Amount %lu", _setStepAmount);
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)repsSegmentControl:(UISegmentedControl *)sender
+{
+    switch (sender.selectedSegmentIndex) {
+        case 0:
+            _repStepAmount = 1;
+            NSLog(@"Step Amount %lu", _repStepAmount);
+            break;
+        case 1:
+            _repStepAmount = 2;
+            NSLog(@"Step Amount %lu", _repStepAmount);
+            break;
+        case 2:
+            _repStepAmount = 3;
+            NSLog(@"Step Amount %lu", _repStepAmount);
+            break;
+        case 3:
+            _repStepAmount = 5;
+            NSLog(@"Step Amount %lu", _repStepAmount);
+            break;
+        default:
+            break;
+    }
 }
 @end

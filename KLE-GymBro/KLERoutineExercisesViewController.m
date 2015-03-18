@@ -389,6 +389,8 @@
     
     // day button
     [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    
+    // day button, animate scale
     [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
         _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
     } completion:^(BOOL finished) {
