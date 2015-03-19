@@ -141,6 +141,10 @@
     NSDate *dateToCompare;
     
     switch (dateRange) {
+        case KLEDateRangeModeThreeWeeks:
+            dateToCompare = [todaysDate dateBySubtractingWeeks:3];
+            NSLog(@"THREE WEEKS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
         case KLEDateRangeModeThreeMonths:
             dateToCompare = [todaysDate dateBySubtractingMonths:3];
             NSLog(@"THREE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
@@ -148,10 +152,6 @@
         case KLEDateRangeModeSixMonths:
             dateToCompare = [todaysDate dateBySubtractingMonths:6];
             NSLog(@"SIX MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
-            break;
-        case KLEDateRangeModeNineMonths:
-            dateToCompare = [todaysDate dateBySubtractingMonths:9];
-            NSLog(@"NINE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
             break;
         case KLEDateRangeModeOneYear:
             dateToCompare = [todaysDate dateBySubtractingYears:1];
@@ -172,7 +172,14 @@
     NSLog(@"Change Date Range");
     
     UIAlertController *dateRangeActionSheet = [UIAlertController alertControllerWithTitle:@"Date Range" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [dateRangeActionSheet.view setTintColor:[UIColor orangeColor]];
     
+    UIAlertAction *setRangeToThreeWeeks = [UIAlertAction actionWithTitle:@"3 Weeks" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 3 WEEKS");
+        _currentDateRangeMode = KLEDateRangeModeThreeWeeks;
+        [self configureFetch:KLEDateRangeModeThreeWeeks];
+        [self performFetch];
+    }];
     UIAlertAction *setRangeToThreeMonths = [UIAlertAction actionWithTitle:@"3 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 3 MONTHS");
         _currentDateRangeMode = KLEDateRangeModeThreeMonths;
@@ -183,12 +190,6 @@
         NSLog(@"SET TO 6 MONTHS");
         _currentDateRangeMode = KLEDateRangeModeSixMonths;
         [self configureFetch:KLEDateRangeModeSixMonths];
-        [self performFetch];
-    }];
-    UIAlertAction *setRangeToNineMonths = [UIAlertAction actionWithTitle:@"9 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSLog(@"SET TO 9 MONTHS");
-        _currentDateRangeMode = KLEDateRangeModeNineMonths;
-        [self configureFetch:KLEDateRangeModeNineMonths];
         [self performFetch];
     }];
     UIAlertAction *setRangeToOneYear = [UIAlertAction actionWithTitle:@"1 Year" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -207,9 +208,9 @@
         NSLog(@"SET TO CANCEL");
     }];
     
+    [dateRangeActionSheet addAction:setRangeToThreeWeeks];
     [dateRangeActionSheet addAction:setRangeToThreeMonths];
     [dateRangeActionSheet addAction:setRangeToSixMonths];
-    [dateRangeActionSheet addAction:setRangeToNineMonths];
     [dateRangeActionSheet addAction:setRangeToOneYear];
     [dateRangeActionSheet addAction:setRangeToAll];
     [dateRangeActionSheet addAction:cancelAction];
@@ -251,10 +252,10 @@
     return dateCompletedText;
 }
 
-- (NSNumber *)getMaxWeightMaxRepLowRep:(NSArray *)repsWeightArray
+- (NSNumber *)getMaxWeightFromArray:(NSArray *)repsWeightArray
 {
     NSMutableArray *weightsArray = [NSMutableArray new];
-    NSMutableArray *repsArray = [NSMutableArray new];
+
     for (NSString *repsWeight in repsWeightArray) {
         
         NSNumber *weightNumber = [NSNumber numberWithFloat:[[[repsWeight componentsSeparatedByString:@" "] lastObject] floatValue]];
@@ -289,12 +290,17 @@
      
     */
     
-    NSNumber *maxWeight = [self getMaxWeightMaxRepLowRep:exerciseCompleted.repsweightarray];
+    NSNumber *maxWeight = [self getMaxWeightFromArray:exerciseCompleted.repsweightarray];
     
     [cell.exerciseLabel setText:exerciseCompleted.exercisename];
     [cell.routineName setText:exerciseCompleted.routinename];
     [cell.setsLabel setText:[NSString stringWithFormat:@"%@", exerciseCompleted.setscompleted]];
-    [cell.prLabel setText:[NSString stringWithFormat:@"%@", maxWeight]];
+    [cell.prLabel setText:[NSString stringWithFormat:@"%.2f", [maxWeight floatValue]]];
+    if ([cell.prLabel.text isEqualToString:@"0.00"]) {
+        [cell.prLabel setText:@"No Weight"];
+    }
+    
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
      
     // change cell selected color
     UIView *selectedColorView = [[UIView alloc] init];
@@ -399,7 +405,7 @@
         KLEExerciseCompleted *deleteTarget = [self.frc objectAtIndexPath:indexPath];
         [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
+#warning update alert view
         // alert the user about deletion
         UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
@@ -433,15 +439,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -39,7 +39,16 @@
     
     [self seperateStringsInRepsWeightArray];
     
-    self.navigationItem.title = _selectedExerciseCompleted.exercisename;
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:_selectedExerciseCompleted.exercisename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    [self.navigationItem setTitleView:title];
     
     _setsCompletedPicker.delegate = self;
     _setsCompletedPicker.dataSource = self;

@@ -46,8 +46,17 @@
     [self configureGraphView];
     
     UINavigationItem *navItem = self.navigationItem;
-    // title for hvc
-    navItem.title = @"Graph";
+    
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:@"Graph" attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    [navItem setTitleView:title];
     
     // button to add exercises
     UIBarButtonItem *dateRangeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(changeDateRange)];
@@ -162,6 +171,10 @@
     NSDate *dateToCompare;
     
     switch (dateRange) {
+        case KLEDateRangeModeThreeWeeks:
+            dateToCompare = [todaysDate dateBySubtractingWeeks:3];
+            NSLog(@"THREE WEEKS AGO USING DATE TOOLS: %@", dateToCompare);
+            break;
         case KLEDateRangeModeThreeMonths:
             dateToCompare = [todaysDate dateBySubtractingMonths:3];
             NSLog(@"THREE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
@@ -169,10 +182,6 @@
         case KLEDateRangeModeSixMonths:
             dateToCompare = [todaysDate dateBySubtractingMonths:6];
             NSLog(@"SIX MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
-            break;
-        case KLEDateRangeModeNineMonths:
-            dateToCompare = [todaysDate dateBySubtractingMonths:9];
-            NSLog(@"NINE MONTHS AGO USING DATE TOOLS: %@", dateToCompare);
             break;
         case KLEDateRangeModeOneYear:
             dateToCompare = [todaysDate dateBySubtractingYears:1];
@@ -215,21 +224,22 @@
     NSLog(@"Change Date Range");
     
     UIAlertController *dateRangeActionSheet = [UIAlertController alertControllerWithTitle:@"Date Range" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [dateRangeActionSheet.view setTintColor:[UIColor orangeColor]];
     
+    UIAlertAction *setRangeToThreeWeeks = [UIAlertAction actionWithTitle:@"3 Weeks" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSLog(@"SET TO 3 WEEKS");
+        [self configureFetchGraphData:KLEDateRangeModeThreeWeeks withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
+        [self reloadGraph];
+        
+    }];
     UIAlertAction *setRangeToThreeMonths = [UIAlertAction actionWithTitle:@"3 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 3 MONTHS");
         [self configureFetchGraphData:KLEDateRangeModeThreeMonths withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
-        
     }];
     UIAlertAction *setRangeToSixMonths = [UIAlertAction actionWithTitle:@"6 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 6 MONTHS");
         [self configureFetchGraphData:KLEDateRangeModeSixMonths withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
-        [self reloadGraph];
-    }];
-    UIAlertAction *setRangeToNineMonths = [UIAlertAction actionWithTitle:@"9 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NSLog(@"SET TO 9 MONTHS");
-        [self configureFetchGraphData:KLEDateRangeModeNineMonths withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
     }];
     UIAlertAction *setRangeToOneYear = [UIAlertAction actionWithTitle:@"1 Year" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -246,9 +256,9 @@
         NSLog(@"SET TO CANCEL");
     }];
     
+    [dateRangeActionSheet addAction:setRangeToThreeWeeks];
     [dateRangeActionSheet addAction:setRangeToThreeMonths];
     [dateRangeActionSheet addAction:setRangeToSixMonths];
-    [dateRangeActionSheet addAction:setRangeToNineMonths];
     [dateRangeActionSheet addAction:setRangeToOneYear];
     [dateRangeActionSheet addAction:setRangeToAll];
     [dateRangeActionSheet addAction:cancelAction];

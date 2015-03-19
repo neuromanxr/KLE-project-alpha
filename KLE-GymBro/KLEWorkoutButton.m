@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "KLEWorkoutButton.h"
 
 #define BUTTONCOLOR [UIColor orangeColor]
@@ -49,14 +50,21 @@
 
 - (void)createSetsButton
 {
-    _setsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 4, self.bounds.size.height / 4, self.bounds.size.width / 2, self.bounds.size.height / 2)];
-    //    _setsButton.backgroundColor = [UIColor orangeColor];
+    _setsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.bounds.size.width / 4, (self.bounds.size.height / 4), self.bounds.size.width / 2, self.bounds.size.height / 2)];
     
     [_setsButton setTitle:@"Sets" forState:UIControlStateNormal];
     [_setsButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [_setsButton.titleLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:28.0]];
     
     [_setsButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
+    UILabel *repsLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 4, (self.bounds.size.height / 4) + 26, self.bounds.size.width / 2, self.bounds.size.height / 2)];
+    repsLabel.text = @"S";
+    [repsLabel setTextAlignment:NSTextAlignmentCenter];
+    [repsLabel setTextColor:[UIColor kPrimaryColor]];
+    [repsLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:18.0]];
+    
+    [self addSubview:repsLabel];
     [self addSubview:_setsButton];
 }
 

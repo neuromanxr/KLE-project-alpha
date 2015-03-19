@@ -30,6 +30,7 @@
         [_exerciseLabel setTextColor:[UIColor whiteColor]];
         [_setsLabel setTextColor:[UIColor whiteColor]];
         [_prLabel setTextColor:[UIColor whiteColor]];
+        [_routineName setTextColor:[UIColor whiteColor]];
         
     }
     else
@@ -37,6 +38,7 @@
         [_exerciseLabel setTextColor:[UIColor kPrimaryColor]];
         [_setsLabel setTextColor:[UIColor kPrimaryColor]];
         [_prLabel setTextColor:[UIColor kPrimaryColor]];
+        [_routineName setTextColor:[UIColor kPrimaryColor]];
         
     }
 }

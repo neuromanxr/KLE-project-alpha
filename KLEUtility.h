@@ -27,10 +27,10 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
 {
 //    KLEDateRangeModeOneWeek,
 //    KLEDateRangeModeTwoWeeks,
-//    KLEDateRangeModeThreeWeeks,
+    KLEDateRangeModeThreeWeeks,
     KLEDateRangeModeThreeMonths,
     KLEDateRangeModeSixMonths,
-    KLEDateRangeModeNineMonths,
+//    KLEDateRangeModeNineMonths,
     KLEDateRangeModeOneYear,
     KLEDateRangeModeAll
 };

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "KLERepsButton.h"
 
 #define BUTTONCOLOR [UIColor orangeColor]
@@ -55,10 +56,18 @@
                                                            CGRectGetMidX(self.bounds),
                                                            CGRectGetMidY(self.bounds) / 2)];
     _repsLabel.text = @"R";
-    _repsLabel.font = [UIFont fontWithName:@"Helvetica" size:CGRectGetMidX(self.bounds) / 2];
+    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
+    _repsLabel.font = [UIFont fontWithName:[fontFamily firstObject] size:CGRectGetMidX(self.bounds) / 2];
     _repsLabel.textColor = [UIColor redColor];
     _repsLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_repsLabel];
+    
+    UILabel *repsLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 4, (self.bounds.size.height / 4) + 26, self.bounds.size.width / 2, self.bounds.size.height / 2)];
+    repsLabel.text = @"R";
+    [repsLabel setTextAlignment:NSTextAlignmentCenter];
+    [repsLabel setTextColor:[UIColor redColor]];
+    [repsLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:22.0]];
+    [self addSubview:repsLabel];
     
     _minusLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.bounds),
                                                             CGRectGetMidY(self.bounds) / 2,

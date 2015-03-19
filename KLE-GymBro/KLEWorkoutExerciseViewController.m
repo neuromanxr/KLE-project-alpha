@@ -33,7 +33,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
    
-    self.navigationItem.title = _selectedRoutineExercise.exercise.exercisename;
+    
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:_selectedRoutineExercise.exercise.exercisename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    [self.navigationItem setTitleView:title];
     
     // set delegate for sets workout button
     _setsWorkoutButton.delegate = self;
@@ -44,7 +54,7 @@
     _weightControl.weightTextField.delegate = self;
     [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
     
-    _workoutFeedLabel.text = @"Start your set then press S";
+    _workoutFeedLabel.text = @"Start your set then press S button";
     
     [self setupExerciseData];
     
@@ -201,7 +211,18 @@
     
     NSLog(@"Current Reps and Sets %@, %@", currentReps, currentSet);
     
-    _workoutFeedLabel.text = [NSString stringWithFormat:@"Weight: %@ Sets: %@ Reps: %@", currentWeight, currentSet, currentReps];
+    // animate feed label text
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [_workoutFeedLabel setAlpha:0.0];
+    } completion:^(BOOL finished) {
+        
+        _workoutFeedLabel.text = [NSString stringWithFormat:@"Sets: %@ Reps: %@ Weight: %@", currentSet, currentReps, currentWeight];
+        
+        [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            [_workoutFeedLabel setAlpha:1.0];
+        } completion:nil];
+    }];
+    
     
     NSString *repsWeightString = [currentReps stringByAppendingString:currentWeight];
     
@@ -285,7 +306,7 @@
     _currentSet = 0;
     _currentRepsWeightArray = nil;
     
-    _workoutFeedLabel.text = @"Start your set then press S";
+    _workoutFeedLabel.text = @"Start your set then press S button";
     
     [_setsWorkoutButton.setsButton setEnabled:YES];
     [_setsWorkoutButton setAlpha:1.0];

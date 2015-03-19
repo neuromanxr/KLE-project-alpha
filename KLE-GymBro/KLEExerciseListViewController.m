@@ -5,6 +5,8 @@
 //  Created by Kelvin Lee on 9/11/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+
+#import "KLEUtility.h"
 #import "KLEAppDelegate.h"
 #import "CoreDataHelper.h"
 #import "KLEExercise.h"
@@ -236,7 +238,7 @@
     //    self.navigationItem.titleView = logo;
     
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    [self.navigationController.navigationBar setTintColor:[UIColor redColor]];
+    [self.navigationController.navigationBar setTintColor:[UIColor kPrimaryColor]];
     [self.navigationItem setTitleView:title];
 }
 

@@ -323,9 +323,9 @@
 
 - (void)showActionSheet
 {
-    NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
+    NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Day", nil];
     
-    [ActionSheetStringPicker showPickerWithTitle:@"Select a Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+    ActionSheetStringPicker *dayPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"Select Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         
         NSError *error = nil;
         KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:&error];
@@ -345,6 +345,28 @@
         NSLog(@"Cancelled");
         
     } origin:self.view];
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [doneButton.titleLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    [doneButton setFrame:CGRectMake(0, 0, 50, 32)];
+    [dayPicker setDoneButton:[[UIBarButtonItem alloc] initWithCustomView:doneButton]];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [cancelButton.titleLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    [cancelButton setFrame:CGRectMake(0, 0, 60, 32)];
+    [dayPicker setCancelButton:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
+    
+    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
+    UIFont *font = [UIFont fontWithName:[fontFamily firstObject] size:18.0];
+    NSAttributedString *attribTitleString = [[NSAttributedString alloc] initWithString:@"Select Day" attributes:@{ NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor kPrimaryColor] }];
+    
+    [dayPicker setAttributedTitle:attribTitleString];
+    [dayPicker showActionSheetPicker];
+    
 }
 
 /* for split view
@@ -392,7 +414,17 @@
     KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
     [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
     
-    self.navigationItem.title = selectedRoutine.routinename;
+    
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    [self.navigationItem setTitleView:title];
     
     [self createAddExerciseButton];
     
