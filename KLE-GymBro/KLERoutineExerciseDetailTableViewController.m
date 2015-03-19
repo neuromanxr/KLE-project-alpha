@@ -55,7 +55,6 @@
     [_setsSlider setValue:5];
     [_setsSegment setSelectedSegmentIndex:3];
     _setStepAmount = 5;
-    _setsSlider.tag = kSetsSliderTag;
     
     // setup reps slider
     [_repsSlider setMinimumValue:1];
@@ -63,7 +62,6 @@
     [_repsSlider setValue:5];
     [_repsSegment setSelectedSegmentIndex:3];
     _repStepAmount = 5;
-    _repsSlider.tag = kRepsSliderTag;
     
     self.navigationItem.title = _selectedRoutineExercise.exercise.exercisename;
     
@@ -119,94 +117,13 @@
     [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:17.0]];
 }
 
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-*/
-
-/*
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-*/
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-#warning math error
 - (void)changeSliderStepAmount:(UISlider *)slider stepAmount:(NSUInteger)amount
 {
 
     NSUInteger sliderValue = (NSUInteger)slider.value;
     NSUInteger newValue = amount * floorf((sliderValue / amount) + 0.5);
     [slider setValue:newValue animated:NO];
-    
-//    switch (slider.tag) {
-//        case kSetsSliderTag:
-//            _setsLabel.text = [NSString stringWithFormat:@"%.f", slider.value];
-//            break;
-//        case kRepsSliderTag:
-//            _repsLabel.text = [NSString stringWithFormat:@"%.f", slider.value];
-//            break;
-//        default:
-//            break;
-//    }
-    
+
 }
 
 #pragma mark - TEXTFIELD DELEGATE

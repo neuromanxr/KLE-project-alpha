@@ -19,7 +19,6 @@
 #import "KLERoutineExercisesViewController.h"
 
 #import "KLERoutineExerciseDetailTableViewController.h"
-#import "KLERoutineExerciseDetailViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
 
 @interface KLERoutineExercisesViewController () <ELVCDelegate, UITextFieldDelegate>
@@ -250,7 +249,6 @@
     }
     else
     {
-#warning finish this
         
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
         KLERoutineExerciseDetailTableViewController *routineExerciseDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineExerciseDetail"];
@@ -258,12 +256,6 @@
         
         [self.navigationController pushViewController:routineExerciseDetailTableViewController animated:YES];
         
-        
-//        KLERoutineExerciseDetailViewController *redvc = [[KLERoutineExerciseDetailViewController alloc] init];
-//        redvc.selectedRoutineExercise = routineExercise;
-//        NSLog(@"ROUTINE EXERCISES VIEW CONTROLLER MODE %lu", self.mode);
-//        
-//        [self.navigationController pushViewController:redvc animated:YES];
     }
 }
 

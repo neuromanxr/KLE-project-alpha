@@ -21,9 +21,6 @@
 #define kGraphTouchLineColor whiteColor
 #define kGraphAxisLabelColor whiteColor
 
-#define kSetsSliderTag 801
-#define kRepsSliderTag 802
-
 #define kExerciseGoalChangedNote @"ExerciseGoalChanged"
 
 typedef NS_ENUM(NSInteger, KLEDateRangeMode)

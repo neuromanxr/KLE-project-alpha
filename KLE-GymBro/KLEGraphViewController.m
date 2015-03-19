@@ -12,14 +12,13 @@
 #import "KLEAppDelegate.h"
 #import "KLEGraphViewController.h"
 
-@interface KLEGraphViewController () <NSFetchedResultsControllerDelegate>
+@interface KLEGraphViewController () <NSFetchedResultsControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *detailStreamLabel;
 
-@property (strong, nonatomic) IBOutlet UILabel *exerciseCompletedStepperLabel;
-@property (strong, nonatomic) IBOutlet UIStepper *exerciseCompletedStepper;
-- (IBAction)exerciseCompletedStepperAction:(id)sender;
+@property (strong, nonatomic) IBOutlet UIPickerView *exerciseCompletedPicker;
+@property (nonatomic, assign) NSUInteger currentIndexInPicker;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
@@ -38,12 +37,11 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureFetchGraphData:withExercise:) name:@"SomethingChanged" object:nil];
     
-    _exerciseCompletedStepper.value = 0;
-    _exerciseCompletedStepper.maximumValue = [_exercisesFromHistory count] - 1;
-    _exerciseCompletedStepper.minimumValue = 0;
-    _exerciseCompletedStepperLabel.text = [_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value];
+    [_exerciseCompletedPicker setDelegate:self];
+    [_exerciseCompletedPicker setDataSource:self];
+    [self pickerView:_exerciseCompletedPicker didSelectRow:0 inComponent:0];
     
-    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
     
     [self configureGraphView];
     
@@ -74,13 +72,15 @@
 {
     [super viewWillDisappear:animated];
     
-    _maxWeightArray = nil;
-    _dateCompletedArray = nil;
-    _exerciseNameArray = nil;
-    _routineNameArray = nil;
-    
     // dismiss graph view when different tab selected
-    [self.navigationController popViewControllerAnimated:NO];
+//    [self.navigationController popViewControllerAnimated:NO];
+}
+
+- (void)dealloc
+{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -218,28 +218,28 @@
     
     UIAlertAction *setRangeToThreeMonths = [UIAlertAction actionWithTitle:@"3 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 3 MONTHS");
-        [self configureFetchGraphData:KLEDateRangeModeThreeMonths withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self configureFetchGraphData:KLEDateRangeModeThreeMonths withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
         
     }];
     UIAlertAction *setRangeToSixMonths = [UIAlertAction actionWithTitle:@"6 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 6 MONTHS");
-        [self configureFetchGraphData:KLEDateRangeModeSixMonths withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self configureFetchGraphData:KLEDateRangeModeSixMonths withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
     }];
     UIAlertAction *setRangeToNineMonths = [UIAlertAction actionWithTitle:@"9 Months" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 9 MONTHS");
-        [self configureFetchGraphData:KLEDateRangeModeNineMonths withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self configureFetchGraphData:KLEDateRangeModeNineMonths withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
     }];
     UIAlertAction *setRangeToOneYear = [UIAlertAction actionWithTitle:@"1 Year" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO 1 YEAR");
-        [self configureFetchGraphData:KLEDateRangeModeOneYear withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self configureFetchGraphData:KLEDateRangeModeOneYear withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
     }];
     UIAlertAction *setRangeToAll = [UIAlertAction actionWithTitle:@"All" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSLog(@"SET TO ALL");
-        [self configureFetchGraphData:KLEDateRangeModeAll withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+        [self configureFetchGraphData:KLEDateRangeModeAll withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
         [self reloadGraph];
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -271,7 +271,7 @@
     _graphView.enableReferenceYAxisLines = YES;
     _graphView.enableTouchReport = YES;
     _graphView.enablePopUpReport = YES;
-    _graphView.enableXAxisLabel = YES;
+    _graphView.enableXAxisLabel = NO;
     _graphView.enableYAxisLabel = YES;
     _graphView.autoScaleYAxis = YES;
     
@@ -300,8 +300,8 @@
     _graphView.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
     
     
-    _detailStreamLabel.text = @"Exercise";
-    _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+    _detailStreamLabel.text = @"";
+    _dateLabel.text = [NSString stringWithFormat:@"%@ - %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
 }
 
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index
@@ -347,6 +347,7 @@
     return @" lb";
 }
 
+// turned off
 - (NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index
 {
     // x axis label
@@ -360,7 +361,7 @@
 {
     NSLog(@"DID TOUCH GRAPH");
     
-    _detailStreamLabel.text = [NSString stringWithFormat:@"%@ / %@", _exerciseNameArray[index], _routineNameArray[index]];
+    _detailStreamLabel.text = [NSString stringWithFormat:@"%@ Routine", _routineNameArray[index]];
     _dateLabel.text = [NSString stringWithFormat:@"%@", _dateCompletedArray[index]];
 }
 
@@ -372,8 +373,8 @@
         _detailStreamLabel.alpha = 0.0;
         _dateLabel.alpha = 0.0;
     } completion:^(BOOL finished) {
-        _detailStreamLabel.text = @"Exercise";
-        _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+        _detailStreamLabel.text = @"";
+        _dateLabel.text = [NSString stringWithFormat:@"%@ - %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
         
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             _detailStreamLabel.alpha = 1.0;
@@ -384,8 +385,8 @@
 
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph
 {
-    _detailStreamLabel.text = @"Exercise";
-    _dateLabel.text = [NSString stringWithFormat:@"between %@ and %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+    _detailStreamLabel.text = @"";
+    _dateLabel.text = [NSString stringWithFormat:@"%@ - %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
 }
 
 - (BOOL)noDataLabelEnableForLineGraph:(BEMSimpleLineGraphView *)graph
@@ -422,14 +423,14 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             NSLog(@"INSERT");
-            [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+            [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
             [self reloadGraph];
             // insert
             break;
         case NSFetchedResultsChangeDelete:
             // delete
             NSLog(@"DELETE");
-            [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+            [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
             [self reloadGraph];
             break;
         case NSFetchedResultsChangeUpdate:
@@ -456,11 +457,34 @@
     return dateCompletedText;
 }
 
-- (IBAction)exerciseCompletedStepperAction:(id)sender
+#pragma mark PICKER DATA SOURCE DELEGATE
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
-    _exerciseCompletedStepperLabel.text = [_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value];
-    NSLog(@"EXERCISE STEPPER %@", [_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]);
-    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_exerciseCompletedStepper.value]];
+    UILabel *label = [[UILabel alloc] init];
+    
+    label.text = _exercisesFromHistory[row];
+    [label setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    
+    return label;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [_exercisesFromHistory count];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    _currentIndexInPicker = row;
+    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:row]];
     [self reloadGraph];
 }
+
 @end

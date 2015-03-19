@@ -41,19 +41,12 @@
     // set delegate for reps workout button
     _repsWorkoutButton.delegate = self;
     
-//    _weightTextField.delegate = self;
-//    _weightTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     _weightControl.weightTextField.delegate = self;
     [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
     
     _workoutFeedLabel.text = @"Start your set then press S";
     
     [self setupExerciseData];
-    
-//    [self setupWeightSlider];
-    
-//    [_decreaseWeightButton addTarget:self action:@selector(decreaseWeight) forControlEvents:UIControlEventTouchUpInside];
-//    [_increaseWeightButton addTarget:self action:@selector(increaseWeight) forControlEvents:UIControlEventTouchUpInside];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSelectedExercise:) name:kExerciseGoalChangedNote object:nil];
     
@@ -161,68 +154,6 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
-#warning use weight control class
-/*
-- (void)setupWeightSlider
-{
-    _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
-    NSUInteger numberOfSteps = [_weightIncrementNumbers count] - 1;
-    
-    _weightIncrementSlider.maximumValue = numberOfSteps;
-    _weightIncrementSlider.minimumValue = 0;
-    [_weightIncrementSlider setValue:_weightIncrementSlider.minimumValue];
-    [_weightIncrementSlider setMaximumTrackTintColor:[UIColor redColor]];
-    _weightIncrementSlider.continuous = YES;
-    [_weightIncrementSlider addTarget:self action:@selector(weightValueChanged:) forControlEvents:UIControlEventValueChanged];
- 
-}
-
-
-// for weight subtracting and adding //
-- (void)decreaseWeight
-{
-    CGFloat weightChangeValue = [_weightIncrementLabel.text floatValue];
-    
-    if ([_weightTextField.text floatValue] >= weightChangeValue)
-    {
-        CGFloat weightTextFieldValue = [_weightTextField.text floatValue];
-        weightTextFieldValue -= weightChangeValue;
-        
-        _weightTextField.text = [NSString stringWithFormat:@"%.2f", weightTextFieldValue];
-    }
-    else
-    {
-        NSLog(@"CHANGE VALUE IS GREATER THAN THE WEIGHT VALUE");
-    }
-}
-
-// for weight subtracting and adding, can combine both later //
-- (void)increaseWeight
-{
-    CGFloat weightChangeValue = [_weightIncrementLabel.text floatValue];
-    CGFloat weightTextFieldValue = [_weightTextField.text floatValue];
-    
-    weightTextFieldValue += weightChangeValue;
-    
-    _weightTextField.text = [NSString stringWithFormat:@"%.2f", weightTextFieldValue];
-        
-    NSLog(@"WEIGHT TEXT FIELD VALUE %.f", weightTextFieldValue);
-}
-
-- (void)weightValueChanged:(UISlider *)sender
-{
-    // round the slider position to the nearest index of the weight increment numbers array
-    NSUInteger index = _weightIncrementSlider.value + 0.5;
-    [_weightIncrementSlider setValue:index animated:NO];
-    NSNumber *number = [_weightIncrementNumbers objectAtIndex:index];
-    
-    _weightIncrementLabel.text = [NSString stringWithFormat:@"%@", number];
-    
-    NSLog(@"~~SLIDERINDEX: %lu", index);
-    NSLog(@"~~number: %@", number);
-}
- 
-*/
 
 // delegate method to set the current set for sets button
 - (void)currentSet:(CGFloat)set

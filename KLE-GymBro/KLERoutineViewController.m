@@ -51,7 +51,7 @@
     
     if (self) {
         
-        UINavigationItem *navItem = self.navigationItem;
+//        UINavigationItem *navItem = self.navigationItem;
         
         // button to add exercises
 //        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
@@ -336,6 +336,11 @@
     
     // clear first responder
     [self.view endEditing:YES];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
