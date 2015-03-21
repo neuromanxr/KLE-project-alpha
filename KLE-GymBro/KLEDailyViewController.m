@@ -154,12 +154,12 @@
     NSLog(@"paths to delete count %lu", pathsToDelete.count);
     if (pathsToDelete.count) {
         NSLog(@"paths to delete");
-        [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationLeft];
     }
     NSLog(@"paths to add count %lu", pathsToAdd.count);
     if (pathsToAdd.count) {
         NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
-        [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationRight];
     }
     [self.tableView endUpdates];
 }
@@ -222,6 +222,11 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [_daysArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
 }
 
 #pragma mark HEADER VIEW
@@ -468,7 +473,16 @@
             CGFloat animationPeriod = 10;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 for (int i = 1; i <= [routineExercise.sets integerValue]; i++) {
-                    usleep(animationPeriod / 100 * 1000000); // sleep in ms
+                    
+                    if (i > 10)
+                    // speed up when count is over 10
+                    {
+                        usleep(animationPeriod / 100 * 1000);
+                    }
+                    else
+                    {
+                        usleep(animationPeriod / 100 * 1000000); // sleep in ms
+                    }
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         actionCell.setsLabel.text = [NSString stringWithFormat:@"%d", i];
@@ -485,7 +499,16 @@
             CGFloat animationPeriod = 10;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 for (int i = 1; i <= [routineExercise.reps integerValue]; i++) {
-                    usleep(animationPeriod / 100 * 1000000); // sleep in ms
+
+                    if (i > 10)
+                        
+                    {
+                        usleep(animationPeriod / 100 * 1000);
+                    }
+                    else
+                    {
+                        usleep(animationPeriod / 100 * 1000000); // sleep in ms
+                    }
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         actionCell.repsLabel.text = [NSString stringWithFormat:@"%d", i];
@@ -594,17 +617,36 @@
         
     }
 }
+#warning scroll not finished
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    NSUInteger cellHeight = 70.0;
+    // determine which table cell the scrolling will stop on
+    NSUInteger cellIndex = floor(targetContentOffset->y / cellHeight);
+
+    // round to the next cell if scrolling will stop over halfway to next cell
+    if ((targetContentOffset->y - (floor(targetContentOffset->y / cellHeight) * cellHeight)) > cellHeight) {
+        cellIndex++;
+    }
+    
+    // adjust stopping point to exact beginning of cell
+    targetContentOffset->y = cellIndex * cellHeight;
+}
 
 - (void)startWorkout:(UIButton *)button event:(id)event
 {
-#warning Crash when dragging touch on start button
     NSNumber *dayNumber = @(button.tag);
     NSLog(@"Add button tapped in section %@", dayNumber);
     
-    NSSet *touches = [event allTouches];
-    UITouch *touch = [touches anyObject];
-    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    KLEDailyViewCell *dailyViewCell;
+    if ([button.superview.superview isKindOfClass:[KLEDailyViewCell class]]) {
+        
+        dailyViewCell = (KLEDailyViewCell *)button.superview.superview;
+    }
+
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:dailyViewCell];
+    
+    NSLog(@"BUTTON SUPERVIEW %@", button.superview.superview);
     
     if (indexPath != nil) {
         
@@ -647,9 +689,9 @@
 
     NSDate *todaysDateWithComponents = [NSDate dateWithYear:todaysDate.year month:todaysDate.month day:todaysDate.day hour:todaysDate.hour minute:todaysDate.minute second:todaysDate.second];
     
-    NSString *todaysDateString = [todaysDateWithComponents formattedDateWithFormat:@"MMMM-dd-yy" timeZone:[NSTimeZone localTimeZone]];
+    NSString *todaysDateString = [todaysDateWithComponents formattedDateWithFormat:@"MMMM dd" timeZone:[NSTimeZone localTimeZone]];
     
-#warning make it NSDATE
+    // using string to match
     self.todaysDate = todaysDateString;
     
     NSDate *startWeekDate = nil;
@@ -684,7 +726,7 @@
         [self.tableView beginUpdates];
         NSLog(@"paths to delete count %lu", pathsToDelete.count);
         if (pathsToDelete.count) {
-            [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationRight];
         }
         [self.tableView endUpdates];
         
@@ -775,27 +817,27 @@
     
     NSLog(@"VIEW WILL DISAPPEAR");
     
-    if ([self.tableView indexPathsForVisibleRows]) {
-        
-        for (int i = 0; i < [_datesArray count]; i++) {
-            
-            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
-            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
-                
-                NSLog(@"MATCH");
-                if ([self.tableView numberOfRowsInSection:i] > 0) {
-                    
-                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
-                    if ([self.actionRowPaths count]) {
-                        
-                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
-                    } else {
-                        return;
-                    }
-                }
-            }
-        }
-    }
+//    if ([self.tableView indexPathsForVisibleRows]) {
+//        
+//        for (int i = 0; i < [_datesArray count]; i++) {
+//            
+//            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
+//            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+//                
+//                NSLog(@"MATCH");
+//                if ([self.tableView numberOfRowsInSection:i] > 0) {
+//                    
+//                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
+//                    if ([self.actionRowPaths count]) {
+//                        
+//                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
+//                    } else {
+//                        return;
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     [self removeActionRowPathsFromView];
 }

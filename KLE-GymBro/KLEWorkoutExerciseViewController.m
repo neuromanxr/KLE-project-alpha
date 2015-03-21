@@ -216,7 +216,7 @@
         [_workoutFeedLabel setAlpha:0.0];
     } completion:^(BOOL finished) {
         
-        _workoutFeedLabel.text = [NSString stringWithFormat:@"Sets: %@ Reps: %@ Weight: %@", currentSet, currentReps, currentWeight];
+        _workoutFeedLabel.text = [NSString stringWithFormat:@"Sets: %@ Reps: %@ Weight: %@ %@", currentSet, currentReps, currentWeight, [KLEUtility weightUnitType]];
         
         [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             [_workoutFeedLabel setAlpha:1.0];

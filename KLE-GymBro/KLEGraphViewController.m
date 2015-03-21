@@ -285,7 +285,6 @@
     _graphView.enableYAxisLabel = YES;
     _graphView.autoScaleYAxis = YES;
     
-    
     // colors
     _graphView.colorTop = [UIColor kGraphPrimaryColor];
     _graphView.colorBottom = [UIColor kGraphSecondaryColor];
@@ -309,9 +308,17 @@
     
     _graphView.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
     
-    
     _detailStreamLabel.text = @"";
-    _dateLabel.text = [NSString stringWithFormat:@"%@ - %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+    
+    if ([_dateCompletedArray firstObject] == nil || [_dateCompletedArray lastObject] == nil)
+    {
+        _dateLabel.text = @"";
+    }
+    else
+    {
+        _dateLabel.text = [NSString stringWithFormat:@"%@ - %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
+    }
+    
 }
 
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index
@@ -354,7 +361,10 @@
 
 - (NSString *)popUpSuffixForlineGraph:(BEMSimpleLineGraphView *)graph
 {
-    return @" lb";
+    if ([[KLEUtility weightUnitType] isEqualToString:kUnitPounds]) {
+        return [NSString stringWithFormat:@" %@", kUnitPounds];
+    }
+    return [NSString stringWithFormat:@" %@", kUnitKilograms];
 }
 
 // turned off

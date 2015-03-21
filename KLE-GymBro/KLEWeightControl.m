@@ -5,7 +5,7 @@
 //  Created by Kelvin Lee on 3/15/15.
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
-
+#import "KLEUtility.h"
 #import "KLEWeightControl.h"
 
 @interface KLEWeightControl ()
@@ -37,8 +37,8 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-    
-    
+
+    [self setupTextFieldRightLabel];
     [self setupWeightSlider];
 }
 
@@ -50,14 +50,86 @@
 }
 */
 
-- (void)setupWeightSlider
+- (void)willMoveToWindow:(UIWindow *)newWindow
 {
-    _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
+    
+    if (newWindow == nil) {
+        
+        NSLog(@"WINDOW IS NIL %@", newWindow);
+    }
+}
+
+- (void)didMoveToWindow
+{
+    
+    if (self.window) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWeightUnit) name:@"WeightUnitChanged" object:nil];
+        NSLog(@"OBSERVER ADDED");
+    }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kWeightUnitChangedNote object:nil];
+    NSLog(@"OBSERVER REMOVED");
+}
+
+- (void)updateWeightUnit
+{
+    NSLog(@"UPDATE WEIGHT UNIT");
+    if ([[KLEUtility weightUnitType] isEqualToString:kUnitPounds])
+    {
+        _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
+        _rightWeightLabel.text = [KLEUtility weightUnitType];
+        
+        NSLog(@"WEIGHT TEXT LB %@", _weightTextField.text);
+    }
+    else
+    {
+        _weightIncrementNumbers = @[@(0.5), @(1.5), @(2.0), @(2.5), @(5.0), @(10.0), @(15.0), @(20.0), @(25.0)];
+        _rightWeightLabel.text = [KLEUtility weightUnitType];
+
+        NSLog(@"WEIGHT TEXT KG %@", _weightTextField.text);
+    }
+    
     NSUInteger numberOfSteps = [_weightIncrementNumbers count] - 1;
     
     _weightIncrementSlider.maximumValue = numberOfSteps;
     _weightIncrementSlider.minimumValue = 0;
     [_weightIncrementSlider setValue:_weightIncrementSlider.minimumValue];
+    [_weightIncrementLabel setText:[NSString stringWithFormat:@"%@", [_weightIncrementNumbers firstObject]]];
+
+}
+
+- (void)setupTextFieldRightLabel
+{
+    // weight unit label
+    _rightWeightLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 30)];
+    [_rightWeightLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    [_rightWeightLabel setTextColor:[UIColor kPrimaryColor]];
+    _rightWeightLabel.text = [KLEUtility changeWeightUnits];
+    [_weightTextField setRightViewMode:UITextFieldViewModeAlways];
+    [_weightTextField setRightView:_rightWeightLabel];
+    
+}
+
+- (void)setupWeightSlider
+{
+    if ([[KLEUtility weightUnitType] isEqualToString:kUnitPounds])
+    {
+        _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
+    }
+    else
+    {
+        _weightIncrementNumbers = @[@(0.5), @(1.5), @(2.0), @(2.5), @(5.0), @(10.0), @(15.0), @(20.0), @(25.0)];
+    }
+    
+    NSUInteger numberOfSteps = [_weightIncrementNumbers count] - 1;
+    
+    _weightIncrementSlider.maximumValue = numberOfSteps;
+    _weightIncrementSlider.minimumValue = 0;
+    [_weightIncrementSlider setValue:_weightIncrementSlider.minimumValue];
+    [_weightIncrementLabel setText:[NSString stringWithFormat:@"%@", [_weightIncrementNumbers firstObject]]];
     [_weightIncrementSlider setMaximumTrackTintColor:[UIColor redColor]];
     _weightIncrementSlider.continuous = YES;
     

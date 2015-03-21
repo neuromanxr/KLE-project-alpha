@@ -6,10 +6,13 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEUtility.h"
 #import "KLESettingsTableViewController.h"
 
 @interface KLESettingsTableViewController ()
 
+- (IBAction)weightUnitSwitch:(UISwitch *)sender;
+@property (strong, nonatomic) IBOutlet UISwitch *weightUnitSwitch;
 @end
 
 @implementation KLESettingsTableViewController
@@ -52,13 +55,27 @@
     
     [navItem setTitle:@"Settings"];
     
+    [self setWeightSwitchState];
+    
 }
-//
-//- (void)didReceiveMemoryWarning {
-//    [super didReceiveMemoryWarning];
-//    // Dispose of any resources that can be recreated.
-//}
-//
+
+- (void)setWeightSwitchState
+{
+    if ([[KLEUtility weightUnitType] isEqualToString:kUnitPounds])
+    {
+        [_weightUnitSwitch setOn:YES];
+    }
+    else
+    {
+        [_weightUnitSwitch setOn:NO];
+    }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 //#pragma mark - Table view data source
 //
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -85,4 +102,22 @@
 //    return cell;
 //}
 
+- (IBAction)weightUnitSwitch:(UISwitch *)sender
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (sender.isOn) {
+        
+        [userDefaults setObject:kUnitPounds forKey:kUnitWeightKey];
+         NSLog(@"SWITCH ON to LBs, %@", [userDefaults stringForKey:kUnitWeightKey]);
+        
+    }
+    else
+    {
+        
+        [userDefaults setObject:kUnitKilograms forKey:kUnitWeightKey];
+        NSLog(@"SWITCH OFF to KGs, %@", [userDefaults stringForKey:kUnitWeightKey]);
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kWeightUnitChangedNote object:nil];
+}
 @end

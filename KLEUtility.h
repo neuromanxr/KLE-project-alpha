@@ -22,6 +22,10 @@
 #define kGraphAxisLabelColor whiteColor
 
 #define kExerciseGoalChangedNote @"ExerciseGoalChanged"
+#define kWeightUnitChangedNote @"WeightUnitChanged"
+
+#define kUnitPounds @"lb"
+#define kUnitKilograms @"kg"
 
 typedef NS_ENUM(NSInteger, KLEDateRangeMode)
 {
@@ -36,6 +40,16 @@ typedef NS_ENUM(NSInteger, KLEDateRangeMode)
 };
 
 @interface KLEUtility : NSObject
+
+extern NSString *const kUnitWeightKey;
+
+@property (nonatomic, assign) NSString *unitWeight;
+
++ (NSString *)weightUnitType;
+
++ (NSString *)changeWeightUnits;
+
++ (CGFloat)convertWeightUnits:(CGFloat)amount;
 
 + (UIFont *)getFontFromFontFamilyWithSize:(CGFloat)fontSize;
 

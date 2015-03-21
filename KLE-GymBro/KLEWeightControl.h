@@ -13,5 +13,6 @@
 @property (strong, nonatomic) IBOutlet UISlider *weightIncrementSlider;
 @property (strong, nonatomic) IBOutlet UITextField *weightTextField;
 @property (strong, nonatomic) IBOutlet UILabel *weightIncrementLabel;
+@property (strong, nonatomic) UILabel *rightWeightLabel;
 
 @end

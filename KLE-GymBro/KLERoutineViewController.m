@@ -120,10 +120,15 @@
 
 - (void)showRoutineDetails:(UIButton *)button event:(id)event
 {
-    NSSet *touches = [event allTouches];
-    UITouch *touch = [touches anyObject];
-    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:currentTouchPosition];
+    KLERoutineViewCell *routineViewCell;
+    if ([button.superview.superview isKindOfClass:[KLERoutineViewCell class]]) {
+        
+        routineViewCell = (KLERoutineViewCell *)button.superview.superview;
+    }
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:routineViewCell];
+    
+    NSLog(@"BUTTON SUPERVIEW %@", button.superview.superview);
     
     if (indexPath != nil) {
         
