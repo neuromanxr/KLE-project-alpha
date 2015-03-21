@@ -226,6 +226,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     return 70;
 }
 
@@ -518,7 +519,7 @@
         }
         
         actionCell.exerciseNameLabel.text = routineExercise.exercise.exercisename;
-        actionCell.weightLabel.text = [NSString stringWithFormat:@"%@", routineExercise.weight];
+        actionCell.weightLabel.text = [NSString stringWithFormat:@"%@ %@", routineExercise.weight, [KLEUtility weightUnitType]];
         
         // remove spacing from cell seperator
         actionCell.layoutMargins = UIEdgeInsetsZero;

@@ -120,11 +120,10 @@
     }
 #warning defaults
     // settings default
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 //    [userDefaults setObject:kUnitPounds forKey:kUnitWeightKey];
-    
-    NSDictionary *defaults = @{kUnitWeightKey:kUnitPounds};
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+//    NSDictionary *defaults = @{kUnitWeightKey:kUnitPounds};
+//    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -174,6 +173,16 @@
     
     [self.window makeKeyAndVisible];
     
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
+{
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
+{
     return YES;
 }
 

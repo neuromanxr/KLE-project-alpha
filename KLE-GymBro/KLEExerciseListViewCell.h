@@ -11,6 +11,5 @@
 @interface KLEExerciseListViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *exerciseLabel;
-@property (weak, nonatomic) IBOutlet UILabel *muscleGroupLabel;
 
 @end

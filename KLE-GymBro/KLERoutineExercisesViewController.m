@@ -203,7 +203,9 @@
     cell.exerciseNameLabel.text = exercise.exercisename;
     cell.setsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.sets];
     cell.repsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.reps];
-    cell.weightLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.weight];
+    cell.weightLabel.text = [NSString stringWithFormat:@"%@ %@", exerciseGoal.weight, [KLEUtility weightUnitType]];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     UIView *selectedColorView = [[UIView alloc] init];
     [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];

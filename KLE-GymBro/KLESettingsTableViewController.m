@@ -51,12 +51,27 @@
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLESettingsTableViewCell"];
     
-    UINavigationItem *navItem = self.navigationItem;
-    
-    [navItem setTitle:@"Settings"];
+    [self setupNavigationBar];
     
     [self setWeightSwitchState];
     
+}
+
+- (void)setupNavigationBar
+{
+    // custom title for navigation title
+    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
+    UIFont *font = [UIFont fontWithName:[fontFamily firstObject] size:18.0];
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:@"Settings" attributes:@{ NSFontAttributeName : font, NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    
+    [self.navigationItem setTitleView:title];
 }
 
 - (void)setWeightSwitchState
@@ -76,8 +91,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-//#pragma mark - Table view data source
-//
+#pragma mark - Table view data source
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:17.0]];
+}
+
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 //#warning Potentially incomplete method implementation.
 //    // Return the number of sections.

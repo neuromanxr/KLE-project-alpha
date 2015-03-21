@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,43 +14,81 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Routine Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPo-9X-57Z">
-                        <rect key="frame" x="178" y="8" width="134" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Routine Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPo-9X-57Z">
+                        <rect key="frame" x="175" y="8" width="137" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="137" id="Eeo-hV-ewI"/>
+                            <constraint firstAttribute="height" constant="16" id="YLB-a7-zOC"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
                         <color key="textColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Exercise Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-7i-xJC">
-                        <rect key="frame" x="8" y="8" width="140" height="20"/>
-                        <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exercise Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyx-7i-xJC">
+                        <rect key="frame" x="8" y="8" width="159" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="wJO-nS-TWi"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
                         <color key="textColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Max Weight" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBt-Ju-wbd">
-                        <rect key="frame" x="154" y="35" width="74" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Max Weight" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBt-Ju-wbd">
+                        <rect key="frame" x="154" y="31" width="74" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="74" id="o5f-nO-BZE"/>
+                            <constraint firstAttribute="height" constant="21" id="oPa-U5-4aQ"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sets Finished" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHQ-On-QAr">
-                        <rect key="frame" x="8" y="35" width="90" height="21"/>
-                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="14"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sql-iC-Cvj">
-                        <rect key="frame" x="106" y="35" width="40" height="21"/>
-                        <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="18"/>
-                        <color key="textColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="lb/kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="35X-N5-yzi">
-                        <rect key="frame" x="236" y="35" width="76" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lb/kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="35X-N5-yzi">
+                        <rect key="frame" x="236" y="31" width="67" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="mAl-8R-FEr"/>
+                            <constraint firstAttribute="width" constant="67" id="obS-xK-4by"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
                         <color key="textColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sets" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHQ-On-QAr">
+                        <rect key="frame" x="8" y="31" width="40" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="Ufb-co-2rX"/>
+                            <constraint firstAttribute="height" constant="21" id="jiX-Sv-1Mm"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="14"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sql-iC-Cvj">
+                        <rect key="frame" x="56" y="31" width="40" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="IaZ-Fa-KaA"/>
+                            <constraint firstAttribute="width" constant="40" id="JFm-qX-HC3"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="18"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="GHQ-On-QAr" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="1z9-p2-woJ"/>
+                    <constraint firstItem="GHQ-On-QAr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="8FR-tK-SfL"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="35X-N5-yzi" secondAttribute="trailing" constant="9" id="Gqa-Qo-RVS"/>
+                    <constraint firstItem="CBt-Ju-wbd" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="IhF-hY-HAr"/>
+                    <constraint firstItem="oyx-7i-xJC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="Zza-gz-M3X"/>
+                    <constraint firstItem="pPo-9X-57Z" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="a7w-x4-ATM"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="35X-N5-yzi" secondAttribute="bottom" id="bbm-bc-T0j"/>
+                    <constraint firstItem="sql-iC-Cvj" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="cYQ-BC-LY8"/>
+                    <constraint firstItem="pPo-9X-57Z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="f3S-y7-RhP"/>
+                    <constraint firstItem="35X-N5-yzi" firstAttribute="leading" secondItem="CBt-Ju-wbd" secondAttribute="trailing" constant="8" id="jGM-7n-BTI"/>
+                    <constraint firstItem="oyx-7i-xJC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="lJU-wD-Dl8"/>
+                    <constraint firstItem="pPo-9X-57Z" firstAttribute="leading" secondItem="oyx-7i-xJC" secondAttribute="trailing" constant="8" id="r1x-iB-VQN"/>
+                    <constraint firstItem="sql-iC-Cvj" firstAttribute="leading" secondItem="GHQ-On-QAr" secondAttribute="trailing" constant="8" id="wZO-VS-2Py"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="exerciseLabel" destination="oyx-7i-xJC" id="eSG-lN-OVz"/>

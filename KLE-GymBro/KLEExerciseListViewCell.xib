@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -14,31 +14,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Muscle Group" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uk5-WP-KQv">
-                        <rect key="frame" x="164" y="11" width="148" height="21"/>
-                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="16"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exercise" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sdv-Fo-vsK">
-                        <rect key="frame" x="8" y="11" width="148" height="21"/>
-                        <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="16"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Exercise" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sdv-Fo-vsK">
+                        <rect key="frame" x="8" y="8" width="304" height="28"/>
+                        <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="18"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Uk5-WP-KQv" firstAttribute="top" secondItem="uEM-gb-PN2" secondAttribute="topMargin" constant="3" id="9MI-RN-p7O"/>
-                    <constraint firstItem="Uk5-WP-KQv" firstAttribute="width" secondItem="Sdv-Fo-vsK" secondAttribute="width" id="9Pm-D0-0aF"/>
-                    <constraint firstItem="Uk5-WP-KQv" firstAttribute="trailing" secondItem="uEM-gb-PN2" secondAttribute="trailingMargin" id="AWN-54-ILr"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Sdv-Fo-vsK" secondAttribute="bottom" constant="3.5" id="DDt-7K-Cmv"/>
-                    <constraint firstItem="Sdv-Fo-vsK" firstAttribute="leading" secondItem="uEM-gb-PN2" secondAttribute="leadingMargin" id="P4f-ju-9a6"/>
-                    <constraint firstItem="Sdv-Fo-vsK" firstAttribute="top" secondItem="uEM-gb-PN2" secondAttribute="topMargin" constant="3" id="V3U-JQ-EvQ"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Uk5-WP-KQv" secondAttribute="bottom" constant="3.5" id="ltz-OE-KDC"/>
-                    <constraint firstItem="Uk5-WP-KQv" firstAttribute="leading" secondItem="Sdv-Fo-vsK" secondAttribute="trailing" constant="8" id="r5t-aC-O1c"/>
+                    <constraint firstItem="Sdv-Fo-vsK" firstAttribute="top" secondItem="uEM-gb-PN2" secondAttribute="topMargin" id="CCH-Ks-Jo0"/>
+                    <constraint firstItem="Sdv-Fo-vsK" firstAttribute="trailing" secondItem="uEM-gb-PN2" secondAttribute="trailingMargin" id="RWn-5N-4Ng"/>
+                    <constraint firstItem="Sdv-Fo-vsK" firstAttribute="bottom" secondItem="uEM-gb-PN2" secondAttribute="bottomMargin" id="bV1-uF-OZU"/>
+                    <constraint firstItem="Sdv-Fo-vsK" firstAttribute="leading" secondItem="uEM-gb-PN2" secondAttribute="leadingMargin" id="g2D-Uz-R5b"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="exerciseLabel" destination="Sdv-Fo-vsK" id="RYi-2o-YXH"/>
-                <outlet property="muscleGroupLabel" destination="Uk5-WP-KQv" id="lTt-K9-HhA"/>
             </connections>
         </tableViewCell>
     </objects>

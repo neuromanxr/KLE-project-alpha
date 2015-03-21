@@ -59,6 +59,8 @@
 		50AC0B3319B52C8500E39A7E /* KLE_GymBroTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */; };
 		50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */; };
 		50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B4419B5750700E39A7E /* Porsche_logo.png */; };
+		50AEFC311ABD4E9700DC15EE /* KLEWorkoutTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */; };
+		50AEFC331ABD52A100DC15EE /* KLEWorkoutTimer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */; };
 		50B3021A1A66E82300E98222 /* KLEContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B302191A66E82300E98222 /* KLEContainerViewController.m */; };
 		50DD4CBD19BBFB6600A3E6E5 /* KLEDailyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */; };
 		50DD4CC019BCF91600A3E6E5 /* KLEDailyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */; };
@@ -192,6 +194,9 @@
 		50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLE_GymBroTests.m; sourceTree = "<group>"; };
 		50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		50AC0B4419B5750700E39A7E /* Porsche_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Porsche_logo.png; sourceTree = "<group>"; };
+		50AEFC2F1ABD4E9700DC15EE /* KLEWorkoutTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutTimer.h; sourceTree = "<group>"; };
+		50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWorkoutTimer.m; sourceTree = "<group>"; };
+		50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEWorkoutTimer.xib; sourceTree = "<group>"; };
 		50B160B81A8F4BD800E2F28F /* KLEWorkoutButtonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutButtonDelegate.h; sourceTree = "<group>"; };
 		50B302181A66E82300E98222 /* KLEContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEContainerViewController.h; sourceTree = "<group>"; };
 		50B302191A66E82300E98222 /* KLEContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEContainerViewController.m; sourceTree = "<group>"; };
@@ -402,6 +407,9 @@
 				50DD4CD319C2374500A3E6E5 /* KLEExerciseListViewCell.xib */,
 				500341A91AB6ACCE0003BCD2 /* KLERoutineExerciseDetailTableViewController.h */,
 				500341AA1AB6ACCE0003BCD2 /* KLERoutineExerciseDetailTableViewController.m */,
+				50AEFC2F1ABD4E9700DC15EE /* KLEWorkoutTimer.h */,
+				50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */,
+				50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */,
 				50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */,
 				50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */,
 				50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */,
@@ -642,6 +650,7 @@
 				5075308B1A78A79F0006C08D /* dumbbell.png in Resources */,
 				50DE6BA31A948368006713BE /* KLERepsButton.xib in Resources */,
 				50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */,
+				50AEFC331ABD52A100DC15EE /* KLEWorkoutTimer.xib in Resources */,
 				50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */,
 				507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */,
 				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
@@ -667,6 +676,7 @@
 				50F4985B1A70BD73007424C0 /* ActionSheetLocalePicker.m in Sources */,
 				50F9AC951A9E7999005B8047 /* KLEGraphView.m in Sources */,
 				5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */,
+				50AEFC311ABD4E9700DC15EE /* KLEWorkoutTimer.m in Sources */,
 				50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */,
 				50F4985C1A70BD73007424C0 /* ActionSheetStringPicker.m in Sources */,
 				50E403531AB1EBD00004F234 /* KLESettingsTableViewController.m in Sources */,

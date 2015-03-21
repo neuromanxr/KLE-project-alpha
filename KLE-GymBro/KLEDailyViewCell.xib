@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Phk-eV-vpg" customClass="KLEDailyViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Phk-eV-vpg" id="9SM-zy-gAm">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Routine Name" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="Bex-FH-jfc">
-                        <rect key="frame" x="8" y="13" width="240" height="24"/>
-                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
+                        <rect key="frame" x="8" y="8" width="240" height="54"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="54" id="Y62-2X-QtN"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="18"/>
                         <color key="textColor" red="0.77263144841269837" green="0.17794145995168181" blue="0.076295328849470948" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzO-Nh-oTY">
-                        <rect key="frame" x="256" y="10" width="56" height="30"/>
+                        <rect key="frame" x="256" y="10" width="56" height="52"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="7lN-mi-89Q"/>
+                            <constraint firstAttribute="height" constant="52" id="7lN-mi-89Q"/>
                             <constraint firstAttribute="width" constant="56" id="gC2-pf-qwG"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="20"/>
@@ -33,12 +36,12 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Bex-FH-jfc" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="top" constant="13" id="1Ra-Hw-Qh3"/>
-                    <constraint firstItem="yzO-Nh-oTY" firstAttribute="leading" secondItem="Bex-FH-jfc" secondAttribute="trailing" constant="8" id="KzK-bJ-K2l"/>
-                    <constraint firstAttribute="bottom" secondItem="yzO-Nh-oTY" secondAttribute="bottom" constant="9.5" id="NC1-rY-bIk"/>
+                    <constraint firstItem="Bex-FH-jfc" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="top" constant="8" id="1Ra-Hw-Qh3"/>
+                    <constraint firstItem="yzO-Nh-oTY" firstAttribute="leading" secondItem="Bex-FH-jfc" secondAttribute="trailing" constant="8" id="52E-dV-yNa"/>
+                    <constraint firstAttribute="bottom" secondItem="yzO-Nh-oTY" secondAttribute="bottom" constant="7.5" id="NC1-rY-bIk"/>
                     <constraint firstItem="yzO-Nh-oTY" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="top" constant="10" id="NyL-vU-aAy"/>
                     <constraint firstItem="Bex-FH-jfc" firstAttribute="leading" secondItem="9SM-zy-gAm" secondAttribute="leading" constant="8" id="O8c-VD-atq"/>
-                    <constraint firstAttribute="bottom" secondItem="Bex-FH-jfc" secondAttribute="bottom" constant="12.5" id="egR-NL-pct"/>
+                    <constraint firstAttribute="bottom" secondItem="Bex-FH-jfc" secondAttribute="bottom" constant="8" id="egR-NL-pct"/>
                     <constraint firstAttribute="trailing" secondItem="yzO-Nh-oTY" secondAttribute="trailing" constant="8" id="kxy-lj-lcp"/>
                 </constraints>
             </tableViewCellContentView>
@@ -46,6 +49,7 @@
                 <outlet property="routineNameLabel" destination="Bex-FH-jfc" id="mJV-wa-QzU"/>
                 <outlet property="startWorkoutButton" destination="yzO-Nh-oTY" id="bLV-Gd-6Js"/>
             </connections>
+            <point key="canvasLocation" x="250" y="385"/>
         </tableViewCell>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

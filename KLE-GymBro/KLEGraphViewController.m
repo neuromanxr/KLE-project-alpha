@@ -35,13 +35,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureFetchGraphData:withExercise:) name:@"SomethingChanged" object:nil];
-    
     [_exerciseCompletedPicker setDelegate:self];
     [_exerciseCompletedPicker setDataSource:self];
-    [self pickerView:_exerciseCompletedPicker didSelectRow:0 inComponent:0];
     
-    [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
+    if ([_exercisesFromHistory count] == 0)
+    {
+        NSLog(@"NO EXERCISES IN HISTORY");
+    }
+    else
+    {
+        [self pickerView:_exerciseCompletedPicker didSelectRow:0 inComponent:0];
+        
+        [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:_currentIndexInPicker]];
+    }
     
     [self configureGraphView];
     
@@ -83,13 +89,6 @@
     
     // dismiss graph view when different tab selected
 //    [self.navigationController popViewControllerAnimated:NO];
-}
-
-- (void)dealloc
-{
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -310,7 +309,8 @@
     
     _detailStreamLabel.text = @"";
     
-    if ([_dateCompletedArray firstObject] == nil || [_dateCompletedArray lastObject] == nil)
+    
+    if ([_dateCompletedArray count] == 0 || [_dateCompletedArray firstObject] == nil || [_dateCompletedArray lastObject] == nil)
     {
         _dateLabel.text = @"";
     }
@@ -332,11 +332,12 @@
 {
     // x points
     // Dates
+    NSArray *exerciseCompletedArray = [_fetchedResultsController fetchedObjects];
+
     _maxWeightArray = [NSMutableArray new];
     _dateCompletedArray = [NSMutableArray new];
     _exerciseNameArray = [NSMutableArray new];
     _routineNameArray = [NSMutableArray new];
-    NSArray *exerciseCompletedArray = [_fetchedResultsController fetchedObjects];
     
     for (KLEExerciseCompleted *exerciseCompleted in exerciseCompletedArray) {
         
@@ -406,6 +407,10 @@
 - (void)lineGraphDidFinishLoading:(BEMSimpleLineGraphView *)graph
 {
     _detailStreamLabel.text = @"";
+    
+    if ([_dateCompletedArray count] == 0) {
+        return;
+    }
     _dateLabel.text = [NSString stringWithFormat:@"%@ - %@", [_dateCompletedArray firstObject], [_dateCompletedArray lastObject]];
 }
 
@@ -497,11 +502,19 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
+    if ([_exercisesFromHistory count] == 0) {
+        return 0;
+    }
+    
     return [_exercisesFromHistory count];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    if ([_exercisesFromHistory count] == 0) {
+        return;
+    }
+    
     _currentIndexInPicker = row;
     [self configureFetchGraphData:_dateRangeMode withExercise:[_exercisesFromHistory objectAtIndex:row]];
     [self reloadGraph];

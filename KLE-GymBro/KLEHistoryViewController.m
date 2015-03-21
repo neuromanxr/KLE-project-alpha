@@ -295,7 +295,7 @@
     [cell.exerciseLabel setText:exerciseCompleted.exercisename];
     [cell.routineName setText:exerciseCompleted.routinename];
     [cell.setsLabel setText:[NSString stringWithFormat:@"%@", exerciseCompleted.setscompleted]];
-    [cell.prLabel setText:[NSString stringWithFormat:@"%.2f", [maxWeight floatValue]]];
+    [cell.prLabel setText:[NSString stringWithFormat:@"%.2f %@", [maxWeight floatValue], [KLEUtility weightUnitType]]];
     if ([cell.prLabel.text isEqualToString:@"0.00"]) {
         [cell.prLabel setText:@"No Weight"];
     }
