@@ -112,6 +112,57 @@
     [viewController.navigationItem setTitleView:title];
 }
 
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    // daily view
+    KLEDailyViewController *dailyView = [KLEDailyViewController new];
+    UINavigationController *dailyViewNav = [[UINavigationController alloc] initWithRootViewController:dailyView];
+    // daily view tab bar stuff in daily view controller
+    [self setupNavigationBarWithTitle:@"GymBro" forViewController:dailyView];
+    // restoration identifier
+    dailyViewNav.restorationIdentifier = NSStringFromClass([dailyViewNav class]);
+    
+    // routine view
+    KLERoutineViewController *routineView = [KLERoutineViewController new];
+    UINavigationController *routineViewNav = [[UINavigationController alloc] initWithRootViewController:routineView];
+    [self setupNavigationBarWithTitle:@"Routines" forViewController:routineView];
+    // restoration identifier
+    routineViewNav.restorationIdentifier = NSStringFromClass([routineViewNav class]);
+    
+    UIImage *routineTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
+    UITabBarItem *routineTabItem = [[UITabBarItem alloc] initWithTitle:nil image:routineTabBarImage tag:1];
+    routineView.tabBarItem = routineTabItem;
+    
+    // history view
+    KLEHistoryViewController *historyView = [KLEHistoryViewController new];
+    UINavigationController *historyViewNav = [[UINavigationController alloc] initWithRootViewController:historyView];
+    [self setupNavigationBarWithTitle:@"History" forViewController:historyView];
+    // restoration identifier
+    historyViewNav.restorationIdentifier = NSStringFromClass([historyViewNav class]);
+    
+    UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
+    UITabBarItem *historyTabItem = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
+    historyView.tabBarItem = historyTabItem;
+    
+    UITabBarController *threeTabBar = [UITabBarController new];
+    threeTabBar.viewControllers = @[dailyViewNav, routineViewNav, historyViewNav];
+    [threeTabBar.tabBar setBarStyle:UIBarStyleBlack];
+    [threeTabBar.tabBar setTintColor:[UIColor orangeColor]];
+    
+    // restoration identifier for tab bar
+    threeTabBar.restorationIdentifier = NSStringFromClass([threeTabBar class]);
+    //        threeTabBar.restorationClass = [self class];
+    
+    self.window.rootViewController = threeTabBar;
+    
+    
+    
+    
+    return YES;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     if (debug==1)
@@ -125,7 +176,7 @@
 //    NSDictionary *defaults = @{kUnitWeightKey:kUnitPounds};
 //    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     // Override point for customization after application launch.
     
     /* for split view, routine view and routine exercise view
@@ -140,41 +191,19 @@
     containerView.tabBarItem = containerTabItem;
     */
     
-    // daily view
-    KLEDailyViewController *dailyView = [KLEDailyViewController new];
-    UINavigationController *dailyViewNav = [[UINavigationController alloc] initWithRootViewController:dailyView];
-    // daily view tab bar stuff in daily view controller
-    [self setupNavigationBarWithTitle:@"GymBro" forViewController:dailyView];
-    
-    // routine view
-    KLERoutineViewController *routineView = [KLERoutineViewController new];
-    UINavigationController *routineViewNav = [[UINavigationController alloc] initWithRootViewController:routineView];
-    [self setupNavigationBarWithTitle:@"Routines" forViewController:routineView];
-    
-    UIImage *routineTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
-    UITabBarItem *routineTabItem = [[UITabBarItem alloc] initWithTitle:nil image:routineTabBarImage tag:1];
-    routineView.tabBarItem = routineTabItem;
-    
-    // history view
-    KLEHistoryViewController *historyView = [KLEHistoryViewController new];
-    UINavigationController *historyViewNav = [[UINavigationController alloc] initWithRootViewController:historyView];
-    [self setupNavigationBarWithTitle:@"History" forViewController:historyView];
-    
-    UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
-    UITabBarItem *historyTabItem = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
-    historyView.tabBarItem = historyTabItem;
-
-    UITabBarController *threeTabBar = [UITabBarController new];
-    threeTabBar.viewControllers = @[dailyViewNav, routineViewNav, historyViewNav];
-    [threeTabBar.tabBar setBarStyle:UIBarStyleBlack];
-    [threeTabBar.tabBar setTintColor:[UIColor orangeColor]];
-    
-    self.window.rootViewController = threeTabBar;
-    
     [self.window makeKeyAndVisible];
     
     return YES;
 }
+
+//- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+//{
+//    UIViewController *vc = [[UINavigationController alloc] init];
+//    vc.restorationIdentifier = [identifierComponents firstObject];
+//    NSLog(@"VC RESTORATION ID %@", vc.restorationIdentifier);
+//    
+//    return vc;
+//}
 
 - (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
 {

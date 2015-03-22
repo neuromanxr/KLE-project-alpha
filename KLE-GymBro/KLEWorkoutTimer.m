@@ -13,17 +13,13 @@
 
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 
-@property (assign, nonatomic) NSTimeInterval time;
+@property (assign, nonatomic) NSTimeInterval beginTime;
 
-@property (assign, nonatomic) NSTimeInterval timePaused;
+@property (assign, nonatomic) NSTimeInterval timeElapsed;
 
-@property (assign, nonatomic) NSTimeInterval resumeTime;
+@property (nonatomic) BOOL timerStart;
 
-@property (nonatomic) BOOL start;
-
-@property (nonatomic) BOOL resume;
-
-- (IBAction)timerButtonAction:(UIButton *)sender;
+@property (nonatomic) BOOL timerResume;
 
 @end
 
@@ -44,11 +40,11 @@
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     
-    _start = NO;
-    _resume = NO;
+    _timerStart = NO;
+    _timerResume = NO;
 }
 
-- (NSString *)minutesAndSeconds:(NSTimeInterval)time
+- (NSString *)minutesAndSecondsFromTimeInterval:(NSTimeInterval)time
 {
     // minutes in elapsed
     int minutes = (int)(time / 60.0);
@@ -62,61 +58,67 @@
 
 - (void)updateTime
 {
-    if (_start == NO) {
+    // timer is paused
+    if (_timerStart == NO) {
         return;
     }
-    
+    // get the current time interval
     NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
     
-    NSTimeInterval elapsedTime = currentTime - _time;
+    // calculate elapsed time by subtracting starting time interval
+    NSTimeInterval elapsedTime = currentTime - _beginTime;
+    NSLog(@"ELAPSED TIME: %.2f", elapsedTime);
     
-    _resumeTime = elapsedTime;
-
-    NSLog(@"NSTIMEINTERVAL elapsed time: %.2f", elapsedTime);
-    NSLog(@"TIME %.2f", _time);
+    // for pausing and resuming time
+    _timeElapsed = elapsedTime;
     
-    _timer.text = [self minutesAndSeconds:elapsedTime];
+    // format the time interval to minutes and seconds
+    _timer.text = [self minutesAndSecondsFromTimeInterval:elapsedTime];
     
     // recursion
     [self performSelector:@selector(updateTime) withObject:self afterDelay:0.1];
 }
 
-
 - (IBAction)timerButtonAction:(UIButton *)sender
 {
-    if (_start == NO) {
+    if (_timerStart == NO) {
         
-        _start = YES;
+        _timerStart = YES;
         
-        if (_resume == YES)
+        // for pausing the timer
+        if (_timerResume == YES)
         {
-            _time = [NSDate timeIntervalSinceReferenceDate] - _resumeTime;
-            NSLog(@"Resume elapsed time %@", [self minutesAndSeconds:_time]);
-            _resume = NO;
+            // new begin time by subtracting the elapsed time
+            _beginTime = [NSDate timeIntervalSinceReferenceDate] - _timeElapsed;
+            _timerResume = NO;
         }
         else
         {
-            _time = [NSDate timeIntervalSinceReferenceDate];
+            // timer first started
+            _beginTime = [NSDate timeIntervalSinceReferenceDate];
         }
         
-        
-        
-        NSLog(@"Time %.2f", _time);
-        
-        [sender setTitle:@"STOP" forState:UIControlStateNormal];
+        [sender setTitle:@"||" forState:UIControlStateNormal];
         
         [self updateTime];
     }
     else
     {
-        _start = NO;
+        _timerStart = NO;
         
-        _resume = YES;
+        // pause timer
+        _timerResume = YES;
         
-//        NSLog(@"RESUME TIME %@", [self minutesAndSeconds:_resumeTime]);
-        
-        [sender setTitle:@"START" forState:UIControlStateNormal];
+        [sender setTitle:@">" forState:UIControlStateNormal];
     }
+}
+
+- (IBAction)resetTimerButtonAction:(UIButton *)sender
+{
+    _timerStart = NO;
+    _timerResume = NO;
+    _beginTime = [NSDate timeIntervalSinceReferenceDate];
+    _timer.text = [self minutesAndSecondsFromTimeInterval:_beginTime - _beginTime];
 }
 
 @end

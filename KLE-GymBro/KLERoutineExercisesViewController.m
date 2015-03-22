@@ -21,7 +21,7 @@
 #import "KLERoutineExerciseDetailTableViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
 
-@interface KLERoutineExercisesViewController () <ELVCDelegate, UITextFieldDelegate>
+@interface KLERoutineExercisesViewController () <ELVCDelegate, UITextFieldDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, copy) NSArray *routinesArray;
 
@@ -60,6 +60,35 @@
             break;
     }
     
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSURL *routineID = [self.selectedRoutineID URIRepresentation];
+    
+    [coder encodeObject:routineID forKey:@"selectedRoutineKey"];
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+//- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+//{
+//    NSURL *routineURI = [coder decodeObjectForKey:@"selectedRoutineKey"];
+//    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//    
+//    self.selectedRoutineID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURI];
+//}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
+    
+    NSURL *routineURI = [coder decodeObjectForKey:@"selectedRoutineKey"];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    
+    routineExercisesViewController.selectedRoutineID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURI];
+    
+    return routineExercisesViewController;
 }
 
 /* textfield in the navigation bar
@@ -170,6 +199,8 @@
     
     if (self) {
         
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
         
     }
     

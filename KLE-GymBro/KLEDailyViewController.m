@@ -84,6 +84,9 @@
         
         navItem.rightBarButtonItem = settingsBarButton;
         
+        self.restorationIdentifier = NSStringFromClass([self class]);
+//        self.restorationClass = [self class];
+        
     }
     
     return self;

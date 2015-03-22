@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *timer;
 @property (strong, nonatomic) IBOutlet UIButton *timerButton;
+@property (strong, nonatomic) IBOutlet UIButton *resetTimerButton;
 
+- (IBAction)timerButtonAction:(UIButton *)sender;
+- (IBAction)resetTimerButtonAction:(UIButton *)sender;
 
 @end

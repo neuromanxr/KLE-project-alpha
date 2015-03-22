@@ -17,7 +17,7 @@
 #import "KLERoutine.h"
 #import "KLEWeightControl.h"
 
-@interface KLEWorkoutExerciseViewController ()
+@interface KLEWorkoutExerciseViewController () <UIViewControllerRestoration>
 
 @property (nonatomic, copy) NSMutableArray *currentRepsWeightArray;
 @property (nonatomic, copy) NSArray *weightIncrementNumbers;
@@ -28,6 +28,22 @@
 @end
 
 @implementation KLEWorkoutExerciseViewController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        NSLog(@"WORKOUT INIT");
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
+    }
+    return self;
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    return [[self alloc] init];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

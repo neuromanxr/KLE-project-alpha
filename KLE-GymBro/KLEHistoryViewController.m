@@ -107,6 +107,9 @@
         
         navItem.rightBarButtonItem = graphViewButton;
         
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
+        
     }
     
     return self;

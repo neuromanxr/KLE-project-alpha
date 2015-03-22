@@ -65,6 +65,8 @@
         // set the button to be the right nav button of the nav item
 //        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
         
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        
     }
     
     return self;
@@ -73,6 +75,11 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    return [[self alloc] init];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -320,7 +327,7 @@
     
     self.navigationItem.leftBarButtonItem = addButton;
     
-    
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
 }
 
 - (void)viewDidAppear:(BOOL)animated

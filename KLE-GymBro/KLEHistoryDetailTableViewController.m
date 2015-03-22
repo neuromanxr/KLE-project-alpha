@@ -34,6 +34,16 @@
 
 @implementation KLEHistoryDetailTableViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
