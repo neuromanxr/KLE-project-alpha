@@ -12,9 +12,9 @@
 
 #pragma mark - FETCHING
 - (void)performFetch {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     
     if (self.frc) {
         [self.frc.managedObjectContext performBlockAndWait:^{
@@ -33,48 +33,48 @@
 
 #pragma mark - DATASOURCE: UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     return [[self.frc.sections objectAtIndex:section] numberOfObjects];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     return [[self.frc sections] count];
 }
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title
                atIndex:(NSInteger)index {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     return [self.frc sectionForSectionIndexTitle:title atIndex:index];
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     return [[[self.frc sections] objectAtIndex:section] name];
 }
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     return [self.frc sectionIndexTitles];
 }
 
 #pragma mark - DELEGATE: NSFetchedResultsController
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     [self.tableView beginUpdates];
 }
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     [self.tableView endUpdates];
 }
 - (void)controller:(NSFetchedResultsController *)controller
@@ -82,9 +82,9 @@
            atIndex:(NSUInteger)sectionIndex
      forChangeType:(NSFetchedResultsChangeType)type {
     
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     if (type == NSFetchedResultsChangeInsert) {
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
     } else if (type == NSFetchedResultsChangeDelete) {
@@ -98,9 +98,9 @@
      forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath {
     
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     UITableView *tableView = self.tableView;
     switch(type) {
         case NSFetchedResultsChangeInsert:
