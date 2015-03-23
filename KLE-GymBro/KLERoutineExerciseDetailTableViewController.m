@@ -51,8 +51,8 @@
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    NSURL *routineExerciseID = [[self.selectedRoutineExercise objectID] URIRepresentation];
-    [coder encodeObject:routineExerciseID forKey:kSelectedExerciseDetailIDKey];
+    NSURL *routineExerciseURI = [[self.selectedRoutineExercise objectID] URIRepresentation];
+    [coder encodeObject:routineExerciseURI forKey:kSelectedExerciseDetailIDKey];
     
     [coder encodeObject:_weightControl.weightIncrementLabel.text forKey:kWeightSliderLabelTextExerciseDetailKey];
     [coder encodeObject:_setsLabel.text forKey:kSetsSliderLabelTextExerciseDetailKey];

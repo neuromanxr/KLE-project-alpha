@@ -47,6 +47,8 @@
 #define kSetsSegmentControlIndexExerciseDetailKey @"setsSegmentControlIndexExerciseDetailKey"
 #define kRepsSegmentControlIndexExerciseDetailKey @"repsSegmentControlIndexExerciseDetailKey"
 
+// encoder keys - history detail screen
+#define kSelectedExerciseCompletedKey @"selectedExerciseCompletedKey"
 
 // encoder keys - workout screen
 #define kSelectedExerciseIDKey @"selectedExerciseIDKey"

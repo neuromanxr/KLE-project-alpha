@@ -5,13 +5,13 @@
 //  Created by Kelvin Lee on 3/13/15.
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
-
+#import "KLEAppDelegate.h"
 #import "KLEUtility.h"
 #import "KLEExerciseCompleted.h"
 #import "KLEHistoryDetailTableViewController.h"
 #import "KLEWeightControl.h"
 
-@interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
+@interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIViewControllerRestoration>
 
 @property (nonatomic, copy) NSMutableArray *repsCompletedArray;
 @property (nonatomic, copy) NSMutableArray *weightCompletedArray;
@@ -34,14 +34,39 @@
 
 @implementation KLEHistoryDetailTableViewController
 
-- (instancetype)init
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        self.restorationIdentifier = NSStringFromClass([self class]);
+        NSLog(@"INIT HISTORY DETAIL");
+        
+        // restoration ID is set in storyboard, restoration class needs to be set here so UIViewControllerRestoration methods will run
         self.restorationClass = [self class];
     }
     return self;
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSURL *exerciseCompletedURI = [[self.selectedExerciseCompleted objectID] URIRepresentation];
+    [coder encodeObject:exerciseCompletedURI forKey:kSelectedExerciseCompletedKey];
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+    KLEHistoryDetailTableViewController *historyDetailViewController = [storyBoard instantiateViewControllerWithIdentifier:@"HistoryDetail"];
+    
+    NSURL *exerciseCompletedURI = [coder decodeObjectForKey:kSelectedExerciseCompletedKey];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSManagedObjectID *exerciseCompletedID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:exerciseCompletedURI];
+    
+    KLEExerciseCompleted *exerciseCompleted = (KLEExerciseCompleted *)[cdh.context existingObjectWithID:exerciseCompletedID error:nil];
+    historyDetailViewController.selectedExerciseCompleted = exerciseCompleted;
+    
+    return historyDetailViewController;
 }
 
 - (void)viewDidLoad {
@@ -66,8 +91,6 @@
     _weightControl.weightTextField.delegate = self;
     _weightControl.weightTextField.keyboardType = UIKeyboardTypeDecimalPad;
     
-    [self pickerView:_setsCompletedPicker didSelectRow:0 inComponent:0];
-    
     [_saveSetButton setEnabled:NO];
     [_saveSetButton setAlpha:0.3];
     [_repsCompletedLabel setAlpha:0.3];
@@ -76,6 +99,8 @@
     [_weightControl setAlpha:0.3];
     [_dateCompletedPicker setAlpha:0.3];
     [_dateCompletedPicker setUserInteractionEnabled:NO];
+    
+    [self pickerView:_setsCompletedPicker didSelectRow:0 inComponent:0];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -210,7 +235,7 @@
     
     // run animation only when button is enabled
     if (_saveSetButton.isEnabled) {
-        [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
             _saveSetButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
         } completion:^(BOOL finished) {
             _saveSetButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
