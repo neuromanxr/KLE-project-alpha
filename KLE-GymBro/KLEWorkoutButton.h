@@ -16,6 +16,12 @@ IB_DESIGNABLE
 
 @property (nonatomic) NSNumber *setsForAngle;
 
+@property (nonatomic, assign) CGFloat ringAngle;
+
+@property (nonatomic) BOOL inProgress;
+
+@property (nonatomic, strong) NSNumber *currentSet;
+
 @property (nonatomic, weak) id<KLEWorkoutButtonDelegate> delegate;
 
 @end

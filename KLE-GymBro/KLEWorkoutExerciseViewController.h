@@ -17,20 +17,14 @@
 @interface KLEWorkoutExerciseViewController : UIViewController <UITextFieldDelegate, KLEWorkoutButtonDelegate, KLERepsButtonDelegate>
 
 @property (nonatomic, strong) KLEExerciseGoal *selectedRoutineExercise;
-// del
-//@property (strong, nonatomic) IBOutlet UITextField *weightTextField;
-//@property (strong, nonatomic) IBOutlet UIButton *decreaseWeightButton;
-//@property (strong, nonatomic) IBOutlet UIButton *increaseWeightButton;
-//@property (strong, nonatomic) IBOutlet UILabel *weightIncrementLabel;
-//@property (strong, nonatomic) IBOutlet UISlider *weightIncrementSlider;
-// del
+
 @property (strong, nonatomic) IBOutlet UILabel *workoutFeedLabel;
+
 @property (strong, nonatomic) IBOutlet KLEWorkoutButton *setsWorkoutButton;
 @property (strong, nonatomic) IBOutlet KLERepsButton *repsWorkoutButton;
-
-//@property (strong, nonatomic) IBOutlet UIButton *finishWorkoutButton;
 @property (strong, nonatomic) IBOutlet KLERoundButton *finishWorkoutButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *resetButton;
 - (IBAction)resetButtonAction:(UIButton *)sender;
+
 @end

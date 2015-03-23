@@ -87,6 +87,7 @@
     pulseAnimation.autoreverses = YES;
     pulseAnimation.fromValue = [NSNumber numberWithFloat:1.0];
     pulseAnimation.toValue = [NSNumber numberWithFloat:0.5];
+    [pulseAnimation setRemovedOnCompletion:NO];
     [minusLayer addAnimation:pulseAnimation forKey:@"animateOpacity"];
     
     _plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.bounds) * 0.75,

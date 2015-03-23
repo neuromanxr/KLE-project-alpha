@@ -65,8 +65,11 @@
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     NSURL *routineID = [self.selectedRoutineID URIRepresentation];
+    NSNumber *currentMode = [NSNumber numberWithInteger:_mode];
     
-    [coder encodeObject:routineID forKey:@"selectedRoutineKey"];
+    [coder encodeObject:routineID forKey:kSelectedRoutineIDKey];
+    
+    [coder encodeObject:currentMode forKey:kCurrentModeKey];
     
     [super encodeRestorableStateWithCoder:coder];
 }
@@ -83,7 +86,10 @@
 {
     KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
     
-    NSURL *routineURI = [coder decodeObjectForKey:@"selectedRoutineKey"];
+    KLERoutineExercisesViewControllerMode mode = [[coder decodeObjectForKey:kCurrentModeKey] integerValue];
+    [routineExercisesViewController setMode:mode];
+    
+    NSURL *routineURI = [coder decodeObjectForKey:kSelectedRoutineIDKey];
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     
     routineExercisesViewController.selectedRoutineID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURI];
@@ -278,6 +284,7 @@
         NSLog(@"GOING TO WORKOUT MODE");
         KLEWorkoutExerciseViewController *wevc = [[KLEWorkoutExerciseViewController alloc] init];
         wevc.selectedRoutineExercise = routineExercise;
+        
         [self.navigationController pushViewController:wevc animated:YES];
     }
     else

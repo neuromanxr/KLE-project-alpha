@@ -40,19 +40,140 @@
     return self;
 }
 
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    
+    NSURL *routineExerciseID = [[self.selectedRoutineExercise objectID] URIRepresentation];
+    [coder encodeObject:routineExerciseID forKey:kSelectedExerciseIDKey];
+    
+    // current set in workout screen
+    NSNumber *currentSet = [NSNumber numberWithInteger:_currentSet];
+    [coder encodeObject:currentSet forKey:kCurrentSetInWorkoutViewKey];
+    
+    // current set in workout button
+    [coder encodeObject:_setsWorkoutButton.currentSet forKey:kCurrentSetInWorkoutButtonKey];
+    
+    [coder encodeObject:_currentRepsWeightArray forKey:kCurrentRepsWeightArrayKey];
+    [coder encodeObject:_workoutFeedLabel.text forKey:kWorkoutFeedTextKey];
+    [coder encodeObject:_weightControl.weightTextField.text forKey:kWeightTextKey];
+    NSLog(@"ENCODE workout feed %@", _workoutFeedLabel.text);
+    
+    NSNumber *weightSliderValue = [NSNumber numberWithInteger:_weightControl.weightIncrementSlider.value];
+    [coder encodeObject:weightSliderValue forKey:kWeightSliderValueKey];
+    
+    [coder encodeObject:_repsWorkoutButton.repsLabel.text forKey:kRepsValueKey];
+    // encode ring angle for sets workout button
+    NSNumber *ringAngle = [NSNumber numberWithFloat:_setsWorkoutButton.ringAngle];
+    [coder encodeObject:ringAngle forKey:kSetsProgressRingAngle];
+    // encode sets workout button
+    [coder encodeObject:_setsWorkoutButton.setsForAngle forKey:kSetsForAngle];
+    [coder encodeObject:_setsWorkoutButton.setsButton.titleLabel.text forKey:kSetsButtonTitle];
+    
+    // encode button states
+    NSNumber *setsButtonEnabledBool = [NSNumber numberWithBool:_setsWorkoutButton.setsButton.enabled];
+    NSNumber *setsButtonAlpha = [NSNumber numberWithFloat:_setsWorkoutButton.alpha];
+    [coder encodeObject:setsButtonEnabledBool forKey:kSetsButtonEnabledBoolKey];
+    [coder encodeObject:setsButtonAlpha forKey:kSetsButtonAlphaKey];
+    
+    NSNumber *repsButtonEnabledBool = [NSNumber numberWithBool:_repsWorkoutButton.enabled];
+    NSNumber *repsButtonAlpha = [NSNumber numberWithFloat:_repsWorkoutButton.alpha];
+    [coder encodeObject:repsButtonEnabledBool forKey:kRepsButtonEnabledBoolKey];
+    [coder encodeObject:repsButtonAlpha forKey:kRepsButtonAlphaKey];
+    
+    NSNumber *finishButtonEnabledBool = [NSNumber numberWithBool:_finishWorkoutButton.enabled];
+    NSNumber *finishButtonAlpha = [NSNumber numberWithFloat:_finishWorkoutButton.alpha];
+    [coder encodeObject:finishButtonEnabledBool forKey:kFinishButtonEnabledBoolKey];
+    [coder encodeObject:finishButtonAlpha forKey:kFinishButtonAlphaKey];
+    
+    [super encodeRestorableStateWithCoder:coder];
+    
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"DECODE");
+    // this runs after viewDidLoad
+    
+    NSMutableArray *repsWeightArray = [NSMutableArray arrayWithArray:[coder decodeObjectForKey:kCurrentRepsWeightArrayKey]];
+    NSString *workoutFeedText = [coder decodeObjectForKey:kWorkoutFeedTextKey];
+    NSString *weightFieldText = [coder decodeObjectForKey:kWeightTextKey];
+    NSString *repsLabelText = [coder decodeObjectForKey:kRepsValueKey];
+    NSString *setsButtonTitleText = [coder decodeObjectForKey:kSetsButtonTitle];
+    
+    NSNumber *currentSetWorkoutViewNumber = [coder decodeObjectForKey:kCurrentSetInWorkoutViewKey];
+    NSNumber *currentSetWorkoutButtonNumber = [coder decodeObjectForKey:kCurrentSetInWorkoutButtonKey];
+    
+    NSNumber *weightSliderNumber = [coder decodeObjectForKey:kWeightSliderValueKey];
+    NSNumber *ringAngleNumber = [coder decodeObjectForKey:kSetsProgressRingAngle];
+    NSNumber *setsForAngle = [coder decodeObjectForKey:kSetsForAngle];
+    
+    // decode button states
+    NSNumber *setsButtonEnabledBool = [coder decodeObjectForKey:kSetsButtonEnabledBoolKey];
+    NSNumber *setsButtonAlpha = [coder decodeObjectForKey:kSetsButtonAlphaKey];
+    
+    NSNumber *repsButtonEnabledBool = [coder decodeObjectForKey:kRepsButtonEnabledBoolKey];
+    NSNumber *repsButtonAlpha = [coder decodeObjectForKey:kRepsButtonAlphaKey];
+    
+    NSNumber *finishButtonEnabledBool = [coder decodeObjectForKey:kFinishButtonEnabledBoolKey];
+    NSNumber *finishButtonAlpha = [coder decodeObjectForKey:kFinishButtonAlphaKey];
+    
+    
+    _currentRepsWeightArray = repsWeightArray;
+    _weightControl.weightTextField.text = weightFieldText;
+    _setsWorkoutButton.setsForAngle = setsForAngle;
+    [_setsWorkoutButton.setsButton setTitle:setsButtonTitleText forState:UIControlStateNormal];
+    _workoutFeedLabel.text = workoutFeedText;
+    
+    // current set in workout screen
+    _currentSet = [currentSetWorkoutViewNumber integerValue];
+    
+    // current set in workout button
+    _setsWorkoutButton.currentSet = currentSetWorkoutButtonNumber;
+    
+    _weightControl.weightIncrementSlider.value = [weightSliderNumber floatValue];
+    _setsWorkoutButton.ringAngle = [ringAngleNumber floatValue];
+    _repsWorkoutButton.repsLabel.text = repsLabelText;
+    
+    // button states
+    [_setsWorkoutButton.setsButton setEnabled:[setsButtonEnabledBool boolValue]];
+    [_setsWorkoutButton setAlpha:[setsButtonAlpha floatValue]];
+    
+    [_repsWorkoutButton setEnabled:[repsButtonEnabledBool boolValue]];
+    [_repsWorkoutButton setAlpha:[repsButtonAlpha floatValue]];
+    
+    [_finishWorkoutButton setEnabled:[finishButtonEnabledBool boolValue]];
+    [_finishWorkoutButton setAlpha:[finishButtonAlpha floatValue]];
+    
+    
+    [super decodeRestorableStateWithCoder:coder];
+}
+
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
 {
-    return [[self alloc] init];
+    KLEWorkoutExerciseViewController *workoutExerciseViewController = [[self alloc] init];
+    
+    NSURL *routineExerciseURI = [coder decodeObjectForKey:kSelectedExerciseIDKey];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSManagedObjectID *routineExerciseID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineExerciseURI];
+    
+    KLEExerciseGoal *selectedExercise = (KLEExerciseGoal *)[cdh.context existingObjectWithID:routineExerciseID error:nil];
+    workoutExerciseViewController.selectedRoutineExercise = selectedExercise;
+    
+    NSLog(@"selected routine exercse %@", workoutExerciseViewController.selectedRoutineExercise);
+    
+    
+    return workoutExerciseViewController;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   
+    
+//    self.view.restorationIdentifier = NSStringFromClass([self class]);
     
     // custom title for navigation title
     NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:_selectedRoutineExercise.exercise.exercisename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
-    // custom title for navigation title
+//     custom title for navigation title
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
     title.backgroundColor = [UIColor clearColor];
     title.textColor = [UIColor whiteColor];
@@ -70,13 +191,14 @@
     _weightControl.weightTextField.delegate = self;
     [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
     
-    _workoutFeedLabel.text = @"Start your set then press S button";
-    
     [self setupExerciseData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSelectedExercise:) name:kExerciseGoalChangedNote object:nil];
     
     [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
+#warning tap gesture interferes with finish button
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissNumberPad)];
+//    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,6 +223,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+//- (void)dismissNumberPad
+//{
+//    [_weightControl.weightTextField resignFirstResponder];
+//}
+
 - (void)setupExerciseData
 {
 //    _weightTextField.text = [NSString stringWithFormat:@"%@", _selectedRoutineExercise.weight];
@@ -112,6 +239,8 @@
     
     [_finishWorkoutButton setEnabled:NO];
     [_finishWorkoutButton setAlpha:0.5];
+    
+    _workoutFeedLabel.text = @"Start your set then press S button";
     
 }
 

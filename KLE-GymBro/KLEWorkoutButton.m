@@ -18,13 +18,6 @@
 
 @interface KLEWorkoutButton ()
 
-{
-    CGFloat ringAngle;
-    BOOL inProgress;
-}
-
-@property (nonatomic, strong) NSNumber *currentSet;
-
 @end
 
 @implementation KLEWorkoutButton
@@ -34,11 +27,11 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         
-        ringAngle = 0.0;
+        _ringAngle = 0.0;
         _currentSet = [NSNumber numberWithInteger:0];
         
         NSLog(@"SETS FOR ANGLE %@", self.setsForAngle);
-        NSLog(@"RING ANGLE %f", ringAngle);
+        NSLog(@"RING ANGLE %f", _ringAngle);
         NSLog(@"INIT CODER BUTTON");
         
         [self createSetsButton];
@@ -58,13 +51,13 @@
     
     [_setsButton addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *repsLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 4, (self.bounds.size.height / 4) + 26, self.bounds.size.width / 2, self.bounds.size.height / 2)];
-    repsLabel.text = @"S";
-    [repsLabel setTextAlignment:NSTextAlignmentCenter];
-    [repsLabel setTextColor:[UIColor kPrimaryColor]];
-    [repsLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:18.0]];
+    UILabel *sLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.bounds.size.width / 4, (self.bounds.size.height / 4) + 26, self.bounds.size.width / 2, self.bounds.size.height / 2)];
+    sLabel.text = @"S";
+    [sLabel setTextAlignment:NSTextAlignmentCenter];
+    [sLabel setTextColor:[UIColor kPrimaryColor]];
+    [sLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:18.0]];
     
-    [self addSubview:repsLabel];
+    [self addSubview:sLabel];
     [self addSubview:_setsButton];
 }
 
@@ -72,11 +65,11 @@
 {
     NSLog(@"BUTTON PRESSED");
     
-    NSLog(@"RING ANGLE IN BUTTON %f", ringAngle);
-    if (ringAngle >= SK_DEGREES_TO_RADIANS(360)) {
+    NSLog(@"RING ANGLE IN BUTTON %f", _ringAngle);
+    if (_ringAngle >= SK_DEGREES_TO_RADIANS(360)) {
         
-        inProgress = NO;
-        ringAngle = SK_DEGREES_TO_RADIANS(0);
+        _inProgress = NO;
+        _ringAngle = SK_DEGREES_TO_RADIANS(0);
         NSUInteger sets = [self.setsForAngle integerValue];
         NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
         
@@ -94,8 +87,8 @@
         NSLog(@"SETS FOR ANGLE %lu", [self.setsForAngle integerValue]);
         if ([self.setsForAngle integerValue] != 0) {
             
-            inProgress = YES;
-            ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
+            _inProgress = YES;
+            _ringAngle += SK_DEGREES_TO_RADIANS((360 / [_setsForAngle floatValue]));
             // decrement sets left
             sets--;
             
@@ -228,13 +221,13 @@
     CGContextSetLineCap(context, kCGLineCapRound);
     //    CGContextSetLineDash(context, 0.0, [3,2] , 0);
     [[UIColor yellowColor] set];
-    NSLog(@"RING ANGLE IN DRAW PROGRESS %f", ringAngle);
+    NSLog(@"RING ANGLE IN DRAW PROGRESS %f", _ringAngle);
     CGContextAddArc(context,
                     (self.frame.size.width / 2),
                     (self.frame.size.height / 2),
                     (self.frame.size.width - 40) / 2,
                     0.0,
-                    ringAngle,
+                    _ringAngle,
                     0);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
@@ -244,7 +237,7 @@
 {
     NSLog(@"RESET ANGLE %f", angle);
     
-    ringAngle = angle;
+    _ringAngle = angle;
     _currentSet = [NSNumber numberWithInteger:angle];
     
     [self setNeedsDisplay];
@@ -252,7 +245,7 @@
 
 - (BOOL)isWorkoutInProgress
 {
-    if (inProgress) {
+    if (_inProgress) {
         NSLog(@"WORKOUT IN PROGRESS");
         return YES;
     }
