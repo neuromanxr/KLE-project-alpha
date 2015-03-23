@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,6 +17,7 @@
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Routine Name" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="Bex-FH-jfc">
                         <rect key="frame" x="8" y="8" width="240" height="54"/>
                         <constraints>
+                            <constraint firstAttribute="width" constant="240" id="4AK-o1-nqj"/>
                             <constraint firstAttribute="height" constant="54" id="Y62-2X-QtN"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="18"/>
@@ -36,13 +38,10 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Bex-FH-jfc" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="top" constant="8" id="1Ra-Hw-Qh3"/>
-                    <constraint firstItem="yzO-Nh-oTY" firstAttribute="leading" secondItem="Bex-FH-jfc" secondAttribute="trailing" constant="8" id="52E-dV-yNa"/>
-                    <constraint firstAttribute="bottom" secondItem="yzO-Nh-oTY" secondAttribute="bottom" constant="7.5" id="NC1-rY-bIk"/>
-                    <constraint firstItem="yzO-Nh-oTY" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="top" constant="10" id="NyL-vU-aAy"/>
-                    <constraint firstItem="Bex-FH-jfc" firstAttribute="leading" secondItem="9SM-zy-gAm" secondAttribute="leading" constant="8" id="O8c-VD-atq"/>
-                    <constraint firstAttribute="bottom" secondItem="Bex-FH-jfc" secondAttribute="bottom" constant="8" id="egR-NL-pct"/>
-                    <constraint firstAttribute="trailing" secondItem="yzO-Nh-oTY" secondAttribute="trailing" constant="8" id="kxy-lj-lcp"/>
+                    <constraint firstItem="Bex-FH-jfc" firstAttribute="leading" secondItem="9SM-zy-gAm" secondAttribute="leadingMargin" id="98a-CN-IoD"/>
+                    <constraint firstItem="Bex-FH-jfc" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="topMargin" id="Eho-5f-jMN"/>
+                    <constraint firstItem="yzO-Nh-oTY" firstAttribute="trailing" secondItem="9SM-zy-gAm" secondAttribute="trailingMargin" id="ZB5-wb-ueN"/>
+                    <constraint firstItem="yzO-Nh-oTY" firstAttribute="top" secondItem="9SM-zy-gAm" secondAttribute="topMargin" constant="2" id="k19-er-Fpr"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
