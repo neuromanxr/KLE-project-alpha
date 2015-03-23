@@ -142,7 +142,7 @@
     // restoration identifier
     historyViewNav.restorationIdentifier = NSStringFromClass([historyViewNav class]);
     
-    UIImage *historyTabBarImage = [UIImage imageNamed:@"menu.png"];
+    UIImage *historyTabBarImage = [UIImage imageNamed:@"text-list.png"];
     UITabBarItem *historyTabItem = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
     historyView.tabBarItem = historyTabItem;
     

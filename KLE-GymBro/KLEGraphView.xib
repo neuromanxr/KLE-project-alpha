@@ -21,14 +21,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5h-Dc-73I" customClass="BEMSimpleLineGraphView">
                     <rect key="frame" x="0.0" y="94" width="320" height="326"/>
                     <color key="backgroundColor" red="0.08235294118" green="0.43137254899999999" blue="0.53725490200000003" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="326" id="BlK-xD-vLA">
-                            <variation key="heightClass=compact" constant="204"/>
-                            <variation key="widthClass=compact" constant="382"/>
-                            <variation key="heightClass=compact-widthClass=compact" constant="204"/>
-                            <variation key="heightClass=compact-widthClass=regular" constant="210"/>
-                        </constraint>
-                    </constraints>
                 </view>
                 <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MRh-PB-A8l">
                     <rect key="frame" x="65" y="388" width="190" height="162"/>
@@ -36,13 +28,13 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Touch Exercise" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewB-yk-QwU">
                     <rect key="frame" x="0.0" y="71" width="160" height="21"/>
                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="12"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfs-HT-yPc">
                     <rect key="frame" x="160" y="71" width="160" height="21"/>
                     <fontDescription key="fontDescription" name="STHeitiSC-Medium" family="Heiti SC" pointSize="14"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>

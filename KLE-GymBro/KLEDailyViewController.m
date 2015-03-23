@@ -26,9 +26,6 @@
 #import "KLERoutineExercisesViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define COMMENT_LABEL_WIDTH 230
-#define COMMENT_LABEL_MIN_HEIGHT 95
-#define COMMENT_LABEL_PADDING 10
 
 #define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
 #define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
@@ -77,10 +74,11 @@
         UINavigationItem *navItem = self.navigationItem;
         
         UITabBarItem *tbi = [self tabBarItem];
-        UIImage *tabBarImage = [UIImage imageNamed:@"weightlift.png"];
+        UIImage *tabBarImage = [UIImage imageNamed:@"weight.png"];
         tbi.image = tabBarImage;
         
-        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
+//        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
+        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
         
         navItem.rightBarButtonItem = settingsBarButton;
         
@@ -166,24 +164,6 @@
     [self.tableView endUpdates];
 }
 
-
-// fix this
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 70;
-//    
-//}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    float currentOffset = scrollView.contentOffset.y;
-    float maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
-    
-    if ((maximumOffset - currentOffset) <= 40) {
-        NSLog(@"##SCROLLING TO END");
-    }
-}
-
 #pragma mark - DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -246,15 +226,9 @@
     return _dailyHeaderView;
 }
 
-// need dynamic height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    float height = self.view.bounds.size.height / 7;
-//    if (self.actionRowPaths) {
-//        height = self.view.bounds.size.height / 7;
-//    } else {
-//        height = self.view.bounds.size.height / 7;
-//    }
+    
     return 30;
 }
 
@@ -620,21 +594,16 @@
         
     }
 }
-#warning scroll not finished
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-    NSUInteger cellHeight = 70.0;
-    // determine which table cell the scrolling will stop on
-    NSUInteger cellIndex = floor(targetContentOffset->y / cellHeight);
 
-    // round to the next cell if scrolling will stop over halfway to next cell
-    if ((targetContentOffset->y - (floor(targetContentOffset->y / cellHeight) * cellHeight)) > cellHeight) {
-        cellIndex++;
-    }
-    
-    // adjust stopping point to exact beginning of cell
-    targetContentOffset->y = cellIndex * cellHeight;
-}
+//#warning scroll not finished
+//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+//{
+//    
+//}
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    
+//}
 
 - (void)startWorkout:(UIButton *)button event:(id)event
 {
@@ -753,15 +722,8 @@
                     
                     NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
                     if (![self.actionRowPaths count]) {
-                        
-                        if (i > 4) {
-                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
-//                            [self.tableView scrollToRowAtIndexPath:[self.actionRowPaths lastObject] atScrollPosition:UITableViewScrollPositionNone animated:YES];
-                        }
-                        else
-                        {
-                            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
-                        }
+
+                        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
                         
                         [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
                         

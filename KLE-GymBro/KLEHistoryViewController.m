@@ -121,6 +121,7 @@
 
 - (void)showGraphView
 {
+#warning check array before push view
     KLEGraphViewController *graphViewController = [KLEGraphViewController new];
     graphViewController.dateRangeMode = _currentDateRangeMode;
     graphViewController.exercisesFromHistory = [self exerciseArray];

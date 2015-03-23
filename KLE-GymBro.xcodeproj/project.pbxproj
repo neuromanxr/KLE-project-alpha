@@ -37,9 +37,13 @@
 		507530821A782E8C0006C08D /* KLEHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530811A782E8C0006C08D /* KLEHistoryViewController.m */; };
 		507530861A7834F00006C08D /* KLEHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */; };
 		507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */; };
-		5075308B1A78A79F0006C08D /* dumbbell.png in Resources */ = {isa = PBXBuildFile; fileRef = 507530881A78A79F0006C08D /* dumbbell.png */; };
+		5075308B1A78A79F0006C08D /* dumbbell1.png in Resources */ = {isa = PBXBuildFile; fileRef = 507530881A78A79F0006C08D /* dumbbell1.png */; };
 		5075308C1A78A79F0006C08D /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 507530891A78A79F0006C08D /* menu.png */; };
 		5075308D1A78A79F0006C08D /* weightlift.png in Resources */ = {isa = PBXBuildFile; fileRef = 5075308A1A78A79F0006C08D /* weightlift.png */; };
+		508E66AF1AC00469004AE8BB /* dumbbell.png in Resources */ = {isa = PBXBuildFile; fileRef = 508E66AE1AC00469004AE8BB /* dumbbell.png */; };
+		508E66B11AC004E3004AE8BB /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 508E66B01AC004E3004AE8BB /* gear.png */; };
+		508E66B31AC00531004AE8BB /* text-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 508E66B21AC00531004AE8BB /* text-list.png */; };
+		508E66B51AC0054B004AE8BB /* weight.png in Resources */ = {isa = PBXBuildFile; fileRef = 508E66B41AC0054B004AE8BB /* weight.png */; };
 		50A9C3DF1A98A35D00640051 /* KLEWorkoutExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */; };
 		50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3E11A98A3B100640051 /* KLEWorkoutExerciseView.m */; };
 		50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A9C3E31A98A3E600640051 /* KLEWorkoutExerciseView.xib */; };
@@ -58,7 +62,6 @@
 		50AC0B3119B52C8500E39A7E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B2F19B52C8500E39A7E /* InfoPlist.strings */; };
 		50AC0B3319B52C8500E39A7E /* KLE_GymBroTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */; };
 		50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */; };
-		50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 50AC0B4419B5750700E39A7E /* Porsche_logo.png */; };
 		50AEFC311ABD4E9700DC15EE /* KLEWorkoutTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */; };
 		50AEFC331ABD52A100DC15EE /* KLEWorkoutTimer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */; };
 		50B3021A1A66E82300E98222 /* KLEContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50B302191A66E82300E98222 /* KLEContainerViewController.m */; };
@@ -165,9 +168,13 @@
 		507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryTableViewCell.h; sourceTree = "<group>"; };
 		507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEHistoryTableViewCell.m; sourceTree = "<group>"; };
 		507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEHistoryTableViewCell.xib; sourceTree = "<group>"; };
-		507530881A78A79F0006C08D /* dumbbell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dumbbell.png; sourceTree = "<group>"; };
+		507530881A78A79F0006C08D /* dumbbell1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dumbbell1.png; sourceTree = "<group>"; };
 		507530891A78A79F0006C08D /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		5075308A1A78A79F0006C08D /* weightlift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weightlift.png; sourceTree = "<group>"; };
+		508E66AE1AC00469004AE8BB /* dumbbell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dumbbell.png; sourceTree = "<group>"; };
+		508E66B01AC004E3004AE8BB /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		508E66B21AC00531004AE8BB /* text-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "text-list.png"; sourceTree = "<group>"; };
+		508E66B41AC0054B004AE8BB /* weight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weight.png; sourceTree = "<group>"; };
 		50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseViewController.h; sourceTree = "<group>"; };
 		50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWorkoutExerciseViewController.m; sourceTree = "<group>"; };
 		50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseView.h; sourceTree = "<group>"; };
@@ -193,7 +200,6 @@
 		50AC0B3019B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLE_GymBroTests.m; sourceTree = "<group>"; };
 		50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		50AC0B4419B5750700E39A7E /* Porsche_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Porsche_logo.png; sourceTree = "<group>"; };
 		50AEFC2F1ABD4E9700DC15EE /* KLEWorkoutTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutTimer.h; sourceTree = "<group>"; };
 		50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWorkoutTimer.m; sourceTree = "<group>"; };
 		50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEWorkoutTimer.xib; sourceTree = "<group>"; };
@@ -433,7 +439,11 @@
 				5057D61E19F781B900CF99C0 /* KLEActionCell.h */,
 				5057D61F19F781B900CF99C0 /* KLEActionCell.m */,
 				5057D62119F781CF00CF99C0 /* KLEActionCell.xib */,
-				507530881A78A79F0006C08D /* dumbbell.png */,
+				508E66B41AC0054B004AE8BB /* weight.png */,
+				508E66B21AC00531004AE8BB /* text-list.png */,
+				508E66B01AC004E3004AE8BB /* gear.png */,
+				508E66AE1AC00469004AE8BB /* dumbbell.png */,
+				507530881A78A79F0006C08D /* dumbbell1.png */,
 				507530891A78A79F0006C08D /* menu.png */,
 				5075308A1A78A79F0006C08D /* weightlift.png */,
 				5025C3A81AB775980059C0B4 /* KLEUtility.h */,
@@ -446,7 +456,6 @@
 				502E2E751AA319CB0083BDEA /* DateTools */,
 				50F9AC831A9E64C1005B8047 /* Graph */,
 				50F498441A70BD73007424C0 /* Pickers */,
-				50AC0B4419B5750700E39A7E /* Porsche_logo.png */,
 				50AC0B1F19B52C8500E39A7E /* Images.xcassets */,
 				50AC0B1419B52C8500E39A7E /* Supporting Files */,
 			);
@@ -631,13 +640,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				50F344F11A759D3000CB17D0 /* KLEWorkoutButton.xib in Resources */,
+				508E66B11AC004E3004AE8BB /* gear.png in Resources */,
 				50DD4CE319C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib in Resources */,
 				500341A51AB57AF40003BCD2 /* KLEWeightControl.xib in Resources */,
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
-				50AC0B4519B5750700E39A7E /* Porsche_logo.png in Resources */,
 				5075308C1A78A79F0006C08D /* menu.png in Resources */,
 				5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
+				508E66B51AC0054B004AE8BB /* weight.png in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
 				50EBE34A1A29908200D33448 /* KLETableHeaderView.xib in Resources */,
 				5003419D1AB3A4180003BCD2 /* KLEStoryBoard.storyboard in Resources */,
@@ -646,14 +656,16 @@
 				5057D6B91A0F5AAA00CF99C0 /* exercises.xml in Resources */,
 				5075308D1A78A79F0006C08D /* weightlift.png in Resources */,
 				50A9C3E91A99819E00640051 /* KLERoundButton.xib in Resources */,
+				508E66B31AC00531004AE8BB /* text-list.png in Resources */,
 				50DD4CCC19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib in Resources */,
-				5075308B1A78A79F0006C08D /* dumbbell.png in Resources */,
+				5075308B1A78A79F0006C08D /* dumbbell1.png in Resources */,
 				50DE6BA31A948368006713BE /* KLERepsButton.xib in Resources */,
 				50DD4CEB19DE050E00A3E6E5 /* KLEDailyHeaderView.xib in Resources */,
 				50AEFC331ABD52A100DC15EE /* KLEWorkoutTimer.xib in Resources */,
 				50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */,
 				507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */,
 				50DD4CC419BCF9D800A3E6E5 /* KLEDailyViewCell.xib in Resources */,
+				508E66AF1AC00469004AE8BB /* dumbbell.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
