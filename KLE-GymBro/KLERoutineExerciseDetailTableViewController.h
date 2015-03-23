@@ -10,7 +10,7 @@
 
 @class KLEExerciseGoal;
 
-@interface KLERoutineExerciseDetailTableViewController : UITableViewController <UITextFieldDelegate>
+@interface KLERoutineExerciseDetailTableViewController : UITableViewController
 
 @property (nonatomic, strong) KLEExerciseGoal *selectedRoutineExercise;
 

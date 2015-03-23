@@ -6,13 +6,14 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "KLEAppDelegate.h"
 #import "KLEUtility.h"
 #import "KLEWeightControl.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
 #import "KLERoutineExerciseDetailTableViewController.h"
 
-@interface KLERoutineExerciseDetailTableViewController ()
+@interface KLERoutineExerciseDetailTableViewController () <UITextFieldDelegate, UIViewControllerRestoration>
 
 @property (weak, nonatomic) IBOutlet KLEWeightControl *weightControl;
 
@@ -35,6 +36,85 @@
 @end
 
 @implementation KLERoutineExerciseDetailTableViewController
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        NSLog(@"INIT EXERCISE DETAIL");
+        
+        // restoration ID is set in storyboard, restoration class needs to be set here so UIViewControllerRestoration methods will run
+        self.restorationClass = [self class];
+    }
+    return self;
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSURL *routineExerciseID = [[self.selectedRoutineExercise objectID] URIRepresentation];
+    [coder encodeObject:routineExerciseID forKey:kSelectedExerciseDetailIDKey];
+    
+    [coder encodeObject:_weightControl.weightIncrementLabel.text forKey:kWeightSliderLabelTextExerciseDetailKey];
+    [coder encodeObject:_setsLabel.text forKey:kSetsSliderLabelTextExerciseDetailKey];
+    [coder encodeObject:_repsLabel.text forKey:kRepsSliderLabelTextExerciseDetailKey];
+    
+    [coder encodeObject:_weightControl.weightTextField.text forKey:kWeightTextExerciseDetailKey];
+    NSNumber *weightSliderValue = [NSNumber numberWithFloat:_weightControl.weightIncrementSlider.value];
+    NSNumber *setsSliderValue = [NSNumber numberWithFloat:_setsSlider.value];
+    NSNumber *repsSliderValue = [NSNumber numberWithFloat:_repsSlider.value];
+    NSNumber *setsSegmentControlIndex = [NSNumber numberWithInteger:_setsSegment.selectedSegmentIndex];
+    NSNumber *repsSegmentControlIndex = [NSNumber numberWithInteger:_repsSegment.selectedSegmentIndex];
+    
+    [coder encodeObject:weightSliderValue forKey:kWeightSliderValueExerciseDetailKey];
+    [coder encodeObject:setsSliderValue forKey:kSetsSliderValueExerciseDetailKey];
+    [coder encodeObject:repsSliderValue forKey:kRepsSliderValueExerciseDetailKey];
+    [coder encodeObject:setsSegmentControlIndex forKey:kSetsSegmentControlIndexExerciseDetailKey];
+    [coder encodeObject:repsSegmentControlIndex forKey:kRepsSegmentControlIndexExerciseDetailKey];
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSString *weightFieldText = [coder decodeObjectForKey:kWeightTextExerciseDetailKey];
+    NSNumber *weightSliderValue = [coder decodeObjectForKey:kWeightSliderValueExerciseDetailKey];
+    NSNumber *setsSliderValue = [coder decodeObjectForKey:kSetsSliderValueExerciseDetailKey];
+    NSNumber *repsSliderValue = [coder decodeObjectForKey:kRepsSliderValueExerciseDetailKey];
+    NSNumber *setsSegmentControlIndex = [coder decodeObjectForKey:kSetsSegmentControlIndexExerciseDetailKey];
+    NSNumber *repsSegmentControlIndex = [coder decodeObjectForKey:kRepsSegmentControlIndexExerciseDetailKey];
+    
+    _weightControl.weightTextField.text = weightFieldText;
+    _weightControl.weightIncrementSlider.value = [weightSliderValue floatValue];
+    _setsSlider.value = [setsSliderValue floatValue];
+    _repsSlider.value = [repsSliderValue floatValue];
+    _setsSegment.selectedSegmentIndex = [setsSegmentControlIndex integerValue];
+    _repsSegment.selectedSegmentIndex = [repsSegmentControlIndex integerValue];
+    [self setsSegmentControl:_setsSegment];
+    [self repsSegmentControl:_repsSegment];
+    
+    _weightControl.weightIncrementLabel.text = [coder decodeObjectForKey:kWeightSliderLabelTextExerciseDetailKey];
+    _setsLabel.text = [coder decodeObjectForKey:kSetsSliderLabelTextExerciseDetailKey];
+    _repsLabel.text = [coder decodeObjectForKey:kRepsSliderLabelTextExerciseDetailKey];
+    
+    [super decodeRestorableStateWithCoder:coder];
+    
+    NSLog(@"DECODE");
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+    KLERoutineExerciseDetailTableViewController *routineExerciseDetailViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineExerciseDetail"];
+    
+    NSURL *routineExerciseURI = [coder decodeObjectForKey:kSelectedExerciseDetailIDKey];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSManagedObjectID *routineExerciseID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineExerciseURI];
+    
+    KLEExerciseGoal *selectedExercise = (KLEExerciseGoal *)[cdh.context existingObjectWithID:routineExerciseID error:nil];
+    routineExerciseDetailViewController.selectedRoutineExercise = selectedExercise;
+    
+    return routineExerciseDetailViewController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -9,7 +9,6 @@
 #import "KLEUtility.h"
 #import "DateTools.h"
 #import "KLEAppDelegate.h"
-#import "CoreDataTableViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
 #import "KLEExerciseCompleted.h"
 #import "KLEExerciseGoal.h"
@@ -60,6 +59,7 @@
     
     NSNumber *weightSliderValue = [NSNumber numberWithInteger:_weightControl.weightIncrementSlider.value];
     [coder encodeObject:weightSliderValue forKey:kWeightSliderValueKey];
+    [coder encodeObject:_weightControl.weightIncrementLabel.text forKey:kWeightSliderLabelTextKey];
     
     [coder encodeObject:_repsWorkoutButton.repsLabel.text forKey:kRepsValueKey];
     // encode ring angle for sets workout button
@@ -97,6 +97,7 @@
     NSMutableArray *repsWeightArray = [NSMutableArray arrayWithArray:[coder decodeObjectForKey:kCurrentRepsWeightArrayKey]];
     NSString *workoutFeedText = [coder decodeObjectForKey:kWorkoutFeedTextKey];
     NSString *weightFieldText = [coder decodeObjectForKey:kWeightTextKey];
+    NSString *weightSliderLabelText = [coder decodeObjectForKey:kWeightSliderLabelTextKey];
     NSString *repsLabelText = [coder decodeObjectForKey:kRepsValueKey];
     NSString *setsButtonTitleText = [coder decodeObjectForKey:kSetsButtonTitle];
     
@@ -131,6 +132,7 @@
     _setsWorkoutButton.currentSet = currentSetWorkoutButtonNumber;
     
     _weightControl.weightIncrementSlider.value = [weightSliderNumber floatValue];
+    _weightControl.weightIncrementLabel.text = weightSliderLabelText;
     _setsWorkoutButton.ringAngle = [ringAngleNumber floatValue];
     _repsWorkoutButton.repsLabel.text = repsLabelText;
     
@@ -199,6 +201,8 @@
 #warning tap gesture interferes with finish button
 //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissNumberPad)];
 //    [self.view addGestureRecognizer:tap];
+    
+    self.view.restorationIdentifier = self.restorationIdentifier;
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -108,7 +108,6 @@
         navItem.rightBarButtonItem = graphViewButton;
         
         self.restorationIdentifier = NSStringFromClass([self class]);
-        self.restorationClass = [self class];
         
     }
     
@@ -429,6 +428,9 @@
     
     // register this nib, which contains the cell
     [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEHistoryTableViewCell"];
+    
+    // restoration ID for tableView
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
     
 }
 

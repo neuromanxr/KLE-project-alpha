@@ -85,7 +85,6 @@
         navItem.rightBarButtonItem = settingsBarButton;
         
         self.restorationIdentifier = NSStringFromClass([self class]);
-//        self.restorationClass = [self class];
         
     }
     
@@ -813,6 +812,8 @@
 //    _selectedIndex = -1;
     
     _indexInActionRowPaths = -1;
+    
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

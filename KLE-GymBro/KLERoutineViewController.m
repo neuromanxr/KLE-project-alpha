@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
-#import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
 
@@ -77,10 +76,10 @@
     return [self init];
 }
 
-+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
-{
-    return [[self alloc] init];
-}
+//+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+//{
+//    return [[self alloc] init];
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -278,11 +277,6 @@
     return NO;
 }
 
-- (void)editRoutines
-{
-    NSLog(@"Edit button tapped");
-}
-
 - (void)saveSelections
 {
     // get the index path of selected routine
@@ -327,6 +321,7 @@
     
     self.navigationItem.leftBarButtonItem = addButton;
     
+    // restoration ID for tableView
     self.tableView.restorationIdentifier = self.restorationIdentifier;
 }
 
@@ -348,7 +343,7 @@
     [super viewWillDisappear:YES];
     
     // clear first responder
-    [self.view endEditing:YES];
+//    [self.view endEditing:YES];
 }
 
 - (void)dealloc

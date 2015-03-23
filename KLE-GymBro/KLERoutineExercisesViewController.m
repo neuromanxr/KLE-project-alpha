@@ -74,14 +74,6 @@
     [super encodeRestorableStateWithCoder:coder];
 }
 
-//- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
-//{
-//    NSURL *routineURI = [coder decodeObjectForKey:@"selectedRoutineKey"];
-//    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-//    
-//    self.selectedRoutineID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURI];
-//}
-
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
 {
     KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
@@ -319,6 +311,10 @@
     [headerView.backgroundView setBackgroundColor:[UIColor kPrimaryColor]];
     [headerView.textLabel setTextColor:[UIColor whiteColor]];
     [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    
+    if (_mode == KLERoutineExercisesViewControllerModeNormal) {
+        [headerView.backgroundView setAlpha:0.7];
+    }
 }
 
 - (void)addNewExercise

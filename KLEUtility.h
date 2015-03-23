@@ -32,6 +32,22 @@
 #define kSelectedRoutineIDKey @"selectedRoutineIDKey"
 #define kCurrentModeKey @"currentModeKey"
 
+// encoder keys - exercise detail screen
+#define kSelectedExerciseDetailIDKey @"selectedExerciseDetailIDKey"
+
+#define kWeightTextExerciseDetailKey @"weightTextExerciseDetailKey"
+#define kWeightSliderValueExerciseDetailKey @"weightSliderValueExerciseDetailKey"
+#define kWeightSliderLabelTextExerciseDetailKey @"weightSliderLabelTextExerciseDetailKey"
+
+#define kSetsSliderValueExerciseDetailKey @"setsSliderValueExerciseDetailKey"
+#define kRepsSliderValueExerciseDetailKey @"repsSliderValueExerciseDetailKey"
+#define kSetsSliderLabelTextExerciseDetailKey @"setsSliderLabelTextExerciseDetailKey"
+#define kRepsSliderLabelTextExerciseDetailKey @"repsSliderLabelTextExerciseDetailKey"
+
+#define kSetsSegmentControlIndexExerciseDetailKey @"setsSegmentControlIndexExerciseDetailKey"
+#define kRepsSegmentControlIndexExerciseDetailKey @"repsSegmentControlIndexExerciseDetailKey"
+
+
 // encoder keys - workout screen
 #define kSelectedExerciseIDKey @"selectedExerciseIDKey"
 
@@ -42,6 +58,8 @@
 #define kWorkoutFeedTextKey @"workoutFeedTextKey"
 #define kWeightTextKey @"weightTextKey"
 #define kWeightSliderValueKey @"weightSliderValueKey"
+#define kWeightSliderLabelTextKey @"weightSliderLabelTextKey"
+
 #define kRepsValueKey @"repsValueKey"
 #define kSetsProgressRingAngle @"setsProgressRingAngle"
 #define kSetsForAngle @"setsForAngle"
