@@ -13,11 +13,11 @@
 
 // not being used
 // declare delegate to pass data from elvc to revc
-@protocol ELVCDelegate <NSObject>
-
-- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection;
-
-@end
+//@protocol ELVCDelegate <NSObject>
+//
+//- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection;
+//
+//@end
 
 @interface KLEExerciseListViewController : CoreDataTableViewController
 
@@ -26,9 +26,9 @@
 
 @property (nonatomic, strong) NSManagedObjectID *selectedRoutineID;
 
-@property (nonatomic, weak) id<ELVCDelegate> delegate;
+//@property (nonatomic, weak) id<ELVCDelegate> delegate;
 
-@property (nonatomic, copy) void (^dismissBlock)(void);
+//@property (nonatomic, copy) void (^dismissBlock)(void);
 
 @property (nonatomic, strong, readonly) CoreDataHelper *coreDataHelper;
 

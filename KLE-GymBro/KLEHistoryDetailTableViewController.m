@@ -11,7 +11,7 @@
 #import "KLEHistoryDetailTableViewController.h"
 #import "KLEWeightControl.h"
 
-@interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIViewControllerRestoration>
+@interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UIViewControllerRestoration>
 
 @property (nonatomic, copy) NSMutableArray *repsCompletedArray;
 @property (nonatomic, copy) NSMutableArray *weightCompletedArray;
@@ -87,9 +87,6 @@
     
     _setsCompletedPicker.delegate = self;
     _setsCompletedPicker.dataSource = self;
-    
-    _weightControl.weightTextField.delegate = self;
-    _weightControl.weightTextField.keyboardType = UIKeyboardTypeDecimalPad;
     
     [_saveSetButton setEnabled:NO];
     [_saveSetButton setAlpha:0.3];
@@ -254,24 +251,6 @@
     UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
 
     [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:17.0]];
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    NSLog(@"BEGAN EDITING");
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSLog(@"END EDITING");
-//    _selectedExerciseCompleted.reps = [NSNumber numberWithInteger:[_weightControl.weightTextField.text integerValue]];
-//    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
 }
 
 - (IBAction)dateCompletedAction:(UIDatePicker *)sender

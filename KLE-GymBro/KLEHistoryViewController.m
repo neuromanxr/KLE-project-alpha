@@ -119,6 +119,36 @@
     return [self init];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    [self configureFetch:KLEDateRangeModeThreeMonths];
+    [self performFetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLEHistoryTableViewCell" bundle:nil];
+    
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEHistoryTableViewCell"];
+    
+    // restoration ID for tableView
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)showGraphView
 {
 #warning check array before push view
@@ -406,44 +436,24 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
         KLEExerciseCompleted *deleteTarget = [self.frc objectAtIndexPath:indexPath];
-        [self.frc.managedObjectContext deleteObject:deleteTarget];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-#warning update alert view
+
         // alert the user about deletion
-        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:@"Delete Record" message:[NSString stringWithFormat:@"Delete %@ in routine %@?", deleteTarget.exercisename, deleteTarget.routinename] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+            
+            [self.frc.managedObjectContext deleteObject:deleteTarget];
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            NSLog(@"CANCELLED");
+        }];
+        [deleteAlert addAction:okAction];
+        [deleteAlert addAction:cancelAction];
+        [self presentViewController:deleteAlert animated:YES completion:nil];
         
-        [deleteAlert show];
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self configureFetch:KLEDateRangeModeThreeMonths];
-    [self performFetch];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLEHistoryTableViewCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEHistoryTableViewCell"];
-    
-    // restoration ID for tableView
-    self.tableView.restorationIdentifier = self.restorationIdentifier;
-    
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

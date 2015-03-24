@@ -27,10 +27,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 
-#define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
-#define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
-
-
 @interface KLEDailyViewController ()
 
 @property (nonatomic, copy) NSArray *daysArray;
@@ -40,9 +36,9 @@
 @property (nonatomic, assign) NSUInteger rowCountBySection;
 @property (nonatomic, assign) NSUInteger currentSet;
 
-@property (nonatomic, strong) KLEContainerViewController *containerViewController;
+//@property (nonatomic, strong) KLEContainerViewController *containerViewController;
 @property (nonatomic, strong) NSString *todaysDate;
-@property (nonatomic, copy) NSString *(^weeklyDates)(NSString *);
+//@property (nonatomic, copy) NSString *(^weeklyDates)(NSString *);
 
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
@@ -92,6 +88,82 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    
+    if ([self.tableView indexPathsForVisibleRows]) {
+        
+        for (int i = 0; i < [_datesArray count]; i++) {
+            
+            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
+            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
+                
+                NSLog(@"MATCH");
+                if ([self.tableView numberOfRowsInSection:i] > 0) {
+                    
+                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
+                    if (![self.actionRowPaths count]) {
+                        
+                        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
+                        
+                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
+                        
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self getWeekDates];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
+    
+    UINib *actionNib = [UINib nibWithNibName:@"KLEActionCell" bundle:nil];
+    
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEDailyViewCell"];
+    
+    [self.tableView registerNib:actionNib forCellReuseIdentifier:@"KLEActionCell"];
+    
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 70;
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    // no cell is expanded
+    //    _selectedIndex = -1;
+    
+    _indexInActionRowPaths = -1;
+    
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    [self removeActionRowPathsFromView];
 }
 
 - (void)showSettingsView
@@ -560,9 +632,11 @@
     
     KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeWorkout];
     
+    revc.selectedRoutineID = selectedRoutineID;
+    
     // pass the routine ID to routineExerciseViewController
-    self.delegate = revc;
-    [self.delegate selectedRoutineID:selectedRoutineID];
+//    self.delegate = revc;
+//    [self.delegate selectedRoutineID:selectedRoutineID];
     
     [self.navigationController pushViewController:revc animated:YES];
 }
@@ -705,108 +779,6 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    
-    if ([self.tableView indexPathsForVisibleRows]) {
-        
-        for (int i = 0; i < [_datesArray count]; i++) {
-            
-            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
-            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
-                
-                NSLog(@"MATCH");
-                if ([self.tableView numberOfRowsInSection:i] > 0) {
-                    
-                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
-                    if (![self.actionRowPaths count]) {
 
-                        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
-                        
-                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
-                        
-                    } else {
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [self.tableView reloadData];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-//    [self makeDays];
-    
-//    [self getDates];
-    
-    [self getWeekDates];
-    
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
-    
-    UINib *actionNib = [UINib nibWithNibName:@"KLEActionCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEDailyViewCell"];
-    
-    [self.tableView registerNib:actionNib forCellReuseIdentifier:@"KLEActionCell"];
-    
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 70;
-    
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
-    // no cell is expanded
-//    _selectedIndex = -1;
-    
-    _indexInActionRowPaths = -1;
-    
-    self.tableView.restorationIdentifier = self.restorationIdentifier;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    NSLog(@"VIEW WILL DISAPPEAR");
-    
-//    if ([self.tableView indexPathsForVisibleRows]) {
-//        
-//        for (int i = 0; i < [_datesArray count]; i++) {
-//            
-//            NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
-//            if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
-//                
-//                NSLog(@"MATCH");
-//                if ([self.tableView numberOfRowsInSection:i] > 0) {
-//                    
-//                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
-//                    if ([self.actionRowPaths count]) {
-//                        
-//                        [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i]];
-//                    } else {
-//                        return;
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-    [self removeActionRowPathsFromView];
-}
 
 @end

@@ -48,6 +48,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.text.length >= 18 && range.length == 0) {
+        return NO;
+    }
+    return YES;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     NSLog(@"BEGAN EDITING");
@@ -59,7 +67,17 @@
     
     _selectedRoutine.routinename = self.routineNameTextField.text;
     self.routineNameTextField.placeholder = _selectedRoutine.routinename;
-    self.navigationItem.title = _selectedRoutine.routinename;
+    
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:_selectedRoutine.routinename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    [self.navigationItem setTitleView:title];
     
 }
 

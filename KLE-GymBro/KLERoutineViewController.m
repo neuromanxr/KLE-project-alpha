@@ -19,8 +19,6 @@
 
 @interface KLERoutineViewController () <UITextFieldDelegate>
 
-
-
 @end
 
 @implementation KLERoutineViewController
@@ -74,6 +72,60 @@
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (void)viewDidLoad
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLERoutineViewCell" bundle:nil];
+
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
+    
+    self.tableView.allowsMultipleSelection = NO;
+    
+    // button to add exercises
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRoutineNameAlert)];
+    
+    self.navigationItem.leftBarButtonItem = addButton;
+    
+    // restoration ID for tableView
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    
+    // clear first responder
+    //    [self.view endEditing:YES];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 //+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
@@ -176,11 +228,10 @@
 {
     NSManagedObjectID *routineID = [[self.frc objectAtIndexPath:indexPath] objectID];
     
-    if (self.delegate) {
-        
-        [self.delegate selectedRoutineID:routineID];
-        NSLog(@"##DELEGATE %@", self.delegate);
-    }
+//    if (self.delegate) {
+//        [self.delegate selectedRoutineID:routineID];
+//        NSLog(@"##DELEGATE %@", self.delegate);
+//    }
     
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
@@ -231,50 +282,52 @@
 
 - (void)showRoutineNameAlert
 {
-#warning update alert
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Routine Name" message:@"Enter Routine Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    textField.keyboardType = UIKeyboardTypeDefault;
+    UIAlertController *routineNameAlert = [UIAlertController alertControllerWithTitle:@"Routine Name" message:@"Enter Routine Name" preferredStyle:UIAlertControllerStyleAlert];
+    UITextField *routineNameTextField = routineNameAlert.textFields[0];
+    [routineNameTextField setKeyboardType:UIKeyboardTypeDefault];
     
-    [alertView show];
-}
-
-- (BOOL)validateText:(NSString *)routineName
-{
-    NSError *error = NULL;
-    NSString *regexPatternUnlimited = @"^[a-z]+$";
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPatternUnlimited options:NSRegularExpressionCaseInsensitive error:&error];
-    if ([regex numberOfMatchesInString:routineName options:0 range:NSMakeRange(0, routineName.length)]) {
-        NSLog(@"Success Match");
-        return YES;
-    }
-    return NO;
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    NSString *routineName = [[alertView textFieldAtIndex:0] text];
-    if (buttonIndex == 0) {
-        NSLog(@"CANCELLED");
-    } else {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        NSString *routineName = [routineNameAlert.textFields[0] text];
         NSLog(@"OK %@", routineName);
         [self addNewRoutine:routineName];
-    }
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        NSLog(@"CANCELLED");
+    }];
+    
+    [routineNameAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Routine Name";
+        textField.delegate = self;
+    }];
+    
+    [routineNameAlert addAction:okAction];
+    [routineNameAlert addAction:cancelAction];
+    
+    [self presentViewController:routineNameAlert animated:YES completion:nil];
+    
 }
 
-- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+//- (BOOL)validateText:(NSString *)routineName
+//{
+//    NSError *error = NULL;
+//    NSString *regexPatternUnlimited = @"^[a-zA-Z0-9 ]{1,20}+$";
+//    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPatternUnlimited options:NSRegularExpressionCaseInsensitive error:&error];
+//    if ([regex numberOfMatchesInString:routineName options:0 range:NSMakeRange(0, routineName.length)]) {
+//        NSLog(@"Success Match");
+//        return YES;
+//    }
+//    return NO;
+//}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    NSString *routineName = [[alertView textFieldAtIndex:0] text];
-    if ([self validateText:routineName]) {
-        NSLog(@"INPUT OK");
-        [alertView textFieldAtIndex:0].textColor = [UIColor blueColor];
-        return YES;
-    } else {
-        NSLog(@"INVALID INPUT");
-        [alertView textFieldAtIndex:0].textColor = [UIColor redColor];
+    NSLog(@"TEXTFIELD IN ROUTINE CS");
+    if (textField.text.length >= 18 && range.length == 0) {
+        return NO;
     }
-    return NO;
+    return YES;
 }
 
 - (void)saveSelections
@@ -297,58 +350,6 @@
 
 }
 
-- (void)viewDidLoad
-{
-    if (debug == 1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
-    [super viewDidLoad];
-    [self configureFetch];
-    [self performFetch];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLERoutineViewCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
-    
-    self.tableView.allowsMultipleSelection = NO;
-    
-    // button to add exercises
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRoutineNameAlert)];
-    
-    self.navigationItem.leftBarButtonItem = addButton;
-    
-    // restoration ID for tableView
-    self.tableView.restorationIdentifier = self.restorationIdentifier;
-}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
-    
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:YES];
-    
-    // clear first responder
-//    [self.view endEditing:YES];
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 @end

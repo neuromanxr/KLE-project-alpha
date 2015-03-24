@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 #import "KLETableHeaderView.h"
-#import "KLEManagedIDSelectionDelegate.h"
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
@@ -16,7 +15,7 @@ typedef NS_ENUM(NSInteger, KLERoutineExercisesViewControllerMode)
     KLERoutineExercisesViewControllerModeWorkout
 };
 
-@interface KLERoutineExercisesViewController : CoreDataTableViewController <KLEManagedIDSelectionDelegate>
+@interface KLERoutineExercisesViewController : CoreDataTableViewController
 
 + (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode;
 

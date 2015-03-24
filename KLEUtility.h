@@ -8,12 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+// formulas
+#define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
+#define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
+
+
 // colors
 #define kPrimaryColor colorWithRed:197.0/255.0 green:45.0/255.0 blue:19.0/255.0 alpha:1.0
 #define kSecondaryColor colorWithRed:255.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1.0
 #define kTextColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0
 #define kNavigationBarIconColor colorWithRed:255.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1.0
 #define kTabBarSelectedIconColor colorWithRed:255.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1.0
+
+#define BUTTONCOLOR [UIColor orangeColor]
+#define BUTTONTWOTONECOLOR [UIColor colorWithRed:255.f green:204.f blue:102.f alpha:1.0]
+#define BUTTONSELECTCOLOR [UIColor redColor]
+
 // graph
 #define kGraphPrimaryColor colorWithRed:197.0/255.0 green:45.0/255.0 blue:19.0/255.0 alpha:1.0
 #define kGraphSecondaryColor colorWithRed:255.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1.0

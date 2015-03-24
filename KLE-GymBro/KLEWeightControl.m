@@ -8,6 +8,8 @@
 #import "KLEUtility.h"
 #import "KLEWeightControl.h"
 
+#define ONLY_NUMBERS @"0123456789."
+
 @interface KLEWeightControl ()
 
 @property (nonatomic, copy) NSArray *weightIncrementNumbers;
@@ -40,6 +42,9 @@
 
     [self setupTextFieldRightLabel];
     [self setupWeightSlider];
+    
+    self.weightTextField.delegate = self;
+    [self.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
 }
 
 /*
@@ -111,6 +116,36 @@
     [_weightTextField setRightViewMode:UITextFieldViewModeAlways];
     [_weightTextField setRightView:_rightWeightLabel];
     
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSLog(@"TEXTFIELD CS");
+    if (textField) {
+        NSCharacterSet *cs = [[NSCharacterSet characterSetWithCharactersInString:ONLY_NUMBERS] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+        
+        return [string isEqualToString:filtered];
+    }
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"WEIGHT CONTROL BEGAN EDITING");
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"WEIGHT CONTROL END EDITING");
+
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return YES;
 }
 
 - (void)setupWeightSlider

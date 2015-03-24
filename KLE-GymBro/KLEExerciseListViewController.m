@@ -68,6 +68,41 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+    
+    [self setupNavigationBar];
+    
+    self.tableView.sectionIndexColor = [UIColor orangeColor];
+    //    self.tableView.sectionIndexBackgroundColor = [UIColor kPrimaryColor];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLEExerciseListViewCell" bundle:nil];
+    
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEExerciseListViewCell"];
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    
+}
+
 - (void)save:(id)sender
 {
     KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
@@ -174,39 +209,6 @@
     [self.navigationItem setTitleView:title];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
-    
-}
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self configureFetch];
-    [self performFetch];
-    
-    [self setupNavigationBar];
-    
-    self.tableView.sectionIndexColor = [UIColor orangeColor];
-//    self.tableView.sectionIndexBackgroundColor = [UIColor kPrimaryColor];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLEExerciseListViewCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLEExerciseListViewCell"];
-    
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:YES];
-    
-}
 
 @end

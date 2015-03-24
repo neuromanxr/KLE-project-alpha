@@ -21,17 +21,108 @@
 #import "KLERoutineExerciseDetailTableViewController.h"
 #import "KLEWorkoutExerciseViewController.h"
 
-@interface KLERoutineExercisesViewController () <ELVCDelegate, UITextFieldDelegate, UIViewControllerRestoration>
+@interface KLERoutineExercisesViewController () <UIViewControllerRestoration>
 
 @property (nonatomic, copy) NSArray *routinesArray;
 
 @property (nonatomic, strong) KLETableHeaderView *tableHeaderView;
-@property (nonatomic, strong) UITextField *routineTextField;
 
 @end
 
 @implementation KLERoutineExercisesViewController
 #define debug 1
+
+- (instancetype)init
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    
+    if (self) {
+        
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
+        
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    return [self init];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+    
+    NSLog(@"frc managedObjectContext %@", self.frc);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLERoutineExercisesViewCell" bundle:nil];
+    
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
+    
+    // create KLETableHeaderView and set it as the table view header
+    self.tableHeaderView = [KLETableHeaderView routineExercisesTableHeaderView];
+    self.tableView.tableHeaderView = self.tableHeaderView;
+    
+    // day button
+    [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    
+    // day button, animate scale
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
+        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
+    } completion:^(BOOL finished) {
+        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+    }];
+    
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+    
+    
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    [title sizeToFit];
+    [self.navigationItem setTitleView:title];
+    
+    [self createAddExerciseButton];
+    
+    //    self.routineTextField.delegate = self;
+    //    [self.routineTextField setText:selectedRoutine.routinename];
+    
+    
+    /* for split view, did the display mode change (all visible)
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayModeChangeWithNotification:) name:@"DisplayModeChangeNote" object:nil];
+     */
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+}
 
 + (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode
 {
@@ -132,6 +223,7 @@
     }
 }
 
+/*
 - (void)selectedRoutineID:(id)objectID
 {
     if (debug == 1) {
@@ -153,18 +245,18 @@
     [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
     
     // hides routine view when routine selected
-//    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+ 
     
-    
-    /* for split view
-     
+    // for split view
     // pop off the exercise detail view controller when there's a new routine selection
     if ([[self.navigationController.viewControllers lastObject] isKindOfClass:[KLERoutineExerciseDetailViewController class]]) {
         NSLog(@"EXERCISE DETAIL VC PRESENT");
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    */
+    
 }
+*/
 
 - (void)configureFetch
 {
@@ -191,24 +283,7 @@
     self.frc.delegate = self;
 }
 
-- (instancetype)init
-{
-    self = [super initWithStyle:UITableViewStylePlain];
-    
-    if (self) {
-        
-        self.restorationIdentifier = NSStringFromClass([self class]);
-        self.restorationClass = [self class];
-        
-    }
-    
-    return self;
-}
 
-- (instancetype)initWithStyle:(UITableViewStyle)style
-{
-    return [self init];
-}
 
 /* for additional button to display primary master when display mode button not present, refer to appcoda split view tutorial
  
@@ -351,11 +426,11 @@
     }
 }
 
-- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
-{
-    NSLog(@"REVC delegate ELVCselection %lu", selection.row);
-
-}
+//- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
+//{
+//    NSLog(@"REVC delegate ELVCselection %lu", selection.row);
+//
+//}
 
 - (void)showActionSheet
 {
@@ -417,77 +492,6 @@
 }
  */
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self configureFetch];
-    [self performFetch];
-    
-    NSLog(@"frc managedObjectContext %@", self.frc);
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLERoutineExercisesViewCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
-    
-    // create KLETableHeaderView and set it as the table view header
-    self.tableHeaderView = [KLETableHeaderView routineExercisesTableHeaderView];
-    self.tableView.tableHeaderView = self.tableHeaderView;
-    
-    // day button
-    [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
-    
-    // day button, animate scale
-    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
-        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
-    } completion:^(BOOL finished) {
-        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
-    }];
-    
-    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
-    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
-    
-    
-    // custom title for navigation title
-    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
-    // custom title for navigation title
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
-    title.backgroundColor = [UIColor clearColor];
-    title.textColor = [UIColor whiteColor];
-    title.numberOfLines = 0;
-    title.attributedText = attribString;
-    [title sizeToFit];
-    [self.navigationItem setTitleView:title];
-    
-    [self createAddExerciseButton];
-    
-//    self.routineTextField.delegate = self;
-//    [self.routineTextField setText:selectedRoutine.routinename];
-    
 
-    /* for split view, did the display mode change (all visible)
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayModeChangeWithNotification:) name:@"DisplayModeChangeNote" object:nil];
-     */
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
-    
-}
 
 @end

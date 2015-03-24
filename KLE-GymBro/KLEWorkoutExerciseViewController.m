@@ -190,15 +190,13 @@
     // set delegate for reps workout button
     _repsWorkoutButton.delegate = self;
     
-    _weightControl.weightTextField.delegate = self;
-    [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
-    
     [self setupExerciseData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSelectedExercise:) name:kExerciseGoalChangedNote object:nil];
     
     [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
-#warning tap gesture interferes with finish button
+    
+//#warning tap gesture interferes with finish button
 //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissNumberPad)];
 //    [self.view addGestureRecognizer:tap];
     
@@ -409,27 +407,6 @@
     
     [_finishWorkoutButton setEnabled:YES];
     [_finishWorkoutButton setAlpha:1.0];
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    NSLog(@"BEGAN EDITING");
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSLog(@"END EDITING");
-//    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightTextField.text integerValue]];
-    
-//    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightControl.weightTextField.text integerValue]];
-//    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    
-    return YES;
 }
 
 - (void)resetSelectedExercise:(id)exercise

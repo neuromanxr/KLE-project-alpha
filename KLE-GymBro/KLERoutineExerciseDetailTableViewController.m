@@ -13,7 +13,7 @@
 #import "KLEExerciseGoal.h"
 #import "KLERoutineExerciseDetailTableViewController.h"
 
-@interface KLERoutineExerciseDetailTableViewController () <UITextFieldDelegate, UIViewControllerRestoration>
+@interface KLERoutineExerciseDetailTableViewController () <UIViewControllerRestoration>
 
 @property (weak, nonatomic) IBOutlet KLEWeightControl *weightControl;
 
@@ -126,9 +126,6 @@
     UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveChanges)];
     self.navigationItem.rightBarButtonItem = saveItem;
     
-    _weightControl.weightTextField.delegate = self;
-    [_weightControl.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
-    
     // setup sets slider
     [_setsSlider setMinimumValue:1];
     [_setsSlider setMaximumValue:100];
@@ -220,27 +217,6 @@
     NSUInteger newValue = amount * floorf((sliderValue / amount) + 0.5);
     [slider setValue:newValue animated:NO];
 
-}
-
-#pragma mark - TEXTFIELD DELEGATE
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    NSLog(@"BEGAN EDITING");
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSLog(@"END EDITING");
-
-    _selectedRoutineExercise.weight = [NSNumber numberWithInteger:[_weightControl.weightTextField.text integerValue]];
-    NSLog(@"NEW WEIGHT %@", _selectedRoutineExercise.weight);
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
 }
 
 #pragma mark - SETS, REPS SLIDERS

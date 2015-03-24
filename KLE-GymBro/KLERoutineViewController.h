@@ -10,9 +10,9 @@
 #import <UIKit/UIKit.h>
 #import "KLEManagedIDSelectionDelegate.h"
 
-@interface KLERoutineViewController : CoreDataTableViewController <UISplitViewControllerDelegate>
+@interface KLERoutineViewController : CoreDataTableViewController // <UISplitViewControllerDelegate>
 
-@property (nonatomic, weak) id<KLEManagedIDSelectionDelegate> delegate;
+//@property (nonatomic, weak) id<KLEManagedIDSelectionDelegate> delegate;
 
 @property (nonatomic) NSUInteger dayTag;
 

@@ -40,7 +40,7 @@
     }
     return _coreDataHelper;
 }
-
+/*
 - (UISplitViewController *)splitviewController
 {
     KLERoutineViewController *rvc = [KLERoutineViewController new];
@@ -50,7 +50,7 @@
     UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:revc];
     
     // for routine selection delegate
-    rvc.delegate = revc;
+//    rvc.delegate = revc;
     
     UISplitViewController *svc = [[UISplitViewController alloc] init];
     svc.viewControllers = @[rootNav, detailNav];
@@ -88,7 +88,7 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayModeChangeNote" object:[NSNumber numberWithInteger:displayMode]];
 }
-
+*/
 - (void)setupNavigationBarWithTitle:(NSString *)titleName forViewController:(UIViewController *)viewController
 {
     // custom title for navigation title

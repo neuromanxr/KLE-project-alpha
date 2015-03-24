@@ -175,6 +175,7 @@
 		508E66B01AC004E3004AE8BB /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		508E66B21AC00531004AE8BB /* text-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "text-list.png"; sourceTree = "<group>"; };
 		508E66B41AC0054B004AE8BB /* weight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weight.png; sourceTree = "<group>"; };
+		508E66B61AC0C007004AE8BB /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseViewController.h; sourceTree = "<group>"; };
 		50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWorkoutExerciseViewController.m; sourceTree = "<group>"; };
 		50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseView.h; sourceTree = "<group>"; };
@@ -359,6 +360,7 @@
 		50AC0B0C19B52C8500E39A7E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				508E66B61AC0C007004AE8BB /* iAd.framework */,
 				5057D6291A0D95B000CF99C0 /* CoreData.framework */,
 				50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */,
 				50AC0B0D19B52C8500E39A7E /* Foundation.framework */,

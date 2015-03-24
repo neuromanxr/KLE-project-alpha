@@ -9,13 +9,6 @@
 #import "KLEUtility.h"
 #import "KLEWorkoutButton.h"
 
-#define BUTTONCOLOR [UIColor orangeColor]
-#define BUTTONTWOTONECOLOR [UIColor colorWithRed:255.f green:204.f blue:102.f alpha:1.0]
-#define BUTTONSELECTCOLOR [UIColor redColor]
-
-#define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
-#define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
-
 @interface KLEWorkoutButton ()
 
 @end
