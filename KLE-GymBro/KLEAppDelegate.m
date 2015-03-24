@@ -169,7 +169,7 @@
 //    {
 //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
 //    }
-#warning defaults
+
     // settings default
 //    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 //    [userDefaults setObject:kUnitPounds forKey:kUnitWeightKey];

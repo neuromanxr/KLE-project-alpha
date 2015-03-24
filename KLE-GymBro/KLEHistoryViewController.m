@@ -75,15 +75,44 @@
 {
     // discard all other sets except for the exercise completed with max weight for graph view
     
-    NSMutableOrderedSet *exercises = [NSMutableOrderedSet new];
+//    NSMutableOrderedSet *exercises = [NSMutableOrderedSet new];
     
     NSArray *exercisesCompletedArray = [self.frc fetchedObjects];
+    NSMutableArray *exerciseNamesArray = [NSMutableArray new];
     
-    for (KLEExerciseCompleted *exerciseCompleted in exercisesCompletedArray) {
-        [exercises addObject:exerciseCompleted.exercisename];
-    }
+    [exercisesCompletedArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        KLEExerciseCompleted *exerciseCompleted = obj;
+        NSLog(@"FETCHED COMPLETED EXERCISES %@", exerciseCompleted.exercisename);
+        [exerciseNamesArray addObject:exerciseCompleted.exercisename];
+    }];
     
-    NSArray *exerciseHistoryArray = [[NSOrderedSet orderedSetWithOrderedSet:exercises] array];
+    // check count of each exercise, don't add to graph if count is less than 2
+    NSCountedSet *countedSet = [[NSCountedSet alloc] initWithArray:exerciseNamesArray];
+    NSLog(@"COUNTED SET %@", countedSet);
+    
+    // don't modify set when iterating. put all objects that need to be removed in array then remove those from the set
+    NSMutableArray *objectsToBeRemoved = [NSMutableArray new];
+    
+    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        if ([countedSet countForObject:obj] <= 1) {
+            
+            NSLog(@"OBJECT <= 1, %@", obj);
+            [objectsToBeRemoved addObject:obj];
+        }
+    }];
+    
+    [objectsToBeRemoved enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [countedSet removeObject:obj];
+    }];
+    NSLog(@"NEW COUNTED SET array %@", [countedSet allObjects]);
+    
+    NSArray *exerciseHistoryArray = [countedSet allObjects];
+    
+//    for (KLEExerciseCompleted *exerciseCompleted in exercisesCompletedArray) {
+//        [exercises addObject:exerciseCompleted.exercisename];
+//    }
+//    NSArray *exerciseHistoryArray = [[NSOrderedSet orderedSetWithOrderedSet:exercises] array];
     
     NSLog(@"HISTORY EXERCISES %@", exerciseHistoryArray);
     
@@ -151,11 +180,24 @@
 
 - (void)showGraphView
 {
-#warning check array before push view
-    KLEGraphViewController *graphViewController = [KLEGraphViewController new];
-    graphViewController.dateRangeMode = _currentDateRangeMode;
-    graphViewController.exercisesFromHistory = [self exerciseArray];
-    [self.navigationController pushViewController:graphViewController animated:YES];
+    if ([[self exerciseArray] count] == 0)
+    {
+        
+        UIAlertController *graphAlert = [UIAlertController alertControllerWithTitle:@"Graph" message:@"There's not enough data to graph!" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            NSLog(@"No Data to Graph");
+        }];
+        [graphAlert addAction:okAction];
+        [self presentViewController:graphAlert animated:YES completion:nil];
+    }
+    else
+    {
+        KLEGraphViewController *graphViewController = [KLEGraphViewController new];
+        graphViewController.dateRangeMode = _currentDateRangeMode;
+        graphViewController.exercisesFromHistory = [self exerciseArray];
+        [self.navigationController pushViewController:graphViewController animated:YES];
+    }
+    
 }
 
 - (NSDate *)setDateToCompare:(KLEDateRangeMode)dateRange

@@ -130,6 +130,12 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    // don't allow text input
+    return NO;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     NSLog(@"WEIGHT CONTROL BEGAN EDITING");
