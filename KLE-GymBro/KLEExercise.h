@@ -14,7 +14,8 @@
 @interface KLEExercise : NSManagedObject
 
 @property (nonatomic, retain) NSString * exercisename;
-@property (nonatomic, retain) NSString * musclename;
+@property (nonatomic, retain) NSString * musclegroup;
+@property (nonatomic, retain) NSNumber * estcalories;
 @property (nonatomic, retain) NSSet *exercisegoal;
 @end
 

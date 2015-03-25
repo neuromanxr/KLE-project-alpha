@@ -5,6 +5,7 @@
 //  Created by Kelvin Lee on 3/13/15.
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
+#import "KLEExercise.h"
 #import "KLEAppDelegate.h"
 #import "KLEUtility.h"
 #import "KLEExerciseCompleted.h"
@@ -75,13 +76,15 @@
     [self seperateStringsInRepsWeightArray];
     
     // custom title for navigation title
-    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:_selectedExerciseCompleted.exercisename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:_selectedExerciseCompleted.exercise.exercisename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
     // custom title for navigation title
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
     title.backgroundColor = [UIColor clearColor];
     title.textColor = [UIColor whiteColor];
     title.numberOfLines = 0;
     title.attributedText = attribString;
+    title.adjustsFontSizeToFitWidth = YES;
+    title.minimumScaleFactor = 0.5;
     [title sizeToFit];
     [self.navigationItem setTitleView:title];
     

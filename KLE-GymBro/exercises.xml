@@ -1,8 +1,128 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<exercises xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		<exercise exercisename="Squat" musclename="legs"/>
-        <exercise exercisename="Leg Press" musclename="legs"/>
-        <exercise exercisename="Lunge" musclename="legs"/>
-        <exercise exercisename="Deadlift" musclename="back"/>
-        <exercise exercisename="Leg Extension" musclename="legs"/>
+<exercises>
+    <exercise exercisename="Barbell Raise" musclegroup="Anterior" estcalories="0"/>
+    <exercise exercisename="Double Cable Raise" musclegroup="Anterior, Lateral" estcalories="0"/>
+    <exercise exercisename="Double Dumbbell Raise" musclegroup="Anterior, Lateral" estcalories="0"/>
+    <exercise exercisename="Single Cable Raise" musclegroup="Anterior, Lateral" estcalories="0"/>
+    <exercise exercisename="Single Dumbbell Raise" musclegroup="Anterior, Lateral" estcalories="0"/>
+    <exercise exercisename="Cable Head-Harness" musclegroup="Anterior, Lateral, Posterior" estcalories="0"/>
+    <exercise exercisename="Neck Machine" musclegroup="Anterior, Lateral, Posterior" estcalories="0"/>
+    <exercise exercisename="Barbell, EZ Curl Bar Reverse Grip Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Bent-Over Single Dumbbell Concentration Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Cheat Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Cable Preacher Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Dumbbell Preacher Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Incline Bench Dumbbell Hammer Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Seated Dumbbell Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Seated Dumbbell Hammer Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Standing Dumbbell Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Double Standing Dumbbell Hammer Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Drag Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Dumbbell Cheat Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="EZ Curl, Hammer Curl, Preacher Curl Bar" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Machine Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Pretty Man Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Seated Single Dumbell Concentration Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Cable Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Cable Preacher Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Dumbbell Preacher Curls" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Incline Bench Dumbbell Hammer Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Seated Dumbbell Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Seated Dumbbell Hammer Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Standing Dumbbell Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Single Standing Dumbbell Hammer Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Standing Barbell Curl" musclegroup="Biceps" estcalories="0"/>
+    <exercise exercisename="Chinups" musclegroup="Biceps, Lats" estcalories="0"/>
+    <exercise exercisename="Weighted Chinups" musclegroup="Biceps, Lats" estcalories="0"/>
+    <exercise exercisename="Donkey Calf Raises" musclegroup="Calves" estcalories="0"/>
+    <exercise exercisename="Leg Press Calf Raises" musclegroup="Calves" estcalories="0"/>
+    <exercise exercisename="Seated Calf Raises" musclegroup="Calves" estcalories="0"/>
+    <exercise exercisename="Standing Smith Machine Calf Raises" musclegroup="Calves" estcalories="0"/>
+    <exercise exercisename="Flat Barbell Bench Press" musclegroup="Chest" estcalories="0"/>
+    <exercise exercisename="Flat Bench Smith Machine Press" musclegroup="Chest" estcalories="0"/>
+    <exercise exercisename="Flat Dumbbell Bench Press" musclegroup="Chest" estcalories="0"/>
+    <exercise exercisename="Machine Bench Press" musclegroup="Chest" estcalories="0"/>
+    <exercise exercisename="Butterfly Machine" musclegroup="Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Dips" musclegroup="Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Flat Bench Dumbbell Flyes" musclegroup="Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Standing, Chest-Level Cable Crossovers" musclegroup="Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Back Extensions-Machine" musclegroup="Erector Spinae" estcalories="0"/>
+    <exercise exercisename="Back Extensions-Roman Chair" musclegroup="Erector Spinae" estcalories="0"/>
+    <exercise exercisename="Barbell, EZ Curl Bar Forearm Curls" musclegroup="Forearms" estcalories="0"/>
+    <exercise exercisename="Barbell, EZ Curl Bar Reverse Grip Forearm Curls" musclegroup="Forearms" estcalories="0"/>
+    <exercise exercisename="Preacher Curl Barbell, EZ Curl Bar Forearm Curls" musclegroup="Forearms" estcalories="0"/>
+    <exercise exercisename="Reverse-Grip Preacher Curls" musclegroup="Forearms" estcalories="0"/>
+    <exercise exercisename="Dumbbell Leg Curl" musclegroup="Hamstrings" estcalories="0"/>
+    <exercise exercisename="Lying Leg Curl " musclegroup="Hamstrings" estcalories="0"/>
+    <exercise exercisename="Sitting Leg Curl" musclegroup="Hamstrings" estcalories="0"/>
+    <exercise exercisename="Standing Machine Leg Curl" musclegroup="Hamstrings" estcalories="0"/>
+    <exercise exercisename="Straight-Leg Deadlifts" musclegroup="Hamstrings" estcalories="0"/>
+    <exercise exercisename="Close-Grip Barbell Decline Bench Press" musclegroup="Inner Chest" estcalories="0"/>
+    <exercise exercisename="Close-Grip Barbell Flat Bench Press" musclegroup="Inner Chest" estcalories="0"/>
+    <exercise exercisename="Close-Grip Barbell Incline Bench Press" musclegroup="Inner Chest" estcalories="0"/>
+    <exercise exercisename="Machine Raises" musclegroup="Lateral, Posterior" estcalories="0"/>
+    <exercise exercisename="Barbell Pull-Overs" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Cable Pull-Overs" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Dumbbell Pull-Overs" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Lat Pull-Downs" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Machine Pull-Overs" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Pull-ups" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Weighted Pull-ups" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Wide Grip Lat Pull-Downs" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Wide Grip Pull-ups" musclegroup="Lats" estcalories="0"/>
+    <exercise exercisename="Knee-Ups" musclegroup="Lower" estcalories="0"/>
+    <exercise exercisename="Leg-Lifts" musclegroup="Lower" estcalories="0"/>
+    <exercise exercisename="Situps" musclegroup="Lower" estcalories="0"/>
+    <exercise exercisename="Decline Barbell Bench Press" musclegroup="Lower Chest" estcalories="0"/>
+    <exercise exercisename="Decline Dumbbell Bench Press" musclegroup="Lower Chest" estcalories="0"/>
+    <exercise exercisename="Decline Press Machine" musclegroup="Lower Chest" estcalories="0"/>
+    <exercise exercisename="Decline Smith Machine Press" musclegroup="Lower Chest" estcalories="0"/>
+    <exercise exercisename="Decline Bench Dumbbell Flyes" musclegroup="Lower Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Standing, Low-Level Cable Crossovers" musclegroup="Lower Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Wide-Grip Barbell Decline Bench Press" musclegroup="Outer Chest" estcalories="0"/>
+    <exercise exercisename="Wide-Grip Barbell Flat Bench Press" musclegroup="Outer Chest" estcalories="0"/>
+    <exercise exercisename="Wide-Grip Barbell Incline Bench Press" musclegroup="Outer Chest" estcalories="0"/>
+    <exercise exercisename="Bent-Over Dumbbell Raise" musclegroup="Posterior" estcalories="0"/>
+    <exercise exercisename="Seated Dumbbell Raise" musclegroup="Posterior" estcalories="0"/>
+    <exercise exercisename="Leg Extension" musclegroup="Quadriceps" estcalories="0"/>
+    <exercise exercisename="Barbell Lunges" musclegroup="Quadriceps, Gluteal" estcalories="0"/>
+    <exercise exercisename="Barbell Squats" musclegroup="Quadriceps, Gluteal" estcalories="0"/>
+    <exercise exercisename="Dumbbell Lunges" musclegroup="Quadriceps, Gluteal" estcalories="0"/>
+    <exercise exercisename="Leg Press" musclegroup="Quadriceps, Gluteal" estcalories="0"/>
+    <exercise exercisename="Machine Hack Squats" musclegroup="Quadriceps, Gluteal" estcalories="0"/>
+    <exercise exercisename="Smith Machine Squats" musclegroup="Quadriceps, Gluteal" estcalories="0"/>
+    <exercise exercisename="Deadlifts" musclegroup="Quadriceps, Gluteal, Erector Spinae" estcalories="0"/>
+    <exercise exercisename="Barbell Rows" musclegroup="Rhomboids" estcalories="0"/>
+    <exercise exercisename="Dumbbell Rows" musclegroup="Rhomboids" estcalories="0"/>
+    <exercise exercisename="Machine Rows" musclegroup="Rhomboids" estcalories="0"/>
+    <exercise exercisename="Seated Cable Rows" musclegroup="Rhomboids" estcalories="0"/>
+    <exercise exercisename="T-Bar Rows" musclegroup="Rhomboids" estcalories="0"/>
+    <exercise exercisename="Lying Dumbbell Rotation" musclegroup="Rotator Cuff" estcalories="0"/>
+    <exercise exercisename="Arnold Press" musclegroup="Shoulders" estcalories="0"/>
+    <exercise exercisename="Double Cable Press" musclegroup="Shoulders" estcalories="0"/>
+    <exercise exercisename="Dumbell Military Press" musclegroup="Shoulders" estcalories="0"/>
+    <exercise exercisename="Military Press Behind Head" musclegroup="Shoulders" estcalories="0"/>
+    <exercise exercisename="Military Press In-Front of Head" musclegroup="Shoulders" estcalories="0"/>
+    <exercise exercisename="Barbell Shruggs" musclegroup="Traps" estcalories="0"/>
+    <exercise exercisename="Dumbbell Shruggs" musclegroup="Traps" estcalories="0"/>
+    <exercise exercisename="Hanging Power Cleans" musclegroup="Traps" estcalories="0"/>
+    <exercise exercisename="Trap-Bar Shruggs" musclegroup="Traps" estcalories="0"/>
+    <exercise exercisename="Upright Rows" musclegroup="Traps" estcalories="0"/>
+    <exercise exercisename="Close-Grip Benchpress" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Close-Grip Plate Press" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Dumbbell Kickbacks" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="French Press" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Machine Triceps Extensions" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Narrow Width Pushups" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Pushdowns" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Reverse Grip Pushdowns" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Skull Crushers" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Weighted Dips" musclegroup="Triceps" estcalories="0"/>
+    <exercise exercisename="Crunches" musclegroup="Upper" estcalories="0"/>
+    <exercise exercisename="Incline Barbell Bench Press" musclegroup="Upper Chest" estcalories="0"/>
+    <exercise exercisename="Incline Dumbbell Bench Press" musclegroup="Upper Chest" estcalories="0"/>
+    <exercise exercisename="Incline Press Machine" musclegroup="Upper Chest" estcalories="0"/>
+    <exercise exercisename="Incline Smith Machine Bench Press" musclegroup="Upper Chest" estcalories="0"/>
+    <exercise exercisename="Incline Bench Dumbbell Flyes" musclegroup="Upper Chest, Inner Chest" estcalories="0"/>
+    <exercise exercisename="Standing, High-Level Cable Crossovers" musclegroup="Upper Chest, Inner Chest" estcalories="0"/>
 </exercises>

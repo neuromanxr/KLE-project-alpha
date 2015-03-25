@@ -5,7 +5,7 @@
 //  Created by Kelvin Lee on 2/25/15.
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
-
+#import "KLEExercise.h"
 #import "KLEUtility.h"
 #import "DateTools.h"
 #import "KLEExerciseCompleted.h"
@@ -112,12 +112,12 @@
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KLEExerciseCompleted"];
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO];
-    NSSortDescriptor *sortByExercise = [NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:NO];
+    NSSortDescriptor *sortByExercise = [NSSortDescriptor sortDescriptorWithKey:@"exercise.exercisename" ascending:NO];
     fetchRequest.sortDescriptors = @[sortByExercise, sortByDate];
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:cdh.context sectionNameKeyPath:nil cacheName:nil];
     [_fetchedResultsController setDelegate:self];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted >= %@ AND exercisename == %@", dateToCompare, exercise];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"datecompleted >= %@ AND exercise.exercisename == %@", dateToCompare, exercise];
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil;
@@ -147,7 +147,7 @@
         NSLog(@"Unable to perform fetch %@, %@", error, error.localizedDescription);
     }
     KLEExerciseCompleted *firstRecord = [requestArray firstObject];
-    NSLog(@"FIRST RECORD REQUEST %@ : %@ : %@", firstRecord.datecompleted, firstRecord.exercisename, firstRecord.maxweight);
+    NSLog(@"FIRST RECORD REQUEST %@ : %@ : %@", firstRecord.datecompleted, firstRecord.exercise.exercisename, firstRecord.maxweight);
     
     return firstRecord.datecompleted;
 }
@@ -345,7 +345,7 @@
         
         NSString *dateCompleted = [self setDateCompletedString:exerciseCompleted.datecompleted];
 
-        [_exerciseNameArray addObject:exerciseCompleted.exercisename];
+        [_exerciseNameArray addObject:exerciseCompleted.exercise.exercisename];
         [_routineNameArray addObject:exerciseCompleted.routinename];
         [_dateCompletedArray addObject:dateCompleted];
         [_maxWeightArray addObject:exerciseCompleted.maxweight];

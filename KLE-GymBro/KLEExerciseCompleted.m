@@ -7,16 +7,19 @@
 //
 
 #import "KLEExerciseCompleted.h"
-
+#import "KLEExercise.h"
 
 @implementation KLEExerciseCompleted
 
+@dynamic exercise;
 @dynamic routinename;
 @dynamic exercisename;
 @dynamic timecompleted;
 @dynamic datecompleted;
 @dynamic setscompleted;
 @dynamic maxweight;
+@dynamic calories;
+@dynamic heartrate;
 @dynamic repsweightarray;
 
 @end

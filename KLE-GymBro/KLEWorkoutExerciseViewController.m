@@ -181,6 +181,8 @@
     title.textColor = [UIColor whiteColor];
     title.numberOfLines = 0;
     title.attributedText = attribString;
+    title.adjustsFontSizeToFitWidth = YES;
+    title.minimumScaleFactor = 0.5;
     [title sizeToFit];
     [self.navigationItem setTitleView:title];
     
@@ -300,7 +302,9 @@
     NSLog(@"NSDATE IN FINISH WORKOUT %@", [self todaysDate]);
     exerciseCompleted.maxweight = maxInWeightArray;
     exerciseCompleted.setscompleted = [NSNumber numberWithInteger:_currentSet];
-    exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
+    exerciseCompleted.exercise = exerciseGoal.exercise;
+    NSLog(@"EXERCISE COMPLETED %@", exerciseCompleted.exercise);
+//    exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
     exerciseCompleted.routinename = exerciseGoal.routine.routinename;
     exerciseCompleted.datecompleted = [self todaysDate];
     

@@ -631,8 +631,8 @@
     NSManagedObjectID *selectedRoutineID = selectedRoutine.objectID;
     
     KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeWorkout];
-    
-    revc.selectedRoutineID = selectedRoutineID;
+#warning 2 different selected routine IDs, restore state screwing up?
+    revc.selectedRoutineIDFromDaily = selectedRoutineID;
     
     // pass the routine ID to routineExerciseViewController
 //    self.delegate = revc;

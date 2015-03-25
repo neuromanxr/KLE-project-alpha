@@ -13,7 +13,8 @@
 @implementation KLEExercise
 
 @dynamic exercisename;
-@dynamic musclename;
+@dynamic musclegroup;
+@dynamic estcalories;
 @dynamic exercisegoal;
 
 @end

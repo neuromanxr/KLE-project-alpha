@@ -256,8 +256,8 @@ NSString *storeFilename = @"GymBro.sqlite";
             
             // STEP 4: Manually add extra attribute values
             // attributes for entity is in attributeDict
-            if ([attributeDict valueForKey:@"musclename"]) {
-                [KLEExercise setValue:[attributeDict valueForKey:@"musclename"] forKey:@"musclename"];
+            if ([attributeDict valueForKey:@"musclegroup"]) {
+                [KLEExercise setValue:[attributeDict valueForKey:@"musclegroup"] forKey:@"musclegroup"];
             }
             
             // STEP 5: Create relationships

@@ -66,7 +66,7 @@
         NSLog(@"Unable to perform fetch %@, %@", error, error.localizedDescription);
     }
     KLEExerciseCompleted *firstRecord = [requestArray firstObject];
-    NSLog(@"FIRST RECORD REQUEST %@ : %@ : %@", firstRecord.datecompleted, firstRecord.exercisename, firstRecord.maxweight);
+    NSLog(@"FIRST RECORD REQUEST %@ : %@ : %@", firstRecord.datecompleted, firstRecord.exercise.exercisename, firstRecord.maxweight);
     
     return firstRecord.datecompleted;
 }
@@ -83,8 +83,8 @@
     [exercisesCompletedArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         
         KLEExerciseCompleted *exerciseCompleted = obj;
-        NSLog(@"FETCHED COMPLETED EXERCISES %@", exerciseCompleted.exercisename);
-        [exerciseNamesArray addObject:exerciseCompleted.exercisename];
+        NSLog(@"FETCHED COMPLETED EXERCISES %@", exerciseCompleted.exercise.exercisename);
+        [exerciseNamesArray addObject:exerciseCompleted.exercise.exercisename];
     }];
     
     // check count of each exercise, don't add to graph if count is less than 2
@@ -367,7 +367,7 @@
     
     NSNumber *maxWeight = [self getMaxWeightFromArray:exerciseCompleted.repsweightarray];
     
-    [cell.exerciseLabel setText:exerciseCompleted.exercisename];
+    [cell.exerciseLabel setText:exerciseCompleted.exercise.exercisename];
     [cell.routineName setText:exerciseCompleted.routinename];
     [cell.setsLabel setText:[NSString stringWithFormat:@"%@", exerciseCompleted.setscompleted]];
     [cell.prLabel setText:[NSString stringWithFormat:@"%.2f %@", [maxWeight floatValue], [KLEUtility weightUnitType]]];
@@ -480,7 +480,7 @@
         KLEExerciseCompleted *deleteTarget = [self.frc objectAtIndexPath:indexPath];
 
         // alert the user about deletion
-        UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:@"Delete Record" message:[NSString stringWithFormat:@"Delete %@ in routine %@?", deleteTarget.exercisename, deleteTarget.routinename] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *deleteAlert = [UIAlertController alertControllerWithTitle:@"Delete Record" message:[NSString stringWithFormat:@"Delete %@ in routine %@?", deleteTarget.exercise.exercisename, deleteTarget.routinename] preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             
             [self.frc.managedObjectContext deleteObject:deleteTarget];

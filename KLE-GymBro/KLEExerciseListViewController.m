@@ -31,8 +31,9 @@
     }
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:YES], nil];
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"musclename" cacheName:nil];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"musclegroup" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"musclegroup" cacheName:nil];
     self.frc.delegate = self;
 }
 - (instancetype)init
@@ -105,23 +106,30 @@
 
 - (void)save:(id)sender
 {
-    KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
-//    [exerciseGoal addExerciseObject:selectedExercise];
-    exerciseGoal.exercise = selectedExercise;
-    exerciseGoal.sets = [NSNumber numberWithInteger:5];
-    exerciseGoal.reps = [NSNumber numberWithInteger:5];
-    
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
-    [selectedRoutine addExercisegoalObject:exerciseGoal];
-    NSLog(@"selected routine exercise goal objects %@", selectedRoutine.exercisegoal);
-//    exerciseGoal.routinename = [newRoutine description];
-    
-    NSLog(@"selected exercise %@ type %@", selectedExercise.exercisename, selectedExercise.musclename);
-    
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    if ([self.tableView indexPathForSelectedRow] == nil)
+    {
+        NSLog(@"NO Selection");
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+        KLEExerciseGoal *exerciseGoal = [NSEntityDescription insertNewObjectForEntityForName:@"KLEExerciseGoal" inManagedObjectContext:self.frc.managedObjectContext];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        KLEExercise *selectedExercise = [self.frc objectAtIndexPath:selectedIndexPath];
+        //    [exerciseGoal addExerciseObject:selectedExercise];
+        exerciseGoal.exercise = selectedExercise;
+        exerciseGoal.sets = [NSNumber numberWithInteger:5];
+        exerciseGoal.reps = [NSNumber numberWithInteger:5];
+        
+        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
+        [selectedRoutine addExercisegoalObject:exerciseGoal];
+        NSLog(@"selected routine exercise goal objects %@", selectedRoutine.exercisegoal);
+        //    exerciseGoal.routinename = [newRoutine description];
+        
+        
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)saveChanges:(id)sender
@@ -202,6 +210,8 @@
     title.textColor = [UIColor whiteColor];
     title.numberOfLines = 0;
     title.attributedText = attribString;
+    title.adjustsFontSizeToFitWidth = YES;
+    title.minimumScaleFactor = 0.5;
     [title sizeToFit];
     
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];

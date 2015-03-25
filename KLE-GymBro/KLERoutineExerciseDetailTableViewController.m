@@ -149,6 +149,8 @@
     title.textColor = [UIColor whiteColor];
     title.numberOfLines = 0;
     title.attributedText = attribString;
+    title.adjustsFontSizeToFitWidth = YES;
+    title.minimumScaleFactor = 0.5;
     [title sizeToFit];
     [self.navigationItem setTitleView:title];
     

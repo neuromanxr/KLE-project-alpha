@@ -247,7 +247,7 @@
      */
     
     KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController new];
-    routineExercisesView.selectedRoutineID = routineID;
+    routineExercisesView.selectedRoutineIDFromRoutines = routineID;
     
     [self.navigationController pushViewController:routineExercisesView animated:YES];
 

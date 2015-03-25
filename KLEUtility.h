@@ -31,14 +31,22 @@
 #define kGraphSecondaryLineColor colorWithRed:255.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1.0
 #define kGraphTouchLineColor whiteColor
 #define kGraphAxisLabelColor whiteColor
+
 // notification
 #define kExerciseGoalChangedNote @"ExerciseGoalChanged"
 #define kWeightUnitChangedNote @"WeightUnitChanged"
+#define kDayInRoutineChangedNote @"DayInRoutineChanged"
+
+#define kExercisesChangedNote @"ExercisesChangedNote"
+
 // units
 #define kUnitPounds @"lb"
 #define kUnitKilograms @"kg"
 
 // encoder keys - routine exercises screen
+#define kSelectedRoutineIDFromDailyKey @"selectedRoutineIDFromDailyKey"
+#define kSelectedRoutineIDFromRoutinesKey @"selectedRoutineIDFromRoutinesKey"
+
 #define kSelectedRoutineIDKey @"selectedRoutineIDKey"
 #define kCurrentModeKey @"currentModeKey"
 

@@ -14,6 +14,7 @@
 #import "KLEExerciseGoal.h"
 #import "KLEDailyViewController.h"
 
+#import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewCell.h"
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
@@ -53,13 +54,17 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"SELECTED ROUTINE FROM VC %@", [self usingSelectedRoutineID]);
+    
     [super viewDidLoad];
     [self configureFetch];
     [self performFetch];
     
     NSLog(@"frc managedObjectContext %@", self.frc);
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:kExercisesChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDayButtonTitle) name:kDayInRoutineChangedNote object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLERoutineExercisesViewCell" bundle:nil];
@@ -81,10 +86,11 @@
         _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
     }];
     
-    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
+//    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:self.selectedRoutineID];
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:[self usingSelectedRoutineID]];
     [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
     
-    
+    NSLog(@"ROUTINE NAME %@", selectedRoutine.routinename);
     // custom title for navigation title
     NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
     // custom title for navigation title
@@ -93,6 +99,8 @@
     title.textColor = [UIColor whiteColor];
     title.numberOfLines = 0;
     title.attributedText = attribString;
+    title.adjustsFontSizeToFitWidth = YES;
+    title.minimumScaleFactor = 0.5;
     [title sizeToFit];
     [self.navigationItem setTitleView:title];
     
@@ -109,6 +117,10 @@
 
 - (void)dealloc
 {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kExercisesChangedNote];
+    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kDayInRoutineChangedNote];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -122,6 +134,26 @@
 {
     [super viewWillAppear:YES];
     
+}
+
+- (NSManagedObjectID *)usingSelectedRoutineID
+{
+    NSManagedObjectID *routineID;
+    
+    if (_selectedRoutineIDFromDaily != nil)
+    {
+        routineID = _selectedRoutineIDFromDaily;
+        
+        NSLog(@"FROM DAILY VC %@", _selectedRoutineIDFromDaily);
+    }
+    else if (_selectedRoutineIDFromRoutines != nil)
+    {
+        routineID = _selectedRoutineIDFromRoutines;
+        
+        NSLog(@"FROM ROUTINES VC %@", _selectedRoutineIDFromRoutines);
+    }
+    
+    return routineID;
 }
 
 + (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode
@@ -155,14 +187,38 @@
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
-    NSURL *routineID = [self.selectedRoutineID URIRepresentation];
+    // gets called twice if routine exercises from both daily and routines are presented. save both selected routines for respective view controllers
+    
+    NSLog(@"ENCODE DAILY ROUTINE ID %@, ROUTINES ROUTINE ID %@", _selectedRoutineIDFromDaily, _selectedRoutineIDFromRoutines);
+    
+//    NSURL *routineID = [self.selectedRoutineID URIRepresentation];
+    NSURL *routineIDFromDaily;
+    NSURL *routineIDFromRoutines;
+    if (_selectedRoutineIDFromDaily != nil)
+    {
+        routineIDFromDaily = [_selectedRoutineIDFromDaily URIRepresentation];
+        [coder encodeObject:routineIDFromDaily forKey:kSelectedRoutineIDFromDailyKey];
+    }
+    if (_selectedRoutineIDFromRoutines != nil)
+    {
+        routineIDFromRoutines = [_selectedRoutineIDFromRoutines URIRepresentation];
+        [coder encodeObject:routineIDFromRoutines forKey:kSelectedRoutineIDFromRoutinesKey];
+    }
+    
     NSNumber *currentMode = [NSNumber numberWithInteger:_mode];
     
-    [coder encodeObject:routineID forKey:kSelectedRoutineIDKey];
+//    [coder encodeObject:routineID forKey:kSelectedRoutineIDKey];
     
     [coder encodeObject:currentMode forKey:kCurrentModeKey];
     
     [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"REVC DECODE");
+    
+    [super decodeRestorableStateWithCoder:coder];
 }
 
 + (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
@@ -172,10 +228,29 @@
     KLERoutineExercisesViewControllerMode mode = [[coder decodeObjectForKey:kCurrentModeKey] integerValue];
     [routineExercisesViewController setMode:mode];
     
-    NSURL *routineURI = [coder decodeObjectForKey:kSelectedRoutineIDKey];
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//    NSURL *routineURI = [coder decodeObjectForKey:kSelectedRoutineIDKey];
+    NSURL *routineURIFromDaily = [coder decodeObjectForKey:kSelectedRoutineIDFromDailyKey];
+    NSURL *routineURIFromRoutines = [coder decodeObjectForKey:kSelectedRoutineIDFromRoutinesKey];
     
-    routineExercisesViewController.selectedRoutineID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURI];
+    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//    NSManagedObjectID *routineID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURI];
+
+    if (routineURIFromDaily != nil)
+    {
+        NSManagedObjectID *routineIDFromDaily = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURIFromDaily];
+        routineExercisesViewController.selectedRoutineIDFromDaily = routineIDFromDaily;
+    }
+    
+    if (routineURIFromRoutines != nil)
+    {
+        NSManagedObjectID *routineIDFromRoutines = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineURIFromRoutines];
+        routineExercisesViewController.selectedRoutineIDFromRoutines = routineIDFromRoutines;
+    }
+    
+
+//    routineExercisesViewController.selectedRoutineID = routineID;
+    
+    
     
     return routineExercisesViewController;
 }
@@ -223,6 +298,12 @@
     }
 }
 
+- (void)reloadDayButtonTitle
+{
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:[self usingSelectedRoutineID]];
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+}
+
 /*
 - (void)selectedRoutineID:(id)objectID
 {
@@ -264,9 +345,9 @@
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     
-    NSLog(@"object id from daily view %@", self.selectedRoutineID);
+    NSLog(@"object id from daily view or routines view %@", [self usingSelectedRoutineID]);
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
+    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:[self usingSelectedRoutineID] error:nil];
 //    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context objectWithID:self.selectedRoutineID];
     
     NSLog(@"configure fetch selected routine %@", selectedRoutine);
@@ -276,10 +357,11 @@
 //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY routine == %@", selectedRoutine];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routine == %@", selectedRoutine];
     [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"exercise.musclegroup" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     NSLog(@"configure fetch Objects %@", fetchedObjects);
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercise.exercisename" ascending:YES], nil];
+    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
 //    NSLog(@"request object %@", request);
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.musclename" cacheName:nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.musclegroup" cacheName:nil];
     self.frc.delegate = self;
 }
 
@@ -396,7 +478,8 @@
 {
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
     
-    elvc.selectedRoutineID = self.selectedRoutineID;
+//    elvc.selectedRoutineID = self.selectedRoutineID;
+    elvc.selectedRoutineID = _selectedRoutineIDFromRoutines;
     // pass the selected statStore to exercise list view controller
 //    elvc.statStore = self.statStore;
 //    elvc.frc = self.frc;
@@ -439,12 +522,14 @@
     ActionSheetStringPicker *dayPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"Select Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         
         NSError *error = nil;
-        KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:self.selectedRoutineID error:&error];
+        KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:[self usingSelectedRoutineID] error:&error];
         routine.daynumber = [NSNumber numberWithInteger:selectedIndex];
         routine.dayname = [days objectAtIndex:selectedIndex];
         routine.inworkout = [NSNumber numberWithBool:YES];
         
-        [self.tableHeaderView.dayButton setTitle:routine.dayname forState:UIControlStateNormal];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDayInRoutineChangedNote object:nil];
+        
+//        [self.tableHeaderView.dayButton setTitle:routine.dayname forState:UIControlStateNormal];
         
         NSLog(@"Header Day %@", self.tableHeaderView.dayButton.titleLabel.text);
         NSLog(@"Picker: %@", picker);
@@ -471,8 +556,7 @@
     [cancelButton setFrame:CGRectMake(0, 0, 60, 32)];
     [dayPicker setCancelButton:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
     
-    NSArray *fontFamily = [UIFont fontNamesForFamilyName:@"Heiti TC"];
-    UIFont *font = [UIFont fontWithName:[fontFamily firstObject] size:18.0];
+    UIFont *font = [KLEUtility getFontFromFontFamilyWithSize:18.0];
     NSAttributedString *attribTitleString = [[NSAttributedString alloc] initWithString:@"Select Day" attributes:@{ NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor kPrimaryColor] }];
     
     [dayPicker setAttributedTitle:attribTitleString];
