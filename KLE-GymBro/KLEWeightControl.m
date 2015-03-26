@@ -41,6 +41,7 @@
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
 
     [self setupTextFieldRightLabel];
+    [self updateWeightUnit];
     [self setupWeightSlider];
     
     self.weightTextField.delegate = self;
@@ -68,7 +69,7 @@
 {
     
     if (self.window) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWeightUnit) name:@"WeightUnitChanged" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWeightUnit) name:kWeightUnitChangedNote object:nil];
         NSLog(@"OBSERVER ADDED");
     }
 }

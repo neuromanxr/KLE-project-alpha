@@ -19,6 +19,8 @@
 
 @interface KLERoutineViewController () <UITextFieldDelegate>
 
+@property (nonatomic, weak) UIAlertAction *addAlertSaveAction;
+
 @end
 
 @implementation KLERoutineViewController
@@ -282,31 +284,62 @@
 
 - (void)showRoutineNameAlert
 {
+    // alert setup
     UIAlertController *routineNameAlert = [UIAlertController alertControllerWithTitle:@"Routine Name" message:@"Enter Routine Name" preferredStyle:UIAlertControllerStyleAlert];
     UITextField *routineNameTextField = routineNameAlert.textFields[0];
     [routineNameTextField setKeyboardType:UIKeyboardTypeDefault];
     
+    // ok action block
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
+        // ok, add the routine
         NSString *routineName = [routineNameAlert.textFields[0] text];
         NSLog(@"OK %@", routineName);
         [self addNewRoutine:routineName];
     }];
+    // cancel action block
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
+        // remove text did change notification
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:routineNameAlert.textFields[0]];
         NSLog(@"CANCELLED");
+        
     }];
-    
+    // setup the text field
     [routineNameAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"Routine Name";
         textField.delegate = self;
+        
+        // add observer for text did change
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
     }];
+    // initially disable the ok action
+    okAction.enabled = NO;
+    _addAlertSaveAction = okAction;
     
     [routineNameAlert addAction:okAction];
     [routineNameAlert addAction:cancelAction];
     
     [self presentViewController:routineNameAlert animated:YES completion:nil];
     
+}
+
+- (void)handleTextFieldDidChangeNotification:(NSNotification *)notification
+{
+    // handle text validation
+    NSLog(@"TEXT DID CHANGE");
+    UITextField *textField = (UITextField *)notification.object;
+    
+    NSString *whiteSpace = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSLog(@"WHITE SPACE %lu", whiteSpace.length);
+    if (textField.text.length >= 1 && whiteSpace.length > 0)
+    {
+        _addAlertSaveAction.enabled = YES;
+    }
+    else
+    {
+        _addAlertSaveAction.enabled = NO;
+    }
 }
 
 //- (BOOL)validateText:(NSString *)routineName
@@ -321,10 +354,36 @@
 //    return NO;
 //}
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    NSLog(@"BEGAN EDITING");
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    NSLog(@"END EDITING");
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSString *whiteSpace = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (textField.text.length >= 1 && whiteSpace.length > 0) {
+        NSLog(@"NO TEXT");
+        return YES;
+    }
+    return NO;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSLog(@"TEXTFIELD IN ROUTINE CS");
-    if (textField.text.length >= 18 && range.length == 0) {
+
+    if ((textField.text.length >= 18 && range.length == 0)) {
         return NO;
     }
     return YES;
