@@ -29,10 +29,13 @@
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
+    
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"musclegroup" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSSortDescriptor *muscleSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"musclegroup" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:YES];
+    request.sortDescriptors = [NSArray arrayWithObjects:muscleSortDescriptor, nameSortDescriptor, nil];
+    [request setFetchBatchSize:20];
     self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"musclegroup" cacheName:nil];
     self.frc.delegate = self;
 }
@@ -81,13 +84,14 @@
     [self configureFetch];
     [self performFetch];
     
+//    [self setupSearchBar];
     [self setupNavigationBar];
     
     self.tableView.sectionIndexColor = [UIColor orangeColor];
     //    self.tableView.sectionIndexBackgroundColor = [UIColor kPrimaryColor];
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:kExercisesChangedNote object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEExerciseListViewCell" bundle:nil];
@@ -102,6 +106,11 @@
 {
     [super viewWillDisappear:YES];
     
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kExercisesChangedNote object:nil];
 }
 
 - (void)save:(id)sender
@@ -169,12 +178,22 @@
     [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // create an instance of UITableViewCell, with default appearance
     KLEExerciseListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLEExerciseListViewCell" forIndexPath:indexPath];
     
-    KLEExercise *exercise = [self.frc objectAtIndexPath:indexPath];
+    KLEExercise *exercise;
+    if ([self.frc objectAtIndexPath:indexPath] != nil)
+    {
+        exercise = [self.frc objectAtIndexPath:indexPath];
+    }
+    
     cell.exerciseLabel.text = exercise.exercisename;
     
     // change cell selected color

@@ -70,11 +70,11 @@
         UINavigationItem *navItem = self.navigationItem;
         
         UITabBarItem *tbi = [self tabBarItem];
-        UIImage *tabBarImage = [UIImage imageNamed:@"weight.png"];
+        UIImage *tabBarImage = [UIImage imageNamed:@"TabBarWorkout"];
         tbi.image = tabBarImage;
         
 //        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
-        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
+        UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NavSettings"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettingsView)];
         
         navItem.rightBarButtonItem = settingsBarButton;
         
@@ -631,8 +631,8 @@
     NSManagedObjectID *selectedRoutineID = selectedRoutine.objectID;
     
     KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeWorkout];
-#warning 2 different selected routine IDs, restore state screwing up?
-    revc.selectedRoutineIDFromDaily = selectedRoutineID;
+#warning temp
+    revc.selectedRoutineFromDaily = selectedRoutine;
     
     // pass the routine ID to routineExerciseViewController
 //    self.delegate = revc;

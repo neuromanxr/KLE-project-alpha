@@ -85,7 +85,7 @@
     [self configureFetch];
     [self performFetch];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:kExercisesChangedNote object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLERoutineViewCell" bundle:nil];
@@ -127,7 +127,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kExercisesChangedNote object:nil];
 }
 
 //+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
@@ -235,9 +235,9 @@
 //        NSLog(@"##DELEGATE %@", self.delegate);
 //    }
     
-    KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
+//    KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
-    NSLog(@"Cell selected %@", routine);
+//    NSLog(@"Cell selected %@", routine);
     
     /* for split views
     // need a pointer to routine exercises view for showDetailViewController
@@ -248,8 +248,11 @@
     [self showDetailViewController:revcNav sender:self];
      */
     
-    KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController new];
-    routineExercisesView.selectedRoutineIDFromRoutines = routineID;
+#warning temp
+    KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
+    
+    KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeNormal];
+    routineExercisesView.selectedRoutineFromRoutines = routine;
     
     [self.navigationController pushViewController:routineExercisesView animated:YES];
 
@@ -269,6 +272,7 @@
         [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRoutineWasDeletedNote object:nil];
     }
 }
 

@@ -227,6 +227,7 @@
     
     _repsCompletedLabel.text = repsCompleted;
     _weightControl.weightTextField.text = weightCompleted;
+    _weightControl.rightWeightLabel.text = _selectedExerciseCompleted.weightunit;
     _dateCompletedPicker.date = _selectedExerciseCompleted.datecompleted;
     
     [_repsCompletedSlider setValue:[repsCompleted integerValue]];

@@ -9,6 +9,8 @@
 #import "CoreDataTableViewController.h"
 #import <UIKit/UIKit.h>
 
+@class KLERoutine;
+
 typedef NS_ENUM(NSInteger, KLERoutineExercisesViewControllerMode)
 {
     KLERoutineExercisesViewControllerModeNormal,
@@ -21,8 +23,8 @@ typedef NS_ENUM(NSInteger, KLERoutineExercisesViewControllerMode)
 
 @property (nonatomic, assign) KLERoutineExercisesViewControllerMode mode;
 
-@property (nonatomic, strong) NSManagedObjectID *selectedRoutineIDFromRoutines;
+@property (nonatomic, strong) KLERoutine *selectedRoutineFromRoutines;
 
-@property (nonatomic, strong) NSManagedObjectID *selectedRoutineIDFromDaily;
+@property (nonatomic, strong) KLERoutine *selectedRoutineFromDaily;
 
 @end

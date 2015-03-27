@@ -325,44 +325,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="Profile" id="tyH-8N-RIS">
+                            <tableViewSection headerTitle="Weight" id="tyH-8N-RIS">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Eb0-8P-ZHj">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="44" id="Eb0-8P-ZHj">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eb0-8P-ZHj" id="TZi-zA-uHz">
                                             <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="oxL-e3-TNP">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oxL-e3-TNP" id="7sI-kE-9J6">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="NjU-7C-lcF">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NjU-7C-lcF" id="Vh8-Yz-aj9">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Weights" id="ti0-Sz-pu8">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="5GM-zj-hmP">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5GM-zj-hmP" id="aTi-Wa-0l3">
-                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iKt-mf-c6L">
-                                                    <rect key="frame" x="202" y="6" width="51" height="31"/>
-                                                    <color key="onTintColor" red="0.77263144839999998" green="0.17794146" blue="0.076295328849999997" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <connections>
-                                                        <action selector="weightUnitSwitch:" destination="NTE-4O-Y5W" eventType="valueChanged" id="oIf-KN-U09"/>
-                                                    </connections>
-                                                </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mJk-sb-Xop">
-                                                    <rect key="frame" x="160" y="11" width="19" height="21"/>
+                                                    <rect key="frame" x="168" y="11" width="19" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="19" id="2Hn-jJ-BfS"/>
                                                         <constraint firstAttribute="height" constant="21" id="qZb-PL-Cke"/>
@@ -372,7 +343,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lb" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H87-Vf-lq8">
-                                                    <rect key="frame" x="275" y="11" width="14" height="21"/>
+                                                    <rect key="frame" x="283" y="11" width="14" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="2yC-5r-8Om"/>
                                                         <constraint firstAttribute="width" constant="14" id="Jbj-sd-YqA"/>
@@ -382,7 +353,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight Unit" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9D-Ar-krE">
-                                                    <rect key="frame" x="15" y="11" width="96" height="21"/>
+                                                    <rect key="frame" x="23" y="11" width="96" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="96" id="Wf7-z4-ddx"/>
                                                         <constraint firstAttribute="height" constant="21" id="eMn-D7-AVf"/>
@@ -391,16 +362,23 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iKt-mf-c6L">
+                                                    <rect key="frame" x="210" y="6" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.77263144839999998" green="0.17794146" blue="0.076295328849999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="weightUnitSwitch:" destination="NTE-4O-Y5W" eventType="valueChanged" id="oIf-KN-U09"/>
+                                                    </connections>
+                                                </switch>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="centerY" secondItem="mJk-sb-Xop" secondAttribute="centerY" constant="0.25" id="AoM-qc-YOa"/>
-                                                <constraint firstAttribute="centerY" secondItem="H87-Vf-lq8" secondAttribute="centerY" constant="0.25" id="OT6-YS-ibU"/>
-                                                <constraint firstItem="H87-Vf-lq8" firstAttribute="leading" secondItem="iKt-mf-c6L" secondAttribute="trailing" constant="24" id="Tz3-Og-ezE"/>
-                                                <constraint firstAttribute="centerY" secondItem="iKt-mf-c6L" secondAttribute="centerY" constant="0.25" id="W8C-kz-UQ2"/>
-                                                <constraint firstItem="iKt-mf-c6L" firstAttribute="leading" secondItem="mJk-sb-Xop" secondAttribute="trailing" constant="23" id="iTx-rm-ifc"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="H87-Vf-lq8" secondAttribute="trailing" constant="23" id="ofV-qP-Zxs"/>
-                                                <constraint firstAttribute="centerY" secondItem="j9D-Ar-krE" secondAttribute="centerY" constant="0.25" id="owh-9L-IEK"/>
-                                                <constraint firstItem="j9D-Ar-krE" firstAttribute="leading" secondItem="aTi-Wa-0l3" secondAttribute="leadingMargin" constant="7" id="pBs-EU-z22"/>
+                                                <constraint firstItem="iKt-mf-c6L" firstAttribute="leading" secondItem="mJk-sb-Xop" secondAttribute="trailing" constant="23" id="0Hh-ua-ACC"/>
+                                                <constraint firstItem="j9D-Ar-krE" firstAttribute="leading" secondItem="TZi-zA-uHz" secondAttribute="leadingMargin" constant="15" id="DHm-2t-UEW"/>
+                                                <constraint firstItem="mJk-sb-Xop" firstAttribute="leading" secondItem="j9D-Ar-krE" secondAttribute="trailing" constant="49" id="YhO-qM-pD3"/>
+                                                <constraint firstItem="H87-Vf-lq8" firstAttribute="leading" secondItem="iKt-mf-c6L" secondAttribute="trailing" constant="24" id="eD8-8e-k3r"/>
+                                                <constraint firstItem="mJk-sb-Xop" firstAttribute="centerY" secondItem="j9D-Ar-krE" secondAttribute="centerY" id="hDV-90-q9y"/>
+                                                <constraint firstItem="mJk-sb-Xop" firstAttribute="centerY" secondItem="iKt-mf-c6L" secondAttribute="centerY" id="nEH-ur-gCn"/>
+                                                <constraint firstAttribute="centerY" secondItem="j9D-Ar-krE" secondAttribute="centerY" constant="0.5" id="pTc-sd-CxO"/>
+                                                <constraint firstItem="H87-Vf-lq8" firstAttribute="centerY" secondItem="iKt-mf-c6L" secondAttribute="centerY" id="ucO-1G-7dg"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

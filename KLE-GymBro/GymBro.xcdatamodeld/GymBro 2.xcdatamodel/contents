@@ -10,13 +10,14 @@
     <entity name="KLEExerciseCompleted" representedClassName="KLEExerciseCompleted" syncable="YES">
         <attribute name="calories" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="datecompleted" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="exercisename" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="heartrate" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="maxweight" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="repsweightarray" optional="YES" attributeType="Transformable" valueTransformerName="RepsWeightArray" syncable="YES"/>
+        <attribute name="resttime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="routinename" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="setscompleted" optional="YES" attributeType="Integer 32" valueTransformerName="SetsArray" defaultValueString="0" syncable="YES"/>
         <attribute name="timecompleted" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="weightunit" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="KLEExercise" inverseName="exercisecompleted" inverseEntity="KLEExercise" syncable="YES"/>
     </entity>
     <entity name="KLEExerciseGoal" representedClassName="KLEExerciseGoal" syncable="YES">
@@ -37,7 +38,7 @@
     </entity>
     <elements>
         <element name="KLEExercise" positionX="250" positionY="-243" width="128" height="118"/>
-        <element name="KLEExerciseCompleted" positionX="450" positionY="-97" width="128" height="193"/>
+        <element name="KLEExerciseCompleted" positionX="450" positionY="-97" width="128" height="208"/>
         <element name="KLEExerciseGoal" positionX="63" positionY="-99" width="128" height="133"/>
         <element name="KLERoutine" positionX="-117" positionY="-0" width="128" height="133"/>
     </elements>

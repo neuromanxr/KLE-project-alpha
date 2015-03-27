@@ -12,7 +12,6 @@
 #define SK_DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) * 0.0174532952f) // PI / 180
 #define SK_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
 
-
 // colors
 #define kPrimaryColor colorWithRed:197.0/255.0 green:45.0/255.0 blue:19.0/255.0 alpha:1.0
 #define kSecondaryColor colorWithRed:255.0/255.0 green:128.0/255.0 blue:0.0/255.0 alpha:1.0
@@ -36,6 +35,7 @@
 #define kExerciseGoalChangedNote @"ExerciseGoalChanged"
 #define kWeightUnitChangedNote @"WeightUnitChanged"
 #define kDayInRoutineChangedNote @"DayInRoutineChanged"
+#define kRoutineWasDeletedNote @"RoutineWasDeleted"
 
 #define kExercisesChangedNote @"ExercisesChangedNote"
 
@@ -49,6 +49,9 @@
 
 #define kSelectedRoutineIDKey @"selectedRoutineIDKey"
 #define kCurrentModeKey @"currentModeKey"
+
+#define kCurrentModeFromDailyKey @"currentModeFromDailyKey"
+#define kCurrentModeFromRoutinesKey @"currentModeFromRoutinesKey"
 
 // encoder keys - exercise detail screen
 #define kSelectedExerciseDetailIDKey @"selectedExerciseDetailIDKey"

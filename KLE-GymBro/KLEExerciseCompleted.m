@@ -13,8 +13,9 @@
 
 @dynamic exercise;
 @dynamic routinename;
-@dynamic exercisename;
+@dynamic weightunit;
 @dynamic timecompleted;
+@dynamic resttime;
 @dynamic datecompleted;
 @dynamic setscompleted;
 @dynamic maxweight;

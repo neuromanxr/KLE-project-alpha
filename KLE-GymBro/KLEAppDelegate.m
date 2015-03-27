@@ -131,7 +131,7 @@
     // restoration identifier
     routineViewNav.restorationIdentifier = NSStringFromClass([routineViewNav class]);
     
-    UIImage *routineTabBarImage = [UIImage imageNamed:@"dumbbell.png"];
+    UIImage *routineTabBarImage = [UIImage imageNamed:@"TabBarRoutines"];
     UITabBarItem *routineTabItem = [[UITabBarItem alloc] initWithTitle:nil image:routineTabBarImage tag:1];
     routineView.tabBarItem = routineTabItem;
     
@@ -142,7 +142,7 @@
     // restoration identifier
     historyViewNav.restorationIdentifier = NSStringFromClass([historyViewNav class]);
     
-    UIImage *historyTabBarImage = [UIImage imageNamed:@"text-list.png"];
+    UIImage *historyTabBarImage = [UIImage imageNamed:@"TabBarHistory"];
     UITabBarItem *historyTabItem = [[UITabBarItem alloc] initWithTitle:nil image:historyTabBarImage tag:2];
     historyView.tabBarItem = historyTabItem;
     
@@ -153,7 +153,7 @@
     
     // restoration identifier for tab bar
     threeTabBar.restorationIdentifier = NSStringFromClass([threeTabBar class]);
-    //        threeTabBar.restorationClass = [self class];
+//    threeTabBar.restorationClass = [self class];
     
     self.window.rootViewController = threeTabBar;
     
@@ -171,12 +171,13 @@
 //    }
 
     // settings default
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    [userDefaults setObject:kUnitPounds forKey:kUnitWeightKey];
-//    NSDictionary *defaults = @{kUnitWeightKey:kUnitPounds};
-//    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:kUnitWeightKey] == nil) {
+        NSDictionary *initialDefaults = @{kUnitWeightKey:kUnitPounds};
+        [[NSUserDefaults standardUserDefaults] registerDefaults:initialDefaults];
+        NSLog(@"** DEFAULT SET TO LBS");
+    }
+
     // Override point for customization after application launch.
     
     /* for split view, routine view and routine exercise view

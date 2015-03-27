@@ -15,8 +15,9 @@
 
 @property (nonatomic, retain) KLEExercise *exercise;
 @property (nonatomic, retain) NSString * routinename;
-@property (nonatomic, retain) NSString * exercisename;
+@property (nonatomic, retain) NSString * weightunit;
 @property (nonatomic, retain) NSNumber * timecompleted;
+@property (nonatomic, retain) NSNumber * resttime;
 @property (nonatomic, retain) NSDate * datecompleted;
 @property (nonatomic, retain) NSNumber * setscompleted;
 @property (nonatomic, retain) NSNumber * maxweight;

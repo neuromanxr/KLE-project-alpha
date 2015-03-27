@@ -129,7 +129,7 @@
         // button to add exercises
         UIBarButtonItem *dateRangeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(changeDateRange)];
         
-        UIBarButtonItem *graphViewButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showGraphView)];
+        UIBarButtonItem *graphViewButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"NavGraph"] style:UIBarButtonItemStylePlain target:self action:@selector(showGraphView)];
         
         // set the button to be the left nav button of the nav item
         navItem.leftBarButtonItem = dateRangeButton;
@@ -154,7 +154,9 @@
     [self configureFetch:KLEDateRangeModeThreeMonths];
     [self performFetch];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:kExercisesChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWeightUnit) name:kWeightUnitChangedNote object:nil];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEHistoryTableViewCell" bundle:nil];
@@ -176,6 +178,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kExercisesChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kWeightUnitChangedNote object:nil];
 }
 
 - (void)showGraphView
@@ -370,9 +379,9 @@
     [cell.exerciseLabel setText:exerciseCompleted.exercise.exercisename];
     [cell.routineName setText:exerciseCompleted.routinename];
     [cell.setsLabel setText:[NSString stringWithFormat:@"%@", exerciseCompleted.setscompleted]];
-    [cell.prLabel setText:[NSString stringWithFormat:@"%.2f %@", [maxWeight floatValue], [KLEUtility weightUnitType]]];
-    if ([cell.prLabel.text isEqualToString:@"0.00"]) {
-        [cell.prLabel setText:@"No Weight"];
+    [cell.prLabel setText:[NSString stringWithFormat:@"%.2f %@", [maxWeight floatValue], exerciseCompleted.weightunit]];
+    if ([maxWeight floatValue] == 0) {
+        [cell.prLabel setText:@"None"];
     }
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -408,7 +417,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.0;
+    return 80.0;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
@@ -496,6 +505,10 @@
     }
 }
 
+- (void)updateWeightUnit
+{
+    [self.tableView reloadData];
+}
 
 
 @end

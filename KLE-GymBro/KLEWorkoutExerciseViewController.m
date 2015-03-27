@@ -194,7 +194,10 @@
     
     [self setupExerciseData];
     
+    [self setupGoBackButton];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSelectedExercise:) name:kExerciseGoalChangedNote object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelWorkout) name:kRoutineWasDeletedNote object:nil];
     
     [_finishWorkoutButton addTarget:self action:@selector(finishWorkout) forControlEvents:UIControlEventTouchUpInside];
     
@@ -211,15 +214,31 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [[self.tabBarController.tabBar.items firstObject] setEnabled:NO];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [[self.tabBarController.tabBar.items firstObject] setEnabled:YES];
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
     
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kExerciseGoalChangedNote object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kRoutineWasDeletedNote object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -270,6 +289,36 @@
     return todaysDateWithComponents;
 }
 
+- (void)cancelWorkout
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)setupGoBackButton
+{
+    self.navigationItem.hidesBackButton = YES;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Stop" style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+}
+
+- (void)goBack:(UIBarButtonItem *)sender
+{
+    UIAlertController *goBackAlert = [UIAlertController alertControllerWithTitle:@"Stop" message:@"Cancel Workout?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        NSLog(@"Don't go back");
+    }];
+    
+    [goBackAlert addAction:okAction];
+    [goBackAlert addAction:cancelAction];
+    
+    [self presentViewController:goBackAlert animated:YES completion:nil];
+}
+
 - (void)finishWorkout
 {
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
@@ -307,6 +356,7 @@
 //    exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
     exerciseCompleted.routinename = exerciseGoal.routine.routinename;
     exerciseCompleted.datecompleted = [self todaysDate];
+    exerciseCompleted.weightunit = [KLEUtility weightUnitType];
     
     _currentRepsWeightArray = nil;
     

@@ -42,7 +42,6 @@
 
     [self setupTextFieldRightLabel];
     [self updateWeightUnit];
-    [self setupWeightSlider];
     
     self.weightTextField.delegate = self;
     [self.weightTextField setKeyboardType:UIKeyboardTypeDecimalPad];
@@ -85,15 +84,15 @@
     NSLog(@"UPDATE WEIGHT UNIT");
     if ([[KLEUtility weightUnitType] isEqualToString:kUnitPounds])
     {
-        _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
-        _rightWeightLabel.text = [KLEUtility weightUnitType];
+        _weightIncrementNumbers = @[@(1.0), @(2.5), @(5), @(10), @(25), @(35), @(45)];
+        _rightWeightLabel.text = kUnitPounds;
         
         NSLog(@"WEIGHT TEXT LB %@", _weightTextField.text);
     }
     else
     {
-        _weightIncrementNumbers = @[@(0.5), @(1.5), @(2.0), @(2.5), @(5.0), @(10.0), @(15.0), @(20.0), @(25.0)];
-        _rightWeightLabel.text = [KLEUtility weightUnitType];
+        _weightIncrementNumbers = @[@(0.5), @(1.0), @(1.5), @(2.0), @(2.5), @(5.0), @(10.0), @(15.0), @(20.0), @(25.0)];
+        _rightWeightLabel.text = kUnitKilograms;
 
         NSLog(@"WEIGHT TEXT KG %@", _weightTextField.text);
     }
@@ -113,7 +112,7 @@
     _rightWeightLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 30)];
     [_rightWeightLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
     [_rightWeightLabel setTextColor:[UIColor kPrimaryColor]];
-    _rightWeightLabel.text = [KLEUtility changeWeightUnits];
+//    _rightWeightLabel.text = [KLEUtility weightUnitType];
     [_weightTextField setRightViewMode:UITextFieldViewModeAlways];
     [_weightTextField setRightView:_rightWeightLabel];
     
@@ -159,11 +158,11 @@
 {
     if ([[KLEUtility weightUnitType] isEqualToString:kUnitPounds])
     {
-        _weightIncrementNumbers = @[@(2.5), @(5), @(10), @(25), @(35), @(45)];
+        _weightIncrementNumbers = @[@(1.0), @(2.5), @(5), @(10), @(25), @(35), @(45)];
     }
     else
     {
-        _weightIncrementNumbers = @[@(0.5), @(1.5), @(2.0), @(2.5), @(5.0), @(10.0), @(15.0), @(20.0), @(25.0)];
+        _weightIncrementNumbers = @[@(0.5), @(1.0), @(1.5), @(2.0), @(2.5), @(5.0), @(10.0), @(15.0), @(20.0), @(25.0)];
     }
     
     NSUInteger numberOfSteps = [_weightIncrementNumbers count] - 1;

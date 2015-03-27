@@ -100,30 +100,6 @@
     [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:17.0]];
 }
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 2;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    if (section == 0)
-//    {
-//        return 1;
-//    }
-//    return 2;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLESettingsTableViewCell" forIndexPath:indexPath];
-//    
-//    // Configure the cell...
-//    
-//    return cell;
-//}
-
 - (IBAction)weightUnitSwitch:(UISwitch *)sender
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
