@@ -129,7 +129,7 @@
     KLEDailyViewController *dailyView = [KLEDailyViewController new];
     UINavigationController *dailyViewNav = [[UINavigationController alloc] initWithRootViewController:dailyView];
     // daily view tab bar stuff in daily view controller
-    [self setupNavigationBarWithTitle:@"GymBro" forViewController:dailyView];
+    [self setupNavigationBarWithTitle:@"Barbell Bro" forViewController:dailyView];
     // restoration identifier
     dailyViewNav.restorationIdentifier = NSStringFromClass([dailyViewNav class]);
     

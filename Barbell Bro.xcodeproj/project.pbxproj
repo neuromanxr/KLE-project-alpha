@@ -23,6 +23,8 @@
 		502E2E8B1AA319CB0083BDEA /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 502E2E841AA319CB0083BDEA /* NSDate+DateTools.m */; };
 		50360A501AC22A0F008218B7 /* exercises.xml in Resources */ = {isa = PBXBuildFile; fileRef = 50360A4F1AC22A0F008218B7 /* exercises.xml */; };
 		50360A881AC648B3008218B7 /* DefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 50360A871AC648B3008218B7 /* DefaultData.sqlite */; };
+		50360A8A1AC66366008218B7 /* KLELaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50360A891AC66366008218B7 /* KLELaunchScreen.xib */; };
+		50360A8E1AC73CA2008218B7 /* launchimagenostatus.png in Resources */ = {isa = PBXBuildFile; fileRef = 50360A8D1AC73CA2008218B7 /* launchimagenostatus.png */; };
 		5037658F1A9D5BA3000CC53A /* KLEExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037658E1A9D5BA3000CC53A /* KLEExercise.m */; };
 		503765951A9D5BA4000CC53A /* KLEExerciseGoal.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765941A9D5BA4000CC53A /* KLEExerciseGoal.m */; };
 		503765981A9D5BA4000CC53A /* KLERoutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765971A9D5BA4000CC53A /* KLERoutine.m */; };
@@ -136,6 +138,8 @@
 		502E2E841AA319CB0083BDEA /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
 		50360A4F1AC22A0F008218B7 /* exercises.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = exercises.xml; sourceTree = "<group>"; };
 		50360A871AC648B3008218B7 /* DefaultData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultData.sqlite; sourceTree = "<group>"; };
+		50360A891AC66366008218B7 /* KLELaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLELaunchScreen.xib; sourceTree = "<group>"; };
+		50360A8D1AC73CA2008218B7 /* launchimagenostatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launchimagenostatus.png; sourceTree = "<group>"; };
 		5037658D1A9D5BA3000CC53A /* KLEExercise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExercise.h; sourceTree = "<group>"; };
 		5037658E1A9D5BA3000CC53A /* KLEExercise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEExercise.m; sourceTree = "<group>"; };
 		503765931A9D5BA4000CC53A /* KLEExerciseGoal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEExerciseGoal.h; sourceTree = "<group>"; };
@@ -171,20 +175,20 @@
 		50A9C3E51A99817F00640051 /* KLERoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLERoundButton.h; sourceTree = "<group>"; };
 		50A9C3E61A99817F00640051 /* KLERoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLERoundButton.m; sourceTree = "<group>"; };
 		50A9C3E81A99819E00640051 /* KLERoundButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLERoundButton.xib; sourceTree = "<group>"; };
-		50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KLE-GymBro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50AC0B0A19B52C8500E39A7E /* Barbell Bro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Barbell Bro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AC0B0D19B52C8500E39A7E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50AC0B0F19B52C8500E39A7E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		50AC0B1119B52C8500E39A7E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		50AC0B1519B52C8500E39A7E /* KLE-GymBro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KLE-GymBro-Info.plist"; sourceTree = "<group>"; };
+		50AC0B1519B52C8500E39A7E /* Barbell Bro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Barbell Bro-Info.plist"; sourceTree = "<group>"; };
 		50AC0B1719B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		50AC0B1919B52C8500E39A7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		50AC0B1B19B52C8500E39A7E /* KLE-GymBro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KLE-GymBro-Prefix.pch"; sourceTree = "<group>"; };
+		50AC0B1B19B52C8500E39A7E /* Barbell Bro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Barbell Bro-Prefix.pch"; sourceTree = "<group>"; };
 		50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KLEAppDelegate.h; path = "KLE-GymBro/KLEAppDelegate.h"; sourceTree = "<group>"; };
 		50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KLEAppDelegate.m; path = "KLE-GymBro/KLEAppDelegate.m"; sourceTree = "<group>"; };
 		50AC0B1F19B52C8500E39A7E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		50AC0B2519B52C8500E39A7E /* KLE-GymBroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KLE-GymBroTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50AC0B2519B52C8500E39A7E /* Barbell BroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Barbell BroTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AC0B2619B52C8500E39A7E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		50AC0B2E19B52C8500E39A7E /* KLE-GymBroTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KLE-GymBroTests-Info.plist"; sourceTree = "<group>"; };
+		50AC0B2E19B52C8500E39A7E /* Barbell BroTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Barbell BroTests-Info.plist"; sourceTree = "<group>"; };
 		50AC0B3019B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		50AC0B3219B52C8500E39A7E /* KLE_GymBroTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLE_GymBroTests.m; sourceTree = "<group>"; };
 		50AC0B4219B56BDC00E39A7E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -338,8 +342,8 @@
 		50AC0B0B19B52C8500E39A7E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */,
-				50AC0B2519B52C8500E39A7E /* KLE-GymBroTests.xctest */,
+				50AC0B0A19B52C8500E39A7E /* Barbell Bro.app */,
+				50AC0B2519B52C8500E39A7E /* Barbell BroTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -438,6 +442,8 @@
 				50F9AC831A9E64C1005B8047 /* Graph */,
 				50F498441A70BD73007424C0 /* Pickers */,
 				50AC0B1F19B52C8500E39A7E /* Images.xcassets */,
+				50360A8D1AC73CA2008218B7 /* launchimagenostatus.png */,
+				50360A891AC66366008218B7 /* KLELaunchScreen.xib */,
 				50AC0B1419B52C8500E39A7E /* Supporting Files */,
 			);
 			path = "KLE-GymBro";
@@ -446,10 +452,10 @@
 		50AC0B1419B52C8500E39A7E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				50AC0B1519B52C8500E39A7E /* KLE-GymBro-Info.plist */,
+				50AC0B1519B52C8500E39A7E /* Barbell Bro-Info.plist */,
 				50AC0B1619B52C8500E39A7E /* InfoPlist.strings */,
 				50AC0B1919B52C8500E39A7E /* main.m */,
-				50AC0B1B19B52C8500E39A7E /* KLE-GymBro-Prefix.pch */,
+				50AC0B1B19B52C8500E39A7E /* Barbell Bro-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -466,7 +472,7 @@
 		50AC0B2D19B52C8500E39A7E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				50AC0B2E19B52C8500E39A7E /* KLE-GymBroTests-Info.plist */,
+				50AC0B2E19B52C8500E39A7E /* Barbell BroTests-Info.plist */,
 				50AC0B2F19B52C8500E39A7E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -545,9 +551,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		50AC0B0919B52C8500E39A7E /* KLE-GymBro */ = {
+		50AC0B0919B52C8500E39A7E /* Barbell Bro */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBro" */;
+			buildConfigurationList = 50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "Barbell Bro" */;
 			buildPhases = (
 				50AC0B0619B52C8500E39A7E /* Sources */,
 				50AC0B0719B52C8500E39A7E /* Frameworks */,
@@ -557,14 +563,14 @@
 			);
 			dependencies = (
 			);
-			name = "KLE-GymBro";
+			name = "Barbell Bro";
 			productName = "KLE-GymBro";
-			productReference = 50AC0B0A19B52C8500E39A7E /* KLE-GymBro.app */;
+			productReference = 50AC0B0A19B52C8500E39A7E /* Barbell Bro.app */;
 			productType = "com.apple.product-type.application";
 		};
-		50AC0B2419B52C8500E39A7E /* KLE-GymBroTests */ = {
+		50AC0B2419B52C8500E39A7E /* Barbell BroTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 50AC0B3919B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBroTests" */;
+			buildConfigurationList = 50AC0B3919B52C8500E39A7E /* Build configuration list for PBXNativeTarget "Barbell BroTests" */;
 			buildPhases = (
 				50AC0B2119B52C8500E39A7E /* Sources */,
 				50AC0B2219B52C8500E39A7E /* Frameworks */,
@@ -575,9 +581,9 @@
 			dependencies = (
 				50AC0B2B19B52C8500E39A7E /* PBXTargetDependency */,
 			);
-			name = "KLE-GymBroTests";
+			name = "Barbell BroTests";
 			productName = "KLE-GymBroTests";
-			productReference = 50AC0B2519B52C8500E39A7E /* KLE-GymBroTests.xctest */;
+			productReference = 50AC0B2519B52C8500E39A7E /* Barbell BroTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -598,7 +604,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "KLE-GymBro" */;
+			buildConfigurationList = 50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "Barbell Bro" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -610,8 +616,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				50AC0B0919B52C8500E39A7E /* KLE-GymBro */,
-				50AC0B2419B52C8500E39A7E /* KLE-GymBroTests */,
+				50AC0B0919B52C8500E39A7E /* Barbell Bro */,
+				50AC0B2419B52C8500E39A7E /* Barbell BroTests */,
 			);
 		};
 /* End PBXProject section */
@@ -626,9 +632,11 @@
 				500341A51AB57AF40003BCD2 /* KLEWeightControl.xib in Resources */,
 				50AC0B1819B52C8500E39A7E /* InfoPlist.strings in Resources */,
 				50360A501AC22A0F008218B7 /* exercises.xml in Resources */,
+				50360A8A1AC66366008218B7 /* KLELaunchScreen.xib in Resources */,
 				5057D62219F781CF00CF99C0 /* KLEActionCell.xib in Resources */,
 				50AC0B2019B52C8500E39A7E /* Images.xcassets in Resources */,
 				50DD4CD419C2374500A3E6E5 /* KLEExerciseListViewCell.xib in Resources */,
+				50360A8E1AC73CA2008218B7 /* launchimagenostatus.png in Resources */,
 				50EBE34A1A29908200D33448 /* KLETableHeaderView.xib in Resources */,
 				5003419D1AB3A4180003BCD2 /* KLEStoryBoard.storyboard in Resources */,
 				502E2E851AA319CB0083BDEA /* DateTools.bundle in Resources */,
@@ -732,7 +740,7 @@
 /* Begin PBXTargetDependency section */
 		50AC0B2B19B52C8500E39A7E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 50AC0B0919B52C8500E39A7E /* KLE-GymBro */;
+			target = 50AC0B0919B52C8500E39A7E /* Barbell Bro */;
 			targetProxy = 50AC0B2A19B52C8500E39A7E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -835,11 +843,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kelvin Lee (7R858U85M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
-				INFOPLIST_FILE = "KLE-GymBro/KLE-GymBro-Info.plist";
+				GCC_PREFIX_HEADER = "KLE-GymBro/Barbell Bro-Prefix.pch";
+				INFOPLIST_FILE = "KLE-GymBro/Barbell Bro-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Barbell Bro";
+				PROVISIONING_PROFILE = "40b9b8d0-4a38-4941-8c71-6b869d74413f";
 				SWIFT_OBJC_BRIDGING_HEADER = "KLE-GymBro/KLE-GymBro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
@@ -852,11 +862,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kelvin Lee (7R858U85M3)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
-				INFOPLIST_FILE = "KLE-GymBro/KLE-GymBro-Info.plist";
+				GCC_PREFIX_HEADER = "KLE-GymBro/Barbell Bro-Prefix.pch";
+				INFOPLIST_FILE = "KLE-GymBro/Barbell Bro-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Barbell Bro";
+				PROVISIONING_PROFILE = "40b9b8d0-4a38-4941-8c71-6b869d74413f";
 				SWIFT_OBJC_BRIDGING_HEADER = "KLE-GymBro/KLE-GymBro-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
@@ -877,8 +889,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "KLE-GymBroTests/KLE-GymBroTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "KLE-GymBroTests/Barbell BroTests-Info.plist";
+				PRODUCT_NAME = "Barbell BroTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -895,8 +907,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KLE-GymBro/KLE-GymBro-Prefix.pch";
-				INFOPLIST_FILE = "KLE-GymBroTests/KLE-GymBroTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "KLE-GymBroTests/Barbell BroTests-Info.plist";
+				PRODUCT_NAME = "Barbell BroTests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -905,7 +917,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "KLE-GymBro" */ = {
+		50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "Barbell Bro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				50AC0B3419B52C8500E39A7E /* Debug */,
@@ -914,7 +926,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBro" */ = {
+		50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "Barbell Bro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				50AC0B3719B52C8500E39A7E /* Debug */,
@@ -923,7 +935,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		50AC0B3919B52C8500E39A7E /* Build configuration list for PBXNativeTarget "KLE-GymBroTests" */ = {
+		50AC0B3919B52C8500E39A7E /* Build configuration list for PBXNativeTarget "Barbell BroTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				50AC0B3A19B52C8500E39A7E /* Debug */,
