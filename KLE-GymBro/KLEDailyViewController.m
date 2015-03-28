@@ -38,7 +38,6 @@
 
 //@property (nonatomic, strong) KLEContainerViewController *containerViewController;
 @property (nonatomic, strong) NSString *todaysDate;
-//@property (nonatomic, copy) NSString *(^weeklyDates)(NSString *);
 
 // daily view header
 @property (strong, nonatomic) IBOutlet UIView *dailyHeaderView;
@@ -51,7 +50,6 @@
 @property (nonatomic, strong) NSArray *actionRowPaths;
 @property (nonatomic, strong) NSIndexPath *didSelectRowAtIndexPath;
 
-@property (nonatomic, strong) NSArray *routineObjects;
 
 @end
 
@@ -102,10 +100,9 @@
             NSLog(@"DAY MATCH %@ TODAY %@", [_datesArray objectAtIndex:i], self.todaysDate);
             if ([[_datesArray objectAtIndex:i] isEqualToString:self.todaysDate]) {
                 
-                NSLog(@"MATCH");
+                NSLog(@"DAY MATCH");
                 if ([self.tableView numberOfRowsInSection:i] > 0) {
                     
-                    NSLog(@"##NUMBER OF ROWS > 0 %lu", [self.tableView numberOfRowsInSection:i]);
                     if (![self.actionRowPaths count]) {
                         
                         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:i] animated:YES scrollPosition:UITableViewScrollPositionNone];
@@ -145,13 +142,10 @@
     
     [self.tableView registerNib:actionNib forCellReuseIdentifier:@"KLEActionCell"];
     
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 70;
+//    self.tableView.rowHeight = UITableViewAutomaticDimension;
+//    self.tableView.estimatedRowHeight = 70;
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
-    // no cell is expanded
-    //    _selectedIndex = -1;
     
     _indexInActionRowPaths = -1;
     
@@ -182,13 +176,13 @@
     }
     CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
+    
     // fetch the routines with daynumbers that match the section and bool value is set to yes
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inworkout == %@ AND daynumber == %@", @(YES), @(indexPath.section)];
     [request setPredicate:predicate];
 //    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
     NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
     
-    NSLog(@"routine objects %@", self.routineObjects);
     
     return requestObjects;
 }
@@ -275,6 +269,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    NSLog(@"Days Array Count %lu", [_daysArray count]);
     return [_daysArray count];
 }
 
@@ -628,10 +623,9 @@
     NSArray *routineObjects = [self fetchRoutinesWithIndexPath:adjustedIndexPath];
     KLERoutine *selectedRoutine = [routineObjects objectAtIndex:adjustedIndexPath.row];
     NSLog(@"selected routine %@", selectedRoutine);
-    NSManagedObjectID *selectedRoutineID = selectedRoutine.objectID;
     
     KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeWorkout];
-#warning temp
+
     revc.selectedRoutineFromDaily = selectedRoutine;
     
     // pass the routine ID to routineExerciseViewController

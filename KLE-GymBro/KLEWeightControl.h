@@ -14,5 +14,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *weightTextField;
 @property (strong, nonatomic) IBOutlet UILabel *weightIncrementLabel;
 @property (strong, nonatomic) UILabel *rightWeightLabel;
+@property (strong, nonatomic) IBOutlet UIButton *clearWeightButton;
+- (IBAction)clearWeightButtonAction:(UIButton *)sender;
 
 @end

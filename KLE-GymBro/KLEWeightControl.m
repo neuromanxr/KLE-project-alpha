@@ -112,7 +112,7 @@
     _rightWeightLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 30)];
     [_rightWeightLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
     [_rightWeightLabel setTextColor:[UIColor kPrimaryColor]];
-//    _rightWeightLabel.text = [KLEUtility weightUnitType];
+    _rightWeightLabel.text = [KLEUtility weightUnitType];
     [_weightTextField setRightViewMode:UITextFieldViewModeAlways];
     [_weightTextField setRightView:_rightWeightLabel];
     
@@ -230,5 +230,9 @@
     {
         NSLog(@"CHANGE VALUE IS GREATER THAN THE WEIGHT VALUE");
     }
+}
+- (IBAction)clearWeightButtonAction:(UIButton *)sender
+{
+    _weightTextField.text = [NSString stringWithFormat:@"%.2f", 0.0];
 }
 @end

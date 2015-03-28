@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *graphView;
 
-@property (nonatomic, copy) NSArray *exercisesFromHistory;
+@property (nonatomic, strong) NSArray *exercisesFromHistory;
 
 @property (nonatomic, assign) KLEDateRangeMode dateRangeMode;
 

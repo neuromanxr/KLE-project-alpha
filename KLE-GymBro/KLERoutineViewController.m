@@ -248,7 +248,6 @@
     [self showDetailViewController:revcNav sender:self];
      */
     
-#warning temp
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
     KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeNormal];

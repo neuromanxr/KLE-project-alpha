@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KLEWeightControl">
             <connections>
+                <outlet property="clearWeightButton" destination="bjY-27-9Rl" id="PDL-ph-xgz"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="yQV-mP-0OM"/>
                 <outlet property="weightIncrementLabel" destination="OBo-ex-XHL" id="qeK-XS-6el"/>
                 <outlet property="weightIncrementSlider" destination="mRk-IG-P5P" id="NeY-WZ-HdQ"/>
@@ -79,6 +80,21 @@
                         <action selector="decreaseWeightAction:" destination="-1" eventType="touchUpInside" id="eTJ-8j-UyD"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjY-27-9Rl">
+                    <rect key="frame" x="272" y="77" width="40" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="CRu-KP-osr"/>
+                        <constraint firstAttribute="height" constant="30" id="WiQ-fG-flh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="clear">
+                        <color key="titleColor" red="0.77263144839999998" green="0.17794146" blue="0.076295328849999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clearWeightButtonAction:" destination="-1" eventType="touchUpInside" id="s55-yR-XAx"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -86,12 +102,14 @@
                 <constraint firstItem="OBo-ex-XHL" firstAttribute="top" secondItem="mRk-IG-P5P" secondAttribute="bottom" constant="6" id="Gim-MK-432"/>
                 <constraint firstItem="436-vZ-WSy" firstAttribute="leading" secondItem="cPS-vc-rFt" secondAttribute="trailing" constant="8" id="LTg-61-tRh"/>
                 <constraint firstItem="mRk-IG-P5P" firstAttribute="centerX" secondItem="436-vZ-WSy" secondAttribute="centerX" id="Mo6-zG-DBj"/>
+                <constraint firstAttribute="trailing" secondItem="bjY-27-9Rl" secondAttribute="trailing" constant="8" id="RDr-Eb-QJD"/>
                 <constraint firstItem="daK-xC-J9L" firstAttribute="leading" secondItem="436-vZ-WSy" secondAttribute="trailing" constant="8" id="WAv-cO-B7h"/>
                 <constraint firstItem="mRk-IG-P5P" firstAttribute="top" secondItem="436-vZ-WSy" secondAttribute="bottom" constant="15" id="YTs-6l-ww6"/>
                 <constraint firstItem="mRk-IG-P5P" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="fdf-Rh-jmG"/>
                 <constraint firstItem="cPS-vc-rFt" firstAttribute="centerY" secondItem="436-vZ-WSy" secondAttribute="centerY" constant="2" id="ho0-ab-SwN"/>
                 <constraint firstAttribute="centerX" secondItem="436-vZ-WSy" secondAttribute="centerX" id="kv4-QL-D8J"/>
                 <constraint firstItem="mRk-IG-P5P" firstAttribute="centerX" secondItem="OBo-ex-XHL" secondAttribute="centerX" id="lem-T1-h9R"/>
+                <constraint firstAttribute="bottom" secondItem="bjY-27-9Rl" secondAttribute="bottom" constant="8" id="sFh-E6-dM3"/>
                 <constraint firstItem="daK-xC-J9L" firstAttribute="centerY" secondItem="436-vZ-WSy" secondAttribute="centerY" constant="2" id="tTT-ZX-CTb"/>
                 <constraint firstAttribute="trailing" secondItem="mRk-IG-P5P" secondAttribute="trailing" constant="28" id="toB-er-V1s"/>
             </constraints>

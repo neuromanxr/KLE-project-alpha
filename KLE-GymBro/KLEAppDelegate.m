@@ -114,6 +114,15 @@
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // settings default
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"USER DEFAULTS %@", [userDefaults objectForKey:kUnitWeightKey]);
+    if ([userDefaults objectForKey:kUnitWeightKey] == NULL) {
+        NSDictionary *initialDefaults = @{kUnitWeightKey:kUnitPounds};
+        [[NSUserDefaults standardUserDefaults] registerDefaults:initialDefaults];
+        NSLog(@"** DEFAULT SET TO LBS");
+    }
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     // daily view
@@ -170,14 +179,7 @@
 //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
 //    }
 
-    // settings default
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults objectForKey:kUnitWeightKey] == nil) {
-        NSDictionary *initialDefaults = @{kUnitWeightKey:kUnitPounds};
-        [[NSUserDefaults standardUserDefaults] registerDefaults:initialDefaults];
-        NSLog(@"** DEFAULT SET TO LBS");
-    }
-
+    
     // Override point for customization after application launch.
     
     /* for split view, routine view and routine exercise view

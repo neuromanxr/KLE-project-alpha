@@ -86,6 +86,7 @@ NSString *storeFilename = @"GymBro.sqlite";
     return self;
 }
 
+// uncomment NSSQLitePragmasOption to disable WAL journaling
 - (void)loadStore
 {
 //    if (debug==1) {
@@ -95,7 +96,7 @@ NSString *storeFilename = @"GymBro.sqlite";
     NSDictionary *options = @{
                               NSMigratePersistentStoresAutomaticallyOption:@YES,
                               NSInferMappingModelAutomaticallyOption:@YES,
-                              NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"}
+//                              NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"}
                               };
     NSError *error = nil;
     _store = [_coordinator addPersistentStoreWithType:NSSQLiteStoreType
@@ -111,6 +112,10 @@ NSString *storeFilename = @"GymBro.sqlite";
 //    if (debug==1) {
 //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
 //    }
+    
+    // preloaded default data
+    [self setDefaultDataStoreAsInitialStore];
+    
     [self loadStore];
     
     [self checkIfDefaultDataNeedsImporting];
@@ -184,9 +189,9 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)importFromXML:(NSURL *)url
 {
-    if (debug == 1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug == 1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
     self.parser.delegate = self;
     
@@ -198,9 +203,9 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)checkIfDefaultDataNeedsImporting
 {
-    if (debug == 1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug == 1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     if (![self isDefaultDataAlreadyImportedForStoreWithURL:[self storeURL] ofType:NSSQLiteStoreType]) {
         self.importAlertView = [[UIAlertView alloc] initWithTitle:@"Import Default Data" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Import", nil];
         
@@ -210,9 +215,9 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (BOOL)isDefaultDataAlreadyImportedForStoreWithURL:(NSURL *)url ofType:(NSString *)type
 {
-    if (debug == 1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug == 1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     NSError *error;
     NSDictionary *dictionary = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
                                                                                           URL:url
@@ -230,6 +235,25 @@ NSString *storeFilename = @"GymBro.sqlite";
         NSLog(@"Default Data HAS already been imported");
     }
     return YES;
+}
+
+- (void)setDefaultDataStoreAsInitialStore
+{
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:[self storeURL].path]) {
+        NSURL *defaultDataURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"DefaultData" ofType:@"sqlite"]];
+        NSError *error;
+        if (![fileManager copyItemAtURL:defaultDataURL toURL:[self storeURL] error:&error]) {
+            NSLog(@"DefaultData.sqlite copy FAIL: %@", error.localizedDescription);
+        }
+        else
+        {
+            NSLog(@"A copy of DefaultData.sqlite was set as the initial store for %@", [self storeURL].path);
+        }
+    }
 }
 
 #pragma mark - DELEGATE: NSXMLParser (CUSTOM)
