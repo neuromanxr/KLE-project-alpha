@@ -334,7 +334,7 @@
     UITextField *textField = (UITextField *)notification.object;
     
     NSString *whiteSpace = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSLog(@"WHITE SPACE %lu", whiteSpace.length);
+//    NSLog(@"WHITE SPACE %lu", whiteSpace.length);
     if (textField.text.length >= 1 && whiteSpace.length > 0)
     {
         _addAlertSaveAction.enabled = YES;

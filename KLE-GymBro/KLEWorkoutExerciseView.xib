@@ -56,7 +56,6 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- - -" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5g-bE-iCg">
                     <rect key="frame" x="8" y="210" width="304" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="304" id="Tah-rr-TyN"/>
                         <constraint firstAttribute="height" constant="21" id="bSD-HP-45F"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="18"/>
@@ -113,15 +112,15 @@
             <constraints>
                 <constraint firstItem="4vQ-5c-xkc" firstAttribute="centerX" secondItem="C5g-bE-iCg" secondAttribute="centerX" id="BVm-lE-9OX"/>
                 <constraint firstItem="4vQ-5c-xkc" firstAttribute="centerX" secondItem="y0A-0b-6iy" secondAttribute="centerX" id="C4q-6S-mJd"/>
-                <constraint firstItem="AWm-67-5Fh" firstAttribute="top" secondItem="C5g-bE-iCg" secondAttribute="bottom" constant="19" id="Dbo-9j-hqS"/>
                 <constraint firstItem="4vQ-5c-xkc" firstAttribute="top" secondItem="C5g-bE-iCg" secondAttribute="bottom" constant="8" id="NZd-g9-B1X"/>
-                <constraint firstItem="IZl-TZ-Olg" firstAttribute="top" secondItem="C5g-bE-iCg" secondAttribute="bottom" constant="19" id="Q95-mc-uQv"/>
                 <constraint firstAttribute="trailing" secondItem="NNF-AC-dGf" secondAttribute="trailing" id="REe-iz-Mwu"/>
                 <constraint firstItem="NNF-AC-dGf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="RJi-3B-nCi"/>
+                <constraint firstAttribute="centerY" secondItem="IZl-TZ-Olg" secondAttribute="centerY" constant="-28.5" id="bUY-Jl-XkQ"/>
                 <constraint firstItem="C5g-bE-iCg" firstAttribute="top" secondItem="NNF-AC-dGf" secondAttribute="bottom" constant="8" id="dKL-zy-hTF"/>
                 <constraint firstAttribute="trailing" secondItem="C5g-bE-iCg" secondAttribute="trailing" constant="8" id="hOf-WO-vu4"/>
                 <constraint firstItem="AWm-67-5Fh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="kJS-tF-w32"/>
                 <constraint firstItem="C5g-bE-iCg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="of3-4p-Za0"/>
+                <constraint firstAttribute="centerY" secondItem="AWm-67-5Fh" secondAttribute="centerY" constant="-28.5" id="rc2-B5-aRT"/>
                 <constraint firstItem="NNF-AC-dGf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xEM-YI-WRp"/>
                 <constraint firstAttribute="trailing" secondItem="IZl-TZ-Olg" secondAttribute="trailing" constant="8" id="yDv-fb-x2K"/>
                 <constraint firstAttribute="bottom" secondItem="y0A-0b-6iy" secondAttribute="bottom" constant="71" id="ylc-vb-gaH"/>

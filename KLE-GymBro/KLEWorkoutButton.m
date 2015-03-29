@@ -68,8 +68,8 @@
         
         // start the current set at zero
         _currentSet = [NSNumber numberWithInteger:0];
-        NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
-        NSLog(@"SETS NUMBER %@", setsNumber);
+//        NSLog(@"CURRENT SET %lu", [_currentSet integerValue]);
+//        NSLog(@"SETS NUMBER %@", setsNumber);
         [_setsButton setTitle:[NSString stringWithFormat:@"%@", setsNumber] forState:UIControlStateNormal];
         [_setsButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         
@@ -77,7 +77,7 @@
         
         // button title set in view controller to amount of sets
         NSUInteger sets = [_setsButton.titleLabel.text integerValue];
-        NSLog(@"SETS FOR ANGLE %lu", [self.setsForAngle integerValue]);
+//        NSLog(@"SETS FOR ANGLE %lu", [self.setsForAngle integerValue]);
         if ([self.setsForAngle integerValue] != 0) {
             
             _inProgress = YES;
@@ -92,7 +92,7 @@
             [self.delegate currentSet:[_currentSet integerValue]];
             [self.delegate logCurrentSetsRepsWeight];
             
-            NSLog(@"CURRENT SET %lu : SETS LEFT %lu", [_currentSet integerValue], sets);
+//            NSLog(@"CURRENT SET %lu : SETS LEFT %lu", [_currentSet integerValue], sets);
             
         }
         NSNumber *setsNumber = [NSNumber numberWithInteger:sets];
@@ -111,7 +111,7 @@
     [self drawBlurRing:rect];
     
     [self drawProgressRing];
-    
+
     //    [self flashOn:self];
     
 }

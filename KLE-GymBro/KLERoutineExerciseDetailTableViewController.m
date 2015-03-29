@@ -241,19 +241,19 @@
     switch (sender.selectedSegmentIndex) {
         case 0:
             _setStepAmount = 1;
-            NSLog(@"Step Amount %lu", _setStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_setStepAmount);
             break;
         case 1:
             _setStepAmount = 2;
-            NSLog(@"Step Amount %lu", _setStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_setStepAmount);
             break;
         case 2:
             _setStepAmount = 3;
-            NSLog(@"Step Amount %lu", _setStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_setStepAmount);
             break;
         case 3:
             _setStepAmount = 5;
-            NSLog(@"Step Amount %lu", _setStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_setStepAmount);
             break;
         default:
             break;
@@ -265,19 +265,19 @@
     switch (sender.selectedSegmentIndex) {
         case 0:
             _repStepAmount = 1;
-            NSLog(@"Step Amount %lu", _repStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_repStepAmount);
             break;
         case 1:
             _repStepAmount = 2;
-            NSLog(@"Step Amount %lu", _repStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_repStepAmount);
             break;
         case 2:
             _repStepAmount = 3;
-            NSLog(@"Step Amount %lu", _repStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_repStepAmount);
             break;
         case 3:
             _repStepAmount = 5;
-            NSLog(@"Step Amount %lu", _repStepAmount);
+            NSLog(@"Step Amount %lu", (unsigned long)_repStepAmount);
             break;
         default:
             break;

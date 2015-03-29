@@ -104,8 +104,8 @@
 #pragma mark FETCH DATA
 - (void)configureFetchGraphData:(KLEDateRangeMode)dateRange withExercise:(NSString *)exercise
 {
-    NSLog(@"DATE RANGE MODE %lu", dateRange);
-    NSLog(@"EXERCISE PARAMETER %@", exercise);
+//    NSLog(@"DATE RANGE MODE %lu", dateRange);
+//    NSLog(@"EXERCISE PARAMETER %@", exercise);
     
     NSDate *dateToCompare = [self setDateToCompare:dateRange];
     

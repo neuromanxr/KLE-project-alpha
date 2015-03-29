@@ -34,7 +34,7 @@
 - (void)configureFetch:(KLEDateRangeMode)dateRange
 {
     
-    NSLog(@"DATE RANGE MODE %lu", dateRange);
+//    NSLog(@"DATE RANGE MODE %ld", dateRange);
     
     NSDate *dateToCompare = [self setDateToCompare:dateRange];
     

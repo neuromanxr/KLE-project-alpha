@@ -199,11 +199,11 @@
     if ([exercises count]) {
         for (KLEExerciseGoal *exercise in exercises) {
             // index path has to start after the normal cell
-            NSLog(@"exercises in routine %@ in section %lu", exercise.exercise.exercisename, indexPath.section);
+            NSLog(@"exercises in routine %@ in section %lu", exercise.exercise.exercisename, (unsigned long)indexPath.section);
             NSIndexPath *exerciseIndexPath = [NSIndexPath indexPathForRow:startIndex inSection:indexPath.section];
             [indexPathsForExercises addObject:exerciseIndexPath];
             startIndex++;
-            NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
+//            NSLog(@"IndexPathsForExercises row %lu and section %lu", [[indexPathsForExercises objectAtIndex:index] row], [[indexPathsForExercises objectAtIndex:index] section]);
             index++;
         }
     } else {
@@ -217,14 +217,14 @@
 {
     // animate the deletions and insertions
     [self.tableView beginUpdates];
-    NSLog(@"paths to delete count %lu", pathsToDelete.count);
+//    NSLog(@"paths to delete count %lu", pathsToDelete.count);
     if (pathsToDelete.count) {
         NSLog(@"paths to delete");
         [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationLeft];
     }
-    NSLog(@"paths to add count %lu", pathsToAdd.count);
+//    NSLog(@"paths to add count %lu", pathsToAdd.count);
     if (pathsToAdd.count) {
-        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
+//        NSLog(@"paths to add row %lu in section %lu", [[pathsToAdd objectAtIndex:0] row], [[pathsToAdd objectAtIndex:0] section]);
         [self.tableView insertRowsAtIndexPaths:pathsToAdd withRowAnimation:UITableViewRowAnimationRight];
     }
     [self.tableView endUpdates];
@@ -241,7 +241,7 @@
     [requestRoutine setPredicate:predicateRoutine];
     // get the row count for the routines in daily using countForFetchRequest
     NSUInteger routinesCount = [cdh.context countForFetchRequest:requestRoutine error:nil];
-    NSLog(@"###routines count %lu", routinesCount);
+//    NSLog(@"###routines count %lu", routinesCount);
     
     // have to account for the extra action row plus the routines in each section
     NSUInteger actionRowsCount = 0;
@@ -252,7 +252,7 @@
     if ([self.actionRowPaths count]) {
         actionRowsCount = [self.actionRowPaths count];
         while (actionRow = [enumerator nextObject]) {
-            NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
+//            NSLog(@"actionRow row %lu and section %lu", actionRow.row, actionRow.section);
             if (actionRow.section == section) {
                 _rowCountBySection = routinesCount + actionRowsCount;
             } else {
@@ -261,7 +261,7 @@
         }
     } else {
         _rowCountBySection = routinesCount;
-        NSLog(@"rowCountBySection ELSE %lu", _rowCountBySection);
+//        NSLog(@"rowCountBySection ELSE %lu", _rowCountBySection);
     }
     
     return _rowCountBySection;
@@ -269,7 +269,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog(@"Days Array Count %lu", [_daysArray count]);
+//    NSLog(@"Days Array Count %lu", [_daysArray count]);
     return [_daysArray count];
 }
 
@@ -357,7 +357,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSLog(@"didSelectRowAtIndexPath row %lu and section %lu", indexPath.row, indexPath.section);
+//    NSLog(@"didSelectRowAtIndexPath row %lu and section %lu", indexPath.row, indexPath.section);
     
     NSArray *pathsToAdd;
     NSArray *pathsToDelete;
@@ -366,7 +366,7 @@
     if ([self.actionRowPaths count]) {
         actionRowPathPrevious = [self.actionRowPaths objectAtIndex:0];
     }
-    NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
+//    NSLog(@"actionRowPath previous row %lu and section %lu", actionRowPathPrevious.row, actionRowPathPrevious.section);
     
     if ([actionRowPathPrevious.previous isEqual:indexPath]) {
         
@@ -379,7 +379,7 @@
     } else if ([self.actionRowPaths count]) {
         
         // move action cell
-        NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
+//        NSLog(@"current indexPath row %lu section %lu", indexPath.row, indexPath.section);
         
         pathsToDelete = self.actionRowPaths;
         
@@ -391,7 +391,7 @@
         
         NSUInteger routineIndex = actionRowPath.row;
         NSUInteger startIndexAtOne = newActionRowPath.row;
-        NSLog(@"startIndexAtOne %lu routineIndex %lu", startIndexAtOne, routineIndex);
+//        NSLog(@"startIndexAtOne %lu routineIndex %lu", startIndexAtOne, routineIndex);
         
         // case: when the selected indexPath is before the action rows
         if (before) {
@@ -401,7 +401,7 @@
             // case: when the selected indexPath is in the same section
             if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
                 
-                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
+//                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
                 
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath.next;
@@ -411,13 +411,13 @@
                 
                 actionRowPath = indexPath;
                 newActionRowPath = indexPath.next;
-                NSLog(@"new Action Row Path %lu : action Row Path %lu", newActionRowPath.row, actionRowPath.row);
+//                NSLog(@"new Action Row Path %lu : action Row Path %lu", newActionRowPath.row, actionRowPath.row);
                 
             }
             
             routineIndex = actionRowPath.row;
             startIndexAtOne = newActionRowPath.row;
-            NSLog(@"startIndexAtOne %lu", startIndexAtOne);
+//            NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
         // case: when the selected indexPath is after the action rows
         } else {
@@ -432,7 +432,7 @@
             // have to account for the expanded rows above, so subtract the count of actionRowPaths
             if ([[self.actionRowPaths firstObject] section] == indexPath.section) {
                 
-                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
+//                NSLog(@"actionRowPaths section %lu matches indexPaths section %lu", [[self.actionRowPaths firstObject] section], indexPath.section);
                 actionRowPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
                 newActionRowPath = [NSIndexPath indexPathForRow:(indexPath.next.row - [self.actionRowPaths count]) inSection:indexPath.section];
                 adjustedIndexPath = [NSIndexPath indexPathForRow:(indexPath.row - [self.actionRowPaths count]) inSection:indexPath.section];
@@ -461,7 +461,7 @@
         self.didSelectRowAtIndexPath = indexPath;
 
         NSUInteger startIndexAtOne = indexPath.next.row;
-        NSLog(@"startIndexAtOne %lu", startIndexAtOne);
+//        NSLog(@"startIndexAtOne %lu", startIndexAtOne);
         
         NSArray *indexPathsForExercises = [self createActionRowPathsFromRoutineIndex:indexPath.row startIndex:startIndexAtOne atIndexPath:indexPath];
 
@@ -491,8 +491,8 @@
     
     // case: action rows will be displayed for the indexPaths that equal to the indexPaths in actionRowPaths
     if ((_indexInActionRowPaths >= 0) && [self.actionRowPaths[_indexInActionRowPaths] isEqual:indexPath]) {
-        NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[_indexInActionRowPaths] row], indexPath.row);
-        NSLog(@"indexInActionRowPaths in action %lu", _indexInActionRowPaths);
+//        NSLog(@"actionRowPaths %lu is equal to indexPath %lu", [self.actionRowPaths[_indexInActionRowPaths] row], indexPath.row);
+//        NSLog(@"indexInActionRowPaths in action %lu", _indexInActionRowPaths);
 
         // action row
         KLEActionCell *actionCell = [tableView dequeueReusableCellWithIdentifier:@"KLEActionCell" forIndexPath:indexPath];
@@ -580,12 +580,12 @@
         NSUInteger adjustedRow = indexPath.row;
         if ([self.actionRowPaths count] && [[self.actionRowPaths lastObject] row] < indexPath.row) {
             adjustedRow -= [self.actionRowPaths count];
-            NSLog(@"adjusted row decrement %lu", adjustedRow);
+//            NSLog(@"adjusted row decrement %lu", adjustedRow);
         }
 
         // access the routine using indexPath.row in request array. when new row inserted from action row, it is trying to access a index that isn't there. have to use adjusted row.
         NSArray *routineObjects = [self fetchRoutinesWithIndexPath:indexPath];
-        NSLog(@"###cell for row objects %@ object count %lu", routineObjects, [routineObjects count]);
+//        NSLog(@"###cell for row objects %@ object count %lu", routineObjects, [routineObjects count]);
         KLERoutine *routine = [routineObjects objectAtIndex:adjustedRow];
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.routineNameLabel.text = routine.routinename;
@@ -613,7 +613,7 @@
     
     if ([[self.tableView cellForRowAtIndexPath:indexPath.previous] isKindOfClass:[KLEActionCell class]]) {
         adjustedIndexPath = [NSIndexPath indexPathForRow:indexPath.row - [self.actionRowPaths count] inSection:indexPath.section];
-        NSLog(@"ADJUSTED INDEX ROW %lu", adjustedIndexPath.row);
+//        NSLog(@"ADJUSTED INDEX ROW %lu", adjustedIndexPath.row);
     }
     else
     {
@@ -764,7 +764,7 @@
         
         // animate the deletions and insertions
         [self.tableView beginUpdates];
-        NSLog(@"paths to delete count %lu", pathsToDelete.count);
+//        NSLog(@"paths to delete count %lu", pathsToDelete.count);
         if (pathsToDelete.count) {
             [self.tableView deleteRowsAtIndexPaths:pathsToDelete withRowAnimation:UITableViewRowAnimationRight];
         }

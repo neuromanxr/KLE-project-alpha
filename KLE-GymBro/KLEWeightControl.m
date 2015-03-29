@@ -186,8 +186,8 @@
     
     _weightIncrementLabel.text = [NSString stringWithFormat:@"%@", number];
     
-    NSLog(@"~~SLIDERINDEX: %lu", index);
-    NSLog(@"~~number: %@", number);
+//    NSLog(@"~~SLIDERINDEX: %lu", index);
+//    NSLog(@"~~number: %@", number);
 }
 
 - (IBAction)weightIncrementSliderAction:(UISlider *)sender
@@ -199,8 +199,8 @@
     
     _weightIncrementLabel.text = [NSString stringWithFormat:@"%@", number];
     
-    NSLog(@"~~SLIDERINDEX: %lu", index);
-    NSLog(@"~~number: %@", number);
+//    NSLog(@"~~SLIDERINDEX: %lu", index);
+//    NSLog(@"~~number: %@", number);
 }
 
 - (IBAction)increaseWeightAction:(UIButton *)sender

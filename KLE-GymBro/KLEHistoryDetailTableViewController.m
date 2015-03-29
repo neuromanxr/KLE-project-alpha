@@ -163,7 +163,7 @@
 
 - (void)toggleEditSave:(UIBarButtonItem *)sender
 {
-    NSLog(@"BAR BUTTON STYLE %lu", sender.style);
+
     if (sender.style == UIBarButtonItemStylePlain) {
         NSLog(@"EDIT");
         
@@ -181,7 +181,6 @@
     }
     else
     {
-        NSLog(@"ELSE STYLE %lu", sender.style);
         
         [sender setStyle:UIBarButtonItemStylePlain];
         [sender setTitle:@"Edit"];
@@ -202,7 +201,7 @@
 {
     UILabel *label = [[UILabel alloc] init];
     
-    label.text = [NSString stringWithFormat:@"%lu", row + 1];
+    label.text = [NSString stringWithFormat:@"%lu", (unsigned long)row + 1];
     [label setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
     [label setTextAlignment:NSTextAlignmentCenter];
     
@@ -243,9 +242,9 @@
         }];
     }
     
-    NSLog(@"Current Set Index %lu", _currentSetIndex);
+//    NSLog(@"Current Set Index %lu", _currentSetIndex);
     
-    NSLog(@"WEIGHT CONTROL %@", _weightControl.weightTextField.text);
+//    NSLog(@"WEIGHT CONTROL %@", _weightControl.weightTextField.text);
 }
 
 #pragma mark - Table view data source
@@ -263,7 +262,7 @@
 }
 - (IBAction)repsCompletedSliderAction:(UISlider *)sender
 {
-    NSLog(@"REPS COMPLETED SLIDER ACTION %lu", [_setsCompletedPicker selectedRowInComponent:0] + 1);
+//    NSLog(@"REPS COMPLETED SLIDER ACTION %lu", [_setsCompletedPicker selectedRowInComponent:0] + 1);
     
     _repsCompletedLabel.text = [NSString stringWithFormat:@"%.f", sender.value];
 }

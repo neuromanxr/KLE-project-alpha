@@ -343,16 +343,16 @@
         [weightsArray addObject:weightNumber];
     }
     NSNumber *maxInWeightArray = [weightsArray valueForKeyPath:@"@max.self"];
-    NSLog(@"MAX WEIGHT %@", maxInWeightArray);
+//    NSLog(@"MAX WEIGHT %@", maxInWeightArray);
     
     // date range test
 //    NSDate *dateTest = [[NSDate date] dateBySubtractingMonths:12];
     
-    NSLog(@"NSDATE IN FINISH WORKOUT %@", [self todaysDate]);
+//    NSLog(@"NSDATE IN FINISH WORKOUT %@", [self todaysDate]);
     exerciseCompleted.maxweight = maxInWeightArray;
     exerciseCompleted.setscompleted = [NSNumber numberWithInteger:_currentSet];
     exerciseCompleted.exercise = exerciseGoal.exercise;
-    NSLog(@"EXERCISE COMPLETED %@", exerciseCompleted.exercise);
+//    NSLog(@"EXERCISE COMPLETED %@", exerciseCompleted.exercise);
 //    exerciseCompleted.exercisename = exerciseGoal.exercise.exercisename;
     exerciseCompleted.routinename = exerciseGoal.routine.routinename;
     exerciseCompleted.datecompleted = [self todaysDate];
@@ -360,8 +360,8 @@
     
     _currentRepsWeightArray = nil;
     
-    NSLog(@"EXERCISE COMPLETED SETS %@ REPS WEIGHT ARRAY %@", exerciseCompleted.setscompleted, exerciseCompleted.repsweightarray);
-    NSLog(@"EXERCISE GOAL SETS %@ REPS %@", exerciseGoal.sets, exerciseGoal.reps);
+//    NSLog(@"EXERCISE COMPLETED SETS %@ REPS WEIGHT ARRAY %@", exerciseCompleted.setscompleted, exerciseCompleted.repsweightarray);
+//    NSLog(@"EXERCISE GOAL SETS %@ REPS %@", exerciseGoal.sets, exerciseGoal.reps);
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -371,7 +371,7 @@
 {
     // delegate method to get the current set
     _currentSet = set;
-    NSLog(@"CURRENT SET IN WORKOUT EXERCISE VIEW CONTROLLER %.2f", set);
+//    NSLog(@"CURRENT SET IN WORKOUT EXERCISE VIEW CONTROLLER %.2f", set);
 }
 
 // delegate method for reps button
@@ -384,12 +384,12 @@
         NSUInteger currentReps = [_repsWorkoutButton.repsLabel.text integerValue];
         if (currentReps != 0) {
             currentReps--;
-            NSLog(@"CURRENT REPS %lu", currentReps);
-            _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", currentReps];
+//            NSLog(@"CURRENT REPS %lu", currentReps);
+            _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)currentReps];
         }
         else
         {
-            _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", currentReps];
+            _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)currentReps];
         }
     }
     else
@@ -398,17 +398,17 @@
         
         NSUInteger currentReps = [_repsWorkoutButton.repsLabel.text integerValue];
         currentReps++;
-        NSLog(@"CURRENT REPS %lu", currentReps);
-        _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", currentReps];
+//        NSLog(@"CURRENT REPS %lu", currentReps);
+        _repsWorkoutButton.repsLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)currentReps];
     }
 }
 
 - (void)logCurrentSetsRepsWeight
 {
-    NSString *currentReps = [NSString stringWithFormat:@"%lu", [_repsWorkoutButton.repsLabel.text integerValue]];
+    NSString *currentReps = [NSString stringWithFormat:@"%lu", (unsigned long)[_repsWorkoutButton.repsLabel.text integerValue]];
 //    NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightTextField.text floatValue]];
     NSString *currentWeight = [NSString stringWithFormat:@" %.2f", [_weightControl.weightTextField.text floatValue]];
-    NSString *currentSet = [NSString stringWithFormat:@"%lu", _currentSet];
+    NSString *currentSet = [NSString stringWithFormat:@"%lu", (unsigned long)_currentSet];
     
     NSLog(@"Current Reps and Sets %@, %@", currentReps, currentSet);
     

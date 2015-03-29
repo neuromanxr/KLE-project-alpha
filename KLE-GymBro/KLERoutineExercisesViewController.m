@@ -54,8 +54,8 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"CURRENT MODE %lu", _mode);
-    NSLog(@"SELECTED ROUTINE FROM VC %@", [self usingSelectedRoutine]);
+//    NSLog(@"CURRENT MODE %lu", _mode);
+//    NSLog(@"SELECTED ROUTINE FROM VC %@", [self usingSelectedRoutine]);
     
     [super viewDidLoad];
     [self configureFetch];
@@ -172,16 +172,16 @@
 {
     _mode = mode;
     
-    NSLog(@"CURRENT MODE %ld", _mode);
+//    NSLog(@"CURRENT MODE %ld", _mode);
     
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     // gets called twice if routine exercises from both daily and routines are presented. save both selected routines for respective view controllers
-    NSLog(@"CURRENT MODE %lu", _mode);
-    NSLog(@"ENCODE DAILY ROUTINE %@, ROUTINES ROUTINE %@", _selectedRoutineFromDaily, _selectedRoutineFromRoutines);
-    NSLog(@"RESTORATION ID %@", self.restorationIdentifier);
+//    NSLog(@"CURRENT MODE %lu", _mode);
+//    NSLog(@"ENCODE DAILY ROUTINE %@, ROUTINES ROUTINE %@", _selectedRoutineFromDaily, _selectedRoutineFromRoutines);
+//    NSLog(@"RESTORATION ID %@", self.restorationIdentifier);
     
     
     if (_selectedRoutineFromDaily != nil)
@@ -531,10 +531,10 @@
         
 //        [self.tableHeaderView.dayButton setTitle:routine.dayname forState:UIControlStateNormal];
         
-        NSLog(@"Header Day %@", self.tableHeaderView.dayButton.titleLabel.text);
-        NSLog(@"Picker: %@", picker);
-        NSLog(@"Selected index %lu", selectedIndex);
-        NSLog(@"Selected value %@", selectedValue);
+//        NSLog(@"Header Day %@", self.tableHeaderView.dayButton.titleLabel.text);
+//        NSLog(@"Picker: %@", picker);
+//        NSLog(@"Selected index %lu", selectedIndex);
+//        NSLog(@"Selected value %@", selectedValue);
         
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
