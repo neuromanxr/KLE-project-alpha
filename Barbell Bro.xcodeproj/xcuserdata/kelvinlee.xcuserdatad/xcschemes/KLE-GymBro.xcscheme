@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "50AC0B0919B52C8500E39A7E"
-               BuildableName = "LiftBro.app"
+               BuildableName = "Barbell Bro.app"
                BlueprintName = "Barbell Bro"
                ReferencedContainer = "container:Barbell Bro.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "50AC0B2419B52C8500E39A7E"
-               BuildableName = "LiftBroTests.xctest"
+               BuildableName = "Barbell BroTests.xctest"
                BlueprintName = "Barbell BroTests"
                ReferencedContainer = "container:Barbell Bro.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50AC0B0919B52C8500E39A7E"
-            BuildableName = "LiftBro.app"
+            BuildableName = "Barbell Bro.app"
             BlueprintName = "Barbell Bro"
             ReferencedContainer = "container:Barbell Bro.xcodeproj">
          </BuildableReference>
@@ -63,7 +63,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50AC0B0919B52C8500E39A7E"
-            BuildableName = "LiftBro.app"
+            BuildableName = "Barbell Bro.app"
             BlueprintName = "Barbell Bro"
             ReferencedContainer = "container:Barbell Bro.xcodeproj">
          </BuildableReference>
@@ -82,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50AC0B0919B52C8500E39A7E"
-            BuildableName = "LiftBro.app"
+            BuildableName = "Barbell Bro.app"
             BlueprintName = "Barbell Bro"
             ReferencedContainer = "container:Barbell Bro.xcodeproj">
          </BuildableReference>
