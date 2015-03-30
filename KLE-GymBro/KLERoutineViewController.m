@@ -250,7 +250,7 @@
     
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
-    KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeNormal];
+    KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController routineExercisesViewControllerWithModeFromRoutines:KLERoutineExercisesViewControllerModeNormal];
     routineExercisesView.selectedRoutineFromRoutines = routine;
     
     [self.navigationController pushViewController:routineExercisesView animated:YES];

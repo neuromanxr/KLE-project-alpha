@@ -624,7 +624,7 @@
     KLERoutine *selectedRoutine = [routineObjects objectAtIndex:adjustedIndexPath.row];
     NSLog(@"selected routine %@", selectedRoutine);
     
-    KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithMode:KLERoutineExercisesViewControllerModeWorkout];
+    KLERoutineExercisesViewController *revc = [KLERoutineExercisesViewController routineExercisesViewControllerWithModeFromDaily:KLERoutineExercisesViewControllerModeWorkout];
 
     revc.selectedRoutineFromDaily = selectedRoutine;
     

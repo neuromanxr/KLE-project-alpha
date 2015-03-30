@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,20 +14,32 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Routine Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgv-uL-uzu">
-                        <rect key="frame" x="8" y="5" width="262" height="40"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Routine Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgv-uL-uzu">
+                        <rect key="frame" x="8" y="9" width="262" height="32"/>
                         <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWl-Xj-8i2">
-                        <rect key="frame" x="280" y="0.0" width="40" height="50"/>
+                    <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWl-Xj-8i2">
+                        <rect key="frame" x="280" y="9" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="32" id="mkE-P2-Htr"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="18"/>
                         <state key="normal" title="|||">
                             <color key="titleColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="DWl-Xj-8i2" firstAttribute="leading" secondItem="Zgv-uL-uzu" secondAttribute="trailing" constant="10" id="0OI-D4-Yro"/>
+                    <constraint firstItem="DWl-Xj-8i2" firstAttribute="trailing" secondItem="m4Y-6O-3Ue" secondAttribute="trailingMargin" id="4cg-9s-byY"/>
+                    <constraint firstItem="DWl-Xj-8i2" firstAttribute="top" secondItem="m4Y-6O-3Ue" secondAttribute="topMargin" constant="1" id="5bk-fH-0Ne"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Zgv-uL-uzu" secondAttribute="bottom" constant="0.5" id="ALy-CA-dVW"/>
+                    <constraint firstItem="Zgv-uL-uzu" firstAttribute="leading" secondItem="m4Y-6O-3Ue" secondAttribute="leadingMargin" id="eCM-lz-8KM"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="DWl-Xj-8i2" secondAttribute="bottom" constant="0.5" id="qOC-cw-NWi"/>
+                    <constraint firstItem="Zgv-uL-uzu" firstAttribute="top" secondItem="m4Y-6O-3Ue" secondAttribute="topMargin" constant="1" id="srm-Vq-y8j"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="nameLabel" destination="Zgv-uL-uzu" id="6t1-bO-0eE"/>

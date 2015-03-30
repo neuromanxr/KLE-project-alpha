@@ -160,20 +160,33 @@
     return routine;
 }
 
-+ (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode
++ (instancetype)routineExercisesViewControllerWithModeFromDaily:(KLERoutineExercisesViewControllerMode)mode
 {
     KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
-    [routineExercisesViewController setMode:mode];
+    [routineExercisesViewController setModeFromDaily:mode];
     
     return routineExercisesViewController;
 }
 
-- (void)setMode:(KLERoutineExercisesViewControllerMode)mode
++ (instancetype)routineExercisesViewControllerWithModeFromRoutines:(KLERoutineExercisesViewControllerMode)mode
 {
-    _mode = mode;
+    KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
+    [routineExercisesViewController setModeFromRoutines:mode];
+    
+    return routineExercisesViewController;
+}
+
+- (void)setModeFromDaily:(KLERoutineExercisesViewControllerMode)mode
+{
+    _modeFromDaily = mode;
     
 //    NSLog(@"CURRENT MODE %ld", _mode);
     
+}
+
+- (void)setModeFromRoutines:(KLERoutineExercisesViewControllerMode)mode
+{
+    _modeFromRoutines = mode;
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
@@ -189,15 +202,15 @@
         NSString *routineFromDaily = [[_selectedRoutineFromDaily.objectID URIRepresentation] absoluteString];
         [coder encodeObject:routineFromDaily forKey:kSelectedRoutineIDFromDailyKey];
         
-        NSNumber *currentMode = [NSNumber numberWithInteger:_mode];
-        [coder encodeObject:currentMode forKey:kCurrentModeFromRoutinesKey];
+        NSNumber *currentMode = [NSNumber numberWithInteger:_modeFromDaily];
+        [coder encodeObject:currentMode forKey:kCurrentModeFromDailyKey];
     }
     if (_selectedRoutineFromRoutines != nil)
     {
         NSString *routineFromRoutines = [[_selectedRoutineFromRoutines.objectID URIRepresentation] absoluteString];
         [coder encodeObject:routineFromRoutines forKey:kSelectedRoutineIDFromRoutinesKey];
         
-        NSNumber *currentMode = [NSNumber numberWithInteger:_mode];
+        NSNumber *currentMode = [NSNumber numberWithInteger:_modeFromRoutines];
         [coder encodeObject:currentMode forKey:kCurrentModeFromRoutinesKey];
     }
     
@@ -233,7 +246,7 @@
         NSLog(@"ROUTINE ID FROM DAILY %@", routineFromDaily);
         
         KLERoutineExercisesViewControllerMode mode = [[coder decodeObjectForKey:kCurrentModeFromDailyKey] integerValue];
-        [routineExercisesViewController setMode:mode];
+        [routineExercisesViewController setModeFromDaily:mode];
     }
     if (routineObjectURLFromRoutines != nil)
     {
@@ -243,7 +256,7 @@
         NSLog(@"ROUTINE ID FROM ROUTINES %@", routineFromRoutines);
         
         KLERoutineExercisesViewControllerMode mode = [[coder decodeObjectForKey:kCurrentModeFromRoutinesKey] integerValue];
-        [routineExercisesViewController setMode:mode];
+        [routineExercisesViewController setModeFromRoutines:mode];
     }
     
     
@@ -283,7 +296,7 @@
     self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, nil];
     
     // don't enable add exercise button when in workout mode
-    if (_mode == KLERoutineExercisesViewControllerModeWorkout) {
+    if (_modeFromDaily == KLERoutineExercisesViewControllerModeWorkout) {
         
         addButton.enabled = NO;
     }
@@ -432,14 +445,15 @@
 
     KLEExerciseGoal *routineExercise = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
     
-    if (self.mode == KLERoutineExercisesViewControllerModeWorkout) {
+    if (self.modeFromDaily == KLERoutineExercisesViewControllerModeWorkout)
+    {
         NSLog(@"GOING TO WORKOUT MODE");
         KLEWorkoutExerciseViewController *wevc = [[KLEWorkoutExerciseViewController alloc] init];
         wevc.selectedRoutineExercise = routineExercise;
         
         [self.navigationController pushViewController:wevc animated:YES];
     }
-    else
+    else if (self.modeFromRoutines == KLERoutineExercisesViewControllerModeNormal)
     {
         
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
@@ -472,8 +486,14 @@
     [headerView.textLabel setTextColor:[UIColor whiteColor]];
     [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
     
-    if (_mode == KLERoutineExercisesViewControllerModeNormal) {
+    if (_modeFromRoutines == KLERoutineExercisesViewControllerModeNormal)
+    {
         [headerView.backgroundView setAlpha:0.7];
+    }
+    
+    if (_modeFromDaily == KLERoutineExercisesViewControllerModeWorkout)
+    {
+        [headerView.backgroundView setAlpha:1.0];
     }
 }
 

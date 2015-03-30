@@ -19,9 +19,12 @@ typedef NS_ENUM(NSInteger, KLERoutineExercisesViewControllerMode)
 
 @interface KLERoutineExercisesViewController : CoreDataTableViewController
 
-+ (instancetype)routineExercisesViewControllerWithMode:(KLERoutineExercisesViewControllerMode)mode;
++ (instancetype)routineExercisesViewControllerWithModeFromDaily:(KLERoutineExercisesViewControllerMode)mode;
 
-@property (nonatomic, assign) KLERoutineExercisesViewControllerMode mode;
++ (instancetype)routineExercisesViewControllerWithModeFromRoutines:(KLERoutineExercisesViewControllerMode)mode;
+
+@property (nonatomic, assign) KLERoutineExercisesViewControllerMode modeFromDaily;
+@property (nonatomic, assign) KLERoutineExercisesViewControllerMode modeFromRoutines;
 
 @property (nonatomic, strong) KLERoutine *selectedRoutineFromRoutines;
 
