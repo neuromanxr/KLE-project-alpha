@@ -123,14 +123,14 @@
 {
     [super viewWillAppear:animated];
     
+    [self getWeekDates];
+    
     [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self getWeekDates];
     
     // load the nib file
     UINib *nib = [UINib nibWithNibName:@"KLEDailyViewCell" bundle:nil];
@@ -248,7 +248,7 @@
     NSEnumerator *enumerator = [self.actionRowPaths objectEnumerator];
     NSIndexPath *actionRow;
     _rowCountBySection = 0;
-    NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
+//    NSLog(@"actionRowPaths contents %@", self.actionRowPaths);
     if ([self.actionRowPaths count]) {
         actionRowsCount = [self.actionRowPaths count];
         while (actionRow = [enumerator nextObject]) {
@@ -752,7 +752,7 @@
     _datesArray = [NSArray arrayWithArray:weekDatesArray];
     _daysArray = [NSArray arrayWithArray:weekDayArray];
     
-    NSLog(@"TODAYS DATE STRING %@", todaysDateString);
+    NSLog(@"DATEs Array %@", _datesArray);
 }
 
 - (void)removeActionRowPathsFromView
