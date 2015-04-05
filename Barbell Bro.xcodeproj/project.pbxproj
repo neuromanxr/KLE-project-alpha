@@ -329,6 +329,116 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		5069B5981AD0E4330093202D /* Graph View */ = {
+			isa = PBXGroup;
+			children = (
+				50F9AC931A9E7999005B8047 /* KLEGraphView.h */,
+				50F9AC941A9E7999005B8047 /* KLEGraphView.m */,
+				50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */,
+				50F9AC901A9E6699005B8047 /* KLEGraphViewController.h */,
+				50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */,
+			);
+			name = "Graph View";
+			sourceTree = "<group>";
+		};
+		5069B5991AD0E4440093202D /* History View */ = {
+			isa = PBXGroup;
+			children = (
+				507530801A782E8C0006C08D /* KLEHistoryViewController.h */,
+				507530811A782E8C0006C08D /* KLEHistoryViewController.m */,
+				507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */,
+				507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */,
+				507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */,
+			);
+			name = "History View";
+			sourceTree = "<group>";
+		};
+		5069B59A1AD0E4510093202D /* Buttons and Controls */ = {
+			isa = PBXGroup;
+			children = (
+				50AEFC2F1ABD4E9700DC15EE /* KLEWorkoutTimer.h */,
+				50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */,
+				50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */,
+				500341A11AB57A990003BCD2 /* KLEWeightControl.h */,
+				500341A21AB57A990003BCD2 /* KLEWeightControl.m */,
+				500341A41AB57AF40003BCD2 /* KLEWeightControl.xib */,
+				50F344ED1A759CF300CB17D0 /* KLEWorkoutButton.h */,
+				50F344EE1A759CF300CB17D0 /* KLEWorkoutButton.m */,
+				50F344F01A759D3000CB17D0 /* KLEWorkoutButton.xib */,
+				50B160B81A8F4BD800E2F28F /* KLEWorkoutButtonDelegate.h */,
+				50DE6B9F1A948324006713BE /* KLERepsButton.h */,
+				50DE6BA01A948324006713BE /* KLERepsButton.m */,
+				50DE6BA21A948368006713BE /* KLERepsButton.xib */,
+				50A9C3E51A99817F00640051 /* KLERoundButton.h */,
+				50A9C3E61A99817F00640051 /* KLERoundButton.m */,
+				50A9C3E81A99819E00640051 /* KLERoundButton.xib */,
+			);
+			name = "Buttons and Controls";
+			sourceTree = "<group>";
+		};
+		5069B59B1AD0E45E0093202D /* Exercise List View */ = {
+			isa = PBXGroup;
+			children = (
+				50DD4CCD19C22EC100A3E6E5 /* KLEExerciseListViewController.h */,
+				50DD4CCE19C22EC100A3E6E5 /* KLEExerciseListViewController.m */,
+				50DD4CD019C235FC00A3E6E5 /* KLEExerciseListViewCell.h */,
+				50DD4CD119C235FC00A3E6E5 /* KLEExerciseListViewCell.m */,
+				50DD4CD319C2374500A3E6E5 /* KLEExerciseListViewCell.xib */,
+			);
+			name = "Exercise List View";
+			sourceTree = "<group>";
+		};
+		5069B59C1AD0E48B0093202D /* Workout View */ = {
+			isa = PBXGroup;
+			children = (
+				50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */,
+				50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */,
+				50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */,
+				50A9C3E11A98A3B100640051 /* KLEWorkoutExerciseView.m */,
+				50A9C3E31A98A3E600640051 /* KLEWorkoutExerciseView.xib */,
+			);
+			name = "Workout View";
+			sourceTree = "<group>";
+		};
+		5069B59D1AD0E4A80093202D /* Routine Exercise View */ = {
+			isa = PBXGroup;
+			children = (
+				50DD4CDC19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.h */,
+				50DD4CDD19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m */,
+				50DD4CDF19C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.h */,
+				50DD4CE019C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m */,
+				50DD4CE219C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib */,
+			);
+			name = "Routine Exercise View";
+			sourceTree = "<group>";
+		};
+		5069B59E1AD0E4BB0093202D /* Routines View */ = {
+			isa = PBXGroup;
+			children = (
+				50DD4CC519BE3CA600A3E6E5 /* KLERoutineViewController.h */,
+				50DD4CC619BE3CA600A3E6E5 /* KLERoutineViewController.m */,
+				50DD4CC819BE3E0100A3E6E5 /* KLERoutineViewCell.h */,
+				50DD4CC919BE3E0100A3E6E5 /* KLERoutineViewCell.m */,
+				50DD4CCB19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib */,
+			);
+			name = "Routines View";
+			sourceTree = "<group>";
+		};
+		5069B59F1AD0E4C80093202D /* Daily View */ = {
+			isa = PBXGroup;
+			children = (
+				50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */,
+				50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */,
+				50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */,
+				50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */,
+				50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */,
+				5057D61E19F781B900CF99C0 /* KLEActionCell.h */,
+				5057D61F19F781B900CF99C0 /* KLEActionCell.m */,
+				5057D62119F781CF00CF99C0 /* KLEActionCell.xib */,
+			);
+			name = "Daily View";
+			sourceTree = "<group>";
+		};
 		50AC0B0119B52C8500E39A7E = {
 			isa = PBXGroup;
 			children = (
@@ -367,70 +477,24 @@
 				50EBE33B1A25BB8000D33448 /* KLE-GymBro-Bridging-Header.h */,
 				5057D62B1A0D963300CF99C0 /* Generic Core Data Classes */,
 				50DD4CD819C2ABF600A3E6E5 /* Model */,
-				50DD4CD919C2AFB200A3E6E5 /* Views */,
-				50F9AC931A9E7999005B8047 /* KLEGraphView.h */,
-				50F9AC941A9E7999005B8047 /* KLEGraphView.m */,
-				50F9AC961A9E79B9005B8047 /* KLEGraphView.xib */,
-				50F9AC901A9E6699005B8047 /* KLEGraphViewController.h */,
-				50F9AC911A9E6699005B8047 /* KLEGraphViewController.m */,
+				50DD4CD919C2AFB200A3E6E5 /* Table Header Views */,
+				5003419C1AB3A4180003BCD2 /* KLEStoryBoard.storyboard */,
 				50E403511AB1EBD00004F234 /* KLESettingsTableViewController.h */,
 				50E403521AB1EBD00004F234 /* KLESettingsTableViewController.m */,
-				5003419C1AB3A4180003BCD2 /* KLEStoryBoard.storyboard */,
 				500341A61AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.h */,
 				500341A71AB67D5D0003BCD2 /* KLERoutineDetailTableViewController.m */,
 				5003419E1AB3A4C10003BCD2 /* KLEHistoryDetailTableViewController.h */,
 				5003419F1AB3A4C10003BCD2 /* KLEHistoryDetailTableViewController.m */,
-				507530801A782E8C0006C08D /* KLEHistoryViewController.h */,
-				507530811A782E8C0006C08D /* KLEHistoryViewController.m */,
-				507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */,
-				507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */,
-				507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */,
-				500341A11AB57A990003BCD2 /* KLEWeightControl.h */,
-				500341A21AB57A990003BCD2 /* KLEWeightControl.m */,
-				500341A41AB57AF40003BCD2 /* KLEWeightControl.xib */,
-				50F344ED1A759CF300CB17D0 /* KLEWorkoutButton.h */,
-				50F344EE1A759CF300CB17D0 /* KLEWorkoutButton.m */,
-				50F344F01A759D3000CB17D0 /* KLEWorkoutButton.xib */,
-				50B160B81A8F4BD800E2F28F /* KLEWorkoutButtonDelegate.h */,
-				50DE6B9F1A948324006713BE /* KLERepsButton.h */,
-				50DE6BA01A948324006713BE /* KLERepsButton.m */,
-				50DE6BA21A948368006713BE /* KLERepsButton.xib */,
-				50A9C3E51A99817F00640051 /* KLERoundButton.h */,
-				50A9C3E61A99817F00640051 /* KLERoundButton.m */,
-				50A9C3E81A99819E00640051 /* KLERoundButton.xib */,
-				50DD4CCD19C22EC100A3E6E5 /* KLEExerciseListViewController.h */,
-				50DD4CCE19C22EC100A3E6E5 /* KLEExerciseListViewController.m */,
-				50DD4CD019C235FC00A3E6E5 /* KLEExerciseListViewCell.h */,
-				50DD4CD119C235FC00A3E6E5 /* KLEExerciseListViewCell.m */,
-				50DD4CD319C2374500A3E6E5 /* KLEExerciseListViewCell.xib */,
 				500341A91AB6ACCE0003BCD2 /* KLERoutineExerciseDetailTableViewController.h */,
 				500341AA1AB6ACCE0003BCD2 /* KLERoutineExerciseDetailTableViewController.m */,
-				50AEFC2F1ABD4E9700DC15EE /* KLEWorkoutTimer.h */,
-				50AEFC301ABD4E9700DC15EE /* KLEWorkoutTimer.m */,
-				50AEFC321ABD52A100DC15EE /* KLEWorkoutTimer.xib */,
-				50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */,
-				50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */,
-				50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */,
-				50A9C3E11A98A3B100640051 /* KLEWorkoutExerciseView.m */,
-				50A9C3E31A98A3E600640051 /* KLEWorkoutExerciseView.xib */,
-				50DD4CDC19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.h */,
-				50DD4CDD19C7C14F00A3E6E5 /* KLERoutineExercisesViewController.m */,
-				50DD4CDF19C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.h */,
-				50DD4CE019C7C53C00A3E6E5 /* KLERoutineExercisesViewCell.m */,
-				50DD4CE219C7C59000A3E6E5 /* KLERoutineExercisesViewCell.xib */,
-				50DD4CC519BE3CA600A3E6E5 /* KLERoutineViewController.h */,
-				50DD4CC619BE3CA600A3E6E5 /* KLERoutineViewController.m */,
-				50DD4CC819BE3E0100A3E6E5 /* KLERoutineViewCell.h */,
-				50DD4CC919BE3E0100A3E6E5 /* KLERoutineViewCell.m */,
-				50DD4CCB19BE3EAA00A3E6E5 /* KLERoutineViewCell.xib */,
-				50DD4CBB19BBFB6600A3E6E5 /* KLEDailyViewController.h */,
-				50DD4CBC19BBFB6600A3E6E5 /* KLEDailyViewController.m */,
-				50DD4CBE19BCF91600A3E6E5 /* KLEDailyViewCell.h */,
-				50DD4CBF19BCF91600A3E6E5 /* KLEDailyViewCell.m */,
-				50DD4CC319BCF9D800A3E6E5 /* KLEDailyViewCell.xib */,
-				5057D61E19F781B900CF99C0 /* KLEActionCell.h */,
-				5057D61F19F781B900CF99C0 /* KLEActionCell.m */,
-				5057D62119F781CF00CF99C0 /* KLEActionCell.xib */,
+				5069B5981AD0E4330093202D /* Graph View */,
+				5069B5991AD0E4440093202D /* History View */,
+				5069B59A1AD0E4510093202D /* Buttons and Controls */,
+				5069B59B1AD0E45E0093202D /* Exercise List View */,
+				5069B59C1AD0E48B0093202D /* Workout View */,
+				5069B59D1AD0E4A80093202D /* Routine Exercise View */,
+				5069B59E1AD0E4BB0093202D /* Routines View */,
+				5069B59F1AD0E4C80093202D /* Daily View */,
 				5025C3A81AB775980059C0B4 /* KLEUtility.h */,
 				5025C3A91AB775980059C0B4 /* KLEUtility.m */,
 				50B3021B1A67359B00E98222 /* KLEManagedIDSelectionDelegate.h */,
@@ -496,7 +560,7 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		50DD4CD919C2AFB200A3E6E5 /* Views */ = {
+		50DD4CD919C2AFB200A3E6E5 /* Table Header Views */ = {
 			isa = PBXGroup;
 			children = (
 				50EBE3461A29906500D33448 /* KLETableHeaderView.h */,
@@ -504,7 +568,7 @@
 				50EBE3491A29908200D33448 /* KLETableHeaderView.xib */,
 				50DD4CEA19DE050E00A3E6E5 /* KLEDailyHeaderView.xib */,
 			);
-			name = Views;
+			name = "Table Header Views";
 			sourceTree = "<group>";
 		};
 		50F498441A70BD73007424C0 /* Pickers */ = {
