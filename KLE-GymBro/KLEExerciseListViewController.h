@@ -30,6 +30,4 @@
 
 //@property (nonatomic, copy) void (^dismissBlock)(void);
 
-@property (nonatomic, strong, readonly) CoreDataHelper *coreDataHelper;
-
 @end

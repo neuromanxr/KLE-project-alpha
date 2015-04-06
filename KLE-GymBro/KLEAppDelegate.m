@@ -30,16 +30,17 @@
 //    if (debug==1) {
 //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
 //    }
-    // thread safe method
-    if (!_coreDataHelper) {
-        static dispatch_once_t predicate;
-        dispatch_once(&predicate, ^{
-            _coreDataHelper = [CoreDataHelper new];
-        });
-        [_coreDataHelper setupCoreData];
-    }
-    return _coreDataHelper;
+//    // thread safe method
+//    if (!_coreDataHelper) {
+//        static dispatch_once_t predicate;
+//        dispatch_once(&predicate, ^{
+//            _coreDataHelper = [CoreDataHelper new];
+//        });
+//        [_coreDataHelper setupCoreData];
+//    }
+    return [CoreDataHelper sharedCoreDataHelper];
 }
+
 /*
 - (UISplitViewController *)splitviewController
 {
@@ -224,7 +225,7 @@
     // check the request from watch kit ext.
     NSString *request = [userInfo objectForKey:@"request"];
     if ([request isEqualToString:@"refreshData"]) {
-        <#statements#>
+        //
     }
 }
 

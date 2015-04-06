@@ -1,21 +1,21 @@
 //
-//  CoreDataHelper.m
-//  KLE-GymBro
+//  CoreDataAccess.m
+//  Barbell Bro
 //
-//  Created by Kelvin Lee on 11/7/14.
-//  Copyright (c) 2014 Kelvin. All rights reserved.
+//  Created by Kelvin Lee on 4/6/15.
+//  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
-#import "CoreDataImporter.h"
-#import "CoreDataHelper.h"
+#import "CoreDataAccess.h"
+#import "CoreDataAccessImporter.h"
 
-@interface CoreDataHelper ()
+@interface CoreDataAccess ()
 
 //@property (nonatomic, retain) UIAlertView *importAlertView;
 
 @end
 
-@implementation CoreDataHelper
+@implementation CoreDataAccess
 
 #define debug 1
 
@@ -25,17 +25,17 @@ NSString *storeFilename = @"GymBro.sqlite";
 #pragma mark - PATHS
 - (NSString *)applicationDocumentsDirectory
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
 - (NSURL *)applicationStoresDirectory
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     NSURL *storesDirectory = [[NSURL fileURLWithPath:[self applicationDocumentsDirectory]] URLByAppendingPathComponent:@"Stores"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -69,9 +69,9 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (id)init
 {
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug==1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     self = [super init];
     if (!self) {return nil;}
     
@@ -93,14 +93,14 @@ NSString *storeFilename = @"GymBro.sqlite";
 // uncomment NSSQLitePragmasOption to disable WAL journaling
 - (void)loadStore
 {
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug==1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     if (_store) {return;} // Don’t load store if it's already loaded
     NSDictionary *options = @{
                               NSMigratePersistentStoresAutomaticallyOption:@YES,
                               NSInferMappingModelAutomaticallyOption:@YES,
-//                              NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"}
+                              //                              NSSQLitePragmasOption: @{@"journal_mode": @"DELETE"}
                               };
     NSError *error = nil;
     _store = [_coordinator addPersistentStoreWithType:NSSQLiteStoreType
@@ -113,9 +113,9 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)setupCoreData
 {
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug==1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     
     // preloaded default data
     [self setDefaultDataStoreAsInitialStore];
@@ -125,17 +125,17 @@ NSString *storeFilename = @"GymBro.sqlite";
     [self checkIfDefaultDataNeedsImporting];
 }
 
-+ (CoreDataHelper *)sharedCoreDataHelper
++ (CoreDataAccess *)sharedCoreDataAccess
 {
     static dispatch_once_t predicate;
-    static CoreDataHelper *instance = nil;
+    static CoreDataAccess *instance = nil;
     
     dispatch_once(&predicate, ^{
-        instance = [CoreDataHelper new];
+        instance = [CoreDataAccess new];
         NSLog(@"** core data helper INSTANCE %@", instance);
     });
     [instance setupCoreData];
-
+    
     return instance;
 }
 
@@ -143,9 +143,9 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)saveContext
 {
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug==1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     if ([_context hasChanges]) {
         NSError *error = nil;
         if ([_context save:&error]) {
@@ -185,14 +185,14 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)setDefaultDataAsImportedForStore:(NSPersistentStore *)aStore
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     // get metadata dictionary
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithDictionary:[[aStore metadata] copy]];
-//    if (debug == 1) {
-//        NSLog(@"_Store metadata BEFORE changes_ \n %@", dictionary);
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"_Store metadata BEFORE changes_ \n %@", dictionary);
+    //    }
     
     // edit metadata dictionary
     [dictionary setObject:@YES forKey:@"DefaultDataImported"];
@@ -200,16 +200,16 @@ NSString *storeFilename = @"GymBro.sqlite";
     // set metadata dictionary
     [self.coordinator setMetadata:dictionary forPersistentStore:aStore];
     
-//    if (debug == 1) {
-//        NSLog(@"_Store metadata AFTER changes_ \n %@", dictionary);
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"_Store metadata AFTER changes_ \n %@", dictionary);
+    //    }
 }
 
 - (void)importFromXML:(NSURL *)url
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
     self.parser.delegate = self;
     
@@ -221,21 +221,21 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)checkIfDefaultDataNeedsImporting
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
-//    if (![self isDefaultDataAlreadyImportedForStoreWithURL:[self storeURL] ofType:NSSQLiteStoreType]) {
-//        self.importAlertView = [[UIAlertView alloc] initWithTitle:@"Import Default Data" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Import", nil];
-//        
-//        [self.importAlertView show];
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
+    //    if (![self isDefaultDataAlreadyImportedForStoreWithURL:[self storeURL] ofType:NSSQLiteStoreType]) {
+    //        self.importAlertView = [[UIAlertView alloc] initWithTitle:@"Import Default Data" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Import", nil];
+    //
+    //        [self.importAlertView show];
+    //    }
 }
 
 - (BOOL)isDefaultDataAlreadyImportedForStoreWithURL:(NSURL *)url ofType:(NSString *)type
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     NSError *error;
     NSDictionary *dictionary = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:type
                                                                                           URL:url
@@ -289,7 +289,7 @@ NSString *storeFilename = @"GymBro.sqlite";
         // STEP 1: Process only the 'item' element in the XML file
         if ([elementName isEqualToString:@"exercise"]) {
             // STEP 2: Prepare the Core Data Importer
-            CoreDataImporter *importer = [[CoreDataImporter alloc] initWithUniqueAttributes:[self selectedUniqueAttributes]];
+            CoreDataAccessImporter *importer = [[CoreDataAccessImporter alloc] initWithUniqueAttributes:[self selectedUniqueAttributes]];
             
             // STEP 3a: Insert a unique 'KLEExercise' object
             NSManagedObject *KLEExercise = [importer insertBasicObjectInTargetEntity:@"KLEExercise" targetEntityAttribute:@"exercisename" sourceXMLAttribute:@"exercisename" attributeDict:attributeDict context:_importContext];
@@ -305,7 +305,7 @@ NSString *storeFilename = @"GymBro.sqlite";
             // STEP 5: Create relationships
             
             // STEP 6: Save new objects to the persistent store
-            [CoreDataImporter saveContext:_importContext];
+            [CoreDataAccessImporter saveContext:_importContext];
             
             // STEP 7: Turn objects into faults to save memory
             [_importContext refreshObject:KLEExercise mergeChanges:NO];
@@ -317,15 +317,15 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (NSDictionary *)selectedUniqueAttributes
 {
-//    if (debug == 1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
+    //    if (debug == 1) {
+    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    //    }
     NSMutableArray *entities = [NSMutableArray new];
     NSMutableArray *attributes = [NSMutableArray new];
     
     // select an attribute in each entity for uniqueness
     [entities addObject:@"KLEExercise"]; [attributes addObject:@"exercisename"];
-//    [entities addObject:@"KLEExercise"]; [attributes addObject:@"muscle"];
+    //    [entities addObject:@"KLEExercise"]; [attributes addObject:@"muscle"];
     
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:attributes forKeys:entities];
     

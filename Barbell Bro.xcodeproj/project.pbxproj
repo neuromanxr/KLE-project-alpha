@@ -44,6 +44,15 @@
 		5069B5E21AD0EB7D0093202D /* Barbell Bro WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5069B5C91AD0EB7C0093202D /* Barbell Bro WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B5CE1AD0EB7C0093202D /* InterfaceController.m */; };
 		5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B5EC1AD107A70093202D /* DailyRoutineRow.m */; };
+		5069B5FB1AD2730F0093202D /* CoreDataHelperKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5069B5FA1AD2730F0093202D /* CoreDataHelperKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5069B6011AD2730F0093202D /* CoreDataHelperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5069B5F61AD2730F0093202D /* CoreDataHelperKit.framework */; };
+		5069B60A1AD2730F0093202D /* CoreDataHelperKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B6091AD2730F0093202D /* CoreDataHelperKitTests.m */; };
+		5069B60D1AD2730F0093202D /* CoreDataHelperKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5069B5F61AD2730F0093202D /* CoreDataHelperKit.framework */; };
+		5069B60E1AD2730F0093202D /* CoreDataHelperKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5069B5F61AD2730F0093202D /* CoreDataHelperKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5069B6231AD27C3E0093202D /* CoreDataAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 5069B6211AD27C3E0093202D /* CoreDataAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5069B6241AD27C3E0093202D /* CoreDataAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B6221AD27C3E0093202D /* CoreDataAccess.m */; };
+		5069B6271AD27C8D0093202D /* CoreDataAccessImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5069B6251AD27C8D0093202D /* CoreDataAccessImporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5069B6281AD27C8D0093202D /* CoreDataAccessImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B6261AD27C8D0093202D /* CoreDataAccessImporter.m */; };
 		507530821A782E8C0006C08D /* KLEHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530811A782E8C0006C08D /* KLEHistoryViewController.m */; };
 		507530861A7834F00006C08D /* KLEHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */; };
 		507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */; };
@@ -120,6 +129,27 @@
 			remoteGlobalIDString = 5069B5C81AD0EB7C0093202D;
 			remoteInfo = "Barbell Bro WatchKit Extension";
 		};
+		5069B6021AD2730F0093202D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5069B5F51AD2730F0093202D;
+			remoteInfo = CoreDataHelperKit;
+		};
+		5069B6041AD2730F0093202D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50AC0B0919B52C8500E39A7E;
+			remoteInfo = "Barbell Bro";
+		};
+		5069B60B1AD2730F0093202D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5069B5F51AD2730F0093202D;
+			remoteInfo = CoreDataHelperKit;
+		};
 		50AC0B2A19B52C8500E39A7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
@@ -139,6 +169,17 @@
 				5069B5E21AD0EB7D0093202D /* Barbell Bro WatchKit Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B6121AD2730F0093202D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5069B60E1AD2730F0093202D /* CoreDataHelperKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -208,6 +249,18 @@
 		5069B5DE1AD0EB7D0093202D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5069B5EB1AD107A70093202D /* DailyRoutineRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyRoutineRow.h; sourceTree = "<group>"; };
 		5069B5EC1AD107A70093202D /* DailyRoutineRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyRoutineRow.m; sourceTree = "<group>"; };
+		5069B5EE1AD230E90093202D /* Barbell Bro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Barbell Bro.entitlements"; sourceTree = "<group>"; };
+		5069B5EF1AD231650093202D /* Barbell Bro WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Barbell Bro WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		5069B5F61AD2730F0093202D /* CoreDataHelperKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataHelperKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5069B5F91AD2730F0093202D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5069B5FA1AD2730F0093202D /* CoreDataHelperKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataHelperKit.h; sourceTree = "<group>"; };
+		5069B6001AD2730F0093202D /* CoreDataHelperKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataHelperKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5069B6081AD2730F0093202D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5069B6091AD2730F0093202D /* CoreDataHelperKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataHelperKitTests.m; sourceTree = "<group>"; };
+		5069B6211AD27C3E0093202D /* CoreDataAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataAccess.h; sourceTree = "<group>"; };
+		5069B6221AD27C3E0093202D /* CoreDataAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataAccess.m; sourceTree = "<group>"; };
+		5069B6251AD27C8D0093202D /* CoreDataAccessImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataAccessImporter.h; sourceTree = "<group>"; };
+		5069B6261AD27C8D0093202D /* CoreDataAccessImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataAccessImporter.m; sourceTree = "<group>"; };
 		507530801A782E8C0006C08D /* KLEHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryViewController.h; sourceTree = "<group>"; };
 		507530811A782E8C0006C08D /* KLEHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEHistoryViewController.m; sourceTree = "<group>"; };
 		507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryTableViewCell.h; sourceTree = "<group>"; };
@@ -319,6 +372,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5069B5F21AD2730F0093202D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B5FD1AD2730F0093202D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B6011AD2730F0093202D /* CoreDataHelperKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50AC0B0719B52C8500E39A7E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -327,6 +395,7 @@
 				50AC0B4319B56BDC00E39A7E /* QuartzCore.framework in Frameworks */,
 				50AC0B1019B52C8500E39A7E /* CoreGraphics.framework in Frameworks */,
 				50AC0B1219B52C8500E39A7E /* UIKit.framework in Frameworks */,
+				5069B60D1AD2730F0093202D /* CoreDataHelperKit.framework in Frameworks */,
 				50AC0B0E19B52C8500E39A7E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,6 +562,7 @@
 		5069B5CA1AD0EB7C0093202D /* Barbell Bro WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				5069B5EF1AD231650093202D /* Barbell Bro WatchKit Extension.entitlements */,
 				5069B5CD1AD0EB7C0093202D /* InterfaceController.h */,
 				5069B5CE1AD0EB7C0093202D /* InterfaceController.m */,
 				5069B5EB1AD107A70093202D /* DailyRoutineRow.h */,
@@ -529,13 +599,54 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5069B5F71AD2730F0093202D /* CoreDataHelperKit */ = {
+			isa = PBXGroup;
+			children = (
+				5069B5FA1AD2730F0093202D /* CoreDataHelperKit.h */,
+				5069B6211AD27C3E0093202D /* CoreDataAccess.h */,
+				5069B6221AD27C3E0093202D /* CoreDataAccess.m */,
+				5069B6251AD27C8D0093202D /* CoreDataAccessImporter.h */,
+				5069B6261AD27C8D0093202D /* CoreDataAccessImporter.m */,
+				5069B5F81AD2730F0093202D /* Supporting Files */,
+			);
+			path = CoreDataHelperKit;
+			sourceTree = "<group>";
+		};
+		5069B5F81AD2730F0093202D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5069B5F91AD2730F0093202D /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5069B6061AD2730F0093202D /* CoreDataHelperKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				5069B6091AD2730F0093202D /* CoreDataHelperKitTests.m */,
+				5069B6071AD2730F0093202D /* Supporting Files */,
+			);
+			path = CoreDataHelperKitTests;
+			sourceTree = "<group>";
+		};
+		5069B6071AD2730F0093202D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5069B6081AD2730F0093202D /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		50AC0B0119B52C8500E39A7E = {
 			isa = PBXGroup;
 			children = (
+				5069B5EE1AD230E90093202D /* Barbell Bro.entitlements */,
 				50AC0B1319B52C8500E39A7E /* KLE-GymBro */,
 				50AC0B2C19B52C8500E39A7E /* KLE-GymBroTests */,
 				5069B5CA1AD0EB7C0093202D /* Barbell Bro WatchKit Extension */,
 				5069B5D81AD0EB7D0093202D /* Barbell Bro WatchKit App */,
+				5069B5F71AD2730F0093202D /* CoreDataHelperKit */,
+				5069B6061AD2730F0093202D /* CoreDataHelperKitTests */,
 				50AC0B0C19B52C8500E39A7E /* Frameworks */,
 				50AC0B0B19B52C8500E39A7E /* Products */,
 			);
@@ -548,6 +659,8 @@
 				50AC0B2519B52C8500E39A7E /* Barbell BroTests.xctest */,
 				5069B5C91AD0EB7C0093202D /* Barbell Bro WatchKit Extension.appex */,
 				5069B5D41AD0EB7D0093202D /* Barbell Bro WatchKit App.app */,
+				5069B5F61AD2730F0093202D /* CoreDataHelperKit.framework */,
+				5069B6001AD2730F0093202D /* CoreDataHelperKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -710,6 +823,19 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		5069B5F31AD2730F0093202D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B6271AD27C8D0093202D /* CoreDataAccessImporter.h in Headers */,
+				5069B5FB1AD2730F0093202D /* CoreDataHelperKit.h in Headers */,
+				5069B6231AD27C3E0093202D /* CoreDataAccess.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		5069B5C81AD0EB7C0093202D /* Barbell Bro WatchKit Extension */ = {
 			isa = PBXNativeTarget;
@@ -744,6 +870,43 @@
 			productReference = 5069B5D41AD0EB7D0093202D /* Barbell Bro WatchKit App.app */;
 			productType = "com.apple.product-type.application.watchapp";
 		};
+		5069B5F51AD2730F0093202D /* CoreDataHelperKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5069B60F1AD2730F0093202D /* Build configuration list for PBXNativeTarget "CoreDataHelperKit" */;
+			buildPhases = (
+				5069B5F11AD2730F0093202D /* Sources */,
+				5069B5F21AD2730F0093202D /* Frameworks */,
+				5069B5F31AD2730F0093202D /* Headers */,
+				5069B5F41AD2730F0093202D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreDataHelperKit;
+			productName = CoreDataHelperKit;
+			productReference = 5069B5F61AD2730F0093202D /* CoreDataHelperKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5069B5FF1AD2730F0093202D /* CoreDataHelperKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5069B6131AD2730F0093202D /* Build configuration list for PBXNativeTarget "CoreDataHelperKitTests" */;
+			buildPhases = (
+				5069B5FC1AD2730F0093202D /* Sources */,
+				5069B5FD1AD2730F0093202D /* Frameworks */,
+				5069B5FE1AD2730F0093202D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5069B6031AD2730F0093202D /* PBXTargetDependency */,
+				5069B6051AD2730F0093202D /* PBXTargetDependency */,
+			);
+			name = CoreDataHelperKitTests;
+			productName = CoreDataHelperKitTests;
+			productReference = 5069B6001AD2730F0093202D /* CoreDataHelperKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		50AC0B0919B52C8500E39A7E /* Barbell Bro */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "Barbell Bro" */;
@@ -752,11 +915,13 @@
 				50AC0B0719B52C8500E39A7E /* Frameworks */,
 				50AC0B0819B52C8500E39A7E /* Resources */,
 				5069B5E91AD0EB7D0093202D /* Embed App Extensions */,
+				5069B6121AD2730F0093202D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				5069B5E11AD0EB7D0093202D /* PBXTargetDependency */,
+				5069B60C1AD2730F0093202D /* PBXTargetDependency */,
 			);
 			name = "Barbell Bro";
 			productName = "KLE-GymBro";
@@ -794,12 +959,30 @@
 					5069B5C81AD0EB7C0093202D = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = W52XA7N9L8;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					5069B5D31AD0EB7D0093202D = {
 						CreatedOnToolsVersion = 6.2;
 					};
+					5069B5F51AD2730F0093202D = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = W52XA7N9L8;
+					};
+					5069B5FF1AD2730F0093202D = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = 50AC0B0919B52C8500E39A7E;
+					};
 					50AC0B0919B52C8500E39A7E = {
 						DevelopmentTeam = W52XA7N9L8;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					50AC0B2419B52C8500E39A7E = {
 						TestTargetID = 50AC0B0919B52C8500E39A7E;
@@ -823,6 +1006,8 @@
 				50AC0B2419B52C8500E39A7E /* Barbell BroTests */,
 				5069B5C81AD0EB7C0093202D /* Barbell Bro WatchKit Extension */,
 				5069B5D31AD0EB7D0093202D /* Barbell Bro WatchKit App */,
+				5069B5F51AD2730F0093202D /* CoreDataHelperKit */,
+				5069B5FF1AD2730F0093202D /* CoreDataHelperKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -843,6 +1028,20 @@
 			files = (
 				5069B5DD1AD0EB7D0093202D /* Interface.storyboard in Resources */,
 				5069B5DF1AD0EB7D0093202D /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B5F41AD2730F0093202D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B5FE1AD2730F0093202D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +1092,23 @@
 			files = (
 				5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */,
 				5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B5F11AD2730F0093202D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B6281AD27C8D0093202D /* CoreDataAccessImporter.m in Sources */,
+				5069B6241AD27C3E0093202D /* CoreDataAccess.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B5FC1AD2730F0093202D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B60A1AD2730F0093202D /* CoreDataHelperKitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,6 +1196,21 @@
 			target = 5069B5C81AD0EB7C0093202D /* Barbell Bro WatchKit Extension */;
 			targetProxy = 5069B5E01AD0EB7D0093202D /* PBXContainerItemProxy */;
 		};
+		5069B6031AD2730F0093202D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5069B5F51AD2730F0093202D /* CoreDataHelperKit */;
+			targetProxy = 5069B6021AD2730F0093202D /* PBXContainerItemProxy */;
+		};
+		5069B6051AD2730F0093202D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50AC0B0919B52C8500E39A7E /* Barbell Bro */;
+			targetProxy = 5069B6041AD2730F0093202D /* PBXContainerItemProxy */;
+		};
+		5069B60C1AD2730F0093202D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5069B5F51AD2730F0093202D /* CoreDataHelperKit */;
+			targetProxy = 5069B60B1AD2730F0093202D /* PBXContainerItemProxy */;
+		};
 		50AC0B2B19B52C8500E39A7E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 50AC0B0919B52C8500E39A7E /* Barbell Bro */;
@@ -1018,8 +1249,11 @@
 		5069B5E31AD0EB7D0093202D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kelvin Lee";
+				CODE_SIGN_ENTITLEMENTS = "Barbell Bro WatchKit Extension/Barbell Bro WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1030,6 +1264,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1037,8 +1272,11 @@
 		5069B5E41AD0EB7D0093202D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kelvin Lee";
+				CODE_SIGN_ENTITLEMENTS = "Barbell Bro WatchKit Extension/Barbell Bro WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				INFOPLIST_FILE = "Barbell Bro WatchKit Extension/Info.plist";
@@ -1046,6 +1284,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1086,6 +1325,102 @@
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
+		5069B6101AD2730F0093202D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CoreDataHelperKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5069B6111AD2730F0093202D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = CoreDataHelperKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5069B6141AD2730F0093202D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CoreDataHelperKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Barbell Bro.app/Barbell Bro";
+			};
+			name = Debug;
+		};
+		5069B6151AD2730F0093202D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CoreDataHelperKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Barbell Bro.app/Barbell Bro";
 			};
 			name = Release;
 		};
@@ -1166,16 +1501,19 @@
 		50AC0B3719B52C8500E39A7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kelvin Lee";
+				CODE_SIGN_ENTITLEMENTS = "Barbell Bro.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KLE-GymBro/Barbell Bro-Prefix.pch";
 				INFOPLIST_FILE = "KLE-GymBro/Barbell Bro-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "Barbell Bro";
-				PROVISIONING_PROFILE = "de84a03c-492f-4b5c-a6da-b3838cecf688";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KLE-GymBro/KLE-GymBro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
@@ -1185,16 +1523,19 @@
 		50AC0B3819B52C8500E39A7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kelvin Lee";
+				CODE_SIGN_ENTITLEMENTS = "Barbell Bro.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KLE-GymBro/Barbell Bro-Prefix.pch";
 				INFOPLIST_FILE = "KLE-GymBro/Barbell Bro-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "Barbell Bro";
-				PROVISIONING_PROFILE = "de84a03c-492f-4b5c-a6da-b3838cecf688";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "KLE-GymBro/KLE-GymBro-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1256,6 +1597,22 @@
 			buildConfigurations = (
 				5069B5E31AD0EB7D0093202D /* Debug */,
 				5069B5E41AD0EB7D0093202D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5069B60F1AD2730F0093202D /* Build configuration list for PBXNativeTarget "CoreDataHelperKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5069B6101AD2730F0093202D /* Debug */,
+				5069B6111AD2730F0093202D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5069B6131AD2730F0093202D /* Build configuration list for PBXNativeTarget "CoreDataHelperKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5069B6141AD2730F0093202D /* Debug */,
+				5069B6151AD2730F0093202D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

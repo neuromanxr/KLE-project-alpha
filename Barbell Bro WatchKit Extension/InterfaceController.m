@@ -7,7 +7,7 @@
 //
 #import "DailyRoutineRow.h"
 #import "InterfaceController.h"
-#import "KLEWorkoutExerciseViewController.h"
+#import "CoreDataHelperKit.h"
 
 @interface InterfaceController()
 
@@ -30,6 +30,17 @@
         // process reply data
         NSLog(@"Reply: %@", replyInfo);
     }];
+    CoreDataAccess *watch = [CoreDataAccess sharedCoreDataAccess];
+    NSLog(@"Context %@", watch.context);
+//    CoreDataHelper *cdh = [CoreDataHelper sharedCoreDataHelper];
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
+//
+//    // fetch the routines with daynumbers that match the section and bool value is set to yes
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inworkout == %@", @(YES)];
+//    [request setPredicate:predicate];
+//    //    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+//    NSArray *requestObjects = [cdh.context executeFetchRequest:request error:nil];
+//    NSLog(@"WATCH REQ OBJS %@", requestObjects);
 }
 
 - (void)willActivate {

@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Barbell Bro.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5069B5FF1AD2730F0093202D"
+               BuildableName = "CoreDataHelperKitTests.xctest"
+               BlueprintName = "CoreDataHelperKitTests"
+               ReferencedContainer = "container:Barbell Bro.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -35,6 +49,16 @@
                BlueprintIdentifier = "50AC0B2419B52C8500E39A7E"
                BuildableName = "Barbell BroTests.xctest"
                BlueprintName = "Barbell BroTests"
+               ReferencedContainer = "container:Barbell Bro.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5069B5FF1AD2730F0093202D"
+               BuildableName = "CoreDataHelperKitTests.xctest"
+               BlueprintName = "CoreDataHelperKitTests"
                ReferencedContainer = "container:Barbell Bro.xcodeproj">
             </BuildableReference>
          </TestableReference>
