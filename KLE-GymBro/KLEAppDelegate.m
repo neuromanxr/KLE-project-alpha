@@ -25,7 +25,7 @@
 //    }
 //}
 
-- (CoreDataHelper*)cdh
+- (CoreDataAccess *)cdh
 {
 //    if (debug==1) {
 //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
@@ -38,7 +38,7 @@
 //        });
 //        [_coreDataHelper setupCoreData];
 //    }
-    return [CoreDataHelper sharedCoreDataHelper];
+    return [CoreDataAccess sharedCoreDataAccess];
 }
 
 /*

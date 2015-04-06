@@ -56,6 +56,8 @@
 		507530821A782E8C0006C08D /* KLEHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530811A782E8C0006C08D /* KLEHistoryViewController.m */; };
 		507530861A7834F00006C08D /* KLEHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */; };
 		507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */; };
+		508372571AD3157500614D19 /* GymBro.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 5057D6B41A0DF6D400CF99C0 /* GymBro.xcdatamodeld */; };
+		508372581AD3257100614D19 /* KLERoutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765971A9D5BA4000CC53A /* KLERoutine.m */; };
 		50A9C3DF1A98A35D00640051 /* KLEWorkoutExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */; };
 		50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3E11A98A3B100640051 /* KLEWorkoutExerciseView.m */; };
 		50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A9C3E31A98A3E600640051 /* KLEWorkoutExerciseView.xib */; };
@@ -1017,6 +1019,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508372571AD3157500614D19 /* GymBro.xcdatamodeld in Resources */,
 				5069B5D51AD0EB7D0093202D /* Barbell Bro WatchKit App.app in Resources */,
 				5069B5D11AD0EB7C0093202D /* Images.xcassets in Resources */,
 			);
@@ -1090,6 +1093,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508372581AD3257100614D19 /* KLERoutine.m in Sources */,
 				5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */,
 				5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */,
 			);
@@ -1591,6 +1595,7 @@
 				5069B5E61AD0EB7D0093202D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5069B5E81AD0EB7D0093202D /* Build configuration list for PBXNativeTarget "Barbell Bro WatchKit Extension" */ = {
 			isa = XCConfigurationList;
@@ -1599,6 +1604,7 @@
 				5069B5E41AD0EB7D0093202D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5069B60F1AD2730F0093202D /* Build configuration list for PBXNativeTarget "CoreDataHelperKit" */ = {
 			isa = XCConfigurationList;
@@ -1607,6 +1613,7 @@
 				5069B6111AD2730F0093202D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5069B6131AD2730F0093202D /* Build configuration list for PBXNativeTarget "CoreDataHelperKitTests" */ = {
 			isa = XCConfigurationList;
@@ -1615,6 +1622,7 @@
 				5069B6151AD2730F0093202D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "Barbell Bro" */ = {
 			isa = XCConfigurationList;

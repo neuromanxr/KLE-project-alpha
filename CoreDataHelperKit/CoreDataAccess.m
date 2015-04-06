@@ -11,7 +11,7 @@
 
 @interface CoreDataAccess ()
 
-//@property (nonatomic, retain) UIAlertView *importAlertView;
+@property (nonatomic, retain) UIAlertView *importAlertView;
 
 @end
 
@@ -58,7 +58,7 @@ NSString *storeFilename = @"GymBro.sqlite";
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     NSString *containerPath = [[[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.nivlek.barbell.Documents"] path];
-    NSString *sqlitePath = [NSString stringWithFormat:@"%@/%@", containerPath, @"GymBro"];
+    NSString *sqlitePath = [NSString stringWithFormat:@"%@/%@", containerPath, @"DefaultData"];
     NSURL *url = [NSURL fileURLWithPath:sqlitePath];
     NSLog(@"sqlite path %@", url);
     
@@ -66,6 +66,16 @@ NSString *storeFilename = @"GymBro.sqlite";
 }
 
 #pragma mark - SETUP
+
+- (NSManagedObjectModel *)managedObjectModel
+{
+    NSBundle *bundle = [NSBundle bundleWithIdentifier:@"group.nivlek.barbell.Documents"];
+    NSURL *modelURL = [bundle URLForResource:@"GymBro" withExtension:@"momd"];
+    NSLog(@"MODEL URL %@", modelURL);
+    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    return model;
+}
 
 - (id)init
 {
@@ -76,6 +86,7 @@ NSString *storeFilename = @"GymBro.sqlite";
     if (!self) {return nil;}
     
     _model = [NSManagedObjectModel mergedModelFromBundles:nil];
+//    _model = [self managedObjectModel];
     _coordinator = [[NSPersistentStoreCoordinator alloc]
                     initWithManagedObjectModel:_model];
     _context = [[NSManagedObjectContext alloc]
@@ -160,26 +171,26 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 #pragma mark - DELEGATE: UIAlertView
 
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
-//    if (alertView == self.importAlertView) {
-//        if (buttonIndex == 1) {
-//            // import button
-//            NSLog(@"Default Data Import Yes");
-//            [_importContext performBlock:^{
-//                // XML Import
-//                [self importFromXML:[[NSBundle mainBundle] URLForResource:@"exercises" withExtension:@"xml"]];
-//            }];
-//        } else {
-//            NSLog(@"Default Data Import No");
-//        }
-//        // set the data as imported regardless of the user's decision
-//        [self setDefaultDataAsImportedForStore:_store];
-//    }
-//}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    if (alertView == self.importAlertView) {
+        if (buttonIndex == 1) {
+            // import button
+            NSLog(@"Default Data Import Yes");
+            [_importContext performBlock:^{
+                // XML Import
+                [self importFromXML:[[NSBundle mainBundle] URLForResource:@"exercises" withExtension:@"xml"]];
+            }];
+        } else {
+            NSLog(@"Default Data Import No");
+        }
+        // set the data as imported regardless of the user's decision
+        [self setDefaultDataAsImportedForStore:_store];
+    }
+}
 
 #pragma mark - DATA IMPORT
 
@@ -221,14 +232,14 @@ NSString *storeFilename = @"GymBro.sqlite";
 
 - (void)checkIfDefaultDataNeedsImporting
 {
-    //    if (debug == 1) {
-    //        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    //    }
-    //    if (![self isDefaultDataAlreadyImportedForStoreWithURL:[self storeURL] ofType:NSSQLiteStoreType]) {
-    //        self.importAlertView = [[UIAlertView alloc] initWithTitle:@"Import Default Data" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Import", nil];
-    //
-    //        [self.importAlertView show];
-    //    }
+        if (debug == 1) {
+            NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+        }
+        if (![self isDefaultDataAlreadyImportedForStoreWithURL:[self storeURL] ofType:NSSQLiteStoreType]) {
+            self.importAlertView = [[UIAlertView alloc] initWithTitle:@"Import Default Data" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Import", nil];
+    
+            [self.importAlertView show];
+        }
 }
 
 - (BOOL)isDefaultDataAlreadyImportedForStoreWithURL:(NSURL *)url ofType:(NSString *)type
