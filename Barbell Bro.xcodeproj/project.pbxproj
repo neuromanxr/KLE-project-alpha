@@ -37,6 +37,13 @@
 		5057D6B71A0DF6D400CF99C0 /* GymBro.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6B41A0DF6D400CF99C0 /* GymBro.xcdatamodeld */; };
 		5057D6BC1A0F603100CF99C0 /* CoreDataImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6BB1A0F603100CF99C0 /* CoreDataImporter.m */; };
 		5057D6BF1A10989F00CF99C0 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5057D6BE1A10989F00CF99C0 /* CoreDataTableViewController.m */; };
+		5069B5D11AD0EB7C0093202D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5069B5D01AD0EB7C0093202D /* Images.xcassets */; };
+		5069B5D51AD0EB7D0093202D /* Barbell Bro WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 5069B5D41AD0EB7D0093202D /* Barbell Bro WatchKit App.app */; };
+		5069B5DD1AD0EB7D0093202D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5069B5DB1AD0EB7D0093202D /* Interface.storyboard */; };
+		5069B5DF1AD0EB7D0093202D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5069B5DE1AD0EB7D0093202D /* Images.xcassets */; };
+		5069B5E21AD0EB7D0093202D /* Barbell Bro WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5069B5C91AD0EB7C0093202D /* Barbell Bro WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B5CE1AD0EB7C0093202D /* InterfaceController.m */; };
+		5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5069B5EC1AD107A70093202D /* DailyRoutineRow.m */; };
 		507530821A782E8C0006C08D /* KLEHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530811A782E8C0006C08D /* KLEHistoryViewController.m */; };
 		507530861A7834F00006C08D /* KLEHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */; };
 		507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */; };
@@ -99,6 +106,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5069B5D61AD0EB7D0093202D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5069B5D31AD0EB7D0093202D;
+			remoteInfo = "Barbell Bro WatchKit App";
+		};
+		5069B5E01AD0EB7D0093202D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5069B5C81AD0EB7C0093202D;
+			remoteInfo = "Barbell Bro WatchKit Extension";
+		};
 		50AC0B2A19B52C8500E39A7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 50AC0B0219B52C8500E39A7E /* Project object */;
@@ -107,6 +128,20 @@
 			remoteInfo = "KLE-GymBro";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5069B5E91AD0EB7D0093202D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5069B5E21AD0EB7D0093202D /* Barbell Bro WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5003419C1AB3A4180003BCD2 /* KLEStoryBoard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KLEStoryBoard.storyboard; sourceTree = "<group>"; };
@@ -162,6 +197,17 @@
 		5057D6BB1A0F603100CF99C0 /* CoreDataImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataImporter.m; sourceTree = "<group>"; };
 		5057D6BD1A10989F00CF99C0 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
 		5057D6BE1A10989F00CF99C0 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		5069B5C91AD0EB7C0093202D /* Barbell Bro WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Barbell Bro WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5069B5CC1AD0EB7C0093202D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5069B5CD1AD0EB7C0093202D /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		5069B5CE1AD0EB7C0093202D /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		5069B5D01AD0EB7C0093202D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5069B5D41AD0EB7D0093202D /* Barbell Bro WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Barbell Bro WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5069B5DA1AD0EB7D0093202D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = "Barbell Bro WatchKit App/Info.plist"; sourceTree = "<group>"; };
+		5069B5DC1AD0EB7D0093202D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		5069B5DE1AD0EB7D0093202D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5069B5EB1AD107A70093202D /* DailyRoutineRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyRoutineRow.h; sourceTree = "<group>"; };
+		5069B5EC1AD107A70093202D /* DailyRoutineRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyRoutineRow.m; sourceTree = "<group>"; };
 		507530801A782E8C0006C08D /* KLEHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryViewController.h; sourceTree = "<group>"; };
 		507530811A782E8C0006C08D /* KLEHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEHistoryViewController.m; sourceTree = "<group>"; };
 		507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryTableViewCell.h; sourceTree = "<group>"; };
@@ -183,8 +229,8 @@
 		50AC0B1719B52C8500E39A7E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		50AC0B1919B52C8500E39A7E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		50AC0B1B19B52C8500E39A7E /* Barbell Bro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Barbell Bro-Prefix.pch"; sourceTree = "<group>"; };
-		50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KLEAppDelegate.h; path = "KLE-GymBro/KLEAppDelegate.h"; sourceTree = "<group>"; };
-		50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KLEAppDelegate.m; path = "KLE-GymBro/KLEAppDelegate.m"; sourceTree = "<group>"; };
+		50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KLEAppDelegate.h; sourceTree = "<group>"; };
+		50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KLEAppDelegate.m; sourceTree = "<group>"; };
 		50AC0B1F19B52C8500E39A7E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		50AC0B2519B52C8500E39A7E /* Barbell BroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Barbell BroTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50AC0B2619B52C8500E39A7E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -266,6 +312,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5069B5C61AD0EB7C0093202D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50AC0B0719B52C8500E39A7E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -316,8 +369,6 @@
 		5057D62B1A0D963300CF99C0 /* Generic Core Data Classes */ = {
 			isa = PBXGroup;
 			children = (
-				50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */,
-				50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */,
 				5057D62C1A0D96CC00CF99C0 /* CoreDataHelper.h */,
 				5057D62D1A0D96CC00CF99C0 /* CoreDataHelper.m */,
 				5057D6BA1A0F603100CF99C0 /* CoreDataImporter.h */,
@@ -439,11 +490,52 @@
 			name = "Daily View";
 			sourceTree = "<group>";
 		};
+		5069B5CA1AD0EB7C0093202D /* Barbell Bro WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5069B5CD1AD0EB7C0093202D /* InterfaceController.h */,
+				5069B5CE1AD0EB7C0093202D /* InterfaceController.m */,
+				5069B5EB1AD107A70093202D /* DailyRoutineRow.h */,
+				5069B5EC1AD107A70093202D /* DailyRoutineRow.m */,
+				5069B5D01AD0EB7C0093202D /* Images.xcassets */,
+				5069B5CB1AD0EB7C0093202D /* Supporting Files */,
+			);
+			path = "Barbell Bro WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		5069B5CB1AD0EB7C0093202D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5069B5CC1AD0EB7C0093202D /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5069B5D81AD0EB7D0093202D /* Barbell Bro WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				5069B5DB1AD0EB7D0093202D /* Interface.storyboard */,
+				5069B5DE1AD0EB7D0093202D /* Images.xcassets */,
+				5069B5D91AD0EB7D0093202D /* Supporting Files */,
+			);
+			path = "Barbell Bro WatchKit App";
+			sourceTree = "<group>";
+		};
+		5069B5D91AD0EB7D0093202D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5069B5DA1AD0EB7D0093202D /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		50AC0B0119B52C8500E39A7E = {
 			isa = PBXGroup;
 			children = (
 				50AC0B1319B52C8500E39A7E /* KLE-GymBro */,
 				50AC0B2C19B52C8500E39A7E /* KLE-GymBroTests */,
+				5069B5CA1AD0EB7C0093202D /* Barbell Bro WatchKit Extension */,
+				5069B5D81AD0EB7D0093202D /* Barbell Bro WatchKit App */,
 				50AC0B0C19B52C8500E39A7E /* Frameworks */,
 				50AC0B0B19B52C8500E39A7E /* Products */,
 			);
@@ -454,6 +546,8 @@
 			children = (
 				50AC0B0A19B52C8500E39A7E /* Barbell Bro.app */,
 				50AC0B2519B52C8500E39A7E /* Barbell BroTests.xctest */,
+				5069B5C91AD0EB7C0093202D /* Barbell Bro WatchKit Extension.appex */,
+				5069B5D41AD0EB7D0093202D /* Barbell Bro WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -475,6 +569,8 @@
 			isa = PBXGroup;
 			children = (
 				50EBE33B1A25BB8000D33448 /* KLE-GymBro-Bridging-Header.h */,
+				50AC0B1C19B52C8500E39A7E /* KLEAppDelegate.h */,
+				50AC0B1D19B52C8500E39A7E /* KLEAppDelegate.m */,
 				5057D62B1A0D963300CF99C0 /* Generic Core Data Classes */,
 				50DD4CD819C2ABF600A3E6E5 /* Model */,
 				50DD4CD919C2AFB200A3E6E5 /* Table Header Views */,
@@ -615,6 +711,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5069B5C81AD0EB7C0093202D /* Barbell Bro WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5069B5E81AD0EB7D0093202D /* Build configuration list for PBXNativeTarget "Barbell Bro WatchKit Extension" */;
+			buildPhases = (
+				5069B5C51AD0EB7C0093202D /* Sources */,
+				5069B5C61AD0EB7C0093202D /* Frameworks */,
+				5069B5C71AD0EB7C0093202D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5069B5D71AD0EB7D0093202D /* PBXTargetDependency */,
+			);
+			name = "Barbell Bro WatchKit Extension";
+			productName = "Barbell Bro WatchKit Extension";
+			productReference = 5069B5C91AD0EB7C0093202D /* Barbell Bro WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		5069B5D31AD0EB7D0093202D /* Barbell Bro WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5069B5E71AD0EB7D0093202D /* Build configuration list for PBXNativeTarget "Barbell Bro WatchKit App" */;
+			buildPhases = (
+				5069B5D21AD0EB7D0093202D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Barbell Bro WatchKit App";
+			productName = "Barbell Bro WatchKit App";
+			productReference = 5069B5D41AD0EB7D0093202D /* Barbell Bro WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 		50AC0B0919B52C8500E39A7E /* Barbell Bro */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50AC0B3619B52C8500E39A7E /* Build configuration list for PBXNativeTarget "Barbell Bro" */;
@@ -622,10 +751,12 @@
 				50AC0B0619B52C8500E39A7E /* Sources */,
 				50AC0B0719B52C8500E39A7E /* Frameworks */,
 				50AC0B0819B52C8500E39A7E /* Resources */,
+				5069B5E91AD0EB7D0093202D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5069B5E11AD0EB7D0093202D /* PBXTargetDependency */,
 			);
 			name = "Barbell Bro";
 			productName = "KLE-GymBro";
@@ -660,6 +791,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Kelvin;
 				TargetAttributes = {
+					5069B5C81AD0EB7C0093202D = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = W52XA7N9L8;
+					};
+					5069B5D31AD0EB7D0093202D = {
+						CreatedOnToolsVersion = 6.2;
+					};
 					50AC0B0919B52C8500E39A7E = {
 						DevelopmentTeam = W52XA7N9L8;
 					};
@@ -674,6 +812,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 50AC0B0119B52C8500E39A7E;
 			productRefGroup = 50AC0B0B19B52C8500E39A7E /* Products */;
@@ -682,11 +821,31 @@
 			targets = (
 				50AC0B0919B52C8500E39A7E /* Barbell Bro */,
 				50AC0B2419B52C8500E39A7E /* Barbell BroTests */,
+				5069B5C81AD0EB7C0093202D /* Barbell Bro WatchKit Extension */,
+				5069B5D31AD0EB7D0093202D /* Barbell Bro WatchKit App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5069B5C71AD0EB7C0093202D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B5D51AD0EB7D0093202D /* Barbell Bro WatchKit App.app in Resources */,
+				5069B5D11AD0EB7C0093202D /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5069B5D21AD0EB7D0093202D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B5DD1AD0EB7D0093202D /* Interface.storyboard in Resources */,
+				5069B5DF1AD0EB7D0093202D /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50AC0B0819B52C8500E39A7E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -728,6 +887,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5069B5C51AD0EB7C0093202D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */,
+				5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50AC0B0619B52C8500E39A7E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -802,6 +970,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5069B5D71AD0EB7D0093202D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5069B5D31AD0EB7D0093202D /* Barbell Bro WatchKit App */;
+			targetProxy = 5069B5D61AD0EB7D0093202D /* PBXContainerItemProxy */;
+		};
+		5069B5E11AD0EB7D0093202D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5069B5C81AD0EB7C0093202D /* Barbell Bro WatchKit Extension */;
+			targetProxy = 5069B5E01AD0EB7D0093202D /* PBXContainerItemProxy */;
+		};
 		50AC0B2B19B52C8500E39A7E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 50AC0B0919B52C8500E39A7E /* Barbell Bro */;
@@ -810,6 +988,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		5069B5DB1AD0EB7D0093202D /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5069B5DC1AD0EB7D0093202D /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		50AC0B1619B52C8500E39A7E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -829,6 +1015,80 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5069B5E31AD0EB7D0093202D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kelvin Lee";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Barbell Bro WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5069B5E41AD0EB7D0093202D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Kelvin Lee";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Barbell Bro WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		5069B5E51AD0EB7D0093202D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = Barbell_Bro_WatchKit_Extension;
+				INFOPLIST_FILE = "Barbell Bro WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		5069B5E61AD0EB7D0093202D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IBSC_MODULE = Barbell_Bro_WatchKit_Extension;
+				INFOPLIST_FILE = "Barbell Bro WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		50AC0B3419B52C8500E39A7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -983,6 +1243,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5069B5E71AD0EB7D0093202D /* Build configuration list for PBXNativeTarget "Barbell Bro WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5069B5E51AD0EB7D0093202D /* Debug */,
+				5069B5E61AD0EB7D0093202D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5069B5E81AD0EB7D0093202D /* Build configuration list for PBXNativeTarget "Barbell Bro WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5069B5E31AD0EB7D0093202D /* Debug */,
+				5069B5E41AD0EB7D0093202D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		50AC0B0519B52C8500E39A7E /* Build configuration list for PBXProject "Barbell Bro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

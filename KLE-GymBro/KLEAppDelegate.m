@@ -218,6 +218,16 @@
     return YES;
 }
 
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply
+{
+    
+    // check the request from watch kit ext.
+    NSString *request = [userInfo objectForKey:@"request"];
+    if ([request isEqualToString:@"refreshData"]) {
+        <#statements#>
+    }
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
 //    if (debug==1)
