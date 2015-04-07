@@ -28,6 +28,8 @@
     
     [self reloadTable];
     
+    [self setTitle:@"Daily"];
+    
     NSUserDefaults *userDefaults = [[NSUserDefaults standardUserDefaults] initWithSuiteName:@"group.nivlek.barbell.Documents"];
     NSLog(@"user default %@", [userDefaults objectForKey:@"unitWeightKey"]);
     

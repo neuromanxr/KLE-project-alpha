@@ -15,8 +15,11 @@
                                 <tableRow identifier="DailyRoutineRow" selectable="NO" id="81w-no-AoT" customClass="DailyRoutineRow">
                                     <group key="rootItem" width="1" height="66.5" alignment="left" layout="vertical" id="ROw-eP-c2x">
                                         <items>
-                                            <label width="1" alignment="left" text="Mon" textAlignment="center" id="CSI-Z0-4Ur"/>
+                                            <label width="1" alignment="left" text="Mon" textAlignment="center" id="CSI-Z0-4Ur">
+                                                <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            </label>
                                             <button width="1" alignment="left" title="Routine" id="hDq-Ut-1h9">
+                                                <color key="backgroundColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
                                                     <segue destination="w7h-5x-1nD" kind="push" identifier="WorkoutExercises" id="iPk-RB-ozI"/>
                                                 </connections>
@@ -49,6 +52,7 @@
                                     <group key="rootItem" width="1" alignment="left" id="ODf-0E-pv4">
                                         <items>
                                             <button width="1" alignment="left" title="Exercise" id="rH9-1i-9AP">
+                                                <color key="backgroundColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
                                                     <segue destination="oEL-wD-vrs" kind="push" identifier="Workout" id="Wht-1Q-UaX"/>
                                                 </connections>
@@ -76,8 +80,11 @@
                     <items>
                         <group width="1" height="64" alignment="left" layout="vertical" id="E5a-W4-t8Y">
                             <items>
-                                <label width="1" alignment="left" text="Sets" textAlignment="center" id="M5b-qe-CUT"/>
+                                <label width="1" alignment="left" text="Sets" textAlignment="center" id="M5b-qe-CUT">
+                                    <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
                                 <button width="1" alignment="left" title="Number" id="udE-cV-pHN">
+                                    <color key="backgroundColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
                                         <action selector="setsButtonAction" destination="oEL-wD-vrs" id="mqD-3y-5eP"/>
                                     </connections>
@@ -86,7 +93,9 @@
                         </group>
                         <group width="1" height="64" alignment="left" layout="vertical" id="2Bb-zl-dAM">
                             <items>
-                                <label width="1" alignment="left" text="Reps" textAlignment="center" id="H2l-Xd-gf1"/>
+                                <label width="1" alignment="left" text="Reps" textAlignment="center" id="H2l-Xd-gf1">
+                                    <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
                                 <group width="1" alignment="left" id="SKn-C1-CMX">
                                     <items>
                                         <button width="0.50000000000000011" height="1" alignment="left" verticalAlignment="center" title="-" id="mB4-xi-sNs">
@@ -105,7 +114,9 @@
                         </group>
                         <group width="1" height="108" alignment="left" layout="vertical" id="lYa-iN-137">
                             <items>
-                                <label width="1" alignment="left" text="Weight" textAlignment="center" id="sDw-xu-ajP"/>
+                                <label width="1" alignment="left" text="Weight" textAlignment="center" id="sDw-xu-ajP">
+                                    <color key="textColor" red="1" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </label>
                                 <slider width="1" alignment="left" value="1" minimum="1" maximum="5" steps="4" id="nWk-5y-A3P">
                                     <connections>
                                         <action selector="weightSliderAction:" destination="oEL-wD-vrs" id="Ept-Y0-dH3"/>
