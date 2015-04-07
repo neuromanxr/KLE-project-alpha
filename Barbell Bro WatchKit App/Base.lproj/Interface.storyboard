@@ -48,7 +48,11 @@
                                 <tableRow identifier="ExerciseRow" selectable="NO" id="M9S-W4-HTN" customClass="ExerciseRow">
                                     <group key="rootItem" width="1" alignment="left" id="ODf-0E-pv4">
                                         <items>
-                                            <button width="1" alignment="left" title="Exercise" id="rH9-1i-9AP"/>
+                                            <button width="1" alignment="left" title="Exercise" id="rH9-1i-9AP">
+                                                <connections>
+                                                    <segue destination="oEL-wD-vrs" kind="push" identifier="Workout" id="Wht-1Q-UaX"/>
+                                                </connections>
+                                            </button>
                                         </items>
                                     </group>
                                     <connections>
@@ -65,12 +69,53 @@
             </objects>
             <point key="canvasLocation" x="365" y="227"/>
         </scene>
-        <!--Interface Controller-->
+        <!--Workout Interface Controller-->
         <scene sceneID="tjj-19-2SQ">
             <objects>
-                <controller id="oEL-wD-vrs"/>
+                <controller id="oEL-wD-vrs" customClass="WorkoutInterfaceController">
+                    <items>
+                        <group width="1" height="64" alignment="left" layout="vertical" id="E5a-W4-t8Y">
+                            <items>
+                                <label width="1" alignment="left" text="Sets" textAlignment="center" id="M5b-qe-CUT"/>
+                                <button width="1" alignment="left" title="Number" id="udE-cV-pHN">
+                                    <connections>
+                                        <action selector="setsButtonAction" destination="oEL-wD-vrs" id="mqD-3y-5eP"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <group width="1" height="64" alignment="left" layout="vertical" id="2Bb-zl-dAM">
+                            <items>
+                                <label width="1" alignment="left" text="Reps" textAlignment="center" id="H2l-Xd-gf1"/>
+                                <slider width="1" alignment="left" value="1" minimum="1" maximum="5" steps="5" id="YC9-Ap-RQU">
+                                    <connections>
+                                        <action selector="repsSliderAction:" destination="oEL-wD-vrs" id="4fV-X3-1Be"/>
+                                    </connections>
+                                </slider>
+                            </items>
+                        </group>
+                        <group width="1" height="64" alignment="left" layout="vertical" id="lYa-iN-137">
+                            <items>
+                                <label width="1" alignment="left" text="Weight" textAlignment="center" id="sDw-xu-ajP"/>
+                                <slider width="1" alignment="left" value="1" minimum="1" maximum="3" steps="3" id="nWk-5y-A3P">
+                                    <connections>
+                                        <action selector="weightSliderAction:" destination="oEL-wD-vrs" id="Ept-Y0-dH3"/>
+                                    </connections>
+                                </slider>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="repsLabel" destination="H2l-Xd-gf1" id="cmd-wl-gRb"/>
+                        <outlet property="repsSlider" destination="YC9-Ap-RQU" id="o4U-M4-VsN"/>
+                        <outlet property="setsButton" destination="udE-cV-pHN" id="8oJ-O6-7lT"/>
+                        <outlet property="setsLabel" destination="M5b-qe-CUT" id="b6t-hr-7gD"/>
+                        <outlet property="weightLabel" destination="sDw-xu-ajP" id="kdL-vl-q7i"/>
+                        <outlet property="weightSlider" destination="nWk-5y-A3P" id="VB0-Uy-iNj"/>
+                    </connections>
+                </controller>
             </objects>
-            <point key="canvasLocation" x="472" y="464"/>
+            <point key="canvasLocation" x="225" y="525.5"/>
         </scene>
     </scenes>
 </document>

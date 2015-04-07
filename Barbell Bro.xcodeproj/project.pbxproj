@@ -60,6 +60,10 @@
 		508372581AD3257100614D19 /* KLERoutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765971A9D5BA4000CC53A /* KLERoutine.m */; };
 		5083725B1AD3483900614D19 /* ExercisesInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5083725A1AD3483900614D19 /* ExercisesInterfaceController.m */; };
 		5083725E1AD34B5500614D19 /* ExerciseRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5083725D1AD34B5500614D19 /* ExerciseRow.m */; };
+		508372611AD3688B00614D19 /* WorkoutInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 508372601AD3688B00614D19 /* WorkoutInterfaceController.m */; };
+		509E64321AD3A700001BDFFF /* KLEExerciseCompleted.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037659D1A9DA1CB000CC53A /* KLEExerciseCompleted.m */; };
+		509E64331AD3A711001BDFFF /* KLEExerciseGoal.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765941A9D5BA4000CC53A /* KLEExerciseGoal.m */; };
+		509E64341AD3A71F001BDFFF /* KLEExercise.m in Sources */ = {isa = PBXBuildFile; fileRef = 5037658E1A9D5BA3000CC53A /* KLEExercise.m */; };
 		50A9C3DF1A98A35D00640051 /* KLEWorkoutExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */; };
 		50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3E11A98A3B100640051 /* KLEWorkoutExerciseView.m */; };
 		50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A9C3E31A98A3E600640051 /* KLEWorkoutExerciseView.xib */; };
@@ -274,6 +278,8 @@
 		5083725A1AD3483900614D19 /* ExercisesInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExercisesInterfaceController.m; sourceTree = "<group>"; };
 		5083725C1AD34B5500614D19 /* ExerciseRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExerciseRow.h; sourceTree = "<group>"; };
 		5083725D1AD34B5500614D19 /* ExerciseRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseRow.m; sourceTree = "<group>"; };
+		5083725F1AD3688B00614D19 /* WorkoutInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkoutInterfaceController.h; sourceTree = "<group>"; };
+		508372601AD3688B00614D19 /* WorkoutInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkoutInterfaceController.m; sourceTree = "<group>"; };
 		50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseViewController.h; sourceTree = "<group>"; };
 		50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWorkoutExerciseViewController.m; sourceTree = "<group>"; };
 		50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseView.h; sourceTree = "<group>"; };
@@ -579,6 +585,8 @@
 				5083725A1AD3483900614D19 /* ExercisesInterfaceController.m */,
 				5083725C1AD34B5500614D19 /* ExerciseRow.h */,
 				5083725D1AD34B5500614D19 /* ExerciseRow.m */,
+				5083725F1AD3688B00614D19 /* WorkoutInterfaceController.h */,
+				508372601AD3688B00614D19 /* WorkoutInterfaceController.m */,
 				5069B5D01AD0EB7C0093202D /* Images.xcassets */,
 				5069B5CB1AD0EB7C0093202D /* Supporting Files */,
 			);
@@ -1103,9 +1111,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				509E64341AD3A71F001BDFFF /* KLEExercise.m in Sources */,
+				509E64331AD3A711001BDFFF /* KLEExerciseGoal.m in Sources */,
+				509E64321AD3A700001BDFFF /* KLEExerciseCompleted.m in Sources */,
 				508372581AD3257100614D19 /* KLERoutine.m in Sources */,
 				5083725E1AD34B5500614D19 /* ExerciseRow.m in Sources */,
 				5083725B1AD3483900614D19 /* ExercisesInterfaceController.m in Sources */,
+				508372611AD3688B00614D19 /* WorkoutInterfaceController.m in Sources */,
 				5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */,
 				5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */,
 			);

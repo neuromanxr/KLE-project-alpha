@@ -28,11 +28,6 @@
     
     [self reloadTable];
     
-    [WKInterfaceController openParentApplication:@{@"request": @"refreshData"} reply:^(NSDictionary *replyInfo, NSError *error) {
-        // process reply data
-        NSLog(@"Reply: %@", replyInfo);
-    }];
-    
 }
 
 - (void)willActivate {

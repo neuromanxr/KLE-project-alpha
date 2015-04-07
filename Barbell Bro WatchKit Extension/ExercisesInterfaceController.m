@@ -27,11 +27,8 @@
     [super awakeWithContext:context];
     
     // Configure interface objects here.
-    KLERoutine *routine = (KLERoutine *)context;
-    if ([routine isKindOfClass:[KLERoutine class]]) {
-        NSLog(@"routine in exercises interface controller %@", routine);
-        _exercisesArray = [routine.exercisegoal allObjects];
-    }
+    
+    [self loadDataInContext:context];
     
     [self reloadTable];
 }
@@ -44,6 +41,27 @@
 - (void)didDeactivate {
     // This method is called when watch view controller is no longer visible
     [super didDeactivate];
+}
+
+- (id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex
+{
+    if ([segueIdentifier isEqualToString:@"Workout"]) {
+        KLERoutine *selectedExercise = [_exercisesArray objectAtIndex:rowIndex];
+        NSLog(@"Selected Routine %@", selectedExercise);
+        return selectedExercise;
+    }
+    return nil;
+}
+
+- (void)loadDataInContext:(id)context {
+    
+    KLERoutine *routine = (KLERoutine *)context;
+    if ([routine respondsToSelector:@selector(routinename)]) {
+        
+        NSLog(@"routine in exercises interface controller %@", routine);
+        _exercisesArray = [routine.exercisegoal allObjects];
+        [self setTitle:routine.routinename];
+    }
 }
 
 - (void)reloadTable {
