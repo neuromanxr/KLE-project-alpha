@@ -232,7 +232,7 @@
     
     NSLog(@"RESTORATION ID IN RESTORE %@", routineExercisesViewController.restorationIdentifier);
     
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     
     
     NSString *routineObjectURLFromDaily = [coder decodeObjectForKey:kSelectedRoutineIDFromDailyKey];
@@ -362,7 +362,7 @@
     
     NSLog(@"object id from daily view or routines view %@", [self usingSelectedRoutine]);
     
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
 
     KLERoutine *selectedRoutine = [self usingSelectedRoutine];
     

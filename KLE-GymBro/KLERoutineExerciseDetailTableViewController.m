@@ -107,7 +107,7 @@
     KLERoutineExerciseDetailTableViewController *routineExerciseDetailViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineExerciseDetail"];
     
     NSURL *routineExerciseURI = [coder decodeObjectForKey:kSelectedExerciseDetailIDKey];
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSManagedObjectID *routineExerciseID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineExerciseURI];
     
     KLEExerciseGoal *selectedExercise = (KLEExerciseGoal *)[cdh.context existingObjectWithID:routineExerciseID error:nil];

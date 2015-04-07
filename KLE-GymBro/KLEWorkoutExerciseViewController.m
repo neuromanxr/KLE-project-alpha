@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
+#import "CoreDataHelperKit.h"
 #import "KLEUtility.h"
 #import "DateTools.h"
 #import "KLEAppDelegate.h"
@@ -155,7 +156,7 @@
     KLEWorkoutExerciseViewController *workoutExerciseViewController = [[self alloc] init];
     
     NSURL *routineExerciseURI = [coder decodeObjectForKey:kSelectedExerciseIDKey];
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSManagedObjectID *routineExerciseID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:routineExerciseURI];
     
     KLEExerciseGoal *selectedExercise = (KLEExerciseGoal *)[cdh.context existingObjectWithID:routineExerciseID error:nil];
@@ -321,7 +322,7 @@
 
 - (void)finishWorkout
 {
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     
     KLEExerciseGoal *exerciseGoal = _selectedRoutineExercise;
     

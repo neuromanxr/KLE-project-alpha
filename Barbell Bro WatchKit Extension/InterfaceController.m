@@ -45,6 +45,16 @@
     [super didDeactivate];
 }
 
+- (id)contextForSegueWithIdentifier:(NSString *)segueIdentifier inTable:(WKInterfaceTable *)table rowIndex:(NSInteger)rowIndex
+{
+    if ([segueIdentifier isEqualToString:@"WorkoutExercises"]) {
+        KLERoutine *selectedRoutine = [_routinesArray objectAtIndex:rowIndex];
+        NSLog(@"Selected Routine %@", selectedRoutine);
+        return selectedRoutine;
+    }
+    return nil;
+}
+
 - (void)reloadTable {
     
     [_dailyTable setNumberOfRows:[_routinesArray count] withRowType:@"DailyRoutineRow"];

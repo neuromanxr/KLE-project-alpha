@@ -8,7 +8,7 @@
 
 #import "KLEUtility.h"
 #import "KLEAppDelegate.h"
-#import "CoreDataHelper.h"
+#import "CoreDataHelperKit.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
 #import "KLERoutine.h"
@@ -30,7 +30,7 @@
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExercise"];
     NSSortDescriptor *muscleSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"musclegroup" ascending:YES selector:@selector(caseInsensitiveCompare:)];
     NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"exercisename" ascending:YES];
@@ -130,7 +130,7 @@
         exerciseGoal.sets = [NSNumber numberWithInteger:5];
         exerciseGoal.reps = [NSNumber numberWithInteger:5];
         
-        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
         KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
         [selectedRoutine addExercisegoalObject:exerciseGoal];
         NSLog(@"selected routine exercise goal objects %@", selectedRoutine.exercisegoal);

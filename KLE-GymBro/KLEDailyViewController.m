@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
+#import "CoreDataHelperKit.h"
 #import "KLEWorkoutButton.h"
 #import "KLEContainerViewController.h"
 #import "KLEExercise.h"
@@ -174,7 +175,7 @@
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
     
     // fetch the routines with daynumbers that match the section and bool value is set to yes
@@ -233,7 +234,7 @@
 #pragma mark - DATASOURCE
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *requestRoutine = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
     
     // have to get the routines that were added to the day instance and the routines with daynumbers that match the section
@@ -657,7 +658,7 @@
         deleteTarget.daynumber = nil;
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
         [cdh.context refreshObject:deleteTarget mergeChanges:YES];
         
     }

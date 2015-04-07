@@ -58,6 +58,8 @@
 		507530871A7834F00006C08D /* KLEHistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */; };
 		508372571AD3157500614D19 /* GymBro.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 5057D6B41A0DF6D400CF99C0 /* GymBro.xcdatamodeld */; };
 		508372581AD3257100614D19 /* KLERoutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 503765971A9D5BA4000CC53A /* KLERoutine.m */; };
+		5083725B1AD3483900614D19 /* ExercisesInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5083725A1AD3483900614D19 /* ExercisesInterfaceController.m */; };
+		5083725E1AD34B5500614D19 /* ExerciseRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5083725D1AD34B5500614D19 /* ExerciseRow.m */; };
 		50A9C3DF1A98A35D00640051 /* KLEWorkoutExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */; };
 		50A9C3E21A98A3B100640051 /* KLEWorkoutExerciseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A9C3E11A98A3B100640051 /* KLEWorkoutExerciseView.m */; };
 		50A9C3E41A98A3E600640051 /* KLEWorkoutExerciseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A9C3E31A98A3E600640051 /* KLEWorkoutExerciseView.xib */; };
@@ -268,6 +270,10 @@
 		507530831A7834F00006C08D /* KLEHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEHistoryTableViewCell.h; sourceTree = "<group>"; };
 		507530841A7834F00006C08D /* KLEHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEHistoryTableViewCell.m; sourceTree = "<group>"; };
 		507530851A7834F00006C08D /* KLEHistoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KLEHistoryTableViewCell.xib; sourceTree = "<group>"; };
+		508372591AD3483900614D19 /* ExercisesInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExercisesInterfaceController.h; sourceTree = "<group>"; };
+		5083725A1AD3483900614D19 /* ExercisesInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExercisesInterfaceController.m; sourceTree = "<group>"; };
+		5083725C1AD34B5500614D19 /* ExerciseRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExerciseRow.h; sourceTree = "<group>"; };
+		5083725D1AD34B5500614D19 /* ExerciseRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseRow.m; sourceTree = "<group>"; };
 		50A9C3DD1A98A35D00640051 /* KLEWorkoutExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseViewController.h; sourceTree = "<group>"; };
 		50A9C3DE1A98A35D00640051 /* KLEWorkoutExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KLEWorkoutExerciseViewController.m; sourceTree = "<group>"; };
 		50A9C3E01A98A3B100640051 /* KLEWorkoutExerciseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLEWorkoutExerciseView.h; sourceTree = "<group>"; };
@@ -569,6 +575,10 @@
 				5069B5CE1AD0EB7C0093202D /* InterfaceController.m */,
 				5069B5EB1AD107A70093202D /* DailyRoutineRow.h */,
 				5069B5EC1AD107A70093202D /* DailyRoutineRow.m */,
+				508372591AD3483900614D19 /* ExercisesInterfaceController.h */,
+				5083725A1AD3483900614D19 /* ExercisesInterfaceController.m */,
+				5083725C1AD34B5500614D19 /* ExerciseRow.h */,
+				5083725D1AD34B5500614D19 /* ExerciseRow.m */,
 				5069B5D01AD0EB7C0093202D /* Images.xcassets */,
 				5069B5CB1AD0EB7C0093202D /* Supporting Files */,
 			);
@@ -1094,6 +1104,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				508372581AD3257100614D19 /* KLERoutine.m in Sources */,
+				5083725E1AD34B5500614D19 /* ExerciseRow.m in Sources */,
+				5083725B1AD3483900614D19 /* ExercisesInterfaceController.m in Sources */,
 				5069B5EA1AD0FED30093202D /* InterfaceController.m in Sources */,
 				5069B5ED1AD107A70093202D /* DailyRoutineRow.m in Sources */,
 			);

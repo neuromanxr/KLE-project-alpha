@@ -5,6 +5,7 @@
 //  Created by Kelvin Lee on 2/25/15.
 //  Copyright (c) 2015 Kelvin. All rights reserved.
 //
+#import "CoreDataHelperKit.h"
 #import "KLEExercise.h"
 #import "KLEUtility.h"
 #import "DateTools.h"
@@ -109,7 +110,7 @@
     
     NSDate *dateToCompare = [self setDateToCompare:dateRange];
     
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KLEExerciseCompleted"];
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:NO];
     NSSortDescriptor *sortByExercise = [NSSortDescriptor sortDescriptorWithKey:@"exercise.exercisename" ascending:NO];
@@ -135,7 +136,7 @@
 
 - (NSDate *)fetchFirstRecordDate
 {
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseCompleted"];
     NSSortDescriptor *sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"datecompleted" ascending:YES];
     request.sortDescriptors = @[sortByDate];

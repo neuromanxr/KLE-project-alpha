@@ -11,6 +11,7 @@
 #import "KLEExerciseCompleted.h"
 #import "KLEHistoryDetailTableViewController.h"
 #import "KLEWeightControl.h"
+#import "CoreDataHelperKit.h"
 
 @interface KLEHistoryDetailTableViewController () <UIPickerViewDelegate, UIPickerViewDataSource, UIViewControllerRestoration>
 
@@ -61,7 +62,7 @@
     KLEHistoryDetailTableViewController *historyDetailViewController = [storyBoard instantiateViewControllerWithIdentifier:@"HistoryDetail"];
     
     NSURL *exerciseCompletedURI = [coder decodeObjectForKey:kSelectedExerciseCompletedKey];
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSManagedObjectID *exerciseCompletedID = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:exerciseCompletedURI];
     
     KLEExerciseCompleted *exerciseCompleted = (KLEExerciseCompleted *)[cdh.context existingObjectWithID:exerciseCompletedID error:nil];
