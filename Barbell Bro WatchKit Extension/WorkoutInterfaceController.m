@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSNumber *reps;
 @property (nonatomic, strong) NSNumber *weight;
 
+@property (nonatomic, strong) NSNumber *stepValue;
+
 @property (nonatomic, copy) NSMutableArray *repsWeightArray;
 
 @property (nonatomic, strong) KLEExerciseGoal *selectedExercise;
@@ -27,7 +29,9 @@
 @property (weak, nonatomic) IBOutlet WKInterfaceButton *setsButton;
 
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *repsLabel;
-@property (weak, nonatomic) IBOutlet WKInterfaceSlider *repsSlider;
+
+@property (weak, nonatomic) IBOutlet WKInterfaceButton *addWeightButton;
+@property (weak, nonatomic) IBOutlet WKInterfaceButton *minusWeightButton;
 
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *weightLabel;
 @property (weak, nonatomic) IBOutlet WKInterfaceSlider *weightSlider;
@@ -45,7 +49,7 @@
     [self loadDataInContext:context];
     
     // set initial reps slider value to goal number
-    [_repsSlider setValue:[_reps floatValue]];
+    
     
 //    [WKInterfaceController openParentApplication:@{@"request": @"refreshData"} reply:^(NSDictionary *replyInfo, NSError *error) {
 //        // process reply data
@@ -75,11 +79,18 @@
         _weight = exercise.weight;
         
         NSLog(@"exercise goal %@", exercise);
-        [_setsButton setTitle:[NSString stringWithFormat:@"%@", _sets]];
+        [_setsButton setTitle:[NSString stringWithFormat:@"Start Set %@!", _sets]];
         [_repsLabel setText:[NSString stringWithFormat:@"Reps: %@", _reps]];
         [_weightLabel setText:[NSString stringWithFormat:@"Weight: %@", _weight]];
         
         [self setTitle:exercise.exercise.exercisename];
+        
+        
+        // setup the weight controls
+        _stepValue = [NSNumber numberWithInteger:1];
+        [_weightSlider setValue:[_stepValue integerValue]];
+        [_addWeightButton setTitle:[NSString stringWithFormat:@"Add %@", _stepValue]];
+        [_minusWeightButton setTitle:[NSString stringWithFormat:@"Sub %@", _stepValue]];
     }
 }
 
@@ -125,6 +136,18 @@
     return todaysDateWithComponents;
 }
 
+- (NSString *)weightUnitType
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *unitWeightType = [userDefaults stringForKey:@"unitWeightKey"];
+    NSLog(@"unit weight Type %@", unitWeightType);
+    
+    if ([unitWeightType isEqualToString:@"lb"]) {
+        return @"lb";
+    }
+    return @"kg";
+}
+
 - (void)logWorkout
 {
     CoreDataAccess *cdh = [CoreDataAccess sharedCoreDataAccess];
@@ -136,7 +159,7 @@
     exerciseCompleted.maxweight = [self getMaxWeight];
     exerciseCompleted.routinename = _selectedExercise.routine.routinename;
     exerciseCompleted.datecompleted = [self todaysDate];
-//    exerciseCompleted.weightunit = [KLEUtility weightUnitType];
+    exerciseCompleted.weightunit = [self weightUnitType];
     NSLog(@"reps weight array %@", exerciseCompleted.repsweightarray);
     NSLog(@"Exercise completed %@", exerciseCompleted);
     
@@ -170,16 +193,52 @@
     }
 }
 
-- (IBAction)repsSliderAction:(float)value {
+- (IBAction)minusRepsButton {
     
-    NSUInteger repsValue = [_reps integerValue];
+    if ([_reps integerValue] == 1) {
+        return;
+    } else {
+        _reps = @([_reps integerValue] - 1);
+        [_repsLabel setText:[NSString stringWithFormat:@"Reps: %@", _reps]];
+    }
+}
+
+- (IBAction)plusRepsButton {
     
-    NSLog(@"reps slider value %lu", repsValue);
+    if ([_reps integerValue] > 100) {
+        return;
+    } else {
+        _reps = @([_reps integerValue] + 1);
+        [_repsLabel setText:[NSString stringWithFormat:@"Reps: %@", _reps]];
+    }
+    
+}
+
+- (IBAction)addWeightButtonAction {
+    
+    if ([_weight floatValue] > 1000) {
+        return;
+    }
+    _weight = @([_weight floatValue] + [_stepValue integerValue]);
+    [_weightLabel setText:[NSString stringWithFormat:@"Weight: %@", _weight]];
+}
+
+- (IBAction)minusWeightButtonAction {
+    
+    if ([_weight floatValue] >= [_stepValue integerValue]) {
+        
+        _weight = @([_weight floatValue] - [_stepValue integerValue]);
+        [_weightLabel setText:[NSString stringWithFormat:@"Weight: %@", _weight]];
+    }
+    
 }
 
 - (IBAction)weightSliderAction:(float)value {
     
+    _stepValue = [NSNumber numberWithFloat:value];
     
+    [_addWeightButton setTitle:[NSString stringWithFormat:@"Add %lu", [_stepValue integerValue]]];
+    [_minusWeightButton setTitle:[NSString stringWithFormat:@"Sub %lu", [_stepValue integerValue]]];
 }
 
 @end

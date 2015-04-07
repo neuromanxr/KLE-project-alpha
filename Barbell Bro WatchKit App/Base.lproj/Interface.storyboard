@@ -87,27 +87,51 @@
                         <group width="1" height="64" alignment="left" layout="vertical" id="2Bb-zl-dAM">
                             <items>
                                 <label width="1" alignment="left" text="Reps" textAlignment="center" id="H2l-Xd-gf1"/>
-                                <slider width="1" alignment="left" value="1" minimum="1" maximum="5" steps="5" id="YC9-Ap-RQU">
-                                    <connections>
-                                        <action selector="repsSliderAction:" destination="oEL-wD-vrs" id="4fV-X3-1Be"/>
-                                    </connections>
-                                </slider>
+                                <group width="1" alignment="left" id="SKn-C1-CMX">
+                                    <items>
+                                        <button width="0.50000000000000011" height="1" alignment="left" verticalAlignment="center" title="-" id="mB4-xi-sNs">
+                                            <connections>
+                                                <action selector="minusRepsButton" destination="oEL-wD-vrs" id="3bD-1n-zUh"/>
+                                            </connections>
+                                        </button>
+                                        <button width="0.50000000000000011" alignment="right" verticalAlignment="center" title="+" id="SOo-L8-rIK">
+                                            <connections>
+                                                <action selector="plusRepsButton" destination="oEL-wD-vrs" id="Z1r-bZ-L87"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
                             </items>
                         </group>
-                        <group width="1" height="64" alignment="left" layout="vertical" id="lYa-iN-137">
+                        <group width="1" height="108" alignment="left" layout="vertical" id="lYa-iN-137">
                             <items>
                                 <label width="1" alignment="left" text="Weight" textAlignment="center" id="sDw-xu-ajP"/>
-                                <slider width="1" alignment="left" value="1" minimum="1" maximum="3" steps="3" id="nWk-5y-A3P">
+                                <slider width="1" alignment="left" value="1" minimum="1" maximum="5" steps="4" id="nWk-5y-A3P">
                                     <connections>
                                         <action selector="weightSliderAction:" destination="oEL-wD-vrs" id="Ept-Y0-dH3"/>
                                     </connections>
                                 </slider>
+                                <group width="1" alignment="left" id="0NI-uE-QUH">
+                                    <items>
+                                        <button width="0.50000000000000011" alignment="left" verticalAlignment="center" title="Minus" id="h0g-9q-CsY">
+                                            <connections>
+                                                <action selector="minusWeightButtonAction" destination="oEL-wD-vrs" id="9Ei-rU-5H6"/>
+                                            </connections>
+                                        </button>
+                                        <button width="0.50000000000000011" alignment="right" verticalAlignment="center" title="Plus" id="VQx-eG-LzG">
+                                            <connections>
+                                                <action selector="addWeightButtonAction" destination="oEL-wD-vrs" id="Unj-la-MMO"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
                             </items>
                         </group>
                     </items>
                     <connections>
+                        <outlet property="addWeightButton" destination="VQx-eG-LzG" id="vIa-YA-gCh"/>
+                        <outlet property="minusWeightButton" destination="h0g-9q-CsY" id="maZ-1M-Zit"/>
                         <outlet property="repsLabel" destination="H2l-Xd-gf1" id="cmd-wl-gRb"/>
-                        <outlet property="repsSlider" destination="YC9-Ap-RQU" id="o4U-M4-VsN"/>
                         <outlet property="setsButton" destination="udE-cV-pHN" id="8oJ-O6-7lT"/>
                         <outlet property="setsLabel" destination="M5b-qe-CUT" id="b6t-hr-7gD"/>
                         <outlet property="weightLabel" destination="sDw-xu-ajP" id="kdL-vl-q7i"/>
@@ -115,7 +139,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="225" y="525.5"/>
+            <point key="canvasLocation" x="225" y="546.5"/>
         </scene>
     </scenes>
 </document>

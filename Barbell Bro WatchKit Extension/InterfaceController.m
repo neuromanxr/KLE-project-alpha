@@ -28,6 +28,9 @@
     
     [self reloadTable];
     
+    NSUserDefaults *userDefaults = [[NSUserDefaults standardUserDefaults] initWithSuiteName:@"group.nivlek.barbell.Documents"];
+    NSLog(@"user default %@", [userDefaults objectForKey:@"unitWeightKey"]);
+    
 }
 
 - (void)willActivate {

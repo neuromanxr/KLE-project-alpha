@@ -117,11 +117,15 @@
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // settings default
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [[NSUserDefaults standardUserDefaults] initWithSuiteName:@"group.nivlek.barbell.Documents"];
     NSLog(@"USER DEFAULTS %@", [userDefaults objectForKey:kUnitWeightKey]);
     if ([userDefaults objectForKey:kUnitWeightKey] == NULL) {
-        NSDictionary *initialDefaults = @{kUnitWeightKey:kUnitPounds};
-        [[NSUserDefaults standardUserDefaults] registerDefaults:initialDefaults];
+        
+        [userDefaults setObject:kUnitPounds forKey:kUnitWeightKey];
+//        NSDictionary *initialDefaults = @{kUnitWeightKey:kUnitPounds};
+//        [[NSUserDefaults standardUserDefaults] registerDefaults:initialDefaults];
+        
+        [userDefaults synchronize];
         NSLog(@"** DEFAULT SET TO LBS");
     }
     
