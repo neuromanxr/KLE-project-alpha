@@ -237,8 +237,8 @@
     
     _stepValue = [NSNumber numberWithFloat:value];
     
-    [_addWeightButton setTitle:[NSString stringWithFormat:@"Add %lu", [_stepValue integerValue]]];
-    [_minusWeightButton setTitle:[NSString stringWithFormat:@"Sub %lu", [_stepValue integerValue]]];
+    [_addWeightButton setTitle:[NSString stringWithFormat:@"Add %lu", (long)[_stepValue integerValue]]];
+    [_minusWeightButton setTitle:[NSString stringWithFormat:@"Sub %lu", (long)[_stepValue integerValue]]];
 }
 
 @end

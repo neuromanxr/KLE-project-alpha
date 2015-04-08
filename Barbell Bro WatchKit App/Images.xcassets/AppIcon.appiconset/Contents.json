@@ -42,6 +42,7 @@
       "size" : "44x44",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "longlook-42.png",
       "role" : "longLook",
       "subtype" : "42mm"
     },
@@ -49,6 +50,7 @@
       "size" : "86x86",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "shortlook-38-2x.png",
       "role" : "quickLook",
       "subtype" : "38mm"
     },
@@ -56,15 +58,9 @@
       "size" : "98x98",
       "idiom" : "watch",
       "scale" : "2x",
+      "filename" : "shortlook-42.png",
       "role" : "quickLook",
       "subtype" : "42mm"
-    },
-    {
-      "size" : "40x40",
-      "idiom" : "watch",
-      "unassigned" : true,
-      "role" : "appLauncher",
-      "scale" : "2x"
     }
   ],
   "info" : {
