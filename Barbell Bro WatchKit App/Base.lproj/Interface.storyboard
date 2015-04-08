@@ -99,11 +99,13 @@
                                 <group width="1" alignment="left" id="SKn-C1-CMX">
                                     <items>
                                         <button width="0.50000000000000011" height="1" alignment="left" verticalAlignment="center" title="-" id="mB4-xi-sNs">
+                                            <fontDescription key="font" type="system" pointSize="36"/>
                                             <connections>
                                                 <action selector="minusRepsButton" destination="oEL-wD-vrs" id="3bD-1n-zUh"/>
                                             </connections>
                                         </button>
                                         <button width="0.50000000000000011" alignment="right" verticalAlignment="center" title="+" id="SOo-L8-rIK">
+                                            <fontDescription key="font" type="system" pointSize="36"/>
                                             <connections>
                                                 <action selector="plusRepsButton" destination="oEL-wD-vrs" id="Z1r-bZ-L87"/>
                                             </connections>
