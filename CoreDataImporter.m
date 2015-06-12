@@ -10,9 +10,9 @@
 @implementation CoreDataImporter
 #define debug 1
 + (void)saveContext:(NSManagedObjectContext*)context {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     [context performBlockAndWait:^{
         if ([context hasChanges]) {
             NSError *error = nil;
@@ -28,9 +28,9 @@
     }];
 }
 - (CoreDataImporter*)initWithUniqueAttributes:(NSDictionary*)uniqueAttributes {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     if (self = [super init]) {
         
         self.entitiesWithUniqueAttributes = uniqueAttributes;
@@ -45,18 +45,18 @@
     return nil;
 }
 - (NSString*)uniqueAttributeForEntity:(NSString*)entity {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     return [self.entitiesWithUniqueAttributes valueForKey:entity];
 }
 
 - (NSManagedObject*)existingObjectInContext:(NSManagedObjectContext*)context
                                   forEntity:(NSString*)entity
                    withUniqueAttributeValue:(NSString*)uniqueAttributeValue {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     NSString *uniqueAttribute = [self uniqueAttributeForEntity:entity];
     NSPredicate *predicate =
     [NSPredicate predicateWithFormat:@"%K==%@",
@@ -77,9 +77,9 @@
                                 uniqueAttributeValue:(NSString*)uniqueAttributeValue
                                      attributeValues:(NSDictionary*)attributeValues
                                            inContext:(NSManagedObjectContext*)context {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     NSString *uniqueAttribute = [self uniqueAttributeForEntity:entity];
     if (uniqueAttributeValue.length > 0) {
         NSManagedObject *existingObject =

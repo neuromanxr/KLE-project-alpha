@@ -6,23 +6,20 @@
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
 
-#import "CoreDataHelper.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
 
+#import "KLEUtility.h"
 #import "KLERoutineViewCell.h"
-#import "KLEStat.h"
-#import "KLEStatStore.h"
-#import "KLEDailyStore.h"
-#import "KLERoutinesStore.h"
+
+#import "KLERoutineDetailTableViewController.h"
 #import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewController.h"
 #import "KLEExerciseListViewController.h"
 
 @interface KLERoutineViewController () <UITextFieldDelegate>
 
-@property (nonatomic, weak) KLERoutineViewCell *routineViewCell;
-@property (nonatomic, strong) KLEStatStore *statStore;
+@property (nonatomic, weak) UIAlertAction *addAlertSaveAction;
 
 @end
 
@@ -35,14 +32,14 @@
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLERoutine"];
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"routinename" ascending:YES], nil];
+    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"dayname" ascending:YES], nil];
 //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext existingObjectWithID:self.routinesID error:nil];
 //    KLERoutines *routines = (KLERoutines *)[self.frc.managedObjectContext objectWithID:self.routinesID];
 //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routines == %@", routines];
 //    [request setPredicate:predicate];
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"routinename" cacheName:nil];
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"dayname" cacheName:nil];
     self.frc.delegate = self;
 //    NSLog(@"routines %@", routines);
 }
@@ -52,21 +49,22 @@
     self = [super initWithStyle:UITableViewStylePlain];
     
     if (self) {
-        UINavigationItem *navItem = self.navigationItem;
-        // title for rvc
-        navItem.title = @"Your Routines";
+        
+//        UINavigationItem *navItem = self.navigationItem;
         
         // button to add exercises
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
+//        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRoutine)];
         
         // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+//        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
         
         // set bar button to toggle editing mode
-        editButton = self.editButtonItem;
+//        editButton = self.editButtonItem;
         
         // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
+//        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
+        
+        self.restorationIdentifier = NSStringFromClass([self class]);
         
     }
     
@@ -78,35 +76,83 @@
     return [self init];
 }
 
+- (void)viewDidLoad
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:kExercisesChangedNote object:nil];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLERoutineViewCell" bundle:nil];
+
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
+    
+    self.tableView.allowsMultipleSelection = NO;
+    
+    // button to add exercises
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showRoutineNameAlert)];
+    
+    self.navigationItem.leftBarButtonItem = addButton;
+    
+    // restoration ID for tableView
+    self.tableView.restorationIdentifier = self.restorationIdentifier;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    
+    // clear first responder
+    //    [self.view endEditing:YES];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kExercisesChangedNote object:nil];
+}
+
+//+ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+//{
+//    return [[self alloc] init];
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (debug == 1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     // create an instance of UITableViewCell, with default appearance
-    self.routineViewCell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
-    
-//    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-//    self.statStore = statStoreArray[indexPath.row];
-//    
-//    self.routineViewCell.exerciseLabel.text = [self.statStore description];
-//    
-//    self.routineViewCell.routineNameField.tag = indexPath.row;
-//    self.routineViewCell.routineNameField.delegate = self;
-//    
-//    NSLog(@"routine name field tag %lu", self.routineViewCell.routineNameField.tag);
-//
-//    self.routineViewCell.routineNameField.text = self.statStore.routineName;
-//    
-//    self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    KLERoutineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"KLERoutineViewCell" forIndexPath:indexPath];
     
     KLERoutine *routine = [self.frc objectAtIndexPath:indexPath];
-    self.routineViewCell.routineNameField.tag = indexPath.row;
-    self.routineViewCell.routineNameField.text = routine.routinename;
-    self.routineViewCell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-//    NSLog(@"routine %@ fetched count %lu", fetchedObjects, [fetchedObjects count]);
+
+    cell.nameLabel.text = routine.routinename;
+    [cell.routineDetailButton addTarget:self action:@selector(showRoutineDetails:event:) forControlEvents:UIControlEventTouchUpInside];
     
-    return self.routineViewCell;
+    UIView *selectedColorView = [[UIView alloc] init];
+    [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];
+    [cell setSelectedBackgroundView:selectedColorView];
+    
+    return cell;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -117,39 +163,98 @@
     return nil;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    [headerView.backgroundView setBackgroundColor:[UIColor kPrimaryColor]];
+    [headerView.backgroundView setAlpha:0.7];
+    [headerView.textLabel setTextColor:[UIColor whiteColor]];
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 56.0;
+    return 50.0;
+}
+
+- (void)showRoutineDetails:(UIButton *)button event:(id)event
+{
+    KLERoutineViewCell *routineViewCell;
+    if ([button.superview.superview isKindOfClass:[KLERoutineViewCell class]]) {
+        
+        routineViewCell = (KLERoutineViewCell *)button.superview.superview;
+    }
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:routineViewCell];
+    
+    NSLog(@"BUTTON SUPERVIEW %@", button.superview.superview);
+    
+    if (indexPath != nil) {
+        
+        [self tableView:self.tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    KLERoutineViewCell *routineCell = (KLERoutineViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineCell.nameLabel setTextColor:[UIColor whiteColor]];
+    [routineCell.routineDetailButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLERoutineViewCell *routineCell = (KLERoutineViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineCell.nameLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineCell.routineDetailButton setTitleColor:[UIColor kPrimaryColor] forState:UIControlStateNormal];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-//    NSArray *statStores = [[KLERoutinesStore sharedStore] allStatStores];
-//    KLEStatStore *selectedStatStore = statStores[indexPath.row];
     
-    KLERoutineExercisesViewController *revc = [[KLERoutineExercisesViewController alloc] init];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+    KLERoutineDetailTableViewController *routineDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineDetail"];
+    routineDetailTableViewController.selectedRoutine = [self.frc objectAtIndexPath:indexPath];
     
-    // pass selected statStore from routine view controller to routine exercise view controller
-//    revc.statStore = selectedStatStore;
-    
-    // test
-    revc.selectedRoutineID = [[self.frc objectAtIndexPath:indexPath] objectID];
-//    revc.frc = self.frc;
-    
-    KLERoutine *selectedRoutine = [self.frc objectAtIndexPath:indexPath];
-    NSLog(@"selected routine ID %@", selectedRoutine.routinename);
-    
-    [self.navigationController pushViewController:revc animated:YES];
+    [self.navigationController pushViewController:routineDetailTableViewController animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-//    KLEStatStore *routine = statStoreArray[indexPath.row];
     NSManagedObjectID *routineID = [[self.frc objectAtIndexPath:indexPath] objectID];
+    
+//    if (self.delegate) {
+//        [self.delegate selectedRoutineID:routineID];
+//        NSLog(@"##DELEGATE %@", self.delegate);
+//    }
+    
+//    KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
+    
+//    NSLog(@"Cell selected %@", routine);
+    
+    /* for split views
+    // need a pointer to routine exercises view for showDetailViewController
+    KLERoutineExercisesViewController *revc = (KLERoutineExercisesViewController *)self.delegate;
+    revc.selectedRoutineID = routineID;
+    UINavigationController *revcNav = revc.navigationController;
+    
+    [self showDetailViewController:revcNav sender:self];
+     */
+    
     KLERoutine *routine = (KLERoutine *)[self.frc.managedObjectContext existingObjectWithID:routineID error:nil];
     
-    NSLog(@"Cell selected %@", routine);
+    KLERoutineExercisesViewController *routineExercisesView = [KLERoutineExercisesViewController routineExercisesViewControllerWithModeFromRoutines:KLERoutineExercisesViewControllerModeNormal];
+    routineExercisesView.selectedRoutineFromRoutines = routine;
+    
+    [self.navigationController pushViewController:routineExercisesView animated:YES];
+
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -158,80 +263,133 @@
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     
-//    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-//    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-    
-//    NSArray *routines = [[KLERoutinesStore sharedStore] allStatStores];
-    
     // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        // test
+        // delete row
         KLERoutine *deleteTarget = [self.frc objectAtIndexPath:indexPath];
         [self.frc.managedObjectContext deleteObject:deleteTarget];
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        // remove the selected routine from the routine store
-//        KLEStatStore *routine = routines[indexPath.row];
-//        [[KLERoutinesStore sharedStore] removeStatStore:routine];
-        
-        // also remove that row from the table view with animation
-//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-        // alert the user about deletion
-        UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete routine" message:@"This will also delete the routine in Daily" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [deleteAlert show];
-        
-        // check to see if the routine being deleted is in the daily routines
-        // if so, delete the routine in daily view too with a warning message
-        // check each day also, routine can be in different days
-//        for (NSString *key in dailyRoutines) {
-//            
-//            if ([[dailyRoutines objectForKey:key] containsObject:routine]) {
-//                
-//                NSMutableArray *routinesInDay = [dailyRoutines objectForKey:key];
-//                [routinesInDay removeObjectIdenticalTo:routine];
-//                
-//                NSLog(@"This routine is in your daily. Day tag in delete %@", key);
-        
-                // get the index of the routine in daily view
-//                NSInteger indexOfDailyRoutine = [[dailyRoutines objectForKey:key] indexOfObjectIdenticalTo:routine];
-                
-                // get the routine in daily view
-//                KLEStatStore *routineInDaily = [[dailyRoutines objectForKey:key] objectAtIndex:indexOfDailyRoutine];
-                
-                // remove the routine in daily view
-//                [dailyStore removeStatStoreFromDay:routineInDaily atIndex:indexOfDailyRoutine atKey:key];
-//            }
-//        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRoutineWasDeletedNote object:nil];
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
+- (void)addNewRoutine:(NSString *)name
 {
-    [[KLERoutinesStore sharedStore] moveStatStoreAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
-    
-    // reload the table to update the tag numbers after re-ordering
-    [self.tableView reloadData];
-}
-
-- (void)addNewRoutine
-{
-    // give the routine a name
-//    newStatStore.routineName = [NSString stringWithFormat:@"Routine %lu", indexPath.row + 1];
-//    NSLog(@"Routine name %@", newStatStore.routineName);
-    
     KLERoutine *newRoutine = [NSEntityDescription insertNewObjectForEntityForName:@"KLERoutine" inManagedObjectContext:self.frc.managedObjectContext];
     
-    newRoutine.routinename = [newRoutine description];
+    newRoutine.routinename = name;
+    newRoutine.dayname = @"Day";
 
     NSLog(@"new routine %@", newRoutine.routinename);
 }
 
-- (void)editRoutines
+- (void)showRoutineNameAlert
 {
-    NSLog(@"Edit button tapped");
+    // alert setup
+    UIAlertController *routineNameAlert = [UIAlertController alertControllerWithTitle:@"Routine Name" message:@"Enter Routine Name" preferredStyle:UIAlertControllerStyleAlert];
+    UITextField *routineNameTextField = routineNameAlert.textFields[0];
+    [routineNameTextField setKeyboardType:UIKeyboardTypeDefault];
+    
+    // ok action block
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        
+        // ok, add the routine
+        NSString *routineName = [routineNameAlert.textFields[0] text];
+        NSLog(@"OK %@", routineName);
+        [self addNewRoutine:routineName];
+    }];
+    // cancel action block
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+        // remove text did change notification
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:routineNameAlert.textFields[0]];
+        NSLog(@"CANCELLED");
+        
+    }];
+    // setup the text field
+    [routineNameAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Routine Name";
+        textField.delegate = self;
+        
+        // add observer for text did change
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleTextFieldDidChangeNotification:) name:UITextFieldTextDidChangeNotification object:textField];
+    }];
+    // initially disable the ok action
+    okAction.enabled = NO;
+    _addAlertSaveAction = okAction;
+    
+    [routineNameAlert addAction:okAction];
+    [routineNameAlert addAction:cancelAction];
+    
+    [self presentViewController:routineNameAlert animated:YES completion:nil];
+    
+}
+
+- (void)handleTextFieldDidChangeNotification:(NSNotification *)notification
+{
+    // handle text validation
+    NSLog(@"TEXT DID CHANGE");
+    UITextField *textField = (UITextField *)notification.object;
+    
+    NSString *whiteSpace = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//    NSLog(@"WHITE SPACE %lu", whiteSpace.length);
+    if (textField.text.length >= 1 && whiteSpace.length > 0)
+    {
+        _addAlertSaveAction.enabled = YES;
+    }
+    else
+    {
+        _addAlertSaveAction.enabled = NO;
+    }
+}
+
+//- (BOOL)validateText:(NSString *)routineName
+//{
+//    NSError *error = NULL;
+//    NSString *regexPatternUnlimited = @"^[a-zA-Z0-9 ]{1,20}+$";
+//    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPatternUnlimited options:NSRegularExpressionCaseInsensitive error:&error];
+//    if ([regex numberOfMatchesInString:routineName options:0 range:NSMakeRange(0, routineName.length)]) {
+//        NSLog(@"Success Match");
+//        return YES;
+//    }
+//    return NO;
+//}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    NSLog(@"BEGAN EDITING");
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    NSLog(@"END EDITING");
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSString *whiteSpace = [textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (textField.text.length >= 1 && whiteSpace.length > 0) {
+        NSLog(@"NO TEXT");
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSLog(@"TEXTFIELD IN ROUTINE CS");
+
+    if ((textField.text.length >= 18 && range.length == 0)) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)saveSelections
@@ -249,131 +407,11 @@
     
     NSLog(@"Save button tapped");
     
-    [self.navigationController popViewControllerAnimated:YES];
-    
-//    // access the routines in routine store
-//    NSArray *routinesArray = [[KLERoutinesStore sharedStore] allStatStores];
-//    
-//    NSLog(@"routines array %@", routinesArray);
-//    // access the daily store
-//    KLEDailyStore *dailyStore = [KLEDailyStore sharedStore];
-//    
-//    // access all the routines in daily store
-//    NSDictionary *dailyRoutines = [dailyStore allStatStores];
-//    
-//    NSLog(@"daily store %@", dailyStore);
-//    NSLog(@"daily Routines %@", dailyRoutines);
-    
-    // save the user selections
-//    NSArray *selections = [self.tableView indexPathsForSelectedRows];
-//    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
-    
-//    NSLog(@"selected rows in routine store %@", selections);
-    
-//    for (NSIndexPath *index in selections) {
-//        NSLog(@"Index %lu", index.row);
-//        // add the selected routines to the daily store by day
-//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:index.row] atKey:self.dayTag];
-//    }
-    
-//    // if there are no routines in daily then just add it to daily
-//    if ([[dailyRoutines objectForKey:self.dayTag] count] == 0) {
-//        [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-//        [self.navigationController popViewControllerAnimated:YES];
-//    // if there's one or more routine, check if there's a duplicate and show alert if there is
-//    // otherwise add the routine to daily
-//    } else if ([[dailyRoutines objectForKey:self.dayTag] count] >= 1) {
-//        NSLog(@"theres one or more routine");
-//        if ([[dailyRoutines objectForKey:self.dayTag] containsObject:[routinesArray objectAtIndex:selection.row]]) {
-//            NSLog(@"this is a duplicate");
-//            UIAlertView *duplicateAlert = [[UIAlertView alloc] initWithTitle:@"Duplicate routine" message:@"This routine already exists" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-//            
-//            [duplicateAlert show];
-//            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-//            [self.navigationController popViewControllerAnimated:YES];
-//        } else {
-//            [dailyStore addStatStoreToDay:[routinesArray objectAtIndex:selection.row] atKey:self.dayTag];
-//            [self.navigationController popViewControllerAnimated:YES];
-//        }
-//    }
-//    
-//    NSLog(@"daily routine at key %@", [dailyRoutines objectForKey:self.dayTag]);
-//    
-//    NSLog(@"daily store after %@", dailyRoutines);
+    // dismiss the container view controller
+    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    NSLog(@"Text field begin editing %@", textField);
-    
-    return YES;
-}
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
-{
-    NSLog(@"textfield ended");
-    NSLog(@"textfield ended statstore %@", self.statStore);
-    
-    NSArray *statStoreArray = [[KLERoutinesStore sharedStore] allStatStores];
-    
-    // the textfield that is done editing should match with the routine in the routine store
-    // using the textfield tags
-    self.statStore = statStoreArray[textField.tag];
-    NSLog(@"statstore by tag %@", self.statStore);
-    
-    // assign the routine name with the text in the text field
-    self.statStore.routineName = textField.text;
-    
-    return YES;
-}
-
-// hide the keyboard when done with input
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    NSLog(@"textfield return %@", textField);
-    [textField resignFirstResponder];
-    
-    return YES;
-}
-
-- (void)viewDidLoad
-{
-    if (debug == 1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
-    [super viewDidLoad];
-    [self configureFetch];
-    [self performFetch];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLERoutineViewCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineViewCell"];
-    
-    self.tableView.allowsMultipleSelection = NO;
-    
-    // add a toolbar with a save button for routines selection
-    UIBarButtonItem *select = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveSelections)];
-    [self.navigationController setToolbarHidden:NO animated:YES];
-    self.toolbarItems = [[NSArray alloc] initWithObjects:select, nil];
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:YES];
-    
-    // clear first responder
-    [self.view endEditing:YES];
-}
 
 @end

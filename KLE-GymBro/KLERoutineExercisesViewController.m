@@ -5,51 +5,34 @@
 //  Created by Kelvin Lee on 9/15/14.
 //  Copyright (c) 2014 Kelvin. All rights reserved.
 //
+
+#import "KLEUtility.h"
+#import "Pickers/ActionSheetStringPicker.h"
 #import "KLEAppDelegate.h"
 #import "KLERoutine.h"
 #import "KLEExercise.h"
 #import "KLEExerciseGoal.h"
 #import "KLEDailyViewController.h"
 
-#import "KLEExercises.h"
-#import "KLEStat.h"
-#import "KLEStatStore.h"
-#import "KLERoutinesStore.h"
+#import "KLERoutineViewController.h"
 #import "KLERoutineExercisesViewCell.h"
 #import "KLEExerciseListViewController.h"
 #import "KLERoutineExercisesViewController.h"
 
-@interface KLERoutineExercisesViewController () <ELVCDelegate>
+#import "KLERoutineExerciseDetailTableViewController.h"
+#import "KLEWorkoutExerciseViewController.h"
+
+@interface KLERoutineExercisesViewController () <UIViewControllerRestoration>
 
 @property (nonatomic, copy) NSArray *routinesArray;
+
+@property (nonatomic, strong) KLETableHeaderView *tableHeaderView;
 
 @end
 
 @implementation KLERoutineExercisesViewController
 #define debug 1
 
-- (void)configureFetch
-{
-    if (debug == 1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
-    NSLog(@"object id from daily view %@", self.selectedRoutineID);
-    CoreDataHelper *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context existingObjectWithID:self.selectedRoutineID error:nil];
-//    KLERoutine *selectedRoutine = (KLERoutine *)[cdh.context objectWithID:self.selectedRoutineID];
-    NSLog(@"configure fetch selected routine %@", selectedRoutine);
-    
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
-    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY routine == %@", selectedRoutine];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routine == %@", selectedRoutine];
-    [request setPredicate:predicate];
-    NSLog(@"configure fetch Objects %@", fetchedObjects);
-    request.sortDescriptors = [NSArray arrayWithObjects:[NSSortDescriptor sortDescriptorWithKey:@"exercise.exercisename" ascending:YES], nil];
-//    NSLog(@"request object %@", request);
-    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.exercisename" cacheName:nil];
-    self.frc.delegate = self;
-}
 
 - (instancetype)init
 {
@@ -57,22 +40,8 @@
     
     if (self) {
         
-        UINavigationItem *navItem = self.navigationItem;
-        // title for rvc
-        navItem.title = @"Routine Exercises";
-        
-        // button to add exercises
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
-        
-        // button to edit routine
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
-        
-        // set bar button to toggle editing mode
-        editButton = self.editButtonItem;
-        
-        // set the button to be the right nav button of the nav item
-        navItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, editButton, nil];
-        
+        self.restorationIdentifier = NSStringFromClass([self class]);
+        self.restorationClass = [self class];
     }
     
     return self;
@@ -83,11 +52,347 @@
     return [self init];
 }
 
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    
-//    return [[self.statStore allStats] count];
-//}
+- (void)viewDidLoad
+{
+//    NSLog(@"CURRENT MODE %lu", _mode);
+//    NSLog(@"SELECTED ROUTINE FROM VC %@", [self usingSelectedRoutine]);
+    
+    [super viewDidLoad];
+    [self configureFetch];
+    [self performFetch];
+
+    
+    // notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:kExercisesChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDayButtonTitle) name:kDayInRoutineChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateWeightUnit) name:kWeightUnitChangedNote object:nil];
+    
+    // load the nib file
+    UINib *nib = [UINib nibWithNibName:@"KLERoutineExercisesViewCell" bundle:nil];
+    
+    // register this nib, which contains the cell
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
+    
+    // create KLETableHeaderView and set it as the table view header
+    self.tableHeaderView = [KLETableHeaderView routineExercisesTableHeaderView];
+    self.tableView.tableHeaderView = self.tableHeaderView;
+    
+    // day button
+    [self.tableHeaderView.dayButton addTarget:self action:@selector(showActionSheet) forControlEvents:UIControlEventTouchUpInside];
+    
+    // day button, animate scale
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionAutoreverse animations:^{
+        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.25f, 1.25f);
+    } completion:^(BOOL finished) {
+        _tableHeaderView.dayButton.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+    }];
+    
+    
+    KLERoutine *selectedRoutine = [self usingSelectedRoutine];
+    
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+    
+    NSLog(@"ROUTINE NAME %@", selectedRoutine.routinename);
+    
+    // custom title for navigation title
+    NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:selectedRoutine.routinename attributes:@{ NSFontAttributeName : [KLEUtility getFontFromFontFamilyWithSize:18.0], NSUnderlineStyleAttributeName : @0, NSBackgroundColorAttributeName : [UIColor clearColor] }];
+    // custom title for navigation title
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
+    title.backgroundColor = [UIColor clearColor];
+    title.textColor = [UIColor whiteColor];
+    title.numberOfLines = 0;
+    title.attributedText = attribString;
+    title.adjustsFontSizeToFitWidth = YES;
+    title.minimumScaleFactor = 0.5;
+    [title sizeToFit];
+    [self.navigationItem setTitleView:title];
+    
+    [self createAddExerciseButton];
+    
+    
+    /* for split view, did the display mode change (all visible)
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayModeChangeWithNotification:) name:@"DisplayModeChangeNote" object:nil];
+     */
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kExercisesChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kDayInRoutineChangedNote object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kWeightUnitChangedNote object:nil];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+}
+
+- (KLERoutine *)usingSelectedRoutine
+{
+    KLERoutine *routine;
+    
+    if (_selectedRoutineFromDaily != nil)
+    {
+        routine = _selectedRoutineFromDaily;
+        
+        NSLog(@"FROM DAILY VC %@", _selectedRoutineFromDaily);
+    }
+    
+    else if (_selectedRoutineFromRoutines != nil)
+    {
+        routine = _selectedRoutineFromRoutines;
+        
+        NSLog(@"FROM ROUTINES VC %@", _selectedRoutineFromRoutines);
+    }
+    
+    return routine;
+}
+
++ (instancetype)routineExercisesViewControllerWithModeFromDaily:(KLERoutineExercisesViewControllerMode)mode
+{
+    KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
+    [routineExercisesViewController setModeFromDaily:mode];
+    
+    return routineExercisesViewController;
+}
+
++ (instancetype)routineExercisesViewControllerWithModeFromRoutines:(KLERoutineExercisesViewControllerMode)mode
+{
+    KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
+    [routineExercisesViewController setModeFromRoutines:mode];
+    
+    return routineExercisesViewController;
+}
+
+- (void)setModeFromDaily:(KLERoutineExercisesViewControllerMode)mode
+{
+    _modeFromDaily = mode;
+    
+//    NSLog(@"CURRENT MODE %ld", _mode);
+    
+}
+
+- (void)setModeFromRoutines:(KLERoutineExercisesViewControllerMode)mode
+{
+    _modeFromRoutines = mode;
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    // gets called twice if routine exercises from both daily and routines are presented. save both selected routines for respective view controllers
+//    NSLog(@"CURRENT MODE %lu", _mode);
+//    NSLog(@"ENCODE DAILY ROUTINE %@, ROUTINES ROUTINE %@", _selectedRoutineFromDaily, _selectedRoutineFromRoutines);
+//    NSLog(@"RESTORATION ID %@", self.restorationIdentifier);
+    
+    
+    if (_selectedRoutineFromDaily != nil)
+    {
+        NSString *routineFromDaily = [[_selectedRoutineFromDaily.objectID URIRepresentation] absoluteString];
+        [coder encodeObject:routineFromDaily forKey:kSelectedRoutineIDFromDailyKey];
+        
+        NSNumber *currentMode = [NSNumber numberWithInteger:_modeFromDaily];
+        [coder encodeObject:currentMode forKey:kCurrentModeFromDailyKey];
+    }
+    if (_selectedRoutineFromRoutines != nil)
+    {
+        NSString *routineFromRoutines = [[_selectedRoutineFromRoutines.objectID URIRepresentation] absoluteString];
+        [coder encodeObject:routineFromRoutines forKey:kSelectedRoutineIDFromRoutinesKey];
+        
+        NSNumber *currentMode = [NSNumber numberWithInteger:_modeFromRoutines];
+        [coder encodeObject:currentMode forKey:kCurrentModeFromRoutinesKey];
+    }
+    
+    
+    [super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    NSLog(@"REVC DECODE");
+    
+    [super decodeRestorableStateWithCoder:coder];
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    NSLog(@"ID COMPONENTS %@", identifierComponents);
+    KLERoutineExercisesViewController *routineExercisesViewController = [KLERoutineExercisesViewController new];
+    
+    NSLog(@"RESTORATION ID IN RESTORE %@", routineExercisesViewController.restorationIdentifier);
+    
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    
+    
+    NSString *routineObjectURLFromDaily = [coder decodeObjectForKey:kSelectedRoutineIDFromDailyKey];
+    NSString *routineObjectURLFromRoutines = [coder decodeObjectForKey:kSelectedRoutineIDFromRoutinesKey];
+    NSLog(@"ROUTINE URL FROM DAILY %@, FROM ROUTINES %@", routineObjectURLFromDaily, routineObjectURLFromRoutines);
+    if (routineObjectURLFromDaily != nil)
+    {
+        NSManagedObjectID *routineIDFromDaily = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:[NSURL URLWithString:routineObjectURLFromDaily]];
+        KLERoutine *routineFromDaily = (KLERoutine *)[cdh.context existingObjectWithID:routineIDFromDaily error:nil];
+        routineExercisesViewController.selectedRoutineFromDaily = routineFromDaily;
+        NSLog(@"ROUTINE ID FROM DAILY %@", routineFromDaily);
+        
+        KLERoutineExercisesViewControllerMode mode = [[coder decodeObjectForKey:kCurrentModeFromDailyKey] integerValue];
+        [routineExercisesViewController setModeFromDaily:mode];
+    }
+    if (routineObjectURLFromRoutines != nil)
+    {
+        NSManagedObjectID *routineIDFromRoutines = [[cdh.context persistentStoreCoordinator] managedObjectIDForURIRepresentation:[NSURL URLWithString:routineObjectURLFromRoutines]];
+        KLERoutine *routineFromRoutines = (KLERoutine *)[cdh.context existingObjectWithID:routineIDFromRoutines error:nil];
+        routineExercisesViewController.selectedRoutineFromRoutines = routineFromRoutines;
+        NSLog(@"ROUTINE ID FROM ROUTINES %@", routineFromRoutines);
+        
+        KLERoutineExercisesViewControllerMode mode = [[coder decodeObjectForKey:kCurrentModeFromRoutinesKey] integerValue];
+        [routineExercisesViewController setModeFromRoutines:mode];
+    }
+    
+    
+    return routineExercisesViewController;
+}
+
+/* textfield in the navigation bar
+ 
+- (UIBarButtonItem *)createRoutineTextFieldInNav
+{
+    self.routineTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.bounds.size.width / 2, 26)];
+    self.routineTextField.backgroundColor = [UIColor clearColor];
+    self.routineTextField.borderStyle = UITextBorderStyleRoundedRect;
+    self.routineTextField.text = @"Routine Name";
+    self.routineTextField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.routineTextField.translatesAutoresizingMaskIntoConstraints = YES;
+    self.routineTextField.textAlignment = NSTextAlignmentCenter;
+    
+    UIBarButtonItem *textFieldBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.routineTextField];
+    
+    return textFieldBarButton;
+}
+*/
+
+- (void)createAddExerciseButton
+{
+    // button to add exercises
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewExercise)];
+    
+    
+    // not used, supplement to display mode button, refer to appcoda split view tutorial
+    
+    //        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(showRoutineViewController)];
+    
+    
+    // set the button to be the right nav button of the nav item
+    self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:addButton, nil];
+    
+    // don't enable add exercise button when in workout mode
+    if (_modeFromDaily == KLERoutineExercisesViewControllerModeWorkout) {
+        
+        addButton.enabled = NO;
+    }
+    else
+    {
+        addButton.enabled = YES;
+    }
+}
+
+- (void)reloadDayButtonTitle
+{
+    
+    KLERoutine *selectedRoutine = [self usingSelectedRoutine];
+    
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+}
+
+- (void)updateWeightUnit
+{
+    [self.tableView reloadData];
+}
+
+/*
+- (void)selectedRoutineID:(id)objectID
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    self.selectedRoutineID = objectID;
+    NSLog(@"SELECTED ROUTINE ID %@", self.selectedRoutineID);
+    
+    [self configureFetch];
+    [self performFetch];
+    
+    // get the selected routine in the current context
+    KLERoutine *selectedRoutine = (KLERoutine *)[self.frc.managedObjectContext objectWithID:objectID];
+    
+    
+    
+    self.routineTextField.text = selectedRoutine.routinename;
+    
+    [self.tableHeaderView.dayButton setTitle:selectedRoutine.dayname forState:UIControlStateNormal];
+    
+    // hides routine view when routine selected
+    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+ 
+    
+    // for split view
+    // pop off the exercise detail view controller when there's a new routine selection
+    if ([[self.navigationController.viewControllers lastObject] isKindOfClass:[KLERoutineExerciseDetailViewController class]]) {
+        NSLog(@"EXERCISE DETAIL VC PRESENT");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
+}
+*/
+
+- (void)configureFetch
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    
+    NSLog(@"object id from daily view or routines view %@", [self usingSelectedRoutine]);
+    
+    CoreDataAccess *cdh = [(KLEAppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+
+    KLERoutine *selectedRoutine = [self usingSelectedRoutine];
+    
+    NSLog(@"configure fetch selected routine %@", selectedRoutine);
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"KLEExerciseGoal"];
+    NSArray *fetchedObjects = [cdh.context executeFetchRequest:request error:nil];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY routine == %@", selectedRoutine];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"routine == %@", selectedRoutine];
+    [request setPredicate:predicate];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"exercise.musclegroup" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    NSLog(@"configure fetch Objects %@", fetchedObjects);
+    request.sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+//    NSLog(@"request object %@", request);
+    self.frc = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:cdh.context sectionNameKeyPath:@"exercise.musclegroup" cacheName:nil];
+    self.frc.delegate = self;
+}
+
+
+
+/* for additional button to display primary master when display mode button not present, refer to appcoda split view tutorial
+ 
+- (void)showRoutineViewController
+{
+    NSLog(@"DISMISS VC IN REVC %@", [[[self.splitViewController viewControllers] lastObject] viewControllers]);
+    
+    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+
+}
+ */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -96,45 +401,107 @@
     
     KLEExerciseGoal *exerciseGoal = [self.frc objectAtIndexPath:indexPath];
     KLEExercise *exercise = exerciseGoal.exercise;
-//    NSLog(@"cell for row frc %@", exercise);
+
     cell.exerciseNameLabel.text = exercise.exercisename;
+    cell.setsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.sets];
+    cell.repsLabel.text = [NSString stringWithFormat:@"%@", exerciseGoal.reps];
+    cell.weightLabel.text = [NSString stringWithFormat:@"%@ %@", exerciseGoal.weight, [KLEUtility weightUnitType]];
     
-    // access the stat store using the selected index path row
-    // then assign the exercise name property to the cell label
-//    NSArray *statStoreArray = [[NSArray alloc] initWithArray:self.statStore.allStats];
-//    KLEStat *stat = statStoreArray[indexPath.row];
-//    cell.exerciseNameLabel.text = stat.exercise;
-//    cell.setsLabel.text = [NSString stringWithFormat:@"%d", stat.sets];
-//    cell.repsLabel.text = [NSString stringWithFormat:@"%d", stat.reps];
-//    cell.weightLabel.text = [NSString stringWithFormat:@"%f", stat.weight];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    UIView *selectedColorView = [[UIView alloc] init];
+    [selectedColorView setBackgroundColor:[UIColor kPrimaryColor]];
+    [cell setSelectedBackgroundView:selectedColorView];
     
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    KLERoutineExercisesViewCell *routineExerciseCell = (KLERoutineExercisesViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineExerciseCell.exerciseNameLabel setTextColor:[UIColor whiteColor]];
+    [routineExerciseCell.setsLabel setTextColor:[UIColor whiteColor]];
+    [routineExerciseCell.repsLabel setTextColor:[UIColor whiteColor]];
+    [routineExerciseCell.weightLabel setTextColor:[UIColor whiteColor]];
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLERoutineExercisesViewCell *routineExerciseCell = (KLERoutineExercisesViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    [routineExerciseCell.exerciseNameLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineExerciseCell.setsLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineExerciseCell.repsLabel setTextColor:[UIColor kPrimaryColor]];
+    [routineExerciseCell.weightLabel setTextColor:[UIColor kPrimaryColor]];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:NO];
+
+    KLEExerciseGoal *routineExercise = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
     
+    if (self.modeFromDaily == KLERoutineExercisesViewControllerModeWorkout)
+    {
+        NSLog(@"GOING TO WORKOUT MODE");
+        KLEWorkoutExerciseViewController *wevc = [[KLEWorkoutExerciseViewController alloc] init];
+        wevc.selectedRoutineExercise = routineExercise;
+        
+        [self.navigationController pushViewController:wevc animated:YES];
+    }
+    else if (self.modeFromRoutines == KLERoutineExercisesViewControllerModeNormal)
+    {
+        
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"KLEStoryBoard" bundle:nil];
+        KLERoutineExerciseDetailTableViewController *routineExerciseDetailTableViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RoutineExerciseDetail"];
+        routineExerciseDetailTableViewController.selectedRoutineExercise = [self.frc objectAtIndexPath:indexPath];
+        
+        [self.navigationController pushViewController:routineExerciseDetailTableViewController animated:YES];
+        
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    if (debug == 1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    return nil;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
     
-    KLEExerciseGoal *exerciseObject = (KLEExerciseGoal *)[self.frc objectAtIndexPath:indexPath];
-    NSLog(@"exercise %@", exerciseObject);
-    // pass the selected exercise object to elvc
+    UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+    [headerView.backgroundView setBackgroundColor:[UIColor kPrimaryColor]];
+    [headerView.textLabel setTextColor:[UIColor whiteColor]];
+    [headerView.textLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
     
-    // delegate
-    // not used
-    elvc.delegate = self;
+    if (_modeFromRoutines == KLERoutineExercisesViewControllerModeNormal)
+    {
+        [headerView.backgroundView setAlpha:0.7];
+    }
     
-    [self.navigationController pushViewController:elvc animated:YES];
+    if (_modeFromDaily == KLERoutineExercisesViewControllerModeWorkout)
+    {
+        [headerView.backgroundView setAlpha:1.0];
+    }
 }
 
 - (void)addNewExercise
 {
     KLEExerciseListViewController *elvc = [[KLEExerciseListViewController alloc] initForNewExercise:YES];
     
-    elvc.selectedRoutineID = self.selectedRoutineID;
-    // pass the selected statStore to exercise list view controller
-//    elvc.statStore = self.statStore;
-//    elvc.frc = self.frc;
+    elvc.selectedRoutineID = [[self usingSelectedRoutine] objectID];
     
     // completion block that will reload the table
 //    elvc.dismissBlock = ^{
@@ -146,7 +513,6 @@
 //        }
 //    };
     
-//    [self.navigationController pushViewController:elvc animated:YES];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:elvc];
     nav.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.navigationController presentViewController:nav animated:YES completion:nil];
@@ -154,71 +520,82 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // if the table view is asking to commit a delete command
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        KLEStatStore *statStore = self.statStore;
-        NSLog(@"revc statStore array %@", statStore);
-        NSArray *routineExercises = [statStore allStats];
-        KLEStat *exercise = routineExercises[indexPath.row];
-        [statStore removeStat:exercise];
+        KLEExerciseGoal *deleteTarget = [self.frc objectAtIndexPath:indexPath];
+        [self.frc.managedObjectContext deleteObject:deleteTarget];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        // also remove that row from the table view with animation
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kRoutineWasDeletedNote object:nil];
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-{
-    [self.statStore moveStatAtIndex:sourceIndexPath.row toIndex:destinationIndexPath.row];
-}
+//- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
+//{
+//    NSLog(@"REVC delegate ELVCselection %lu", selection.row);
+//
+//}
 
-- (void)save:(id)sender
+- (void)showActionSheet
 {
-    [self.navigationController popViewControllerAnimated:YES];
-//    [self.presentingViewController dismissViewControllerAnimated:YES completion:self.dismissBlock];
-}
-
-- (void)cancel:(id)sender
-{
-    // if the user cancelled, then remove the BNRItem from the store
+    NSArray *days = [NSArray arrayWithObjects:@"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Day", nil];
     
-    [self.navigationController popViewControllerAnimated:YES];
-    //    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    ActionSheetStringPicker *dayPicker = [[ActionSheetStringPicker alloc] initWithTitle:@"Select Day" rows:days initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+        
+        KLERoutine *routine = [self usingSelectedRoutine];
+        
+        routine.daynumber = [NSNumber numberWithInteger:selectedIndex];
+        routine.dayname = [days objectAtIndex:selectedIndex];
+        routine.inworkout = [NSNumber numberWithBool:YES];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDayInRoutineChangedNote object:nil];
+        
+//        [self.tableHeaderView.dayButton setTitle:routine.dayname forState:UIControlStateNormal];
+        
+//        NSLog(@"Header Day %@", self.tableHeaderView.dayButton.titleLabel.text);
+//        NSLog(@"Picker: %@", picker);
+//        NSLog(@"Selected index %lu", selectedIndex);
+//        NSLog(@"Selected value %@", selectedValue);
+        
+    } cancelBlock:^(ActionSheetStringPicker *picker) {
+        
+        NSLog(@"Cancelled");
+        
+    } origin:self.view];
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    [doneButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [doneButton.titleLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    [doneButton setFrame:CGRectMake(0, 0, 50, 32)];
+    [dayPicker setDoneButton:[[UIBarButtonItem alloc] initWithCustomView:doneButton]];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [cancelButton.titleLabel setFont:[KLEUtility getFontFromFontFamilyWithSize:16.0]];
+    [cancelButton setFrame:CGRectMake(0, 0, 60, 32)];
+    [dayPicker setCancelButton:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
+    
+    UIFont *font = [KLEUtility getFontFromFontFamilyWithSize:18.0];
+    NSAttributedString *attribTitleString = [[NSAttributedString alloc] initWithString:@"Select Day" attributes:@{ NSFontAttributeName : font, NSForegroundColorAttributeName : [UIColor kPrimaryColor] }];
+    
+    [dayPicker setAttributedTitle:attribTitleString];
+    [dayPicker showActionSheetPicker];
+    
 }
 
-- (void)editRoutines
+/* for split view
+ 
+- (void)handleDisplayModeChangeWithNotification:(NSNotification *)note
 {
-    NSLog(@"Edit button tapped");
+    // not used, for display mode button
+    
+    NSNumber *displayModeObject = [note object];
+    NSUInteger displayMode = [displayModeObject integerValue];
+    NSLog(@"DISPLAY MODE %lu", displayMode);
 }
+ */
 
-- (void)selectionFromELVC:(KLEExerciseListViewController *)elvc thisSelection:(NSIndexPath *)selection
-{
-    NSLog(@"REVC delegate ELVCselection %lu", selection.row);
 
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self configureFetch];
-    [self performFetch];
-    NSLog(@"frc managedObjectContext %@", self.frc);
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performFetch) name:@"SomethingChanged" object:nil];
-    
-    // load the nib file
-    UINib *nib = [UINib nibWithNibName:@"KLERoutineExercisesViewCell" bundle:nil];
-    
-    // register this nib, which contains the cell
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"KLERoutineExercisesViewCell"];
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
-    
-    [self.tableView reloadData];
-}
 
 @end

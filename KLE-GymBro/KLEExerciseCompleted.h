@@ -2,18 +2,37 @@
 //  KLEExerciseCompleted.h
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/22/14.
-//  Copyright (c) 2014 Kelvin. All rights reserved.
+//  Created by Kelvin Lee on 2/25/15.
+//  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class KLERoutineCompleted;
+@class KLEExercise;
 
 @interface KLEExerciseCompleted : NSManagedObject
 
-@property (nonatomic, retain) NSString * exercisenamecompleted;
-@property (nonatomic, retain) KLERoutineCompleted *routinecompleted;
+@property (nonatomic, retain) KLEExercise *exercise;
+@property (nonatomic, retain) NSString * routinename;
+@property (nonatomic, retain) NSString * weightunit;
+@property (nonatomic, retain) NSNumber * timecompleted;
+@property (nonatomic, retain) NSNumber * resttime;
+@property (nonatomic, retain) NSDate * datecompleted;
+@property (nonatomic, retain) NSNumber * setscompleted;
+@property (nonatomic, retain) NSNumber * maxweight;
+@property (nonatomic, retain) NSNumber * calories;
+@property (nonatomic, retain) NSNumber * heartrate;
+@property (nonatomic, retain) id repsweightarray;
+
+@end
+
+@interface RepsWeightArray : NSValueTransformer
+
+@end
+
+@interface KLEExerciseCompleted (AdditionalMethods)
+
+- (NSString *)shortDateCompleted;
 
 @end

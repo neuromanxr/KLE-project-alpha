@@ -2,8 +2,8 @@
 //  KLEExercise.h
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/22/14.
-//  Copyright (c) 2014 Kelvin. All rights reserved.
+//  Created by Kelvin Lee on 2/24/15.
+//  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -14,7 +14,8 @@
 @interface KLEExercise : NSManagedObject
 
 @property (nonatomic, retain) NSString * exercisename;
-@property (nonatomic, retain) NSString * musclename;
+@property (nonatomic, retain) NSString * musclegroup;
+@property (nonatomic, retain) NSNumber * estcalories;
 @property (nonatomic, retain) NSSet *exercisegoal;
 @end
 

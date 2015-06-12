@@ -2,8 +2,8 @@
 //  KLEExercise.m
 //  KLE-GymBro
 //
-//  Created by Kelvin Lee on 11/22/14.
-//  Copyright (c) 2014 Kelvin. All rights reserved.
+//  Created by Kelvin Lee on 2/24/15.
+//  Copyright (c) 2015 Kelvin. All rights reserved.
 //
 
 #import "KLEExercise.h"
@@ -13,7 +13,8 @@
 @implementation KLEExercise
 
 @dynamic exercisename;
-@dynamic musclename;
+@dynamic musclegroup;
+@dynamic estcalories;
 @dynamic exercisegoal;
 
 @end

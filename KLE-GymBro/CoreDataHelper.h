@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface CoreDataHelper : NSObject <UIAlertViewDelegate, NSXMLParserDelegate>
+@interface CoreDataHelper : NSObject <NSXMLParserDelegate>
 
 @property (nonatomic, readonly) NSManagedObjectContext *context;
 @property (nonatomic, readonly) NSManagedObjectModel *model;
@@ -21,5 +21,7 @@
 
 - (void)setupCoreData;
 - (void)saveContext;
+
++ (CoreDataHelper *)sharedCoreDataHelper;
 
 @end

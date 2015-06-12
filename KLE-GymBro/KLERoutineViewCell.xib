@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="56" id="RW7-P0-vE0" customClass="KLERoutineViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RW7-P0-vE0" id="m4Y-6O-3Ue">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Number Exercises" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yh6-dO-3lK">
-                        <rect key="frame" x="10" y="34" width="140" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Routine Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zgv-uL-uzu">
+                        <rect key="frame" x="8" y="9" width="262" height="32"/>
+                        <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sets" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdG-RI-5eW">
-                        <rect key="frame" x="178" y="34" width="35" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aTi-Mp-vBM">
-                        <rect key="frame" x="235" y="34" width="40" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Routine Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fso-1a-T8m">
-                        <rect key="frame" x="10" y="0.0" width="221" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
+                    <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWl-Xj-8i2">
+                        <rect key="frame" x="280" y="9" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="32" id="mkE-P2-Htr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="18"/>
+                        <state key="normal" title="|||">
+                            <color key="titleColor" red="0.52156862749999999" green="0.01176470588" blue="0.01176470588" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="DWl-Xj-8i2" firstAttribute="leading" secondItem="Zgv-uL-uzu" secondAttribute="trailing" constant="10" id="0OI-D4-Yro"/>
+                    <constraint firstItem="DWl-Xj-8i2" firstAttribute="trailing" secondItem="m4Y-6O-3Ue" secondAttribute="trailingMargin" id="4cg-9s-byY"/>
+                    <constraint firstItem="DWl-Xj-8i2" firstAttribute="top" secondItem="m4Y-6O-3Ue" secondAttribute="topMargin" constant="1" id="5bk-fH-0Ne"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Zgv-uL-uzu" secondAttribute="bottom" constant="0.5" id="ALy-CA-dVW"/>
+                    <constraint firstItem="Zgv-uL-uzu" firstAttribute="leading" secondItem="m4Y-6O-3Ue" secondAttribute="leadingMargin" id="eCM-lz-8KM"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="DWl-Xj-8i2" secondAttribute="bottom" constant="0.5" id="qOC-cw-NWi"/>
+                    <constraint firstItem="Zgv-uL-uzu" firstAttribute="top" secondItem="m4Y-6O-3Ue" secondAttribute="topMargin" constant="1" id="srm-Vq-y8j"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="repsLabel" destination="aTi-Mp-vBM" id="awA-hQ-swV"/>
-                <outlet property="routineNameField" destination="fso-1a-T8m" id="6HC-l1-yyy"/>
-                <outlet property="setsLabel" destination="bdG-RI-5eW" id="wgp-0Y-2EY"/>
-                <outlet property="weightLabel" destination="Yh6-dO-3lK" id="Uil-rE-j3b"/>
+                <outlet property="nameLabel" destination="Zgv-uL-uzu" id="6t1-bO-0eE"/>
+                <outlet property="routineDetailButton" destination="DWl-Xj-8i2" id="5FQ-AF-hJ9"/>
             </connections>
         </tableViewCell>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

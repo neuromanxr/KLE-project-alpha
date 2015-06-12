@@ -11,6 +11,6 @@
 @interface KLEDailyViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *routineNameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *exerciseButton;
+@property (weak, nonatomic) IBOutlet UIButton *startWorkoutButton;
 
 @end
